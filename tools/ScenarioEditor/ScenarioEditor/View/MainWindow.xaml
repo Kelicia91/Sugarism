@@ -1,0 +1,174 @@
+﻿<Window x:Class="ScenarioEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScenarioEditor"
+        xmlns:vm="clr-namespace:ScenarioEditor.ViewModel"
+        xmlns:p="clr-namespace:ScenarioEditor.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static p:Resources.WindowTitle}" Height="400" Width="600">
+
+    <!-- If create viewmodel(vm) and bind view to vm in xaml.cs,
+         doesn't notify to change TreeView Items.. so set datacontext here. -->
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+
+    <!-- ShortCut -->
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="{Binding Path=CmdAddScenario}"/>
+        <KeyBinding Key="O" Modifiers="Ctrl" Command="{Binding Path=CmdImport}"/>
+        <KeyBinding Key="S" Modifiers="Ctrl" Command="{Binding Path=CmdExport}"/>
+        <!-- Close : Alt + F4 -->
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+
+        <DockPanel.Resources>
+            <!-- Scenario -->
+            <DataTemplate x:Key="TabItemHeaderWithButtonTemplate">
+                <DockPanel LastChildFill="True">
+                    <Button DockPanel.Dock="Right" Click="DeleteScenario_Click">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Label FontWeight="Bold" Content="x"/>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Label Content="{Binding Path=FileName}"/>
+                </DockPanel>
+            </DataTemplate>
+        </DockPanel.Resources>
+
+        <Menu DockPanel.Dock="Top">            
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" Command="{Binding Path=CmdAddScenario}"/>
+                <Separator/>
+                <MenuItem Header="_Import" Command="{Binding Path=CmdImport}"/>
+                <MenuItem Header="_Export" Command="{Binding Path=CmdExport}"/>
+                <Separator/>
+                <MenuItem Header="_Close" Click="Close_Click" />
+            </MenuItem>
+            <MenuItem Header="Settings">
+                <MenuItem Header="Character" Command="{Binding Path=CmdSettings}"/>
+            </MenuItem>
+        </Menu>
+
+        <TabControl ItemsSource="{Binding Path=ScenarioList}" 
+                    ItemTemplate="{StaticResource TabItemHeaderWithButtonTemplate}" 
+                    SelectedItem="{Binding Path=SelectedScenario}">
+
+            <TabControl.Resources>
+
+                <ContextMenu x:Key="ScenarioContextMenu">
+                    <MenuItem Header="{x:Static p:Resources.AddFirstScene}" Command="{Binding Path=CmdAddChild}"/>
+                </ContextMenu>
+
+                <!-- x:Shared is important -->
+                <!-- Src: Cmd.ICommand -->
+                <MenuItem x:Key="EditCmd" x:Shared="False" Header="{x:Static p:Resources.Edit}" Command="{Binding Path=CmdEdit}"/>
+                <MenuItem x:Key="AddNextCmd" x:Shared="False" Header="{x:Static p:Resources.AddNextCmd}" Command="{Binding Path=CmdAddNext}"/>
+                <MenuItem x:Key="DeleteCmd" x:Shared="False" Header="{x:Static p:Resources.Delete}" Command="{Binding Path=CmdDelete}"/>
+                <MenuItem x:Key="UpCmd" x:Shared="False" Header="{x:Static p:Resources.Up}" Command="{Binding Path=CmdUp}"/>
+                <MenuItem x:Key="DownCmd" x:Shared="False" Header="{x:Static p:Resources.Down}" Command="{Binding Path=CmdDown}"/>
+                <!-- Src: IOwner<Command> -->
+                <MenuItem x:Key="AddChild" x:Shared="False"  Header="{x:Static p:Resources.AddFirstChildCmd}" Command="{Binding Path=CmdAddChild}"/>
+
+                <ContextMenu x:Key="SceneContextMenu">
+                    <StaticResourceExtension ResourceKey="EditCmd"/>
+                    <MenuItem Header="{x:Static p:Resources.AddNextScene}" Command="{Binding Path=CmdAddNext}"/>
+                    <MenuItem Header="{x:Static p:Resources.Delete}" Click="DeleteScene_Click"/>
+                    <Separator/>
+                    <!-- WARN : index of UP/DOWN item (refer xaml.cs) -->
+                    <StaticResourceExtension ResourceKey="UpCmd"/>
+                    <StaticResourceExtension ResourceKey="DownCmd"/>
+                    <Separator/>
+                    <StaticResourceExtension ResourceKey="AddChild"/>
+                </ContextMenu>
+                
+                <ContextMenu x:Key="CmdContextMenu">
+                    <StaticResourceExtension ResourceKey="EditCmd"/>
+                    <StaticResourceExtension ResourceKey="AddNextCmd"/>
+                    <StaticResourceExtension ResourceKey="DeleteCmd"/>
+                    <Separator/>
+                    <!-- WARN : index of UP/DOWN item (refer xaml.cs) -->
+                    <StaticResourceExtension ResourceKey="UpCmd"/>
+                    <StaticResourceExtension ResourceKey="DownCmd"/>
+                </ContextMenu>
+
+                <ContextMenu x:Key="CmdCaseContextMenu">
+                    <StaticResourceExtension ResourceKey="AddChild"/>
+                </ContextMenu>
+
+                <!-- Scene -->
+                <HierarchicalDataTemplate DataType="{x:Type vm:Scene}" 
+                                          ItemsSource="{Binding Path=CmdList}">
+                    <TextBlock Text="{Binding Path=ToText}" 
+                               ContextMenu="{StaticResource SceneContextMenu}"
+                               MouseRightButtonUp="Scene_MouseRightButtonUp"/>
+                </HierarchicalDataTemplate>
+
+                <!-- Cmd -->
+                <DataTemplate DataType="{x:Type vm:Command}">
+                    <TextBlock Text="{Binding Path=ToText}"
+                               ContextMenu="{StaticResource CmdContextMenu}"
+                               MouseRightButtonUp="Cmd_MouseRightButtonUp"/>
+                </DataTemplate>
+
+                <!-- Cmd Switch -->
+                <HierarchicalDataTemplate DataType="{x:Type vm:CmdSwitch}" 
+                                          ItemsSource="{Binding Path=CaseList}">
+                    <TextBlock Text="{Binding Path=ToText}" 
+                               ContextMenu="{StaticResource CmdContextMenu}"
+                               MouseRightButtonUp="Cmd_MouseRightButtonUp"/>
+                </HierarchicalDataTemplate>
+
+                <!-- Cmd Case -->
+                <HierarchicalDataTemplate DataType="{x:Type vm:CmdCase}"
+                                          ItemsSource="{Binding Path=CmdList}">
+                    <TextBlock Text="{Binding Path=ToText}"
+                               ContextMenu="{StaticResource CmdCaseContextMenu}">
+                    </TextBlock>
+                </HierarchicalDataTemplate>
+
+                <!-- TreeViewItem -->
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
+                    <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
+                    <Setter Property="vm:CustomInputBindings.InputBindings" Value="{Binding Path=InputBindings}"/>
+                    <!-- @note : if event set Up, then hide Context Menu -->
+                    <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_OnMouseRightButtonDown"/>
+                </Style>
+
+            </TabControl.Resources>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TreeView>
+                            <!-- Scenario : Root Node -->
+                            <TreeViewItem ItemsSource="{Binding Path=SceneList}">
+                                <TreeViewItem.Header>
+                                    <TextBlock Text="{Binding Path=FileFullPath}" 
+                                               ContextMenu="{StaticResource ScenarioContextMenu}"/>
+                                </TreeViewItem.Header>
+                            </TreeViewItem>
+                        </TreeView>
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+
+        </TabControl>
+        
+    </DockPanel>
+</Window>

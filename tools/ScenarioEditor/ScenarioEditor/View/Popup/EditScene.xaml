@@ -1,0 +1,44 @@
+﻿<Window x:Class="ScenarioEditor.View.Popup.EditScene"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ScenarioEditor.View.Popup"
+        xmlns:m="clr-namespace:Sugarism;assembly=Scenario"
+        xmlns:p="clr-namespace:ScenarioEditor.Properties"
+        mc:Ignorable="d"
+        Title="{x:Static p:Resources.EditScene}" 
+        SizeToContent="WidthAndHeight"
+        Height="Auto" Width="300"
+        MinWidth="300"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+    <StackPanel Margin="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.Description}" Margin="0,0,10,0"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}" 
+                     MaxLength="{x:Static m:Scene.MAX_LENGTH_DESCRIPTION}" 
+                     VerticalContentAlignment="Center"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=GuideHowToInputDescription}"
+                       Margin="0,5,0,0" VerticalAlignment="Center" Foreground="Gray"/>
+        </Grid>
+        <DockPanel HorizontalAlignment="Right" Margin="0,10,0,0">
+            <DockPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Padding" Value="15,5"/>
+                </Style>
+            </DockPanel.Resources>
+            <Button Content="{x:Static p:Resources.Edit}" Margin="0,0,10,0" IsDefault="True" Click="Edit_Click"/>
+            <!-- IsCancel : react to press ESC key -->
+            <Button Content="{x:Static p:Resources.Cancel}" IsCancel="True"/>
+        </DockPanel>
+    </StackPanel>
+</Window>
