@@ -30,7 +30,7 @@ namespace Sugarism
 
 
         // default constructor for JSON Deserializer
-        //public Command() : this(Command.Type.MAX) { }
+        public Command() : this(Command.Type.MAX) { }
 
         protected Command(Command.Type cmdType)
         {
