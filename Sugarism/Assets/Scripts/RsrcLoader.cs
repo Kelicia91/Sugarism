@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class RsrcLoader
 {
-    private RsrcLoader _instance = null;
-    public RsrcLoader Instance
+    private static RsrcLoader _instance = null;
+    public static RsrcLoader Instance
     {
         get
         {
