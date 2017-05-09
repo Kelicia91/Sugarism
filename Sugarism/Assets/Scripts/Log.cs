@@ -20,6 +20,6 @@ public class Log
     public static void Assert(bool condition, string errMsg)
     {
         string s = string.Format("[{0}] {1}", ASSERT, errMsg);
-        UnityEngine.Debug.Assert(condition, errMsg);
+        UnityEngine.Debug.Assert(condition, s);
     }
 }
