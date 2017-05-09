@@ -12,7 +12,11 @@ public class Scene
 
     public Scene(Sugarism.Scene model)
     {
-        Log.Assert((null == model), "Not Found Sugarism.Scene");
+        if (null == model)
+        {
+            Log.Error("Not Found Sugarism.Scene");
+            return;
+        }
 
         _model = model;
 

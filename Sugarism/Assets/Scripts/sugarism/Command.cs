@@ -9,7 +9,11 @@ public abstract class Command
 
     public Command(Sugarism.Command model)
     {
-        Log.Assert((null == model), "Not Found Sugarism.Command");
+        if (null == model)
+        {
+            Log.Error("Not Found Sugarism.Command");
+            return;
+        }
 
         _model = model;
     }
@@ -26,10 +30,10 @@ public abstract class Command
                 return new CmdLines(model as Sugarism.CmdLines);
 
             case Sugarism.Command.Type.Switch:
-                return new CmdCase(model as Sugarism.CmdCase);
+                return new CmdSwitch(model as Sugarism.CmdSwitch);
 
             case Sugarism.Command.Type.Case:
-                return new CmdSwitch(model as Sugarism.CmdSwitch);
+                return new CmdCase(model as Sugarism.CmdCase);
 
             default:
                 return null;
@@ -56,7 +60,7 @@ public abstract class Command
 
     protected string ToString(string content)
     {
-        string s = string.Format("[{0}] {1}", StrCmdType, content);
+        string s = string.Format("[Cmd.{0}] {1}", StrCmdType, content);
         return s;
     }
 }

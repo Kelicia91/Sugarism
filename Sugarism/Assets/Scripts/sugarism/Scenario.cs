@@ -11,7 +11,11 @@ public class Scenario
 
     public Scenario(Sugarism.Scenario model)
     {
-        Log.Assert((null == model), "Not Found Sugarism.Scene");
+        if (null == model)
+        {
+            Log.Error("Not Found Sugarism.Scenario");
+            return;
+        }
 
         _model = model;
 
