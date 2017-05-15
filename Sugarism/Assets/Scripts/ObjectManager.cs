@@ -59,21 +59,21 @@ public class ObjectManager
     // temp : test (data <-> ui)
     public void NextCmd()
     {
-        //if (null == _selectedScenario)
-        //    return;
+        if (null == _selectedScenario)
+            return;
 
-        //play();
+        play();
     }
 
-    //private void play()
-    //{
-    //    bool canMorePlay = _selectedScenario.Play();
-    //    if (false == canMorePlay)
-    //    {
-    //        _selectedScenario = null;
-    //        Log.Debug("end. Scenario");  // @todo : TRANSITION
-    //    }
-    //}
+    private void play()
+    {
+        bool canMorePlay = _selectedScenario.Play();
+        if (false == canMorePlay)
+        {
+            _selectedScenario = null;
+            Log.Debug("end. Scenario");  // @todo : TRANSITION
+        }
+    }
 
 
     private void load()

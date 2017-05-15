@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class Command
+public abstract class Command : IPlayable
 {
     private Sugarism.Command _model;
 
@@ -57,6 +57,7 @@ public abstract class Command
 
 
     public abstract void Execute();
+    public abstract bool Play();
 
     protected string ToString(string content)
     {

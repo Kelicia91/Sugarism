@@ -9,6 +9,7 @@ public class CmdCase : Command
     private Sugarism.CmdCase _model;
 
     private List<Command> _cmdList;
+    private IEnumerator<Command> _cmdIter;
 
     public CmdCase(Sugarism.CmdCase model) : base(model)
     {
@@ -20,6 +21,9 @@ public class CmdCase : Command
             Command cmd = Command.Create(mCmd);
             _cmdList.Add(cmd);
         }
+
+        _cmdIter = _cmdList.GetEnumerator();
+        _cmdIter.MoveNext();
     }
 
 
@@ -46,6 +50,21 @@ public class CmdCase : Command
         {
             cmd.Execute();
         }
+    }
+
+    public override bool Play()
+    {
+        Log.Debug(ToString());
+
+        if (_cmdList.Count <= 0)
+            return false;
+
+        Command cmd = _cmdIter.Current;
+
+        if (cmd.Play())
+            return true;
+        else
+            return _cmdIter.MoveNext();
     }
 
     public override string ToString()

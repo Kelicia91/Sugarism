@@ -4,11 +4,12 @@ using UnityEngine;
 
 
 // @note : differ from struct 'UnityEngine.Scene'
-public class Scene
+public class Scene : IPlayable
 {
     private Sugarism.Scene _model;
 
     private List<Command> _cmdList;
+    private IEnumerator<Command> _cmdIter;
 
     public Scene(Sugarism.Scene model)
     {
@@ -26,6 +27,9 @@ public class Scene
             Command cmd = Command.Create(mCmd);
             _cmdList.Add(cmd);
         }
+
+        _cmdIter = _cmdList.GetEnumerator();
+        _cmdIter.MoveNext();
     }
 
 
@@ -53,5 +57,20 @@ public class Scene
     {
         string s = string.Format("[Scene] Description : {0}", Description);
         return s;
+    }
+
+
+    
+    public bool Play()
+    {
+        if (_cmdList.Count <= 0)
+            return false;
+
+        Command cmd = _cmdIter.Current;
+
+        if (cmd.Play())
+            return true;
+        else
+            return _cmdIter.MoveNext();
     }
 }

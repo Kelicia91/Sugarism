@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 
 public class CmdLines : Command
 {
@@ -31,6 +32,15 @@ public class CmdLines : Command
     public override void Execute()
     {
         Log.Debug(ToString());
+    }
+
+    public override bool Play()
+    {
+        Log.Debug(ToString());
+
+        CustomEvent.Instance.Invoke(CharacterId, Lines);
+
+        return false;   // no more child to play
     }
 
     public override string ToString()

@@ -44,6 +44,16 @@ public class CmdSwitch : Command
         }
     }
 
+    public override bool Play()
+    {
+        Log.Debug(ToString());
+
+        int selectedKey = 0;    // sample
+
+        CmdCase cmdCase = _caseList[selectedKey];
+        return cmdCase.Play();
+    }
+
     public override string ToString()
     {
         string s = string.Format(
