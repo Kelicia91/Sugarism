@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 419822f6b8367ce43b891d67ab16e810
+timeCreated: 1495516481
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - PrefObjectManager: {instanceID: 0}
+  - PrefUIManager: {instanceID: 0}
+  - AsstDTAction: {instanceID: 0}
+  - AsstDTActionType: {instanceID: 0}
+  - AsstDTConstitution: {instanceID: 0}
+  - AssetDTZodiac: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

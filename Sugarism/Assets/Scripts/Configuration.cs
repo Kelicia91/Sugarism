@@ -14,4 +14,5 @@ public class Configuration
     public const string SCENARIO_FOLDER_PATH = "Scenarios";
 
     //
+    public const float DAY_RUNNING_TIME_SECONDS = 0.7f;
 }

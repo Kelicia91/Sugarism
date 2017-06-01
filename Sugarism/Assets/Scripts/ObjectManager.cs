@@ -3,32 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class ObjectManager
+public class ObjectManager : MonoBehaviour
 {
-    private static ObjectManager _instance;
-    public static ObjectManager Instance
-    {
-        get
-        {
-            if (null == _instance)
-                _instance = new ObjectManager();
+    void Awake()
+    {        
+        _calendar = new Calendar(Def.INIT_YEAR, Def.INIT_MONTH, Def.INIT_DAY);
+        _heroine = new Heroine(Def.INIT_AGE, Def.INIT_MONEY);
+        
+        _schedule = gameObject.AddComponent<Schedule>();
+        _schedule.Constrution(Def.MAX_NUM_ACTION_IN_MONTH, _calendar, _heroine);
+        
 
-            return _instance;
-        }
-    }
+        //load();
 
-    private ObjectManager()
-    {
-        // singleton
-
-        load();
-
-        if((null != _scenarioList) && (_scenarioList.Count > 0))
-            _selectedScenario = _scenarioList[0];   // sample
+        //if((null != _scenarioList) && (_scenarioList.Count > 0))
+        //    _selectedScenario = _scenarioList[0];   // sample
     }
 
 
-    #region Fields
+    #region Field, Property
+
+    private Calendar _calendar = null;
+    public Calendar Calendar { get { return _calendar; } }
+
+    private Schedule _schedule = null;
+    public Schedule Schedule { get { return _schedule; } }
+
+    private Heroine _heroine = null;
+    public Heroine Heroine { get { return _heroine; } }
+
+    //
 
     private Dictionary<int, Sugarism.Character>     _characterDict;
     private List<Scenario>                          _scenarioList;
@@ -36,6 +40,8 @@ public class ObjectManager
     private Scenario _selectedScenario;
 
     #endregion
+
+
 
 
     public Sugarism.Character Get(int characterId)
