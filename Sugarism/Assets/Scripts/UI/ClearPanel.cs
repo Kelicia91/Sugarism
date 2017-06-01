@@ -17,6 +17,6 @@ public class ClearPanel : MonoBehaviour, IPointerClickHandler
     {
         Log.Debug("clicked clear panel");
 
-        ObjectManager.Instance.NextCmd();
+        Manager.Instance.Object.NextCmd();
     }
 }

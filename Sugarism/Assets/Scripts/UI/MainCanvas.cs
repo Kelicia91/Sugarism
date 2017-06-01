@@ -11,9 +11,9 @@ public class MainCanvas : MonoBehaviour
     
     // Use this for initialization
     void Start ()
-    {        
+    {
         // @warn : call order of instantiate()
-        Instantiate(DialoguePanel, gameObject.transform);
-        Instantiate(ClearPanel, gameObject.transform);
-	}
+        //Instantiate(DialoguePanel, gameObject.transform);
+        //Instantiate(ClearPanel, gameObject.transform);
+    }
 }

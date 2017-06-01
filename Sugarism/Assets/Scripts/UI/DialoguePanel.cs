@@ -44,7 +44,7 @@ public class DialoguePanel : MonoBehaviour
     // CmdLinesEventHandler
     void OnCmdLines(int characterId, string lines)
     {
-        Sugarism.Character ch = ObjectManager.Instance.Get(characterId);
+        Sugarism.Character ch = Manager.Instance.Object.Get(characterId);
         if (null == ch)
         {
             string errMsg = string.Format("not found character {0}", characterId);
