@@ -2,6 +2,37 @@
 
 namespace Sugarism
 {
+    public enum ELinesEffect
+    {
+        None,
+        Shake
+    }
+
+    public enum EFace
+    {
+        Normal,
+        Angry,
+        Happy,
+        Surprise,
+        Shy
+    }
+
+    public enum ECostume
+    {
+        Normal,
+        Special // temp value
+    }
+
+    public enum EPosition
+    {
+        Middle = 0,
+        Left,
+        Right,
+        Front,
+        Back,
+        None
+    }
+
     public class CmdLines : Command
     {
         // const
@@ -26,13 +57,44 @@ namespace Sugarism
             set { _lines = value; OnPropertyChanged("Lines"); }
         }
 
+        private bool _isAnonymous;
+        public bool IsAnonymous
+        {
+            get { return _isAnonymous; }
+            set { _isAnonymous = value; OnPropertyChanged("IsAnonymous"); }
+        }
+
+        private ELinesEffect _linesEffect;
+        public ELinesEffect LinesEffect
+        {
+            get { return _linesEffect; }
+            set { _linesEffect = value; OnPropertyChanged("LinesEffect"); }
+        }
+
+        private EFace _face;
+        public EFace Face
+        {
+            get { return _face; }
+            set { _face = value;  OnPropertyChanged("Face"); }
+        }
+
+        private ECostume _costume;
+        public ECostume Costume
+        {
+            get { return _costume; }
+            set { _costume = value; OnPropertyChanged("Costume"); }
+        }
+
+        private EPosition _position;
+        public EPosition Position
+        {
+            get { return _position; }
+            set { _position = value; OnPropertyChanged("Position"); }
+        }
+
 
         // default constructor for JSON Deserializer
-        public CmdLines() : base(Command.Type.Lines)
-        {
-            _characterId = -1;
-            _lines = null;
-        }
+        public CmdLines() : this(-1, null) { }
 
         public CmdLines(int characterId) : this(characterId, string.Empty) { }
 
@@ -40,8 +102,14 @@ namespace Sugarism
         {
             _characterId = characterId;
             _lines = lines;
-        }
 
+            _isAnonymous = false;
+            _linesEffect = ELinesEffect.None;
+            _face = EFace.Normal;
+            _costume = ECostume.Normal;
+            _position = EPosition.Middle;
+        }
+        
 
         // method : validation
         public enum ValidationResult
