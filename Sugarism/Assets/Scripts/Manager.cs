@@ -63,6 +63,16 @@ public class Manager : MonoBehaviour
     private UIManager _ui = null;
     public UIManager UI { get { return _ui; } }
 
+    // KYI : DataTable
+    public ConstitutionObject DTConstitution { get { return AsstDTConstitution; } }
+    public ZodiacObject DTZodiac { get { return AsstDTZodiac; } }
+    public StatObject DTStat { get { return AsstDTStat; } }
+    public ActionObject DTAction { get { return AsstDTAction; } }
+    public ActionTypeObject DTActionType { get { return AsstDTActionType; } }
+    public VacationObject DTVacation { get { return AsstDTVacation; } }
+    public NPCObject DTNPC { get { return AsstDTNPC; } }
+    public TargetObject DTTarget { get { return AsstDTTarget; } }
+
     // CustomEvent
     private CmdLinesEvent _cmdLinesEvent = null;
     public CmdLinesEvent CmdLinesEvent { get { return _cmdLinesEvent; } }
@@ -105,16 +115,6 @@ public class Manager : MonoBehaviour
 
     private MainCharacterStatEvent _mainCharacterStatEvent = null;
     public MainCharacterStatEvent MainCharacterStatEvent { get { return _mainCharacterStatEvent; } }
-
-    // KYI : DataTable
-    public ConstitutionObject DTConstitution { get { return AsstDTConstitution; } }
-    public ZodiacObject DTZodiac { get { return AsstDTZodiac; } }
-    public StatObject DTStat { get { return AsstDTStat; } }
-    public ActionObject DTAction { get { return AsstDTAction; } }
-    public ActionTypeObject DTActionType { get { return AsstDTActionType; } }
-    public VacationObject DTVacation { get { return AsstDTVacation; } }
-    public NPCObject DTNPC { get { return AsstDTNPC; } }
-    public TargetObject DTTarget { get { return AsstDTTarget; } }
 }
  
  
