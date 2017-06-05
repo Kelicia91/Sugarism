@@ -18,18 +18,18 @@ public class ProfilePanel : Panel
 
     void Start()
     {
-        Heroine heroine = Manager.Instance.Object.Heroine;
+        MainCharacter mainCharacter = Manager.Instance.Object.MainCharacter;
 
-        EConstitution constitution = heroine.Constitution;
+        EConstitution constitution = mainCharacter.Constitution;
         setConstitutionText(get(constitution));
 
-        EZodiac zodiac = heroine.Zodiac;
+        EZodiac zodiac = mainCharacter.Zodiac;
         setZodiacText(get(zodiac));
 
-        int age = heroine.Age;
+        int age = mainCharacter.Age;
         setAgeText(get(age));
 
-        string name = heroine.Name;
+        string name = mainCharacter.Name;
         setNameText(name);   
     }
 

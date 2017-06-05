@@ -13,9 +13,9 @@ public class MoneyPanel : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        Heroine heroine = Manager.Instance.Object.Heroine;
+        MainCharacter mainCharacter = Manager.Instance.Object.MainCharacter;
 
-        int money = heroine.Money;
+        int money = mainCharacter.Money;
         setText(get(money));
 
         Manager.Instance.MoneyChangeEvent.Attach(onMoneyChanged);

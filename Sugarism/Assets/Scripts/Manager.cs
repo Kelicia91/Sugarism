@@ -15,6 +15,8 @@ public class Manager : MonoBehaviour
         _instance = this;
 
         // custom event
+        _cmdLinesEvent = new CmdLinesEvent();
+
         _moneyChangeEvent = new MoneyChangeEvent();
         _yearChangeEvent = new YearChangeEvent();
         _monthChangeEvent = new MonthChangeEvent();
@@ -29,7 +31,7 @@ public class Manager : MonoBehaviour
         _scheduleFinishEvent = new ScheduleFinishEvent();
         _scheduleEndEvent = new ScheduleEndEvent();
 
-        _heroineStatEvent = new HeroineStatEvent();
+        _mainCharacterStatEvent = new MainCharacterStatEvent();
 
         // manager
         _object = Instantiate(PrefObjectManager);
@@ -50,6 +52,7 @@ public class Manager : MonoBehaviour
     public ActionTypeObject AsstDTActionType;
     public VacationObject AsstDTVacation;
     public NPCObject AsstDTNPC;
+    public TargetObject AsstDTTarget;
 
 
     /********* Game Interface *********/
@@ -61,6 +64,9 @@ public class Manager : MonoBehaviour
     public UIManager UI { get { return _ui; } }
 
     // CustomEvent
+    private CmdLinesEvent _cmdLinesEvent = null;
+    public CmdLinesEvent CmdLinesEvent { get { return _cmdLinesEvent; } }
+
     private MoneyChangeEvent _moneyChangeEvent = null;
     public MoneyChangeEvent MoneyChangeEvent { get { return _moneyChangeEvent; } }
 
@@ -97,8 +103,8 @@ public class Manager : MonoBehaviour
     private ScheduleEndEvent _scheduleEndEvent = null;
     public ScheduleEndEvent ScheduleEndEvent { get { return _scheduleEndEvent; } }
 
-    private HeroineStatEvent _heroineStatEvent = null;
-    public HeroineStatEvent HeroineStatEvent { get { return _heroineStatEvent; } }
+    private MainCharacterStatEvent _mainCharacterStatEvent = null;
+    public MainCharacterStatEvent MainCharacterStatEvent { get { return _mainCharacterStatEvent; } }
 
     // KYI : DataTable
     public ConstitutionObject DTConstitution { get { return AsstDTConstitution; } }
@@ -108,6 +114,7 @@ public class Manager : MonoBehaviour
     public ActionTypeObject DTActionType { get { return AsstDTActionType; } }
     public VacationObject DTVacation { get { return AsstDTVacation; } }
     public NPCObject DTNPC { get { return AsstDTNPC; } }
+    public TargetObject DTTarget { get { return AsstDTTarget; } }
 }
  
  

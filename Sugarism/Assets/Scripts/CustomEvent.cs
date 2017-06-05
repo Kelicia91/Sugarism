@@ -1,52 +1,40 @@
 ﻿
-// @todo : 이 클래스는 삭제할 것.
-public class CustomEvent
+public class CmdLinesEvent
 {
-    private static CustomEvent _instance;
-    public static CustomEvent Instance
+    public delegate void Handler(int characterId, string lines);
+    private event Handler _event;
+
+    public CmdLinesEvent()
     {
-        get
-        {
-            if (null == _instance)
-            {
-                _instance = new CustomEvent();
-            }
-            return _instance;
-        }
+        _event = new Handler(onCmdLines);
     }
-    
-    private CustomEvent()
-    {
-        _cmdLinesEvent = new CmdLinesEventHandler(onCmdLines);
-    }
-    
-    public delegate void CmdLinesEventHandler(int characterId, string lines);
-    private event CmdLinesEventHandler _cmdLinesEvent;
 
     // default handler
-    private void onCmdLines(int characterId, string lines) { /*Log.Debug("CustomEvent.onCmdLines");*/ }
-
+    private void onCmdLines(int characterId, string lines)
+    {
+        Log.Debug("onCmdLines");
+    }
 
     public void Invoke(int characterId, string lines)
     {
-        _cmdLinesEvent.Invoke(characterId, lines);
+        _event.Invoke(characterId, lines);
     }
 
     // @warn : attach order
-    public void Attach(CmdLinesEventHandler handler)
+    public void Attach(Handler handler)
     {
         if (null == handler)
             return;
 
-        _cmdLinesEvent += handler;
+        _event += handler;
     }
 
-    public void Detach(CmdLinesEventHandler handler)
+    public void Detach(Handler handler)
     {
         if (null == handler)
             return;
 
-        _cmdLinesEvent -= handler;
+        _event -= handler;
     }
 }
 
@@ -476,20 +464,20 @@ public class ScheduleEndEvent
 }
 
 
-public class HeroineStatEvent
+public class MainCharacterStatEvent
 {
     public delegate void Handler(EStat statType, int value);
     private event Handler _event;
 
-    public HeroineStatEvent()
+    public MainCharacterStatEvent()
     {
-        _event = new Handler(onHeroineStatChanged);
+        _event = new Handler(onMainCharacterStatChanged);
     }
 
     // default handler
-    private void onHeroineStatChanged(EStat statType, int value)
+    private void onMainCharacterStatChanged(EStat statType, int value)
     {
-        //Log.Debug(string.Format("onHeroineStatChanged; {0}", statType));
+        //Log.Debug(string.Format("onMainCharacterStatChanged; {0}", statType));
     }
 
     public void Invoke(EStat statType, int value) { _event.Invoke(statType, value); }

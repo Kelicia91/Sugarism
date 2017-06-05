@@ -11,14 +11,14 @@ public abstract class ExtAction
     public int Id { get { return _id; } }
     
     protected readonly Action _Action;
-    protected readonly Heroine _Heroine;
+    protected readonly MainCharacter _MainCharacter;
 
-    protected ExtAction(int id, Heroine heroine)
+    protected ExtAction(int id, MainCharacter mainCharacter)
     {
         _id = id;
         _Action = Manager.Instance.DTAction[_id];
 
-        _Heroine = heroine;
+        _MainCharacter = mainCharacter;
     }
 
     public void Begin()
@@ -39,7 +39,7 @@ public abstract class ExtAction
     public void Do()
     {
         updateStat();
-        _Heroine.Increment(Id);
+        _MainCharacter.Increment(Id);
 
         bool isSuccessed = doing();
         Manager.Instance.ScheduleDoEvent.Invoke(isSuccessed);
@@ -83,7 +83,7 @@ public abstract class ExtAction
         float quotient = 0;
 
         // set element[0]
-        int currentVal = _Heroine.Get(_Action.criticalStat);
+        int currentVal = _MainCharacter.Get(_Action.criticalStat);
         int baseVal = _Action.criticalStatBaseValue;
         if (currentVal >= baseVal)
         {
@@ -97,13 +97,13 @@ public abstract class ExtAction
 
         // set element[1]
         const float REMAIN_WEIGHT = 1.0f - Def.CRITICAL_WEIGHT;
-        if (_Heroine.Stress >= _Heroine.Stamina)
+        if (_MainCharacter.Stress >= _MainCharacter.Stamina)
         {
             elemArray[1] = 0.0f;
         }
         else
         {
-            quotient = ((float)_Heroine.Stress) / _Heroine.Stamina;
+            quotient = ((float)_MainCharacter.Stress) / _MainCharacter.Stamina;
             elemArray[1] = REMAIN_WEIGHT * (1.0f - quotient);
         }
 
@@ -123,24 +123,24 @@ public abstract class ExtAction
     
     private void updateStat()
     {
-        _Heroine.Stress += _Action.stress;
+        _MainCharacter.Stress += _Action.stress;
 
-        _Heroine.Stamina += _Action.stamina;
-        _Heroine.Intellect += _Action.intellect;
-        _Heroine.Grace += _Action.grace;
-        _Heroine.Charm += _Action.charm;
+        _MainCharacter.Stamina += _Action.stamina;
+        _MainCharacter.Intellect += _Action.intellect;
+        _MainCharacter.Grace += _Action.grace;
+        _MainCharacter.Charm += _Action.charm;
 
-        _Heroine.Attack += _Action.attack;
-        _Heroine.Defence += _Action.defense;
+        _MainCharacter.Attack += _Action.attack;
+        _MainCharacter.Defence += _Action.defense;
 
-        _Heroine.Leadership += _Action.leadership;
-        _Heroine.Tactic += _Action.tactic;
+        _MainCharacter.Leadership += _Action.leadership;
+        _MainCharacter.Tactic += _Action.tactic;
 
-        _Heroine.Morality += _Action.morality;
-        _Heroine.Goodness += _Action.goodness;
+        _MainCharacter.Morality += _Action.morality;
+        _MainCharacter.Goodness += _Action.goodness;
 
-        _Heroine.Sensibility += _Action.sensibility;
-        _Heroine.Arts += _Action.arts;
+        _MainCharacter.Sensibility += _Action.sensibility;
+        _MainCharacter.Arts += _Action.arts;
     }
 
     public void Done()
@@ -164,7 +164,7 @@ public class PartTimeAction : ExtAction
     private int _successCount = 0;
     private int _actionPeriod = 0;
 
-    public PartTimeAction(int id, Heroine heroine) : base(id, heroine)
+    public PartTimeAction(int id, MainCharacter mainCharacter) : base(id, mainCharacter)
     {
 
     }
@@ -180,7 +180,7 @@ public class PartTimeAction : ExtAction
         if (isSuccessed)
         {
             ++_successCount;
-            _Heroine.Money += _Action.money;   
+            _MainCharacter.Money += _Action.money;   
         }
 
         ++_actionPeriod;
@@ -199,7 +199,7 @@ public class PartTimeAction : ExtAction
         string msg = null;
         if (achievementRatio <= 0)
         {
-            _Heroine.Stress += _Action.failStress;
+            _MainCharacter.Stress += _Action.failStress;
             msg = string.Format(Def.STRESS_FORMAT, _Action.failStress);
         }
         else if (achievementRatio < 100)
@@ -208,7 +208,7 @@ public class PartTimeAction : ExtAction
         }
         else
         {
-            _Heroine.Money += _Action.bonus;
+            _MainCharacter.Money += _Action.bonus;
             msg = string.Format(Def.MONEY_FORMAT, _Action.bonus);
         }
 
@@ -221,7 +221,7 @@ public class LessonAction : ExtAction
     private int _successCount = 0;
     private int _actionPeriod = 0;
 
-    public LessonAction(int id, Heroine heroine) : base(id, heroine)
+    public LessonAction(int id, MainCharacter mainCharacter) : base(id, mainCharacter)
     {
 
     }
@@ -233,7 +233,7 @@ public class LessonAction : ExtAction
 
     protected override bool doing()
     {
-        _Heroine.Money += _Action.money;
+        _MainCharacter.Money += _Action.money;
 
         bool isSuccessed = isSuccess();
         if (isSuccessed)
@@ -257,7 +257,7 @@ public class LessonAction : ExtAction
         string msg = null;
         if (achievementRatio <= 0)
         {
-            _Heroine.Stress += _Action.failStress;
+            _MainCharacter.Stress += _Action.failStress;
             msg = string.Format(Def.STRESS_FORMAT, _Action.failStress);
         }
         else if (achievementRatio < 100)
@@ -266,7 +266,7 @@ public class LessonAction : ExtAction
         }
         else
         {
-            _Heroine.Stress += _Action.bonus;
+            _MainCharacter.Stress += _Action.bonus;
             msg = string.Format(Def.STRESS_FORMAT, _Action.bonus);
         }
 
@@ -276,13 +276,13 @@ public class LessonAction : ExtAction
 
 public class RelaxAction : ExtAction
 {
-    public RelaxAction(int id, Heroine heroine) : base(id, heroine)
+    public RelaxAction(int id, MainCharacter mainCharacter) : base(id, mainCharacter)
     {
     }
 
     protected override bool doing()
     {
-        _Heroine.Money += _Action.money;
+        _MainCharacter.Money += _Action.money;
 
         return true;
     }
@@ -293,7 +293,7 @@ public class VacationAction : ExtAction
     ESeason _season = ESeason.MAX;
     Vacation _vacation;
 
-    public VacationAction(int id, Heroine heroine) : base(id, heroine)
+    public VacationAction(int id, MainCharacter mainCharacter) : base(id, mainCharacter)
     {
         _season = Manager.Instance.Object.Calendar.Get();
         if (ESeason.MAX == _season)
@@ -309,36 +309,36 @@ public class VacationAction : ExtAction
     protected override bool doing()
     {
         updateStat(_vacation);
-        _Heroine.Money += _Action.money;
+        _MainCharacter.Money += _Action.money;
 
         return true;
     }
 
     private void updateStat(Vacation vacation)
     {
-        _Heroine.Stamina += vacation.stamina;
-        _Heroine.Intellect += vacation.intellect;
-        _Heroine.Grace += vacation.grace;
-        _Heroine.Charm += vacation.charm;
+        _MainCharacter.Stamina += vacation.stamina;
+        _MainCharacter.Intellect += vacation.intellect;
+        _MainCharacter.Grace += vacation.grace;
+        _MainCharacter.Charm += vacation.charm;
 
-        _Heroine.Attack += vacation.attack;
-        _Heroine.Defence += vacation.defense;
+        _MainCharacter.Attack += vacation.attack;
+        _MainCharacter.Defence += vacation.defense;
 
-        _Heroine.Leadership += vacation.leadership;
-        _Heroine.Tactic += vacation.tactic;
+        _MainCharacter.Leadership += vacation.leadership;
+        _MainCharacter.Tactic += vacation.tactic;
 
-        _Heroine.Morality += vacation.morality;
-        _Heroine.Goodness += vacation.goodness;
+        _MainCharacter.Morality += vacation.morality;
+        _MainCharacter.Goodness += vacation.goodness;
 
-        _Heroine.Sensibility += vacation.sensibility;
-        _Heroine.Arts += vacation.arts;
+        _MainCharacter.Sensibility += vacation.sensibility;
+        _MainCharacter.Arts += vacation.arts;
     }
 }
 
 // 돈을 소비하는 action을 스케줄에 넣었는데 은전이 부족한 경우 강제로 셋팅.
 public class IdleAction : ExtAction
 {
-    public IdleAction(int id, Heroine heroine) : base(id, heroine)
+    public IdleAction(int id, MainCharacter mainCharacter) : base(id, mainCharacter)
     {
         // do nothing
     }

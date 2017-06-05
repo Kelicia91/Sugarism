@@ -29,7 +29,7 @@ public class StatPanel : Panel
 
     void Start()
     {
-        Manager.Instance.HeroineStatEvent.Attach(onHeroineStatChanged);
+        Manager.Instance.MainCharacterStatEvent.Attach(onMainCharacterStatChanged);
     }
 
     public void Set(EStat statType)
@@ -46,8 +46,8 @@ public class StatPanel : Panel
         Stat stat = Manager.Instance.DTStat[statId];
         setNameText(stat.name);
 
-        Heroine heroine = Manager.Instance.Object.Heroine;
-        int value = heroine.Get(_statType);
+        MainCharacter mainCharacter = Manager.Instance.Object.MainCharacter;
+        int value = mainCharacter.Get(_statType);
         setValue(value);
     }
 
@@ -80,7 +80,7 @@ public class StatPanel : Panel
     }
     
 
-    private void onHeroineStatChanged(EStat statType, int value)
+    private void onMainCharacterStatChanged(EStat statType, int value)
     {
         if (_statType != statType)
             return;

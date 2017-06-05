@@ -9,22 +9,22 @@ public partial class Schedule : MonoBehaviour
     private int NUM_OF_ACTION;
     
     private Calendar _calendar = null;
-    private Heroine _heroine = null;
+    private MainCharacter _mainCharacter = null;
     private int[] _actionArray = null;
 
     private IdleAction _idleAction = null;
 
 
     // Must call once.
-    public void Constrution(int numOfAction, Calendar calendar, Heroine heroine)
+    public void Constrution(int numOfAction, Calendar calendar, MainCharacter mainCharacter)
     {
         NUM_OF_ACTION = numOfAction;
 
         _calendar = calendar;
-        _heroine = heroine;
+        _mainCharacter = mainCharacter;
         _actionArray = new int[NUM_OF_ACTION];
 
-        _idleAction = new IdleAction(Def.ACTION_IDLE_ID, _heroine);
+        _idleAction = new IdleAction(Def.ACTION_IDLE_ID, _mainCharacter);
 
         Initialize();
     }
@@ -157,7 +157,7 @@ public partial class Schedule
     {
         ExtAction extAction = _extActionArray[_actionOrder];
 
-        if (_heroine.GetActCount(extAction.Id) <= 0)
+        if (_mainCharacter.GetActCount(extAction.Id) <= 0)
             extAction.First();
         else
             Do();
@@ -259,7 +259,7 @@ public partial class Schedule
     //        if (day == BEGINDAY_ACT[actionOrder])
     //            extAction.Begin();
 
-    //        if (_heroine.GetActCount(extAction.Id) <= 0)
+    //        if (_mainCharacter.GetActCount(extAction.Id) <= 0)
     //            extAction.First();
 
     //        extAction.Do();
@@ -286,7 +286,7 @@ public partial class Schedule
         Action action = Manager.Instance.DTAction[actionId];
 
         // @note : action.money can be < 0.
-        int sum = _heroine.Money + action.money;
+        int sum = _mainCharacter.Money + action.money;
         if (sum < 0)
             return true;
         else
@@ -302,7 +302,7 @@ public partial class Schedule
             int actionId = _actionArray[i];
             if (Def.ACTION_VACATION_ID == actionId)
             {
-                extActionArray[i] = new VacationAction(actionId, _heroine);
+                extActionArray[i] = new VacationAction(actionId, _mainCharacter);
                 continue;
             }
 
@@ -310,15 +310,15 @@ public partial class Schedule
             switch (action.type)
             {
                 case EActionType.PARTTIME:
-                    extActionArray[i] = new PartTimeAction(actionId, _heroine);
+                    extActionArray[i] = new PartTimeAction(actionId, _mainCharacter);
                     break;
 
                 case EActionType.LESSON:
-                    extActionArray[i] = new LessonAction(actionId, _heroine);
+                    extActionArray[i] = new LessonAction(actionId, _mainCharacter);
                     break;
 
                 case EActionType.RELAX:
-                    extActionArray[i] = new RelaxAction(actionId, _heroine);
+                    extActionArray[i] = new RelaxAction(actionId, _mainCharacter);
                     break;
 
                 default:

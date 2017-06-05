@@ -8,10 +8,10 @@ public class ObjectManager : MonoBehaviour
     void Awake()
     {        
         _calendar = new Calendar(Def.INIT_YEAR, Def.INIT_MONTH, Def.INIT_DAY);
-        _heroine = new Heroine(Def.INIT_AGE, Def.INIT_MONEY);
+        _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY);
         
         _schedule = gameObject.AddComponent<Schedule>();
-        _schedule.Constrution(Def.MAX_NUM_ACTION_IN_MONTH, _calendar, _heroine);
+        _schedule.Constrution(Def.MAX_NUM_ACTION_IN_MONTH, _calendar, _mainCharacter);
         
 
         //load();
@@ -29,8 +29,8 @@ public class ObjectManager : MonoBehaviour
     private Schedule _schedule = null;
     public Schedule Schedule { get { return _schedule; } }
 
-    private Heroine _heroine = null;
-    public Heroine Heroine { get { return _heroine; } }
+    private MainCharacter _mainCharacter = null;
+    public MainCharacter MainCharacter { get { return _mainCharacter; } }
 
     //
 

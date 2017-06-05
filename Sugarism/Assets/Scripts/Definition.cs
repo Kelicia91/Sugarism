@@ -137,7 +137,7 @@ public class Def
     // Profile
     public const string PROFILE_FORMAT = "{0} ({1})\n{2}, {3}";
 
-    // Heroine
+    // Main Character
     public const int INIT_AGE = 12;
     public const string STRESS_FORMAT = "스트레스 {0}";
 

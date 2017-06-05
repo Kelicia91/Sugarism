@@ -4,9 +4,9 @@ using UnityEngine;
 
 
 // 주인공
-public partial class Heroine
+public partial class MainCharacter
 {
-    public Heroine(int age, int money)
+    public MainCharacter(int age, int money)
     {
         _age = age;
         _money = money;
@@ -108,7 +108,7 @@ public partial class Heroine
     }
 }
 
-public partial class Heroine
+public partial class MainCharacter
 {
     // count : action
     private int[] _actCount = null;
@@ -134,7 +134,7 @@ public partial class Heroine
     }
 }
 
-public partial class Heroine
+public partial class MainCharacter
 {
     // stats : nurture
     private int _stress = 0;
@@ -146,7 +146,7 @@ public partial class Heroine
             _stress = value;
 
             adjust(ref _stress);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.STRESS, _stress);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.STRESS, _stress);
         }
     }
 
@@ -159,7 +159,7 @@ public partial class Heroine
             _stamina = value;
 
             adjust(ref _stamina);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.STAMINA, _stamina);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.STAMINA, _stamina);
         }
     }
 
@@ -172,7 +172,7 @@ public partial class Heroine
             _intellect = value;
 
             adjust(ref _intellect);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.INTELLECT, _intellect);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.INTELLECT, _intellect);
         }
     }
 
@@ -185,7 +185,7 @@ public partial class Heroine
             _grace = value;
 
             adjust(ref _grace);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.GRACE, _grace);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.GRACE, _grace);
         }
     }
 
@@ -198,7 +198,7 @@ public partial class Heroine
             _charm = value;
 
             adjust(ref _charm);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.CHARM, _charm);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.CHARM, _charm);
         }
     }
 
@@ -211,7 +211,7 @@ public partial class Heroine
             _attack = value;
 
             adjust(ref _attack);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.ATTACK, _attack);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.ATTACK, _attack);
         }
     }
 
@@ -224,7 +224,7 @@ public partial class Heroine
             _defence = value;
 
             adjust(ref _defence);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.DEFENSE, _defence);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.DEFENSE, _defence);
         }
     }
 
@@ -237,7 +237,7 @@ public partial class Heroine
             _leadership = value;
 
             adjust(ref _leadership);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.LEADERSHIP, _leadership);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.LEADERSHIP, _leadership);
         }
     }
 
@@ -250,7 +250,7 @@ public partial class Heroine
             _tactic = value;
 
             adjust(ref _tactic);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.TACTIC, _tactic);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.TACTIC, _tactic);
         }
     }
 
@@ -263,7 +263,7 @@ public partial class Heroine
             _morality = value;
 
             adjust(ref _morality);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.MORALITY, _morality);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.MORALITY, _morality);
         }
     }
 
@@ -276,7 +276,7 @@ public partial class Heroine
             _goodness = value;
 
             adjust(ref _goodness);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.GOODNESS, _goodness);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.GOODNESS, _goodness);
         }
     }
 
@@ -289,7 +289,7 @@ public partial class Heroine
             _sensibility = value;
 
             adjust(ref _sensibility);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.SENSIBILITY, _sensibility);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.SENSIBILITY, _sensibility);
         }
     }
 
@@ -302,7 +302,7 @@ public partial class Heroine
             _arts = value;
 
             adjust(ref _arts);
-            Manager.Instance.HeroineStatEvent.Invoke(EStat.ARTS, _arts);
+            Manager.Instance.MainCharacterStatEvent.Invoke(EStat.ARTS, _arts);
         }
     }
 
