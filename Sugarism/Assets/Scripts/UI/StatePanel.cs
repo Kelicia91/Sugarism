@@ -80,12 +80,7 @@ public class StatePanel : Panel
 
     private void onClickBackButton()
     {
-        Hide(); // StatePanel
-
-        Manager.Instance.UI.BackButton.gameObject.SetActive(true);
-        Manager.Instance.UI.CurrencyPanel.Show();
-        Manager.Instance.UI.CalendarPanel.Show();
-        Manager.Instance.UI.ProfilePanel.Show();
-        Manager.Instance.UI.CmdPanel.Show();
+        Hide();
+        Manager.Instance.UI.MainPanel.Show();
     }
 }

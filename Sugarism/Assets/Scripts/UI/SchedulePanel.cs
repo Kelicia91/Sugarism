@@ -9,6 +9,7 @@ public class SchedulePanel : Panel
     /********* Editor Interface *********/
     // prefabs
     public GameObject PrefBackButton;
+    public GameObject PrefCurrencyPanel;
     public GameObject PrefStatPanel;
     public GameObject StatsPanel;
     public ActionListPanel ActionListPanel;
@@ -23,7 +24,12 @@ public class SchedulePanel : Panel
 
 
     // Initialization Call Order : Awake(once) -> OnEnable -> Start(once)
-    void Awake()
+    void Start()
+    {
+        create();
+    }
+
+    private void create()
     {
         if (null != PrefBackButton)
         {
@@ -36,6 +42,16 @@ public class SchedulePanel : Panel
         else
         {
             Log.Error("not found prefab back button");
+        }
+
+        if (null != PrefCurrencyPanel)
+        {
+            GameObject o = Instantiate(PrefCurrencyPanel);
+            o.transform.SetParent(transform, false);
+        }
+        else
+        {
+            Log.Error("not found prefab currency panel");
         }
 
         if (null != PrefStatPanel)
@@ -52,23 +68,9 @@ public class SchedulePanel : Panel
         }
     }
 
-    private string getActionName(int actionId)
-    {
-        if (actionId < 0)
-            return string.Empty;
-        else if (actionId >= Manager.Instance.DTAction.Count)
-            return string.Empty;
-        else
-            return Manager.Instance.DTAction[actionId].name; 
-    }
-    
     private void onClickBackButton()
     {
-        Hide(); // SchedulePanel
-
-        Manager.Instance.UI.BackButton.gameObject.SetActive(true);
-        Manager.Instance.UI.CalendarPanel.Show();
-        Manager.Instance.UI.ProfilePanel.Show();
-        Manager.Instance.UI.CmdPanel.Show();
+        Hide();
+        Manager.Instance.UI.MainPanel.Show();
     }
 }

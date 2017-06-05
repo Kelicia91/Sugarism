@@ -16,6 +16,7 @@ public class CmdPanel : Panel
     private enum ECmdType
     {
         SCHEDULE = 0,
+        GOOUT,
         STATE
     }
 
@@ -65,6 +66,9 @@ public class CmdPanel : Panel
             case ECmdType.SCHEDULE:
                 return Def.CMD_SCHEDULE_NAME;
 
+            case ECmdType.GOOUT:
+                return Def.CMD_GO_OUT_NAME;
+
             case ECmdType.STATE:
                 return Def.CMD_STATE_NAME;
 
@@ -80,6 +84,9 @@ public class CmdPanel : Panel
             case ECmdType.SCHEDULE:
                 return onClickScheduleButton;
 
+            case ECmdType.GOOUT:
+                return onClickGoOutButton;
+
             case ECmdType.STATE:
                 return onClickStateButton;
 
@@ -91,23 +98,19 @@ public class CmdPanel : Panel
     
     private void onClickScheduleButton()
     {
-        Manager.Instance.UI.BackButton.gameObject.SetActive(false);
-        //Manager.Instance.UI.CurrencyPanel.Hide();
-        Manager.Instance.UI.CalendarPanel.Hide();
-        Manager.Instance.UI.ProfilePanel.Hide();
-        Hide(); // CmdPanel
-
+        Manager.Instance.UI.MainPanel.Hide();
         Manager.Instance.UI.SchedulePanel.Show();
+    }
+
+    private void onClickGoOutButton()
+    {
+        Manager.Instance.UI.MainPanel.Hide();
+        Manager.Instance.UI.SelectTargetPanel.Show();
     }
 
     private void onClickStateButton()
     {
-        Manager.Instance.UI.BackButton.gameObject.SetActive(false);
-        Manager.Instance.UI.CurrencyPanel.Hide();
-        Manager.Instance.UI.CalendarPanel.Hide();
-        Manager.Instance.UI.ProfilePanel.Hide();
-        Hide(); // CmdPanel
-
+        Manager.Instance.UI.MainPanel.Hide();
         Manager.Instance.UI.StatePanel.Show();
     }
 }
