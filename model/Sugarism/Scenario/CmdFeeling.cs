@@ -11,6 +11,13 @@ namespace Sugarism
     public class CmdFeeling : Command
     {
         // property
+        private int _characterId;
+        public int CharacterId
+        {
+            get { return _characterId; }
+            set { _characterId = value; OnPropertyChanged("CharacterId"); }
+        }
+
         private EOperation _op;
         public EOperation Op
         {
@@ -27,10 +34,11 @@ namespace Sugarism
 
 
         // default constructor for JSON Deserializer
-        public CmdFeeling() : this(EOperation.Add, 0) { }
+        public CmdFeeling() : this(-1, EOperation.Add, 0) { }
 
-        public CmdFeeling(EOperation op, int value) : base(Command.Type.Feeling)
+        public CmdFeeling(int characterId, EOperation op, int value) : base(Command.Type.Feeling)
         {
+            _characterId = characterId;
             _op = op;
             _value = value;
         }
