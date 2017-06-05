@@ -98,8 +98,8 @@ public class Def
     public const string BACK = "뒤로";
 
     // Calendar
-    public const int INIT_YEAR = 190;
-    public const int PERIOD_YEAR = 8;
+    public const int INIT_YEAR = 199;
+    public const int PERIOD_YEAR = 4;
     public const int INIT_MONTH = 1;   // 탄생월은 나중에 user-defined. (zodiac)
     public const int INIT_DAY = 1;
     public const string YEAR_UNIT = "年";
@@ -145,4 +145,10 @@ public class Def
     // Stat
     public const int MIN_STAT = 0;
     public const int MAX_STAT = 999;
+
+    // Target Character
+    public const int MIN_FEELING = 0;
+    public const int MAX_FEELING = 100;
+    public const int MIN_SCENARIO = 0;
+    public const int MAX_SCENARIO = Calendar.MAX_MONTH * PERIOD_YEAR;   // 12 * 4
 }
