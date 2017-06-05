@@ -11,6 +11,8 @@ namespace Sugarism
         {
             // Command
             Lines = 0,
+            Filter,
+            Feeling,
             
             // Composite
             Switch,
