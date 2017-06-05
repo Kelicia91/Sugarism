@@ -38,7 +38,7 @@ public class CmdLines : Command
     {
         Log.Debug(ToString());
 
-        CustomEvent.Instance.Invoke(CharacterId, Lines);
+        Manager.Instance.CmdLinesEvent.Invoke(CharacterId, Lines);
 
         return false;   // no more child to play
     }

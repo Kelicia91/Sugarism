@@ -13,13 +13,13 @@ public class DialoguePanel : MonoBehaviour
 	// Use this for initialization
 	void Start()
     {
-        CustomEvent.Instance.Attach(OnCmdLines);
+        Manager.Instance.CmdLinesEvent.Attach(OnCmdLines);
 	}
 
     //
     void OnDestroy()
     {
-        CustomEvent.Instance.Detach(OnCmdLines);
+        Manager.Instance.CmdLinesEvent.Detach(OnCmdLines);
     }
 
     
