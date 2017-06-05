@@ -4,7 +4,7 @@ namespace Sugarism
     public class Character : Base.Model
     {
         // const
-        public const int START_ID = 1;
+        public const int START_ID = 0;
 
         public const int MIN_LENGTH_OF_NAME = 1;
         public const int MAX_LENGTH_OF_NAME = 5;
