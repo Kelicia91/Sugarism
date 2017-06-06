@@ -25,7 +25,9 @@ public class NPCNotifyPanel : Panel, IPointerClickHandler
     public void Show(int npcId, string lines, UnityEngine.Events.UnityAction clickHandler)
     {
         NPC npc = Manager.Instance.DTNPC[npcId];
-        NameText.text = npc.name;
+
+        Character c = Manager.Instance.DTCharacter[npc.characterId];
+        NameText.text = c.name;
 
         LinesText.text = lines;
 

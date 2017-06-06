@@ -90,12 +90,6 @@ public class ActionButton : MonoBehaviour
 
     private void onClick()
     {
-        if (_actionId < 0)
-        {
-            Log.Error("invalid action id");
-            return;
-        }
-
         int index = Manager.Instance.UI.SchedulePanel.SelectedScheduleIndex;
         Manager.Instance.Object.Schedule.Insert(index, _actionId);
     }

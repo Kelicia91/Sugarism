@@ -12,8 +12,8 @@ public class SelectTargetButton : MonoBehaviour
     public Text ValueText;
     public Slider Slider;
     public Image Image;
-
-    // @todo: hero id 정보만 갖고 시나리오 가져오기
+    
+    //
     private int _targetId = -1;
 
 
@@ -34,15 +34,19 @@ public class SelectTargetButton : MonoBehaviour
 
     public void Set(int targetId)
     {
-        if (false == isValid(targetId))
+        if (false == TargetCharacter.isValid(targetId))
             return;
 
         _targetId = targetId;
-
-        // @todo: update ui
+        
         Target t = Manager.Instance.DTTarget[_targetId];
-        set(t.name);
-        //set(/*친밀도값*/);
+
+        Character c = Manager.Instance.DTCharacter[t.characterId];
+        set(c.name);
+
+        TargetCharacter tc = Manager.Instance.Object.TargetCharacterArray[t.characterId];
+        set(tc.Feeling);
+
         set(t.image);
     }
 
@@ -84,25 +88,5 @@ public class SelectTargetButton : MonoBehaviour
     private void onClick()
     {
         Log.Debug("SelectTargetButton.onClick");
-    }
-
-    private bool isValid(int targetId)
-    {
-        if (targetId < 0)
-        {
-            string errMsg = string.Format("invalid target id({0}) < 0", targetId);
-            Log.Error(errMsg);
-            return false;
-        }
-        else if (targetId >= Manager.Instance.DTTarget.Count)
-        {
-            string errMsg = string.Format("invalid target id({0}) >= max({1})", targetId, Manager.Instance.DTTarget.Count);
-            Log.Error(errMsg);
-            return false;
-        }
-        else
-        {
-            return true;
-        }
     }
 }

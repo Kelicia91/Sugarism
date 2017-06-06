@@ -342,7 +342,7 @@ public class RunSchedulePanel : Panel
         //AnimController.gameObject.SetActive(false);
         VacationImage.gameObject.SetActive(false);
 
-        if (false == isValid(npcId))
+        if (false == ExtNPC.IsValid(npcId))
         {
             finish();
             return;
@@ -375,16 +375,5 @@ public class RunSchedulePanel : Panel
     private void finish()
     {
         Manager.Instance.Object.Schedule.NextDay();
-    }
-    
-
-    private bool isValid(int npcId)
-    {
-        if (npcId < 0)
-            return false;
-        else if (npcId >= Manager.Instance.DTNPC.Count)
-            return false;
-        else
-            return true;
     }
 }

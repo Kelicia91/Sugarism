@@ -109,7 +109,7 @@ public class ScheduleToggle : MonoBehaviour
 
     private void set(int actionId)
     {
-        if (false == isValidAction(actionId))
+        if (false == ExtAction.isValid(actionId))
         {
             ActionPanel.Hide();
             return;
@@ -117,15 +117,5 @@ public class ScheduleToggle : MonoBehaviour
         
         ActionPanel.SetActionId(actionId);
         ActionPanel.Show();
-    }
-
-    private bool isValidAction(int id)
-    {
-        if (id < 0)
-            return false;
-        else if (id >= Manager.Instance.DTAction.Count)
-            return false;
-        else
-            return true;
     }
 }

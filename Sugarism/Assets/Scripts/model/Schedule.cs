@@ -49,7 +49,7 @@ public partial class Schedule : MonoBehaviour
     {
         for (int i = 0; i < NUM_OF_ACTION; ++i)
         {
-            if (false == isValidAction(_actionArray[i]))
+            if (false == ExtAction.isValid(_actionArray[i]))
                 return false;
         }
 
@@ -61,7 +61,7 @@ public partial class Schedule : MonoBehaviour
         if (false == isValid(index))
             return;
 
-        if (false == isValidAction(actionId))
+        if (false == ExtAction.isValid(actionId))
             return;
 
         insert(index, actionId);
@@ -82,17 +82,7 @@ public partial class Schedule : MonoBehaviour
             return false;
         else
             return true;
-    }
-
-    private bool isValidAction(int id)
-    {
-        if (id < 0)
-            return false;
-        else if (id >= Manager.Instance.DTAction.Count)
-            return false;
-        else
-            return true;
-    }
+    }    
 }
 
 

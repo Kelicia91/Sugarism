@@ -12,7 +12,12 @@ public class ObjectManager : MonoBehaviour
         
         _schedule = gameObject.AddComponent<Schedule>();
         _schedule.Constrution(Def.MAX_NUM_ACTION_IN_MONTH, _calendar, _mainCharacter);
-        
+
+        _targetCharacterArray = new TargetCharacter[Manager.Instance.DTTarget.Count];
+        for (int i = 0; i < _targetCharacterArray.Length; ++i)
+        {
+            _targetCharacterArray[i] = new TargetCharacter(i);
+        }
 
         //load();
 
@@ -31,6 +36,9 @@ public class ObjectManager : MonoBehaviour
 
     private MainCharacter _mainCharacter = null;
     public MainCharacter MainCharacter { get { return _mainCharacter; } }
+
+    private TargetCharacter[] _targetCharacterArray = null;
+    public TargetCharacter[] TargetCharacterArray { get { return _targetCharacterArray; } }
 
     //
 

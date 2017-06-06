@@ -47,4 +47,15 @@ public class TargetCharacter
         _feeling = Def.MIN_FEELING;
         _lastOpenedScenarioNo = Def.MIN_SCENARIO;
     }
+
+
+    public static bool isValid(int id)
+    {
+        if (id < 0)
+            return false;
+        else if (id >= Manager.Instance.DTTarget.Count)
+            return false;
+        else
+            return true;
+    }
 }
