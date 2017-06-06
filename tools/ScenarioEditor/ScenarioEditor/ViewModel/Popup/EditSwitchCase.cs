@@ -178,7 +178,7 @@ namespace ScenarioEditor.ViewModel.Popup
             // characterId
             if (Common.Instance.IsValid(characterId))
             {
-                SelectedItem = CharacterList[characterId - 1];
+                SelectedItem = CharacterList[characterId];
             }
             else
             {
