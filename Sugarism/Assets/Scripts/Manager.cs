@@ -45,6 +45,7 @@ public class Manager : MonoBehaviour
     public UIManager PrefUIManager;
 
     // KYI : DataTable assets
+    public CharacterObject AsstDTCharacter;
     public ConstitutionObject AsstDTConstitution;
     public ZodiacObject AsstDTZodiac;
     public StatObject AsstDTStat;
@@ -64,6 +65,7 @@ public class Manager : MonoBehaviour
     public UIManager UI { get { return _ui; } }
 
     // KYI : DataTable
+    public CharacterObject DTCharacter { get { return AsstDTCharacter; } }
     public ConstitutionObject DTConstitution { get { return AsstDTConstitution; } }
     public ZodiacObject DTZodiac { get { return AsstDTZodiac; } }
     public StatObject DTStat { get { return AsstDTStat; } }
