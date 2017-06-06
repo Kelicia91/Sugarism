@@ -43,7 +43,7 @@ namespace ScenarioEditor.ViewModel
             get
             {
                 if (Common.Instance.IsValid(CharacterId))
-                    return Common.Instance.CharacterList[CharacterId-1].Name;
+                    return Common.Instance.CharacterList[CharacterId].Name;
                 else
                     return Sugarism.Character.STR_UNKNOWN;
             }
@@ -66,6 +66,66 @@ namespace ScenarioEditor.ViewModel
                 OnPropertyChanged("ToText");
             }
         }
+
+        public bool IsAnonymous
+        {
+            get { return _model.IsAnonymous; }
+            set
+            {
+                _model.IsAnonymous = value;
+                OnPropertyChanged();
+
+                OnPropertyChanged("ToText");
+            }
+        }
+
+        public Sugarism.ELinesEffect LinesEffect
+        {
+            get { return _model.LinesEffect; }
+            set
+            {
+                _model.LinesEffect = value;
+                OnPropertyChanged();
+
+                OnPropertyChanged("ToText");
+            }
+        }
+
+        public Sugarism.EFace Face
+        {
+            get { return _model.Face; }
+            set
+            {
+                _model.Face = value;
+                OnPropertyChanged();
+
+                OnPropertyChanged("ToText");
+            }
+        }
+
+        public Sugarism.ECostume Costume
+        {
+            get { return _model.Costume; }
+            set
+            {
+                _model.Costume = value;
+                OnPropertyChanged();
+
+                OnPropertyChanged("ToText");
+            }
+        }
+
+        public Sugarism.EPosition Position
+        {
+            get { return _model.Position; }
+            set
+            {
+                _model.Position = value;
+                OnPropertyChanged();
+
+                OnPropertyChanged("ToText");
+            }
+        }
         
         public override string ToText
         {
@@ -80,7 +140,7 @@ namespace ScenarioEditor.ViewModel
 
         public override void Edit()
         {
-            bool isEdited = Popup.EditLines.Instance.Show(CharacterId, Lines);
+            bool isEdited = Popup.EditLines.Instance.Show(CharacterId, Lines, IsAnonymous, LinesEffect, Face, Costume, Position);
             if (false == isEdited)
                 return;
 
@@ -90,12 +150,21 @@ namespace ScenarioEditor.ViewModel
                 Log.Error(Properties.Resources.ErrNotFoundCharacter);
             
             Lines = Popup.EditLines.Instance.Lines;
+
+            IsAnonymous = Popup.EditLines.Instance.IsAnonymous;
+            Face = Popup.EditLines.Instance.Face;
+            Costume = Popup.EditLines.Instance.Costume;
+            Position = Popup.EditLines.Instance.Position;
+            LinesEffect = Popup.EditLines.Instance.LinesEffect;
         }
 
         public override string ToString()
         {
             string oneLine = convertToOneLine(Lines);
-            string content = string.Format("{0}:{1} \"{2}\"", CharacterId, RefCharacterName, oneLine);
+            string content = string.Format("{0}:{1}({2}), {3}/{4}/{5}, {6}:\"{7}\"", 
+                CharacterId, RefCharacterName, IsAnonymous, 
+                Face, Costume, Position, 
+                LinesEffect, oneLine);
 
             return ToString(content);
         }
