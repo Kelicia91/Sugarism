@@ -60,7 +60,7 @@ namespace ScenarioEditor.ViewModel
             get
             {
                 if (Common.Instance.IsValid(CharacterId))
-                    return Common.Instance.CharacterList[CharacterId - 1].Name;
+                    return Common.Instance.CharacterList[CharacterId].Name;
                 else
                     return Sugarism.Character.STR_UNKNOWN;
             }
