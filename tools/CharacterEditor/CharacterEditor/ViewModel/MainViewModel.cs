@@ -267,9 +267,9 @@ namespace CharacterEditor
             ExportPath = dlg.FileName;
 
             // set character's id
-            for (int i = Character.START_ID; i <= CharacterList.Count; ++i)
+            for (int i = Character.START_ID; i < CharacterList.Count; ++i)
             {
-                CharacterList[i - 1].Id = i;
+                CharacterList[i].Id = i;
             }
 
             // serialize object to text
