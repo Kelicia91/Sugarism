@@ -34,7 +34,9 @@ namespace Sugarism
 
 
         // default constructor for JSON Deserializer
-        public CmdFeeling() : this(-1, EOperation.Add, 0) { }
+        public CmdFeeling() : this(-1) { }
+
+        public CmdFeeling(int characterId) : this(characterId, EOperation.Add, 0) { }
 
         public CmdFeeling(int characterId, EOperation op, int value) : base(Command.Type.Feeling)
         {
