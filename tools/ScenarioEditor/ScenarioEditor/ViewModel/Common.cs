@@ -98,9 +98,8 @@ namespace ScenarioEditor.ViewModel
             if (characterId < 0)
                 return false;
 
-            // list index range : 0 ~ (CharacterList.Count - 1)
-            // id range : 1 ~ CharacterList.Count
-            if (characterId > CharacterList.Count)
+            // id(index) range : 0 ~ (CharacterList.Count - 1)
+            if (characterId >= CharacterList.Count)
                 return false;
 
             return true;
