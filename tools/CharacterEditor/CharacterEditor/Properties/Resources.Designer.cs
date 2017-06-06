@@ -61,7 +61,7 @@ namespace CharacterEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 추가.
+        ///   Looks up a localized string similar to 신규.
         /// </summary>
         public static string AddButton {
             get {

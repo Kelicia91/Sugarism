@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddButton" xml:space="preserve">
-    <value>추가</value>
+    <value>신규</value>
   </data>
   <data name="CImageGuideText" xml:space="preserve">
     <value>(이미지)</value>
