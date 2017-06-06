@@ -47,6 +47,10 @@ namespace Sugarism
             _key = key;
             _description = description;
             _cmdList = new List<Command>();
+
+            // sample child
+            CmdFeeling cmdFeeling = new CmdFeeling(Character.START_ID, EOperation.Add, 0);
+            _cmdList.Add(cmdFeeling);
         }
 
 
