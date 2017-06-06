@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CharacterEditor"
         xmlns:p="clr-namespace:CharacterEditor.Properties"
-        xmlns:model="clr-namespace:Sugarism;assembly=Characater"
+        xmlns:model="clr-namespace:Sugarism;assembly=Character"
         mc:Ignorable="d"
         Title="{x:Static p:Resources.WindowTitle}" Height="400" Width="600">
 
