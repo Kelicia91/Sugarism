@@ -124,11 +124,29 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 위치.
+        /// </summary>
+        public static string CharacterPosition {
+            get {
+                return ResourceManager.GetString("CharacterPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 명령어.
         /// </summary>
         public static string Command {
             get {
                 return ResourceManager.GetString("Command", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 복장.
+        /// </summary>
+        public static string Costume {
+            get {
+                return ResourceManager.GetString("Costume", resourceCulture);
             }
         }
         
@@ -201,6 +219,24 @@ namespace ScenarioEditor.Properties {
         public static string EditCmd {
             get {
                 return ResourceManager.GetString("EditCmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 호감도 편집.
+        /// </summary>
+        public static string EditFeeling {
+            get {
+                return ResourceManager.GetString("EditFeeling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 화면 필터 편집.
+        /// </summary>
+        public static string EditFilter {
+            get {
+                return ResourceManager.GetString("EditFilter", resourceCulture);
             }
         }
         
@@ -403,6 +439,15 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 표정.
+        /// </summary>
+        public static string FaceExpression {
+            get {
+                return ResourceManager.GetString("FaceExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ....
         /// </summary>
         public static string FindPath {
@@ -480,6 +525,15 @@ namespace ScenarioEditor.Properties {
         public static string LabelCharacterFilePath {
             get {
                 return ResourceManager.GetString("LabelCharacterFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 대사창 효과.
+        /// </summary>
+        public static string LinesEffect {
+            get {
+                return ResourceManager.GetString("LinesEffect", resourceCulture);
             }
         }
         

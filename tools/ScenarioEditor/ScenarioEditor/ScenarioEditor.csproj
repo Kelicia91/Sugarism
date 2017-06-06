@@ -72,6 +72,8 @@
     </ApplicationDefinition>
     <Compile Include="Common\FileUtils.cs" />
     <Compile Include="ViewModel\CmdCase.cs" />
+    <Compile Include="ViewModel\CmdFeeling.cs" />
+    <Compile Include="ViewModel\CmdFilter.cs" />
     <Compile Include="ViewModel\CmdSwitch.cs" />
     <Compile Include="ViewModel\Common.cs" />
     <Compile Include="Common\JsonUtils.cs" />
@@ -81,6 +83,8 @@
     <Compile Include="ViewModel\ITreeViewItem.cs" />
     <Compile Include="ViewModel\Popup\AddCmd.cs" />
     <Compile Include="ViewModel\Popup\EditCase.cs" />
+    <Compile Include="ViewModel\Popup\EditFeeling.cs" />
+    <Compile Include="ViewModel\Popup\EditFilter.cs" />
     <Compile Include="ViewModel\Popup\EditLines.cs" />
     <Compile Include="ViewModel\Popup\EditScene.cs" />
     <Compile Include="ViewModel\Popup\EditSwitchCase.cs" />
@@ -88,6 +92,12 @@
     <Compile Include="ViewModel\CustomInputBindings.cs" />
     <Compile Include="View\Popup\AddCmd.xaml.cs">
       <DependentUpon>AddCmd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Popup\EditFeeling.xaml.cs">
+      <DependentUpon>EditFeeling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Popup\EditFilter.xaml.cs">
+      <DependentUpon>EditFilter.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Popup\EditLines.xaml.cs">
       <DependentUpon>EditLines.xaml</DependentUpon>
@@ -119,6 +129,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\Popup\AddCmd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Popup\EditFeeling.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Popup\EditFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

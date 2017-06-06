@@ -50,8 +50,38 @@ namespace ScenarioEditor.ViewModel
                 case Sugarism.Command.Type.Case:
                         return new CmdCase(model as Sugarism.CmdCase);
 
+                case Sugarism.Command.Type.Feeling:
+                    return new CmdFeeling(model as Sugarism.CmdFeeling);
+
+                case Sugarism.Command.Type.Filter:
+                    return new CmdFilter(model as Sugarism.CmdFilter);
+
                 default:    // Sugarism.Command.Type.MAX
-                        return null;
+                    return null;
+            }
+        }
+
+        public static Command Create(Sugarism.Command.Type cmdType)
+        {
+            if (Sugarism.Command.Type.MAX == cmdType)
+                return null;
+
+            switch (cmdType)
+            {
+                case Sugarism.Command.Type.Lines:
+                    return Create(new Sugarism.CmdLines(Sugarism.Character.START_ID));
+
+                case Sugarism.Command.Type.Switch:
+                    return Create(new Sugarism.CmdSwitch(Sugarism.Character.START_ID));
+
+                case Sugarism.Command.Type.Feeling:
+                    return Create(new Sugarism.CmdFeeling(Sugarism.Character.START_ID));
+
+                case Sugarism.Command.Type.Filter:
+                    return Create(new Sugarism.CmdFilter());
+
+                default:
+                    return null;
             }
         }
 

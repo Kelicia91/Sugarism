@@ -31,7 +31,7 @@ namespace ScenarioEditor.ViewModel.Popup
                 {
                     case Sugarism.Command.Type.Case:
                     case Sugarism.Command.Type.MAX:
-                        continue;
+                        continue;   // cmd list prohibited from adding.
 
                     default:
                         break;
@@ -114,23 +114,7 @@ namespace ScenarioEditor.ViewModel.Popup
                 return null;
 
             Sugarism.Command.Type selectedCmdType = CmdTypeList[SelectedIndex];
-            switch(selectedCmdType)
-            {
-                case Sugarism.Command.Type.Lines:
-                    {
-                        Sugarism.CmdLines linesModel = new Sugarism.CmdLines(Sugarism.Character.START_ID);
-                        return new CmdLines(linesModel);
-                    }
-
-                case Sugarism.Command.Type.Switch:
-                    {
-                        Sugarism.CmdSwitch switchModel = new Sugarism.CmdSwitch(Sugarism.Character.START_ID);
-                        return new CmdSwitch(switchModel);
-                    }
-
-                default:
-                    return null;
-            }
+            return Command.Create(selectedCmdType);
         }
 
         #endregion //Private Method

@@ -285,4 +285,22 @@
   <data name="GuideHowToInputDescription" xml:space="preserve">
     <value>한줄 최대 글자수 {0}</value>
   </data>
+  <data name="CharacterPosition" xml:space="preserve">
+    <value>위치</value>
+  </data>
+  <data name="Costume" xml:space="preserve">
+    <value>복장</value>
+  </data>
+  <data name="EditFeeling" xml:space="preserve">
+    <value>호감도 편집</value>
+  </data>
+  <data name="FaceExpression" xml:space="preserve">
+    <value>표정</value>
+  </data>
+  <data name="LinesEffect" xml:space="preserve">
+    <value>대사창 효과</value>
+  </data>
+  <data name="EditFilter" xml:space="preserve">
+    <value>화면 필터 편집</value>
+  </data>
 </root>
