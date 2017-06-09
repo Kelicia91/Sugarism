@@ -1,7 +1,9 @@
 ﻿
 public class CmdLinesEvent
 {
-    public delegate void Handler(int characterId, string lines);
+    public delegate void Handler(int characterId, string lines, bool isAnonymous,
+                            Sugarism.EFace face, Sugarism.ECostume costume, 
+                            Sugarism.EPosition position, Sugarism.ELinesEffect linesEffect);
     private event Handler _event;
 
     public CmdLinesEvent()
@@ -10,17 +12,210 @@ public class CmdLinesEvent
     }
 
     // default handler
-    private void onCmdLines(int characterId, string lines)
+    private void onCmdLines(int characterId, string lines, bool isAnonymous,
+                            Sugarism.EFace face, Sugarism.ECostume costume,
+                            Sugarism.EPosition position, Sugarism.ELinesEffect linesEffect)
     {
         Log.Debug("onCmdLines");
     }
 
-    public void Invoke(int characterId, string lines)
+    public void Invoke(int characterId, string lines, bool isAnonymous,
+                        Sugarism.EFace face, Sugarism.ECostume costume,
+                        Sugarism.EPosition position, Sugarism.ELinesEffect linesEffect)
     {
-        _event.Invoke(characterId, lines);
+        _event.Invoke(characterId, lines, isAnonymous, face, costume, position, linesEffect);
     }
 
     // @warn : attach order
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
+public class CmdSwitchEvent
+{
+    public delegate void Handler(CmdCase[] caseArray);
+    private event Handler _event;
+
+    public CmdSwitchEvent()
+    {
+        _event = new Handler(onCmdSwitch);
+    }
+
+    // default handler
+    private void onCmdSwitch(CmdCase[] caseArray)
+    {
+        int numOfCase = -1;
+        if (null == caseArray)
+            Log.Error("onCmdSwitch; caseArray is null");
+        else if (caseArray.Length <= 0)
+            numOfCase = 0;
+        else
+            numOfCase = caseArray.Length;
+
+        Log.Debug(string.Format("onCmdSwitch; num of case ({0})", numOfCase));
+    }
+
+    public void Invoke(CmdCase[] caseArray) { _event.Invoke(caseArray); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
+public class CmdFilterEvent
+{
+    public delegate void Handler(Sugarism.EFilter filter);
+    private event Handler _event;
+
+    public CmdFilterEvent()
+    {
+        _event = new Handler(onCmdFilter);
+    }
+
+    // default handler
+    private void onCmdFilter(Sugarism.EFilter filter)
+    {
+        Log.Debug(string.Format("onCmdFilter; {0}", filter));
+    }
+
+    public void Invoke(Sugarism.EFilter filter) { _event.Invoke(filter); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
+public class CmdFeelingEvent
+{
+    public delegate void Handler(int characterId, Sugarism.EOperation op, int value);
+    private event Handler _event;
+
+    public CmdFeelingEvent()
+    {
+        _event = new Handler(onCmdFeeling);
+    }
+
+    // default handler
+    private void onCmdFeeling(int characterId, Sugarism.EOperation op, int value)
+    {
+        Log.Debug(string.Format("onCmdFeeling; characterId({0}), op({1}), value({2})",
+                characterId, op, value));
+    }
+
+    public void Invoke(int characterId, Sugarism.EOperation op, int value) { _event.Invoke(characterId, op, value); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
+public class ScenarioStartEvent
+{
+    public delegate void Handler();
+    private event Handler _event;
+
+    public ScenarioStartEvent()
+    {
+        _event = new Handler(onScenarioStart);
+    }
+
+    // default handler
+    private void onScenarioStart()
+    {
+        Log.Debug("onScenarioStart");
+    }
+
+    public void Invoke() { _event.Invoke(); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
+public class ScenarioEndEvent
+{
+    public delegate void Handler();
+    private event Handler _event;
+
+    public ScenarioEndEvent()
+    {
+        _event = new Handler(onScenarioEnd);
+    }
+
+    // default handler
+    private void onScenarioEnd()
+    {
+        Log.Debug("onScenarioEnd");
+    }
+
+    public void Invoke() { _event.Invoke(); }
+
     public void Attach(Handler handler)
     {
         if (null == handler)
@@ -336,7 +531,7 @@ public class ScheduleFirstEvent
     // default handler
     private void onScheduleFirst(int npcId)
     {
-        Log.Debug(string.Format("onScheduleFirst; npcId = {0}", npcId));
+        Log.Debug(string.Format("onScheduleFirst; npcId({0})", npcId));
     }
 
     public void Invoke(int npcId) { _event.Invoke(npcId); }
@@ -371,7 +566,7 @@ public class ScheduleDoEvent
     // default handler
     private void onScheduleDo(bool isSuccessed)
     {
-        Log.Debug(string.Format("onScheduleDo;"));
+        Log.Debug(string.Format("onScheduleDo; isSuccessed({0})", isSuccessed));
     }
 
     public void Invoke(bool isSuccessed) { _event.Invoke(isSuccessed); }
@@ -406,7 +601,8 @@ public class ScheduleFinishEvent
     // default handler
     private void onScheduleFinish(int achievementRatio, int npcId, string msg)
     {
-        Log.Debug(string.Format("onScheduleFinish;"));
+        Log.Debug(string.Format("onScheduleFinish;, achiveRatio({0}), npcId({1}), msg({2})",
+                achievementRatio, npcId, msg));
     }
 
     public void Invoke(int achievementRatio, int npcId, string msg) { _event.Invoke(achievementRatio, npcId, msg); }
@@ -477,7 +673,7 @@ public class MainCharacterStatEvent
     // default handler
     private void onMainCharacterStatChanged(EStat statType, int value)
     {
-        //Log.Debug(string.Format("onMainCharacterStatChanged; {0}", statType));
+        Log.Debug(string.Format("onMainCharacterStatChanged; {0}: {1}", statType, value));
     }
 
     public void Invoke(EStat statType, int value) { _event.Invoke(statType, value); }
