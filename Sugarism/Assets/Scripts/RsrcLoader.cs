@@ -22,13 +22,14 @@ public class RsrcLoader
 
     private RsrcLoader()
     {
-        // singleton
+        // do something
     }
-
-
-    public bool Load(string path, out Dictionary<int, Sugarism.Character> characterMap)
+    
+    //
+    public bool Load(string path, out Scenario scenario)
     {
-        characterMap = null;
+        Log.Debug(string.Format("try to load scenario: {0}", path));
+        scenario = null;
 
         //
         if (string.IsNullOrEmpty(path))
@@ -39,19 +40,21 @@ public class RsrcLoader
             return false;
 
         //
-        object result = null;
-        bool isDeserialized = JsonUtils.Deserialize<List<Sugarism.Character>>(textAsset.text, out result, null);
-        if (false == isDeserialized)
-            return false;
+        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
+        settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
 
         //
-        List<Sugarism.Character> cList = result as List<Sugarism.Character>;
-
-        characterMap = new Dictionary<int, Sugarism.Character>();
-        foreach(Sugarism.Character c in cList)
+        object result = null;
+        bool isDeserialized = JsonUtils.Deserialize<Sugarism.Scenario>(textAsset.text, out result, settings);
+        if (false == isDeserialized)
         {
-            characterMap.Add(c.Id, c);
+            string msg = string.Format("Failed to Load Scenario: {0}", path);
+            Log.Error(msg);
+            return false;
         }
+
+        Sugarism.Scenario mScenario = result as Sugarism.Scenario;
+        scenario = new Scenario(mScenario);
 
         return true;
     }
@@ -88,42 +91,6 @@ public class RsrcLoader
             Scenario scenario = new Scenario(mScenario);
             scenarioList.Add(scenario);
         }
-
-        return true;
-    }
-
-
-
-    //
-    public bool Load(string path, out Scenario scenario)
-    {
-        Log.Debug(string.Format("try to load scenario: {0}", path));
-        scenario = null;
-
-        //
-        if (string.IsNullOrEmpty(path))
-            return false;
-
-        TextAsset textAsset = Resources.Load<TextAsset>(path);
-        if (null == textAsset)
-            return false;
-
-        //
-        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
-        settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
-        
-        //
-        object result = null;
-        bool isDeserialized = JsonUtils.Deserialize<Sugarism.Scenario>(textAsset.text, out result, settings);
-        if (false == isDeserialized)
-        {
-            string msg = string.Format("Failed to Load Scenario: {0}", path);
-            Log.Error(msg);
-            return false;
-        }
-
-        Sugarism.Scenario mScenario = result as Sugarism.Scenario;
-        scenario = new Scenario(mScenario);
 
         return true;
     }
