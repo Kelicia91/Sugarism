@@ -15,22 +15,32 @@ public class StoryPanel : Panel
     public GameObject CharacterImage;
     public GameObject ForegroundImage;  // grayscale image
     public DialoguePanel DialogPanel;
+    public MiniPicturePanel MiniPicturePanel;
     public ClearPanel ClearPanel;
     public SwitchPanel SwitchPanel;
 
-    // layer z-order (back->front)
-    // : bg -> character -> fg -> dialogue -> clear(touch) -> switch
+    // Layer z-order (back->front)
+    // : bg -> character -> fg -> dialogue -> mini cg -> clear(touch) -> switch
 
-    
+    //
+    private AudioSource _seAudioSource = null;
+
+
     // Use this for initialization
     void Awake()
     {
+        _seAudioSource = gameObject.AddComponent<AudioSource>();
+        _seAudioSource.loop = false;
+
         set(Sugarism.EPosition.None);
         set(Sugarism.EFilter.None);
         ClearPanel.Show();
 
         Manager.Instance.CmdAppearEvent.Attach(onCmdAppear);
         Manager.Instance.CmdFilterEvent.Attach(onCmdFilter);
+        Manager.Instance.CmdBackgroundEvent.Attach(onCmdBackground);
+        Manager.Instance.CmdPictureEvent.Attach(onCmdPicture);
+        Manager.Instance.CmdSEEvent.Attach(onCmdSE);
     }
 
 
@@ -125,13 +135,31 @@ public class StoryPanel : Panel
         CharacterImage.SetActive(true);
     }
 
+    private void playSE(AudioClip clip)
+    {
+        if (null == _seAudioSource)
+        {
+            Log.Error("not found SE audio source");
+            return;
+        }
 
+        _seAudioSource.Stop();
+        _seAudioSource.clip = clip;
+        _seAudioSource.Play();
+    }
+
+
+    // callback handler
     private void onCmdAppear(int characterId, Sugarism.EFace face, 
                             Sugarism.ECostume costume, Sugarism.EPosition position)
     {
+        ClearPanel.Hide();
+
         // @todo: face
         // @todo: costume
         set(position);
+
+        Invoke(ON_TIMER_NAME, 0.1f);
     }
 
     private void onCmdFilter(Sugarism.EFilter filter)
@@ -140,13 +168,49 @@ public class StoryPanel : Panel
 
         set(filter);
 
-        Invoke("onTimer", 0.1f);
+        Invoke(ON_TIMER_NAME, 0.1f);
+    }
+
+    private void onCmdBackground(int id)
+    {
+        if (false == ExtBackground.IsValid(id))
+            return;
+
+        ClearPanel.Hide();
+
+        Background bg = Manager.Instance.DTBackground[id];
+        set(BackgroundImage, bg.sprite);
+
+        Invoke(ON_TIMER_NAME, 0.1f);
     }
 
     // for auto-NextCmd()
+    private const string ON_TIMER_NAME = "onTimer";
     private void onTimer()
     {
         Manager.Instance.Object.NextCmd();
         ClearPanel.Show();
+    }
+    
+    private void onCmdPicture(int id)
+    {
+        if (false == ExtPicture.IsValid(id))
+            return;
+
+        Picture cg = Manager.Instance.DTPicture[id];
+        set(BackgroundImage, cg.sprite);
+
+        set(Sugarism.EPosition.None);
+        set(Sugarism.EFilter.None);
+        DialogPanel.Hide();
+    }
+
+    private void onCmdSE(int id)
+    {
+        if (false == ExtSE.IsValid(id))
+            return;
+
+        SE se = Manager.Instance.DTSE[id];
+        playSE(se.audioClip);
     }
 }

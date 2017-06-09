@@ -17,6 +17,9 @@ public class ClearPanel : Panel, IPointerClickHandler
     {
         Log.Debug("clicked clear panel");
 
+        if (null != Manager.Instance.UI.StoryPanel.MiniPicturePanel)
+            Manager.Instance.UI.StoryPanel.MiniPicturePanel.Hide();
+
         Manager.Instance.Object.NextCmd();
     }
 }
