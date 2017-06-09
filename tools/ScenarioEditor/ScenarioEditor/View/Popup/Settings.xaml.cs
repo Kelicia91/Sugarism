@@ -29,14 +29,16 @@ namespace ScenarioEditor.View.Popup
             }
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.DefaultExt = JsonUtils.FILE_EXTENSION;
-            dlg.Filter = JsonUtils.FILE_FILTER;
+
+            // @note: only support to open xml
+            dlg.DefaultExt = XmlUtils.FILE_EXTENSION;
+            dlg.Filter = XmlUtils.FILE_FILTER;
 
             var isGotFilePath = dlg.ShowDialog();
             if (false == isGotFilePath)
                 return;
 
-            _vm.CharacterFilePath = dlg.FileName;
+            _vm.FilePath = dlg.FileName;
         }
 
         private void Setting_Click(object sender, RoutedEventArgs e)
@@ -48,7 +50,7 @@ namespace ScenarioEditor.View.Popup
             }
 
             // if the path is imported already, warn whether or not to import again.
-            if ((_vm.CharacterFilePath).Equals(Properties.Settings.Default.CharacterFilePath))
+            if ((_vm.FilePath).Equals(_vm.PrevFilePath))
             {
                 string msg = Properties.Resources.WarnAlreadyImportedFile;
                 string title = Properties.Resources.Warning;

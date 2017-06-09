@@ -1,4 +1,4 @@
-﻿<Window x:Class="ScenarioEditor.View.Popup.EditLines"
+﻿<Window x:Class="ScenarioEditor.View.Popup.EditText"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,57 +6,31 @@
         xmlns:local="clr-namespace:ScenarioEditor.View.Popup"
         xmlns:p="clr-namespace:ScenarioEditor.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.EditLines}" 
+        Title="{x:Static p:Resources.EditText}" 
         SizeToContent="Height"
         Height="Auto" Width="350"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize">
 
     <Window.Resources>
-        <local:CharacterConverter x:Key="CharacterConverter"/>
-        <local:ELinesEffectConverter x:Key="ELinesEffectConverter"/>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
-    
+
     <StackPanel Margin="10">
+
         <StackPanel>
-
-            <StackPanel Orientation="Horizontal">
-                <ComboBox ItemsSource="{Binding Path=CharacterList}" SelectedItem="{Binding Path=SelectedItem}" HorizontalAlignment="Left">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Converter={StaticResource CharacterConverter}}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-                <CheckBox IsChecked="{Binding Path=IsAnonymous}" Content="IsAnonymous"
-                          Margin="10,0" VerticalAlignment="Center"/>
-            </StackPanel>
-
             <TextBlock Text="{Binding Path=GuideHowToInputLines}" Foreground="Gray" VerticalAlignment="Center" 
                        Margin="0,5,0,0"/>
             <TextBox Padding="2" 
-                     Text="{Binding Path=Lines}" FontSize="14" 
+                     Text="{Binding Path=Text}" FontSize="14" 
                      TextWrapping="Wrap" AcceptsReturn="True" 
                      MinLines="4"
                      TextChanged="TextBox_TextChanged"
                      Margin="0,5"/>
-            
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{x:Static p:Resources.LinesEffect}"/>
-                <ComboBox ItemsSource="{Binding Path=LinesEffectList}" SelectedItem="{Binding Path=LinesEffect}" HorizontalAlignment="Left"
-                          Margin="5,0,0,0">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Converter={StaticResource ELinesEffectConverter}}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </StackPanel>
-            
         </StackPanel>
+        
         <DockPanel HorizontalAlignment="Right" Margin="0,10,0,0">
             <DockPanel.Resources>
                 <Style TargetType="{x:Type Button}">
@@ -67,6 +41,7 @@
             <!-- IsCancel : react to press ESC key -->
             <Button Content="{x:Static p:Resources.Cancel}" IsCancel="True"/>
         </DockPanel>
+
     </StackPanel>
     
 </Window>

@@ -19,13 +19,13 @@
             </Style>
         </StackPanel.Resources>
         <StackPanel>
-            <Label Content="{x:Static p:Resources.LabelCharacterFilePath}"/>
+            <Label Content="{Binding Path=Label}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Text="{Binding Path=CharacterFilePath}" Margin="5,0,10,0" IsEnabled="False" VerticalContentAlignment="Center"/>
+                <TextBox Grid.Column="0" Text="{Binding Path=FilePath}" Margin="5,0,10,0" IsEnabled="False" VerticalContentAlignment="Center"/>
                 <Button Grid.Column="1" Content="{x:Static p:Resources.FindPath}" Padding="5,2" Click="FindPath_Click" />
             </Grid>
         </StackPanel>
