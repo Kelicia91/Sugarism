@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Sugarism
 {
     /// <summary>
@@ -6,12 +7,23 @@ namespace Sugarism
     /// </summary>
     public class Command : Base.Model
     {
+        public readonly static string[] LINE_SEPARATORS = { Environment.NewLine };
+
         // enum : all child class inherited Command
         public enum Type
         {
             // Command
             Lines = 0,
+            Text,
+
+            Appear,
+            Background,
+            MiniPicture,
+            Picture,
             Filter,
+
+            SE,
+
             Feeling,
             
             // Composite

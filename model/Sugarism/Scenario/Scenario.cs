@@ -31,10 +31,15 @@ namespace Sugarism
         /// Create Scenario instance.
         /// SceneList is initiated and has minimum number of scenes.
         /// </summary>
-        /// <param name="sceneList">Unused Parameter so pass null.
-        /// Just for distinguish between this from default constructor.</param>
+        /// <param name="sceneList">Scene List. If it is null, create a scene list that has minimum num of scene.</param>
         public Scenario(List<Scene> sceneList)
         {
+            if (null != sceneList)
+            {
+                _sceneList = sceneList;
+                return;
+            }
+
             _sceneList = new List<Scene>();
 
             for(int i = 0; i < MIN_COUNT_SCENE; ++i)
