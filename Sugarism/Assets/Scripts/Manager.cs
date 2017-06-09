@@ -19,6 +19,7 @@ public class Manager : MonoBehaviour
         _cmdTextEvent = new CmdTextEvent();
         _cmdAppearEvent = new CmdAppearEvent();
         _cmdFilterEvent = new CmdFilterEvent();
+        _cmdBackgroundEvent = new CmdBackgroundEvent();
         _cmdFeelingEvent = new CmdFeelingEvent();
         _cmdSwitchEvent = new CmdSwitchEvent();
 
@@ -103,6 +104,9 @@ public class Manager : MonoBehaviour
 
     private CmdFilterEvent _cmdFilterEvent = null;
     public CmdFilterEvent CmdFilterEvent { get { return _cmdFilterEvent; } }
+
+    private CmdBackgroundEvent _cmdBackgroundEvent = null;
+    public CmdBackgroundEvent CmdBackgroundEvent { get { return _cmdBackgroundEvent; } }
 
     private CmdFeelingEvent _cmdFeelingEvent = null;
     public CmdFeelingEvent CmdFeelingEvent { get { return _cmdFeelingEvent; } }

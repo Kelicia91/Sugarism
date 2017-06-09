@@ -168,6 +168,42 @@ public class CmdTextEvent
 }
 
 
+public class CmdBackgroundEvent
+{
+    public delegate void Handler(int id);
+    private event Handler _event;
+
+    public CmdBackgroundEvent()
+    {
+        _event = new Handler(onCmdBackground);
+    }
+
+    // default handler
+    private void onCmdBackground(int id)
+    {
+        Log.Debug(string.Format("onCmdBackground; Id({0})", id));
+    }
+
+    public void Invoke(int id) { _event.Invoke(id); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
 public class CmdFilterEvent
 {
     public delegate void Handler(Sugarism.EFilter filter);
