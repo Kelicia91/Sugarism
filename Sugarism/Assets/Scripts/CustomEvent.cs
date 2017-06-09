@@ -204,6 +204,42 @@ public class CmdBackgroundEvent
 }
 
 
+public class CmdPictureEvent
+{
+    public delegate void Handler(int id);
+    private event Handler _event;
+
+    public CmdPictureEvent()
+    {
+        _event = new Handler(onCmdPicture);
+    }
+
+    // default handler
+    private void onCmdPicture(int id)
+    {
+        Log.Debug(string.Format("onCmdPicture; Id({0})", id));
+    }
+
+    public void Invoke(int id) { _event.Invoke(id); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
 public class CmdFilterEvent
 {
     public delegate void Handler(Sugarism.EFilter filter);
