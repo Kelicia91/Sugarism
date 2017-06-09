@@ -8,6 +8,7 @@ public class DialoguePanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
+    public GameObject NamePanel;
     public Text NameText;
     public Text LinesText;
     // exposed variables
@@ -24,6 +25,7 @@ public class DialoguePanel : Panel
     void Awake()
     {
         Manager.Instance.CmdLinesEvent.Attach(onCmdLines);
+        Manager.Instance.CmdTextEvent.Attach(onCmdText);
 
         Hide();
     }
@@ -62,17 +64,23 @@ public class DialoguePanel : Panel
     private void setName(string s)
     {
         if (null == NameText)
+        {
             Log.Error("not found name text");
-        else
-            NameText.text = s;
+            return;
+        }
+
+        NameText.text = s;
     }
 
     private void setLines(string s)
     {
         if (null == LinesText)
+        {
             Log.Error("not found lines text");
-        else
-            LinesText.text = s;
+            return;
+        }
+
+        LinesText.text = s;
     }
 
     private void set(Sugarism.ELinesEffect linesEffect)
@@ -90,18 +98,15 @@ public class DialoguePanel : Panel
         }
     }
 
-
-    // CmdLinesEventHandler
-    private void onCmdLines(int characterId, bool isAnonymous, string lines, Sugarism.ELinesEffect linesEffect)
+    private void setActiveNamePanel(bool isShow)
     {
-        string name = getName(characterId, isAnonymous);
-        setName(name);
+        if (null == NamePanel)
+        {
+            Log.Error("not found name panel");
+            return;
+        }
 
-        setLines(lines);
-
-        set(linesEffect);
-
-        Show();
+        NamePanel.SetActive(isShow);
     }
 
     private string getName(int characterId, bool isAnonymous)
@@ -125,5 +130,31 @@ public class DialoguePanel : Panel
         }
 
         return name;
+    }
+
+
+    // EventHandler
+    private void onCmdLines(int characterId, bool isAnonymous, string lines, Sugarism.ELinesEffect linesEffect)
+    {
+        string name = getName(characterId, isAnonymous);
+        setName(name);
+        setActiveNamePanel(true);
+
+        setLines(lines);
+
+        set(linesEffect);
+
+        Show();
+    }
+
+    private void onCmdText(string text)
+    {
+        setActiveNamePanel(false);
+        
+        setLines(text);
+
+        set(Sugarism.ELinesEffect.None);
+
+        Show();
     }
 }
