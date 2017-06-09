@@ -19,7 +19,7 @@ namespace ScenarioEditor.ViewModel.Popup
 
         private Settings()
         {
-            _characterFilePath = Properties.Resources.GuideFindPath;
+            _filePath = Properties.Resources.GuideFindPath;
         }
 
         #endregion //Singleton
@@ -28,11 +28,24 @@ namespace ScenarioEditor.ViewModel.Popup
 
         #region Properties
 
-        private string _characterFilePath;
-        public string CharacterFilePath
+        private string _label;
+        public string Label
         {
-            get { return _characterFilePath; }
-            set { _characterFilePath = value; OnPropertyChanged(); }
+            get { return _label; }
+            set { _label = value;  OnPropertyChanged(); }
+        }
+
+        private string _prevFilePath;   // before editing
+        public string PrevFilePath
+        {
+            get { return _prevFilePath; }
+        }
+
+        private string _filePath;
+        public string FilePath
+        {
+            get { return _filePath; }
+            set { _filePath = value; OnPropertyChanged(); }
         }
 
         #endregion //Properties
@@ -44,11 +57,13 @@ namespace ScenarioEditor.ViewModel.Popup
         /// <summary>
         /// Show View.Popup.Settings.
         /// </summary>
-        /// <param name="prevCharacterFilePath">CharacterFilePath before editing.</param>
-        /// <returns>Edited CharacterFilePath. If window is cancled, return string.Empty.</returns>
-        public string Show(string prevCharacterFilePath)
+        /// <param name="prevFilePath">FilePath before editing.</param>
+        /// <returns>Edited FilePath. If window is cancled, return string.Empty.</returns>
+        public string Show(string label, string prevFilePath)
         {
-            CharacterFilePath = prevCharacterFilePath;
+            Label = label;
+            _prevFilePath = prevFilePath;
+            FilePath = _prevFilePath;
 
             View.Popup.Settings view = new View.Popup.Settings(this);
 
@@ -56,7 +71,7 @@ namespace ScenarioEditor.ViewModel.Popup
             switch (result)
             {
                 case true:
-                    return CharacterFilePath;
+                    return FilePath;
 
                 default:
                     return string.Empty;

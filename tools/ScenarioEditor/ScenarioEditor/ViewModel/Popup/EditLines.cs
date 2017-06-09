@@ -31,30 +31,6 @@ namespace ScenarioEditor.ViewModel.Popup
                 Sugarism.ELinesEffect item = (Sugarism.ELinesEffect)v;
                 _linesEffectList.Add(item);
             }
-
-            _faceList = new List<Sugarism.EFace>();
-            arr = Enum.GetValues(typeof(Sugarism.EFace));
-            foreach(var v in arr)
-            {
-                Sugarism.EFace item = (Sugarism.EFace)v;
-                _faceList.Add(item);
-            }
-
-            _costumeList = new List<Sugarism.ECostume>();
-            arr = Enum.GetValues(typeof(Sugarism.ECostume));
-            foreach(var v in arr)
-            {
-                Sugarism.ECostume item = (Sugarism.ECostume)v;
-                _costumeList.Add(item);
-            }
-
-            _posList = new List<Sugarism.EPosition>();
-            arr = Enum.GetValues(typeof(Sugarism.EPosition));
-            foreach(var v in arr)
-            {
-                Sugarism.EPosition item = (Sugarism.EPosition)v;
-                _posList.Add(item);
-            }
         }
 
         #endregion //Singleton
@@ -63,13 +39,13 @@ namespace ScenarioEditor.ViewModel.Popup
 
         #region Property
 
-        public List<Sugarism.Character> CharacterList
+        public Model.Character[] CharacterList
         {
             get { return Common.Instance.CharacterList; }
         }
 
-        private Sugarism.Character _selectedItem;
-        public Sugarism.Character SelectedItem
+        private Model.Character _selectedItem;
+        public Model.Character SelectedItem
         {
             get { return _selectedItem; }
             set { _selectedItem = value; OnPropertyChanged(); }
@@ -102,45 +78,6 @@ namespace ScenarioEditor.ViewModel.Popup
             set { _linesEffect = value; OnPropertyChanged(); }
         }
 
-        private List<Sugarism.EFace> _faceList;
-        public List<Sugarism.EFace> FaceList
-        {
-            get { return _faceList; }
-        }
-
-        private Sugarism.EFace _face;
-        public Sugarism.EFace Face
-        {
-            get { return _face; }
-            set { _face = value; OnPropertyChanged(); }
-        }
-
-        private List<Sugarism.ECostume> _costumeList;
-        public List<Sugarism.ECostume> CostumeList
-        {
-            get { return _costumeList; }
-        }
-
-        private Sugarism.ECostume _costume;
-        public Sugarism.ECostume Costume
-        {
-            get { return _costume; }
-            set { _costume = value; OnPropertyChanged(); }
-        }
-
-        private List<Sugarism.EPosition> _posList;
-        public List<Sugarism.EPosition> PosList
-        {
-            get { return _posList; }
-        }
-
-        private Sugarism.EPosition _position;
-        public Sugarism.EPosition Position
-        {
-            get { return _position; }
-            set { _position = value; OnPropertyChanged(); }
-        }
-
         public string GuideHowToInputLines
         {
             get { return string.Format(Properties.Resources.GuideHowToInputLines, Sugarism.CmdLines.MAX_LENGTH_LINE, Sugarism.CmdLines.MAX_COUNT_LINE_END); }
@@ -158,11 +95,10 @@ namespace ScenarioEditor.ViewModel.Popup
         /// <param name="characterId">Character Id before editing.</param>
         /// <param name="lines">Lines before editing.</param>
         /// <returns>Whether edit or not.</returns>
-        public bool Show(int characterId, string lines, 
-            bool isAnonymous, Sugarism.ELinesEffect linesEffect, 
-            Sugarism.EFace face, Sugarism.ECostume costume, Sugarism.EPosition pos)
+        public bool Show(int characterId, bool isAnonymous, 
+                        string lines, Sugarism.ELinesEffect linesEffect)
         {
-            reset(characterId, lines, isAnonymous, linesEffect, face, costume, pos);
+            reset(characterId, isAnonymous, lines, linesEffect);
 
             View.Popup.EditLines view = new View.Popup.EditLines(this);
 
@@ -183,29 +119,26 @@ namespace ScenarioEditor.ViewModel.Popup
 
         #region Private Method
 
-        private void reset(int characterId, string lines,
-            bool isAnonymous, Sugarism.ELinesEffect linesEffect,
-            Sugarism.EFace face, Sugarism.ECostume costume, Sugarism.EPosition pos)
+        private void reset(int characterId, bool isAnonymous, 
+                        string lines, Sugarism.ELinesEffect linesEffect)
         {
-            if (Common.Instance.IsValid(characterId))
+            if (Common.Instance.IsValidCharacter(characterId))
             {
                 SelectedItem = CharacterList[characterId];
             }
             else
             {
-                if (CharacterList.Count > 0)
+                if (null == CharacterList)
+                    SelectedItem = null;
+                else if (CharacterList.Length > 0)
                     SelectedItem = CharacterList[0];
                 else
                     SelectedItem = null;
             }
-            
-            Lines = lines;
 
             IsAnonymous = isAnonymous;
-            Face = face;
+            Lines = lines;
             LinesEffect = linesEffect;
-            Costume = costume;
-            Position = pos;
         }
 
         #endregion //Private Method

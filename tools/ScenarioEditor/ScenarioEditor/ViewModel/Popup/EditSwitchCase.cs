@@ -34,13 +34,13 @@ namespace ScenarioEditor.ViewModel.Popup
 
         #region Property
 
-        public List<Sugarism.Character> CharacterList
+        public Model.Character[] CharacterList
         {
             get { return Common.Instance.CharacterList; }
         }
 
-        private Sugarism.Character _selectedItem;
-        public Sugarism.Character SelectedItem
+        private Model.Character _selectedItem;
+        public Model.Character SelectedItem
         {
             get { return _selectedItem; }
             set { _selectedItem = value; OnPropertyChanged(); }
@@ -176,13 +176,15 @@ namespace ScenarioEditor.ViewModel.Popup
         private void reset(int characterId, IList<Sugarism.CmdCase> caseList)
         {
             // characterId
-            if (Common.Instance.IsValid(characterId))
+            if (Common.Instance.IsValidCharacter(characterId))
             {
                 SelectedItem = CharacterList[characterId];
             }
             else
             {
-                if (CharacterList.Count > 0)
+                if (null == CharacterList)
+                    SelectedItem = null;
+                else if (CharacterList.Length > 0)
                     SelectedItem = CharacterList[0];
                 else
                     SelectedItem = null;

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ScenarioEditor.ViewModel.Popup
 {
@@ -38,13 +36,13 @@ namespace ScenarioEditor.ViewModel.Popup
 
         #region Property
 
-        public List<Sugarism.Character> CharacterList
+        public Model.Character[] CharacterList
         {
             get { return Common.Instance.CharacterList; }
         }
 
-        private Sugarism.Character _character;
-        public Sugarism.Character Character
+        private Model.Character _character;
+        public Model.Character Character
         {
             get { return _character; }
             set { _character = value; OnPropertyChanged(); }
@@ -107,13 +105,15 @@ namespace ScenarioEditor.ViewModel.Popup
 
         private void reset(int characterId, Sugarism.EOperation op, int value)
         {
-            if (Common.Instance.IsValid(characterId))
+            if (Common.Instance.IsValidCharacter(characterId))
             {
                 Character = CharacterList[characterId];
             }
             else
             {
-                if (CharacterList.Count > 0)
+                if (null == CharacterList)
+                    Character = null;
+                else if (CharacterList.Length > 0)
                     Character = CharacterList[0];
                 else
                     Character = null;
