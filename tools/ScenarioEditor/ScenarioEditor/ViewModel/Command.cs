@@ -42,19 +42,37 @@ namespace ScenarioEditor.ViewModel
             switch (model.CmdType)
             {
                 case Sugarism.Command.Type.Lines:
-                        return new CmdLines(model as Sugarism.CmdLines);
+                    return new CmdLines(model as Sugarism.CmdLines);
 
-                case Sugarism.Command.Type.Switch:
-                        return new CmdSwitch(model as Sugarism.CmdSwitch);
+                case Sugarism.Command.Type.Text:
+                    return new CmdText(model as Sugarism.CmdText);
 
-                case Sugarism.Command.Type.Case:
-                        return new CmdCase(model as Sugarism.CmdCase);
+                case Sugarism.Command.Type.Appear:
+                    return new CmdAppear(model as Sugarism.CmdAppear);
 
-                case Sugarism.Command.Type.Feeling:
-                    return new CmdFeeling(model as Sugarism.CmdFeeling);
+                case Sugarism.Command.Type.Background:
+                    return new CmdBackground(model as Sugarism.CmdBackground);
+
+                case Sugarism.Command.Type.MiniPicture:
+                    return new CmdMiniPicture(model as Sugarism.CmdMiniPicture);
+
+                case Sugarism.Command.Type.Picture:
+                    return new CmdPicture(model as Sugarism.CmdPicture);
 
                 case Sugarism.Command.Type.Filter:
                     return new CmdFilter(model as Sugarism.CmdFilter);
+
+                case Sugarism.Command.Type.SE:
+                    return new CmdSE(model as Sugarism.CmdSE);
+
+                case Sugarism.Command.Type.Feeling:
+                    return new CmdFeeling(model as Sugarism.CmdFeeling);
+                    
+                case Sugarism.Command.Type.Switch:
+                    return new CmdSwitch(model as Sugarism.CmdSwitch);
+
+                case Sugarism.Command.Type.Case:
+                    return new CmdCase(model as Sugarism.CmdCase);
 
                 default:    // Sugarism.Command.Type.MAX
                     return null;
@@ -69,16 +87,34 @@ namespace ScenarioEditor.ViewModel
             switch (cmdType)
             {
                 case Sugarism.Command.Type.Lines:
-                    return Create(new Sugarism.CmdLines(Sugarism.Character.START_ID));
+                    return Create(new Sugarism.CmdLines(ScenarioEditor.Model.Character.START_ID));
 
-                case Sugarism.Command.Type.Switch:
-                    return Create(new Sugarism.CmdSwitch(Sugarism.Character.START_ID));
+                case Sugarism.Command.Type.Text:
+                    return Create(new Sugarism.CmdText(string.Empty));
 
-                case Sugarism.Command.Type.Feeling:
-                    return Create(new Sugarism.CmdFeeling(Sugarism.Character.START_ID));
+                case Sugarism.Command.Type.Appear:
+                    return Create(new Sugarism.CmdAppear(ScenarioEditor.Model.Character.START_ID, Sugarism.EFace.Normal, Sugarism.ECostume.Normal, Sugarism.EPosition.Middle));
+
+                case Sugarism.Command.Type.Background:
+                    return Create(new Sugarism.CmdBackground(Sugarism.CmdBackground.START_ID));
+
+                case Sugarism.Command.Type.MiniPicture:
+                    return Create(new Sugarism.CmdMiniPicture(Sugarism.CmdMiniPicture.START_ID));
+
+                case Sugarism.Command.Type.Picture:
+                    return Create(new Sugarism.CmdPicture(Sugarism.CmdPicture.START_ID));
 
                 case Sugarism.Command.Type.Filter:
                     return Create(new Sugarism.CmdFilter());
+
+                case Sugarism.Command.Type.SE:
+                    return Create(new Sugarism.CmdSE(Sugarism.CmdSE.START_ID));
+
+                case Sugarism.Command.Type.Feeling:
+                    return Create(new Sugarism.CmdFeeling(ScenarioEditor.Model.Character.START_ID));
+
+                case Sugarism.Command.Type.Switch:
+                    return Create(new Sugarism.CmdSwitch(ScenarioEditor.Model.Character.START_ID));
 
                 default:
                     return null;

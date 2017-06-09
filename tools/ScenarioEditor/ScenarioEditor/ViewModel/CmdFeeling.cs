@@ -7,12 +7,12 @@ namespace ScenarioEditor.ViewModel
         {
             _model = model;
 
-            Common.Instance.Attach(onCharacterListChanged);
+            Common.Instance.CharacterListChangeEvent.Attach(onCharacterListChanged);
         }
 
         ~CmdFeeling()
         {
-            Common.Instance.Detach(onCharacterListChanged);
+            Common.Instance.CharacterListChangeEvent.Detach(onCharacterListChanged);
         }
 
 
@@ -42,10 +42,10 @@ namespace ScenarioEditor.ViewModel
         {
             get
             {
-                if (Common.Instance.IsValid(CharacterId))
+                if (Common.Instance.IsValidCharacter(CharacterId))
                     return Common.Instance.CharacterList[CharacterId].Name;
                 else
-                    return Sugarism.Character.STR_UNKNOWN;
+                    return ScenarioEditor.Model.Character.STR_UNKNOWN;
             }
         }
 

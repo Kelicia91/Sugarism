@@ -354,17 +354,17 @@ namespace ScenarioEditor.ViewModel
 
         private void addSampleCmd()
         {
-            Sugarism.CmdLines linesModel1 = new Sugarism.CmdLines(Sugarism.Character.START_ID);
-            CmdLines cmdlines1 = new CmdLines(linesModel1);
-            Insert(0, cmdlines1);
+            Sugarism.CmdBackground bgModel = new Sugarism.CmdBackground(Sugarism.CmdBackground.START_ID);
+            CmdBackground cmdBackground = new CmdBackground(bgModel);
+            Insert(0, cmdBackground);
 
-            Sugarism.CmdSwitch switchModel = new Sugarism.CmdSwitch(Sugarism.Character.START_ID);
+            Sugarism.CmdSwitch switchModel = new Sugarism.CmdSwitch(ScenarioEditor.Model.Character.START_ID);
             CmdSwitch cmdSwitch = new CmdSwitch(switchModel);
             Insert(1, cmdSwitch);
 
-            Sugarism.CmdLines linesModel2 = new Sugarism.CmdLines(Sugarism.Character.START_ID);
-            CmdLines cmdlines2 = new CmdLines(linesModel2);
-            Insert(2, cmdlines2);
+            Sugarism.CmdLines linesModel = new Sugarism.CmdLines(ScenarioEditor.Model.Character.START_ID);
+            CmdLines cmdlines = new CmdLines(linesModel);
+            Insert(2, cmdlines);
         }
 
         private void insert(int index, Sugarism.Command cmd)

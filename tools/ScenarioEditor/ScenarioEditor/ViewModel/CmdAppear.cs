@@ -1,16 +1,16 @@
 ﻿
 namespace ScenarioEditor.ViewModel
 {
-    public sealed class CmdLines : Command
+    public sealed class CmdAppear : Command
     {
-        public CmdLines(Sugarism.CmdLines model) : base(model)
+        public CmdAppear(Sugarism.CmdAppear model) : base(model)
         {
             _model = model;
 
             Common.Instance.CharacterListChangeEvent.Attach(onCharacterListChanged);
         }
 
-        ~CmdLines()
+        ~CmdAppear()
         {
             Common.Instance.CharacterListChangeEvent.Detach(onCharacterListChanged);
         }
@@ -18,7 +18,7 @@ namespace ScenarioEditor.ViewModel
 
         #region Field
 
-        private Sugarism.CmdLines _model;
+        private Sugarism.CmdAppear _model;
 
         #endregion //Field
 
@@ -37,7 +37,7 @@ namespace ScenarioEditor.ViewModel
                 OnPropertyChanged("ToText");
             }
         }
-        
+
         public string RefCharacterName
         {
             get
@@ -49,48 +49,42 @@ namespace ScenarioEditor.ViewModel
             }
         }
 
-        public bool IsAnonymous
+        public Sugarism.EFace Face
         {
-            get { return _model.IsAnonymous; }
+            get { return _model.Face; }
             set
             {
-                _model.IsAnonymous = value;
+                _model.Face = value;
                 OnPropertyChanged();
 
                 OnPropertyChanged("ToText");
             }
         }
 
-        public string Lines
+        public Sugarism.ECostume Costume
         {
-            get
-            {
-                if (false == string.IsNullOrEmpty(_model.Lines))
-                    return _model.Lines;
-                else
-                    return Properties.Resources.GuideLines;
-            }
+            get { return _model.Costume; }
             set
             {
-                _model.Lines = value;
+                _model.Costume = value;
                 OnPropertyChanged();
 
                 OnPropertyChanged("ToText");
             }
         }
 
-        public Sugarism.ELinesEffect LinesEffect
+        public Sugarism.EPosition Position
         {
-            get { return _model.LinesEffect; }
+            get { return _model.Position; }
             set
             {
-                _model.LinesEffect = value;
+                _model.Position = value;
                 OnPropertyChanged();
 
                 OnPropertyChanged("ToText");
             }
         }
-        
+
         public override string ToText
         {
             get { return ToString(); }
@@ -104,27 +98,25 @@ namespace ScenarioEditor.ViewModel
 
         public override void Edit()
         {
-            bool isEdited = Popup.EditLines.Instance.Show(CharacterId, IsAnonymous, Lines, LinesEffect);
+            bool isEdited = Popup.EditAppear.Instance.Show(CharacterId, Face, Costume, Position);
             if (false == isEdited)
                 return;
 
-            if (null != Popup.EditLines.Instance.SelectedItem)
-                CharacterId = Popup.EditLines.Instance.SelectedItem.Id;
+            if (null != Popup.EditAppear.Instance.SelectedItem)
+                CharacterId = Popup.EditAppear.Instance.SelectedItem.Id;
             else
                 Log.Error(Properties.Resources.ErrNotFoundCharacter);
             
-            Lines = Popup.EditLines.Instance.Lines;
-
-            IsAnonymous = Popup.EditLines.Instance.IsAnonymous;
-            LinesEffect = Popup.EditLines.Instance.LinesEffect;
+            Face = Popup.EditAppear.Instance.Face;
+            Costume = Popup.EditAppear.Instance.Costume;
+            Position = Popup.EditAppear.Instance.Position;
         }
 
         public override string ToString()
         {
-            string oneLine = convertToOneLine(Lines);
-            string content = string.Format("{0}:{1}({2}) - {3}:\"{4}\"", 
-                CharacterId, RefCharacterName, IsAnonymous, 
-                LinesEffect, oneLine);
+            string content = string.Format("{0}:{1} - {2} / {3} / {4}",
+                            CharacterId, RefCharacterName,
+                            Face, Costume, Position);
 
             return ToString(content);
         }
@@ -139,13 +131,6 @@ namespace ScenarioEditor.ViewModel
         private void onCharacterListChanged()
         {
             OnPropertyChanged("ToText");
-        }
-
-        private string convertToOneLine(string lines)
-        {
-            // @note : A string containing "\r\n" for non-Unix platforms, 
-            //      or a string containing "\n" for Unix platforms
-            return lines.Replace(System.Environment.NewLine, "\\n");
         }
 
         #endregion //Private Method

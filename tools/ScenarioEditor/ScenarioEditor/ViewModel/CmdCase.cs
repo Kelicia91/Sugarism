@@ -30,6 +30,9 @@ namespace ScenarioEditor.ViewModel
             InputBindings.Clear();
             InputBindings.Add(new KeyBinding(CmdExpand, System.Windows.Input.Key.Enter, ModifierKeys.None));
             InputBindings.Add(new KeyBinding(CmdAddChild, System.Windows.Input.Key.A, ModifierKeys.Control));
+
+            if (_model.CmdList.Count <= 0)
+                addSampleCmd();
         }
 
 
@@ -239,6 +242,14 @@ namespace ScenarioEditor.ViewModel
 
 
         #region Private Method
+
+        private void addSampleCmd()
+        {
+            // sample child
+            Sugarism.CmdFeeling feelModel = new Sugarism.CmdFeeling(ScenarioEditor.Model.Character.START_ID, Sugarism.EOperation.Add, 0);
+            CmdFeeling cmdFeeling = new CmdFeeling(feelModel);
+            Insert(0, cmdFeeling);
+        }
 
         private void insert(int index, Sugarism.Command cmd)
         {

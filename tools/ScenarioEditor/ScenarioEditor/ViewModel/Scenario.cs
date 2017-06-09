@@ -17,7 +17,7 @@ namespace ScenarioEditor.ViewModel
             _fileFullPath = filePath;
 
             _sceneList = new ObservableCollection<Scene>();
-            foreach(Sugarism.Scene scene in _model.SceneList)
+            foreach (Sugarism.Scene scene in _model.SceneList)
             {
                 Scene s = new Scene(scene);
                 SceneList.Add(s);

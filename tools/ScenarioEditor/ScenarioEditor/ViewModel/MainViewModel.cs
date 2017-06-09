@@ -26,7 +26,7 @@ namespace ScenarioEditor.ViewModel
 
             _selectedScenario = null;
             _scenarioList = new ObservableCollection<Scenario>();
-            
+
             AddSampleScenario();
         }
 
@@ -47,7 +47,7 @@ namespace ScenarioEditor.ViewModel
         }
 
         #endregion //Properties
-        
+
 
         #region Commands
 
@@ -64,16 +64,68 @@ namespace ScenarioEditor.ViewModel
             }
         }
 
-        private ICommand _cmdSettings;
-        public ICommand CmdSettings
+        private ICommand _cmdSetCharacterPath;
+        public ICommand CmdSetCharacterPath
         {
             get
             {
-                if (null == _cmdSettings)
+                if (null == _cmdSetCharacterPath)
                 {
-                    _cmdSettings = new RelayCommand(param => Settings());
+                    _cmdSetCharacterPath = new RelayCommand(param => setCharacterPath());
                 }
-                return _cmdSettings;
+                return _cmdSetCharacterPath;
+            }
+        }
+
+        private ICommand _cmdSetBackgroundPath;
+        public ICommand CmdSetBackgroundPath
+        {
+            get
+            {
+                if (null == _cmdSetBackgroundPath)
+                {
+                    _cmdSetBackgroundPath = new RelayCommand(param => setBackgroundPath());
+                }
+                return _cmdSetBackgroundPath;
+            }
+        }
+
+        private ICommand _cmdSetMiniPicturePath;
+        public ICommand CmdSetMiniPicturePath
+        {
+            get
+            {
+                if (null == _cmdSetMiniPicturePath)
+                {
+                    _cmdSetMiniPicturePath = new RelayCommand(param => setMiniPicturePath());
+                }
+                return _cmdSetMiniPicturePath;
+            }
+        }
+
+        private ICommand _cmdSetPictruePath;
+        public ICommand CmdSetPicturePath
+        {
+            get
+            {
+                if (null == _cmdSetPictruePath)
+                {
+                    _cmdSetPictruePath = new RelayCommand(param => setPicturePath());
+                }
+                return _cmdSetPictruePath;
+            }
+        }
+
+        private ICommand _cmdSetSEPath;
+        public ICommand CmdSetSEPath
+        {
+            get
+            {
+                if (null == _cmdSetSEPath)
+                {
+                    _cmdSetSEPath = new RelayCommand(param => setSEPath());
+                }
+                return _cmdSetSEPath;
             }
         }
 
@@ -122,7 +174,7 @@ namespace ScenarioEditor.ViewModel
         {
             if (null == scenario)
                 return;
-            
+
             ScenarioList.Add(scenario);
 
             scenario.Owner = this;
@@ -209,18 +261,62 @@ namespace ScenarioEditor.ViewModel
             SelectedScenario.FileFullPath = filePath;
         }
 
-        public void Settings()
-        {
-            string result = Popup.Settings.Instance.Show(Properties.Settings.Default.CharacterFilePath);
-
-            Common.Instance.Import(result);
-        }
-
         #endregion //Public Methods
 
 
 
         #region Private Methods
+
+        private void setCharacterPath()
+        {
+            string label = Properties.Resources.LabelCharacterFilePath;
+            string path = Properties.Settings.Default.CharacterFilePath;
+
+            string result = Popup.Settings.Instance.Show(label, path);
+
+            Common.Instance.ImportCharacter(result);
+        }
+
+        private void setBackgroundPath()
+        {
+            string label = Properties.Resources.LabelBackgroundFilePath;
+            string path = Properties.Settings.Default.BackgroundFilePath;
+
+            string result = Popup.Settings.Instance.Show(label, path);
+
+            Common.Instance.ImportBackground(result);
+        }
+
+        private void setMiniPicturePath()
+        {
+            string label = Properties.Resources.LabelMiniPictureFilePath;
+            string path = Properties.Settings.Default.MiniPictureFilePath;
+
+            string result = Popup.Settings.Instance.Show(label, path);
+
+            Common.Instance.ImportMiniPicture(result);
+        }
+
+        private void setPicturePath()
+        {
+            string label = Properties.Resources.LabelPictureFilePath;
+            string path = Properties.Settings.Default.PictureFilePath;
+
+            string result = Popup.Settings.Instance.Show(label, path);
+            
+            Common.Instance.ImportPicture(result);
+        }
+
+        private void setSEPath()
+        {
+            string label = Properties.Resources.LabelSEFilePath;
+            string path = Properties.Settings.Default.SEFilePath;
+
+            string result = Popup.Settings.Instance.Show(label, path);
+            
+            Common.Instance.ImportSE(result);
+        }
+
         #endregion //Private Methods
 
     }
