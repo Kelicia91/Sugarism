@@ -16,10 +16,11 @@ public class Manager : MonoBehaviour
 
         // custom event
         _cmdLinesEvent = new CmdLinesEvent();
-
+        _cmdAppearEvent = new CmdAppearEvent();
         _cmdFilterEvent = new CmdFilterEvent();
         _cmdFeelingEvent = new CmdFeelingEvent();
         _cmdSwitchEvent = new CmdSwitchEvent();
+
         _scenarioStartEvent = new ScenarioStartEvent();
         _scenarioEndEvent = new ScenarioEndEvent();
 
@@ -89,6 +90,9 @@ public class Manager : MonoBehaviour
     // CustomEvent
     private CmdLinesEvent _cmdLinesEvent = null;
     public CmdLinesEvent CmdLinesEvent { get { return _cmdLinesEvent; } }
+
+    private CmdAppearEvent _cmdAppearEvent = null;
+    public CmdAppearEvent CmdAppearEvent { get { return _cmdAppearEvent; } }
 
     private CmdSwitchEvent _cmdSwitchEvent = null;
     public CmdSwitchEvent CmdSwitchEvent { get { return _cmdSwitchEvent; } }

@@ -92,9 +92,7 @@ public class DialoguePanel : Panel
 
 
     // CmdLinesEventHandler
-    private void onCmdLines(int characterId, string lines, bool isAnonymous,
-                            Sugarism.EFace face, Sugarism.ECostume costume,
-                            Sugarism.EPosition position, Sugarism.ELinesEffect linesEffect)
+    private void onCmdLines(int characterId, bool isAnonymous, string lines, Sugarism.ELinesEffect linesEffect)
     {
         string name = getName(characterId, isAnonymous);
         setName(name);

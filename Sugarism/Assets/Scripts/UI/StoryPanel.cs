@@ -29,7 +29,7 @@ public class StoryPanel : Panel
         set(Sugarism.EFilter.None);
         ClearPanel.Show();
 
-        Manager.Instance.CmdLinesEvent.Attach(onCmdLines);
+        Manager.Instance.CmdAppearEvent.Attach(onCmdAppear);
         Manager.Instance.CmdFilterEvent.Attach(onCmdFilter);
     }
 
@@ -126,9 +126,8 @@ public class StoryPanel : Panel
     }
 
 
-    private void onCmdLines(int characterId, string lines, bool isAnonymous,
-                            Sugarism.EFace face, Sugarism.ECostume costume,
-                            Sugarism.EPosition position, Sugarism.ELinesEffect linesEffect)
+    private void onCmdAppear(int characterId, Sugarism.EFace face, 
+                            Sugarism.ECostume costume, Sugarism.EPosition position)
     {
         // @todo: face
         // @todo: costume

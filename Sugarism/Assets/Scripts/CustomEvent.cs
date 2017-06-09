@@ -1,9 +1,8 @@
 ﻿
 public class CmdLinesEvent
 {
-    public delegate void Handler(int characterId, string lines, bool isAnonymous,
-                            Sugarism.EFace face, Sugarism.ECostume costume, 
-                            Sugarism.EPosition position, Sugarism.ELinesEffect linesEffect);
+    public delegate void Handler(int characterId, bool isAnonymous, 
+                                string lines, Sugarism.ELinesEffect linesEffect);
     private event Handler _event;
 
     public CmdLinesEvent()
@@ -12,18 +11,62 @@ public class CmdLinesEvent
     }
 
     // default handler
-    private void onCmdLines(int characterId, string lines, bool isAnonymous,
-                            Sugarism.EFace face, Sugarism.ECostume costume,
-                            Sugarism.EPosition position, Sugarism.ELinesEffect linesEffect)
+    private void onCmdLines(int characterId, bool isAnonymous,
+                                string lines, Sugarism.ELinesEffect linesEffect)
     {
-        Log.Debug("onCmdLines");
+        Log.Debug(string.Format(
+            "onCmdLines; characterId({0}), isAnonymous({1}), linesEffect({2}), lines: \"{3}\"",
+            characterId, isAnonymous, linesEffect, lines));
     }
 
-    public void Invoke(int characterId, string lines, bool isAnonymous,
-                        Sugarism.EFace face, Sugarism.ECostume costume,
-                        Sugarism.EPosition position, Sugarism.ELinesEffect linesEffect)
+    public void Invoke(int characterId, bool isAnonymous,
+                        string lines, Sugarism.ELinesEffect linesEffect)
     {
-        _event.Invoke(characterId, lines, isAnonymous, face, costume, position, linesEffect);
+        _event.Invoke(characterId, isAnonymous, lines, linesEffect);
+    }
+
+    // @warn : attach order
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
+public class CmdAppearEvent
+{
+    public delegate void Handler(int characterId, Sugarism.EFace face
+                            , Sugarism.ECostume costume, Sugarism.EPosition position);
+    private event Handler _event;
+
+    public CmdAppearEvent()
+    {
+        _event = new Handler(onCmdAppear);
+    }
+
+    // default handler
+    private void onCmdAppear(int characterId, Sugarism.EFace face
+                            , Sugarism.ECostume costume, Sugarism.EPosition position)
+    {
+        Log.Debug(string.Format("onCmdAppear; characterId({0}, face({1}), costume({2}), pos({3})",
+                    characterId, face, costume, position));
+    }
+
+    public void Invoke(int characterId, Sugarism.EFace face
+                            , Sugarism.ECostume costume, Sugarism.EPosition position)
+    {
+        _event.Invoke(characterId, face, costume, position);
     }
 
     // @warn : attach order
