@@ -18,9 +18,10 @@ public class Manager : MonoBehaviour
         _cmdLinesEvent = new CmdLinesEvent();
         _cmdTextEvent = new CmdTextEvent();
         _cmdAppearEvent = new CmdAppearEvent();
-        _cmdFilterEvent = new CmdFilterEvent();
         _cmdBackgroundEvent = new CmdBackgroundEvent();
+        _cmdMiniPictureEvent = new CmdMiniPictureEvent();
         _cmdPictureEvent = new CmdPictureEvent();
+        _cmdFilterEvent = new CmdFilterEvent();
         _cmdSEEvent = new CmdSEEvent();
         _cmdFeelingEvent = new CmdFeelingEvent();
         _cmdSwitchEvent = new CmdSwitchEvent();
@@ -61,16 +62,20 @@ public class Manager : MonoBehaviour
     public UIManager PrefUIManager;
 
     // KYI : DataTable assets
-    public CharacterObject AsstDTCharacter;
-    public ConstitutionObject AsstDTConstitution;
-    public ZodiacObject AsstDTZodiac;
-    public StatObject AsstDTStat;
     public ActionObject AsstDTAction;
     public ActionTypeObject AsstDTActionType;
-    public VacationObject AsstDTVacation;
+    public BackgroundObject AsstDTBackground;
+    public CharacterObject AsstDTCharacter;
+    public ConstitutionObject AsstDTConstitution;
+    public MiniPictureObject AsstDTMiniPicture;
     public NPCObject AsstDTNPC;
+    public PictureObject AsstDTPicture;
+    public SEObject AsstDTSE;
+    public StatObject AsstDTStat;
     public TargetObject AsstDTTarget;
-
+    public VacationObject AsstDTVacation;
+    public ZodiacObject AsstDTZodiac;
+    
 
     /********* Game Interface *********/
     // Manager
@@ -81,15 +86,20 @@ public class Manager : MonoBehaviour
     public UIManager UI { get { return _ui; } }
 
     // KYI : DataTable
-    public CharacterObject DTCharacter { get { return AsstDTCharacter; } }
-    public ConstitutionObject DTConstitution { get { return AsstDTConstitution; } }
-    public ZodiacObject DTZodiac { get { return AsstDTZodiac; } }
-    public StatObject DTStat { get { return AsstDTStat; } }
     public ActionObject DTAction { get { return AsstDTAction; } }
     public ActionTypeObject DTActionType { get { return AsstDTActionType; } }
-    public VacationObject DTVacation { get { return AsstDTVacation; } }
+    public BackgroundObject DTBackground { get { return AsstDTBackground; } }
+    public CharacterObject DTCharacter { get { return AsstDTCharacter; } }
+    public ConstitutionObject DTConstitution { get { return AsstDTConstitution; } }
+    public MiniPictureObject DTMiniPicture { get { return AsstDTMiniPicture; } }
     public NPCObject DTNPC { get { return AsstDTNPC; } }
+    public PictureObject DTPicture { get { return AsstDTPicture; } }
+    public SEObject DTSE { get { return AsstDTSE; } }
+    public StatObject DTStat { get { return AsstDTStat; } }
     public TargetObject DTTarget { get { return AsstDTTarget; } }
+    public VacationObject DTVacation { get { return AsstDTVacation; } }
+    public ZodiacObject DTZodiac { get { return AsstDTZodiac; } }
+       
 
     // CustomEvent
     private CmdLinesEvent _cmdLinesEvent = null;
@@ -101,12 +111,6 @@ public class Manager : MonoBehaviour
     private CmdAppearEvent _cmdAppearEvent = null;
     public CmdAppearEvent CmdAppearEvent { get { return _cmdAppearEvent; } }
 
-    private CmdSwitchEvent _cmdSwitchEvent = null;
-    public CmdSwitchEvent CmdSwitchEvent { get { return _cmdSwitchEvent; } }
-
-    private CmdFilterEvent _cmdFilterEvent = null;
-    public CmdFilterEvent CmdFilterEvent { get { return _cmdFilterEvent; } }
-
     private CmdBackgroundEvent _cmdBackgroundEvent = null;
     public CmdBackgroundEvent CmdBackgroundEvent { get { return _cmdBackgroundEvent; } }
 
@@ -116,17 +120,25 @@ public class Manager : MonoBehaviour
     private CmdPictureEvent _cmdPictureEvent = null;
     public CmdPictureEvent CmdPictureEvent { get { return _cmdPictureEvent; } }
 
+    private CmdFilterEvent _cmdFilterEvent = null;
+    public CmdFilterEvent CmdFilterEvent { get { return _cmdFilterEvent; } }
+
     private CmdSEEvent _cmdSEEvent = null;
     public CmdSEEvent CmdSEEvent { get { return _cmdSEEvent; } }
 
     private CmdFeelingEvent _cmdFeelingEvent = null;
     public CmdFeelingEvent CmdFeelingEvent { get { return _cmdFeelingEvent; } }
 
+    private CmdSwitchEvent _cmdSwitchEvent = null;
+    public CmdSwitchEvent CmdSwitchEvent { get { return _cmdSwitchEvent; } }
+
+    
     private ScenarioStartEvent _scenarioStartEvent = null;
     public ScenarioStartEvent ScenarioStartEvent { get { return _scenarioStartEvent; } }
 
     private ScenarioEndEvent _scenarioEndEvent = null;
     public ScenarioEndEvent ScenarioEndEvent { get { return _scenarioEndEvent; } }
+
 
     private MoneyChangeEvent _moneyChangeEvent = null;
     public MoneyChangeEvent MoneyChangeEvent { get { return _moneyChangeEvent; } }
