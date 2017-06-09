@@ -110,6 +110,9 @@ public class Manager : MonoBehaviour
     private CmdBackgroundEvent _cmdBackgroundEvent = null;
     public CmdBackgroundEvent CmdBackgroundEvent { get { return _cmdBackgroundEvent; } }
 
+    private CmdMiniPictureEvent _cmdMiniPictureEvent = null;
+    public CmdMiniPictureEvent CmdMiniPictureEvent { get { return _cmdMiniPictureEvent; } }
+
     private CmdPictureEvent _cmdPictureEvent = null;
     public CmdPictureEvent CmdPictureEvent { get { return _cmdPictureEvent; } }
 

@@ -204,6 +204,42 @@ public class CmdBackgroundEvent
 }
 
 
+public class CmdMiniPictureEvent
+{
+    public delegate void Handler(int id);
+    private event Handler _event;
+
+    public CmdMiniPictureEvent()
+    {
+        _event = new Handler(onCmdMiniPicture);
+    }
+
+    // default handler
+    private void onCmdMiniPicture(int id)
+    {
+        Log.Debug(string.Format("onCmdMiniPicture; Id({0})", id));
+    }
+
+    public void Invoke(int id) { _event.Invoke(id); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
 public class CmdPictureEvent
 {
     public delegate void Handler(int id);
