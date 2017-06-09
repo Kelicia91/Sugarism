@@ -240,6 +240,42 @@ public class CmdPictureEvent
 }
 
 
+public class CmdSEEvent
+{
+    public delegate void Handler(int id);
+    private event Handler _event;
+
+    public CmdSEEvent()
+    {
+        _event = new Handler(onCmdSE);
+    }
+
+    // default handler
+    private void onCmdSE(int id)
+    {
+        Log.Debug(string.Format("onCmdSE; Id({0})", id));
+    }
+
+    public void Invoke(int id) { _event.Invoke(id); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
 public class CmdFilterEvent
 {
     public delegate void Handler(Sugarism.EFilter filter);

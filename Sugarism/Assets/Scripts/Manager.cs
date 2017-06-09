@@ -21,6 +21,7 @@ public class Manager : MonoBehaviour
         _cmdFilterEvent = new CmdFilterEvent();
         _cmdBackgroundEvent = new CmdBackgroundEvent();
         _cmdPictureEvent = new CmdPictureEvent();
+        _cmdSEEvent = new CmdSEEvent();
         _cmdFeelingEvent = new CmdFeelingEvent();
         _cmdSwitchEvent = new CmdSwitchEvent();
 
@@ -111,6 +112,9 @@ public class Manager : MonoBehaviour
 
     private CmdPictureEvent _cmdPictureEvent = null;
     public CmdPictureEvent CmdPictureEvent { get { return _cmdPictureEvent; } }
+
+    private CmdSEEvent _cmdSEEvent = null;
+    public CmdSEEvent CmdSEEvent { get { return _cmdSEEvent; } }
 
     private CmdFeelingEvent _cmdFeelingEvent = null;
     public CmdFeelingEvent CmdFeelingEvent { get { return _cmdFeelingEvent; } }
