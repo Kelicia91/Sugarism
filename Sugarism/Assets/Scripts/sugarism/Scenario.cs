@@ -41,6 +41,10 @@ public class Scenario : IPlayable
             string msg = string.Format("begin. Scene: {0}", _sceneIter.Current.Description);
             Log.Debug(msg);
         }
+        else
+        {
+            Log.Error("fail to move next scene");
+        }
     }
 
     public void Execute()
@@ -60,7 +64,7 @@ public class Scenario : IPlayable
             return false;
 
         Scene s = _sceneIter.Current;
-
+        
         if (s.Play())
         {
             return true;

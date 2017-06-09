@@ -44,12 +44,26 @@ public class CmdSwitch : Command
         }
     }
 
+    private bool _isCalled = false;
     public override bool Play()
     {
         Log.Debug(ToString());
 
-        int selectedKey = 0;    // sample
+        if (false == _isCalled)
+        {
+            Manager.Instance.CmdSwitchEvent.Invoke(_caseList.ToArray());
 
+            _isCalled = true;
+            return true;    // can play more.
+        }
+
+        int selectedKey = Manager.Instance.Object.CaseKey;
+        if (false == isValid(selectedKey))
+        {
+            Log.Error(string.Format("invalid key: {0}", selectedKey));
+            return false;
+        }
+        
         CmdCase cmdCase = _caseList[selectedKey];
         return cmdCase.Play();
     }
@@ -61,5 +75,16 @@ public class CmdSwitch : Command
             CharacterId, _caseList.Count);
 
         return ToString(s);
+    }
+
+
+    private bool isValid(int caseKey)
+    {
+        if (caseKey < 0)
+            return false;
+        else if (caseKey >= _caseList.Count)
+            return false;
+        else
+            return true;
     }
 }

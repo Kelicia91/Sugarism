@@ -45,7 +45,9 @@ public class TargetCharacter
     {
         _id = id;
         _feeling = Def.MIN_FEELING;
-        _lastOpenedScenarioNo = Def.MIN_SCENARIO;
+        _lastOpenedScenarioNo = Def.MIN_SCENARIO - 1;
+
+        Manager.Instance.CmdFeelingEvent.Attach(onCmdFeeling);
     }
 
 
@@ -57,5 +59,36 @@ public class TargetCharacter
             return false;
         else
             return true;
+    }
+
+
+    private void onCmdFeeling(int characterId, Sugarism.EOperation op, int value)
+    {
+        Target t = Manager.Instance.DTTarget[Id];
+        if (characterId != t.characterId)
+            return;
+
+        operateFeeling(op, value);
+    }
+
+    private void operateFeeling(Sugarism.EOperation op, int value)
+    {
+        switch(op)
+        {
+            case Sugarism.EOperation.Add:
+                Feeling += value;
+                break;
+
+            case Sugarism.EOperation.Subtract:
+                Feeling -= value;
+                break;
+
+            case Sugarism.EOperation.Assign:
+                Feeling = value;
+                break;
+
+            default:
+                break;
+        }
     }
 }

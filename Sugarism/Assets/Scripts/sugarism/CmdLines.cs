@@ -26,6 +26,31 @@ public class CmdLines : Command
         get { return _model.Lines; }
     }
 
+    public bool IsAnonymous
+    {
+        get { return _model.IsAnonymous; }
+    }
+
+    public Sugarism.EFace Face
+    {
+        get { return _model.Face; }
+    }
+
+    public Sugarism.ECostume Costume
+    {
+        get { return _model.Costume; }
+    }
+
+    public Sugarism.EPosition Position
+    {
+        get { return _model.Position; }
+    }
+
+    public Sugarism.ELinesEffect LinesEffect
+    {
+        get { return _model.LinesEffect; }
+    }
+
     #endregion
 
 
@@ -38,7 +63,8 @@ public class CmdLines : Command
     {
         Log.Debug(ToString());
 
-        Manager.Instance.CmdLinesEvent.Invoke(CharacterId, Lines);
+        Manager.Instance.CmdLinesEvent.Invoke(CharacterId, Lines, IsAnonymous,
+                                            Face, Costume, Position, LinesEffect);
 
         return false;   // no more child to play
     }
@@ -46,8 +72,8 @@ public class CmdLines : Command
     public override string ToString()
     {
         string s = string.Format(
-                    "CharacterId : {0}, Lines : \"{1}\"",
-                    CharacterId, Lines);
+                    "CharacterId: {0}, IsAnonymous: {1}, Face: {2}, Costume: {3}, Pos: {4}, LinesEffect: {5}, Lines: \"{6}\"",
+                    CharacterId, IsAnonymous, Face, Costume, Position, LinesEffect, Lines);
 
         return ToString(s);
     }
