@@ -60,7 +60,11 @@
                 <MenuItem Header="_Close" Click="Close_Click" />
             </MenuItem>
             <MenuItem Header="Settings">
-                <MenuItem Header="Character" Command="{Binding Path=CmdSettings}"/>
+                <MenuItem Header="Character" Command="{Binding Path=CmdSetCharacterPath}"/>
+                <MenuItem Header="Background" Command="{Binding Path=CmdSetBackgroundPath}"/>
+                <MenuItem Header="MiniPicture" Command="{Binding Path=CmdSetMiniPicturePath}"/>
+                <MenuItem Header="Picture" Command="{Binding Path=CmdSetPicturePath}"/>
+                <MenuItem Header="SE" Command="{Binding Path=CmdSetSEPath}"/>
             </MenuItem>
         </Menu>
 
