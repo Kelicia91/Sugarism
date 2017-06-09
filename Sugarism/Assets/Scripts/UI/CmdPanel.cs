@@ -16,7 +16,7 @@ public class CmdPanel : Panel
     private enum ECmdType
     {
         SCHEDULE = 0,
-        GOOUT,
+        STORY,
         STATE
     }
 
@@ -66,7 +66,7 @@ public class CmdPanel : Panel
             case ECmdType.SCHEDULE:
                 return Def.CMD_SCHEDULE_NAME;
 
-            case ECmdType.GOOUT:
+            case ECmdType.STORY:
                 return Def.CMD_GO_OUT_NAME;
 
             case ECmdType.STATE:
@@ -84,8 +84,8 @@ public class CmdPanel : Panel
             case ECmdType.SCHEDULE:
                 return onClickScheduleButton;
 
-            case ECmdType.GOOUT:
-                return onClickGoOutButton;
+            case ECmdType.STORY:
+                return onClickStoryButton;
 
             case ECmdType.STATE:
                 return onClickStateButton;
@@ -102,7 +102,7 @@ public class CmdPanel : Panel
         Manager.Instance.UI.SchedulePanel.Show();
     }
 
-    private void onClickGoOutButton()
+    private void onClickStoryButton()
     {
         Manager.Instance.UI.MainPanel.Hide();
         Manager.Instance.UI.SelectTargetPanel.Show();

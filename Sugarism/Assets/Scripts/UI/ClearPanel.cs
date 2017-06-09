@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
-public class ClearPanel : MonoBehaviour, IPointerClickHandler
+public class ClearPanel : Panel, IPointerClickHandler
 {
     // Use this for initialization
     void Start () {

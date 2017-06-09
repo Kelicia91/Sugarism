@@ -8,14 +8,11 @@ public class RunSchedulePanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
-    public Image BackgroundImage;
-
     public Image ActionImage;
     public Text ActionNameText;
     public Text ProgressDescriptionText;
 
-    public RunScheduleAnimController AnimController;
-    public Image VacationImage;
+    public Image AnimImage;
 
     public GameObject StatsPanel;
     public GameObject PrefStatPanel;
@@ -25,6 +22,9 @@ public class RunSchedulePanel : Panel
 
 
     //
+    private Image _backgroundImage;
+    private RunScheduleAnimController _animController;
+
     private const int DEFAULT_NUM_STAT_PANEL = 2;
     private List<StatPanel> _statPanelList = null;
     private int _actionId = -1;
@@ -42,6 +42,9 @@ public class RunSchedulePanel : Panel
             _statPanelList.Add(p);
         }
 
+        _backgroundImage = GetComponent<Image>();
+        _animController = AnimImage.GetComponent<RunScheduleAnimController>();
+
         Manager.Instance.ScheduleBeginEvent.Attach(onScheduleBegin);
         Manager.Instance.ScheduleCancelEvent.Attach(onScheduleCancel);
         Manager.Instance.ScheduleFirstEvent.Attach(onScheduleFirst);
@@ -51,20 +54,30 @@ public class RunSchedulePanel : Panel
 
     void OnEnable()
     {
-        BackgroundImage.sprite = null;
+        setBackgroundImage(null);
 
         ActionImage.enabled = false;
         setActionNameText(string.Empty);
         setProgressDescriptionText(string.Empty);
 
-        AnimController.gameObject.SetActive(false);
-        VacationImage.gameObject.SetActive(false);
+        AnimImage.gameObject.SetActive(false);
 
         for (int i = 0; i < _statPanelList.Count; i++)
             _statPanelList[i].Hide();
 
         NPCPanel.Hide();
         MessagePanel.Hide();
+    }
+
+    private void setBackgroundImage(Sprite s)
+    {
+        if (null == _backgroundImage)
+        {
+            Log.Error("not found background image");
+            return;
+        }
+
+        _backgroundImage.sprite = s;
     }
 
     private void setActionNameText(string s)
@@ -160,8 +173,13 @@ public class RunSchedulePanel : Panel
         _actionId = actionId;
         Action action = Manager.Instance.DTAction[_actionId];
 
-        // set background Image
-        //BackgroundImage.sprite = null;
+        Sprite sprite = null;
+        if (Def.ACTION_VACATION_ID == _actionId)
+            sprite = getVactionImage();
+        else
+            sprite = action.background;
+
+        setBackgroundImage(sprite);
 
         ActionImage.sprite = action.icon;
         ActionImage.enabled = true;
@@ -190,8 +208,7 @@ public class RunSchedulePanel : Panel
 
     private void onScheduleCancel()
     {
-        AnimController.gameObject.SetActive(false);
-        VacationImage.gameObject.SetActive(false);
+        AnimImage.gameObject.SetActive(false);
 
         MessagePanel.Show(Def.ALARM_LACK_MONEY_DESC, onClickScheduleCancelConfirm);
     }
@@ -226,7 +243,7 @@ public class RunSchedulePanel : Panel
         }
 
         // Awake 에서 초기화 해주기 위함
-        AnimController.gameObject.SetActive(true);
+        _animController.gameObject.SetActive(true);
         
         Action action = Manager.Instance.DTAction[_actionId];
         switch (action.type)
@@ -298,49 +315,54 @@ public class RunSchedulePanel : Panel
 
         while (true)
         {
-            AnimController.SetTrigger(normal);
+            _animController.SetTrigger(normal);
             yield return new WaitForSeconds(waitSeconds);
             break;
         }
 
-        AnimController.SetTrigger(result);
+        _animController.SetTrigger(result);
     }
 
     private void doRelax(Action action)
     {
-        AnimController.SetTrigger(action.normalAnim);
+        _animController.SetTrigger(action.normalAnim);
     }
 
     private void doIdle(Action action)
     {
-        AnimController.SetTrigger(action.normalAnim);
+        _animController.SetTrigger(action.normalAnim);
     }
 
     private void doVacation()
+    {
+        // do nothing..
+    }
+
+    private Sprite getVactionImage()
     {
         ESeason season = Manager.Instance.Object.Calendar.Get();
         if (ESeason.MAX == season)
         {
             Log.Error("invalid season");
-            return;
+            return null;
         }
 
         int seasonId = (int)season;
         Vacation vacation = Manager.Instance.DTVacation[seasonId];
-
-        // @todo: 히로인 나이 구분해서 가져올것
-        VacationImage.sprite = vacation.adultHood;
-
-        VacationImage.gameObject.SetActive(true);
+        
+        int midAge = (Def.INIT_AGE + (Def.INIT_AGE + Def.PERIOD_YEAR)) / 2;
+        if (Manager.Instance.Object.MainCharacter.Age >= midAge)
+            return vacation.adultHood;
+        else
+            return vacation.childHood;
     }
 
 
 
     private void onScheduleFinish(int achievementRatio, int npcId, string msg)
     {
-        AnimController.SetTrigger(RunScheduleAnimController.ETrigger.Finish);
-        //AnimController.gameObject.SetActive(false);
-        VacationImage.gameObject.SetActive(false);
+        _animController.SetTrigger(RunScheduleAnimController.ETrigger.Finish);
+        //AnimImage.gameObject.SetActive(false);
 
         if (false == ExtNPC.IsValid(npcId))
         {

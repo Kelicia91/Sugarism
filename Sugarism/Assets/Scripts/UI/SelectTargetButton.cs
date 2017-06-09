@@ -16,9 +16,8 @@ public class SelectTargetButton : MonoBehaviour
     //
     private int _targetId = -1;
 
-
-	// Use this for initialization
-	void Start ()
+    
+    void Awake()
     {
         Button btn = GetComponent<Button>();
         btn.onClick.AddListener(onClick);
@@ -26,28 +25,40 @@ public class SelectTargetButton : MonoBehaviour
         if (null != Slider)
         {
             Slider.wholeNumbers = true;
-            Slider.minValue = 0;
-            Slider.maxValue = 0;
+            Slider.minValue = Def.MIN_FEELING;
+            Slider.maxValue = Def.MAX_FEELING;
             Slider.value = Slider.minValue;
         }
-	}
+    }
 
+    void OnEnable()
+    {
+        if (false == TargetCharacter.isValid(_targetId))
+            return;
+        
+        refresh();
+    }
+    
     public void Set(int targetId)
     {
         if (false == TargetCharacter.isValid(targetId))
             return;
 
         _targetId = targetId;
-        
+
+        refresh();  // need, because called after OnEnable().
+    }
+
+    private void refresh()
+    {
         Target t = Manager.Instance.DTTarget[_targetId];
+        set(t.image);
 
         Character c = Manager.Instance.DTCharacter[t.characterId];
         set(c.name);
 
-        TargetCharacter tc = Manager.Instance.Object.TargetCharacterArray[t.characterId];
+        TargetCharacter tc = Manager.Instance.Object.TargetCharacterArray[_targetId];
         set(tc.Feeling);
-
-        set(t.image);
     }
 
     private void set(string name)
@@ -71,7 +82,7 @@ public class SelectTargetButton : MonoBehaviour
         if (null == Slider)
             Log.Error("not found slider");
         else
-            Slider.value = System.Convert.ToInt32(value);
+            Slider.value = (float)value;
     }
 
     private void set(Sprite sprite)
@@ -87,6 +98,16 @@ public class SelectTargetButton : MonoBehaviour
 
     private void onClick()
     {
-        Log.Debug("SelectTargetButton.onClick");
+        bool isLoaded = Manager.Instance.Object.LoadScenario(_targetId);
+        if (isLoaded)
+        {
+            Manager.Instance.ScenarioStartEvent.Invoke();
+            Manager.Instance.Object.NextCmd();
+        }
+        else
+        {
+            Log.Error("failed to load scenario");
+            return; // @todo: 어떻게 처리할까...
+        }
     }
 }

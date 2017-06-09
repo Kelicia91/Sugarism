@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject PrefSchedulePanel;
     public GameObject PrefRunSchedulePanel;
     public GameObject PrefSelectTargetPanel;
+    public GameObject PrefStoryPanel;
     public GameObject PrefStatePanel;
 
 
@@ -32,6 +33,9 @@ public class UIManager : MonoBehaviour
     private SelectTargetPanel _selectTargetPanel = null;
     public SelectTargetPanel SelectTargetPanel { get { return _selectTargetPanel; } }
 
+    private StoryPanel _storyPanel = null;
+    public StoryPanel StoryPanel { get { return _storyPanel; } }
+
     private StatePanel _statePanel = null;
     public StatePanel StatePanel { get { return _statePanel; } }
 
@@ -44,12 +48,16 @@ public class UIManager : MonoBehaviour
         SchedulePanel.Hide();
         RunSchedulePanel.Hide();
         SelectTargetPanel.Hide();
+        StoryPanel.Hide();
         StatePanel.Hide();
 
         MainPanel.Show();
 
         Manager.Instance.ScheduleStartEvent.Attach(onScheduleStart);
         Manager.Instance.ScheduleEndEvent.Attach(onScheduleEnd);
+
+        Manager.Instance.ScenarioStartEvent.Attach(onScenarioStart);
+        Manager.Instance.ScenarioEndEvent.Attach(onScenarioEnd);
     }
 
 
@@ -78,6 +86,10 @@ public class UIManager : MonoBehaviour
         _selectTargetPanel = o.GetComponent<SelectTargetPanel>();
         _selectTargetPanel.transform.SetParent(_canvas.transform, false);
 
+        o = Instantiate(PrefStoryPanel);
+        _storyPanel = o.GetComponent<StoryPanel>();
+        _storyPanel.transform.SetParent(_canvas.transform, false);
+
         o = Instantiate(PrefStatePanel);
         _statePanel = o.GetComponent<StatePanel>();
         _statePanel.transform.SetParent(_canvas.transform, false);
@@ -93,6 +105,18 @@ public class UIManager : MonoBehaviour
     private void onScheduleEnd()
     {
         RunSchedulePanel.Hide();
+        MainPanel.Show();
+    }
+
+    private void onScenarioStart()
+    {
+        SelectTargetPanel.Hide();
+        StoryPanel.Show();
+    }
+
+    private void onScenarioEnd()
+    {
+        StoryPanel.Hide();
         MainPanel.Show();
     }
 }
