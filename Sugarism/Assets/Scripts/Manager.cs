@@ -16,6 +16,7 @@ public class Manager : MonoBehaviour
 
         // custom event
         _cmdLinesEvent = new CmdLinesEvent();
+        _cmdTextEvent = new CmdTextEvent();
         _cmdAppearEvent = new CmdAppearEvent();
         _cmdFilterEvent = new CmdFilterEvent();
         _cmdFeelingEvent = new CmdFeelingEvent();
@@ -90,6 +91,9 @@ public class Manager : MonoBehaviour
     // CustomEvent
     private CmdLinesEvent _cmdLinesEvent = null;
     public CmdLinesEvent CmdLinesEvent { get { return _cmdLinesEvent; } }
+
+    private CmdTextEvent _cmdTextEvent = null;
+    public CmdTextEvent CmdTextEvent { get { return _cmdTextEvent; } }
 
     private CmdAppearEvent _cmdAppearEvent = null;
     public CmdAppearEvent CmdAppearEvent { get { return _cmdAppearEvent; } }

@@ -132,6 +132,42 @@ public class CmdSwitchEvent
 }
 
 
+public class CmdTextEvent
+{
+    public delegate void Handler(string text);
+    private event Handler _event;
+
+    public CmdTextEvent()
+    {
+        _event = new Handler(onCmdText);
+    }
+
+    // default handler
+    private void onCmdText(string text)
+    {
+        Log.Debug(string.Format("onCmdText; {0}", text));
+    }
+
+    public void Invoke(string text) { _event.Invoke(text); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
 public class CmdFilterEvent
 {
     public delegate void Handler(Sugarism.EFilter filter);
