@@ -303,4 +303,49 @@
   <data name="EditFilter" xml:space="preserve">
     <value>화면 필터 편집</value>
   </data>
+  <data name="EditAppear" xml:space="preserve">
+    <value>캐릭터 출연</value>
+  </data>
+  <data name="EditText" xml:space="preserve">
+    <value>지문 편집</value>
+  </data>
+  <data name="EditBackground" xml:space="preserve">
+    <value>배경 편집</value>
+  </data>
+  <data name="EditMiniPicture" xml:space="preserve">
+    <value>미니컷 편집</value>
+  </data>
+  <data name="EditPicture" xml:space="preserve">
+    <value>CG 편집</value>
+  </data>
+  <data name="EditSE" xml:space="preserve">
+    <value>효과음 편집</value>
+  </data>
+  <data name="ErrNotFoundBackground" xml:space="preserve">
+    <value>배경을 찾을 수 없습니다.</value>
+  </data>
+  <data name="ErrNotFoundMiniPicture" xml:space="preserve">
+    <value>미니컷을 찾을 수 없습니다.</value>
+  </data>
+  <data name="ErrNotFoundPicture" xml:space="preserve">
+    <value>CG를 찾을 수 없습니다.</value>
+  </data>
+  <data name="ErrNotFoundSE" xml:space="preserve">
+    <value>효과음을 찾을 수 없습니다.</value>
+  </data>
+  <data name="LabelBackgroundFilePath" xml:space="preserve">
+    <value>배경 파일 경로</value>
+  </data>
+  <data name="LabelMiniPictureFilePath" xml:space="preserve">
+    <value>미니컷 파일 경로</value>
+  </data>
+  <data name="LabelPictureFilePath" xml:space="preserve">
+    <value>CG 파일 경로</value>
+  </data>
+  <data name="LabelSEFilePath" xml:space="preserve">
+    <value>효과음 파일 경로</value>
+  </data>
+  <data name="GuideText" xml:space="preserve">
+    <value>(지문을 입력해주세요)</value>
+  </data>
 </root>

@@ -34,5 +34,53 @@ namespace ScenarioEditor.Properties {
                 this["CharacterFilePath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BackgroundFilePath {
+            get {
+                return ((string)(this["BackgroundFilePath"]));
+            }
+            set {
+                this["BackgroundFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MiniPictureFilePath {
+            get {
+                return ((string)(this["MiniPictureFilePath"]));
+            }
+            set {
+                this["MiniPictureFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PictureFilePath {
+            get {
+                return ((string)(this["PictureFilePath"]));
+            }
+            set {
+                this["PictureFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SEFilePath {
+            get {
+                return ((string)(this["SEFilePath"]));
+            }
+            set {
+                this["SEFilePath"] = value;
+            }
+        }
     }
 }

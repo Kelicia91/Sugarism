@@ -38,9 +38,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\model\Sugarism\Scenario\bin\Release\Base.dll</HintPath>
     </Reference>
-    <Reference Include="Character">
-      <HintPath>..\..\..\model\Sugarism\Scenario\bin\Release\Character.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -70,27 +67,48 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\FileUtils.cs" />
+    <Compile Include="Common\XmlUtils.cs" />
+    <Compile Include="Model\ArtsResource.cs" />
+    <Compile Include="Model\Character.cs" />
+    <Compile Include="ViewModel\CmdAppear.cs" />
+    <Compile Include="ViewModel\CmdBackground.cs" />
     <Compile Include="ViewModel\CmdCase.cs" />
     <Compile Include="ViewModel\CmdFeeling.cs" />
     <Compile Include="ViewModel\CmdFilter.cs" />
+    <Compile Include="ViewModel\CmdMiniPicture.cs" />
+    <Compile Include="ViewModel\CmdPicture.cs" />
+    <Compile Include="ViewModel\CmdSE.cs" />
     <Compile Include="ViewModel\CmdSwitch.cs" />
+    <Compile Include="ViewModel\CmdText.cs" />
     <Compile Include="ViewModel\Common.cs" />
     <Compile Include="Common\JsonUtils.cs" />
     <Compile Include="Common\Log.cs" />
     <Compile Include="Base\RelayCommand.cs" />
+    <Compile Include="ViewModel\CustomEvent.cs" />
     <Compile Include="ViewModel\IOwner.cs" />
     <Compile Include="ViewModel\ITreeViewItem.cs" />
     <Compile Include="ViewModel\Popup\AddCmd.cs" />
+    <Compile Include="ViewModel\Popup\EditAppear.cs" />
+    <Compile Include="ViewModel\Popup\EditBackground.cs" />
     <Compile Include="ViewModel\Popup\EditCase.cs" />
     <Compile Include="ViewModel\Popup\EditFeeling.cs" />
     <Compile Include="ViewModel\Popup\EditFilter.cs" />
     <Compile Include="ViewModel\Popup\EditLines.cs" />
+    <Compile Include="ViewModel\Popup\EditMiniPicture.cs" />
+    <Compile Include="ViewModel\Popup\EditPicture.cs" />
     <Compile Include="ViewModel\Popup\EditScene.cs" />
     <Compile Include="ViewModel\Popup\EditSwitchCase.cs" />
+    <Compile Include="ViewModel\Popup\EditText.cs" />
     <Compile Include="ViewModel\Popup\Settings.cs" />
     <Compile Include="ViewModel\CustomInputBindings.cs" />
     <Compile Include="View\Popup\AddCmd.xaml.cs">
       <DependentUpon>AddCmd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Popup\EditAppear.xaml.cs">
+      <DependentUpon>EditAppear.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Popup\EditBackground.xaml.cs">
+      <DependentUpon>EditBackground.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Popup\EditFeeling.xaml.cs">
       <DependentUpon>EditFeeling.xaml</DependentUpon>
@@ -101,11 +119,24 @@
     <Compile Include="View\Popup\EditLines.xaml.cs">
       <DependentUpon>EditLines.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Popup\EditMiniPicture.xaml.cs">
+      <DependentUpon>EditMiniPicture.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Popup\EditPicture.xaml.cs">
+      <DependentUpon>EditPicture.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Popup\EditScene.xaml.cs">
       <DependentUpon>EditScene.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\Popup\EditSE.cs" />
+    <Compile Include="View\Popup\EditSE.xaml.cs">
+      <DependentUpon>EditSE.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Popup\EditSwitchCase.xaml.cs">
       <DependentUpon>EditSwitchCase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Popup\EditText.xaml.cs">
+      <DependentUpon>EditText.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Popup\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -131,6 +162,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Popup\EditAppear.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Popup\EditBackground.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Popup\EditFeeling.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -143,11 +182,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Popup\EditMiniPicture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Popup\EditPicture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Popup\EditScene.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Popup\EditSE.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Popup\EditSwitchCase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Popup\EditText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

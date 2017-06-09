@@ -214,6 +214,24 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 캐릭터 출연.
+        /// </summary>
+        public static string EditAppear {
+            get {
+                return ResourceManager.GetString("EditAppear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 배경 편집.
+        /// </summary>
+        public static string EditBackground {
+            get {
+                return ResourceManager.GetString("EditBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 명령어 편집.
         /// </summary>
         public static string EditCmd {
@@ -250,6 +268,24 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 미니컷 편집.
+        /// </summary>
+        public static string EditMiniPicture {
+            get {
+                return ResourceManager.GetString("EditMiniPicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CG 편집.
+        /// </summary>
+        public static string EditPicture {
+            get {
+                return ResourceManager.GetString("EditPicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 장면 편집.
         /// </summary>
         public static string EditScene {
@@ -259,11 +295,29 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 효과음 편집.
+        /// </summary>
+        public static string EditSE {
+            get {
+                return ResourceManager.GetString("EditSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 선택지 편집.
         /// </summary>
         public static string EditSwitchCase {
             get {
                 return ResourceManager.GetString("EditSwitchCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 지문 편집.
+        /// </summary>
+        public static string EditText {
+            get {
+                return ResourceManager.GetString("EditText", resourceCulture);
             }
         }
         
@@ -367,6 +421,15 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 배경을 찾을 수 없습니다..
+        /// </summary>
+        public static string ErrNotFoundBackground {
+            get {
+                return ResourceManager.GetString("ErrNotFoundBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 캐릭터를 찾을 수 없습니다..
         /// </summary>
         public static string ErrNotFoundCharacter {
@@ -385,6 +448,24 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 미니컷을 찾을 수 없습니다..
+        /// </summary>
+        public static string ErrNotFoundMiniPicture {
+            get {
+                return ResourceManager.GetString("ErrNotFoundMiniPicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CG를 찾을 수 없습니다..
+        /// </summary>
+        public static string ErrNotFoundPicture {
+            get {
+                return ResourceManager.GetString("ErrNotFoundPicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 시나리오를 찾을 수 없습니다..
         /// </summary>
         public static string ErrNotFoundScenario {
@@ -399,6 +480,15 @@ namespace ScenarioEditor.Properties {
         public static string ErrNotFoundScene {
             get {
                 return ResourceManager.GetString("ErrNotFoundScene", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 효과음을 찾을 수 없습니다..
+        /// </summary>
+        public static string ErrNotFoundSE {
+            get {
+                return ResourceManager.GetString("ErrNotFoundSE", resourceCulture);
             }
         }
         
@@ -520,11 +610,56 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (지문을 입력해주세요).
+        /// </summary>
+        public static string GuideText {
+            get {
+                return ResourceManager.GetString("GuideText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 배경 파일 경로.
+        /// </summary>
+        public static string LabelBackgroundFilePath {
+            get {
+                return ResourceManager.GetString("LabelBackgroundFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 캐릭터 파일 경로.
         /// </summary>
         public static string LabelCharacterFilePath {
             get {
                 return ResourceManager.GetString("LabelCharacterFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 미니컷 파일 경로.
+        /// </summary>
+        public static string LabelMiniPictureFilePath {
+            get {
+                return ResourceManager.GetString("LabelMiniPictureFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CG 파일 경로.
+        /// </summary>
+        public static string LabelPictureFilePath {
+            get {
+                return ResourceManager.GetString("LabelPictureFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 효과음 파일 경로.
+        /// </summary>
+        public static string LabelSEFilePath {
+            get {
+                return ResourceManager.GetString("LabelSEFilePath", resourceCulture);
             }
         }
         
