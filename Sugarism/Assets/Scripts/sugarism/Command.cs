@@ -35,6 +35,12 @@ public abstract class Command : IPlayable
             case Sugarism.Command.Type.Case:
                 return new CmdCase(model as Sugarism.CmdCase);
 
+            case Sugarism.Command.Type.Feeling:
+                return new CmdFeeling(model as Sugarism.CmdFeeling);
+
+            case Sugarism.Command.Type.Filter:
+                return new CmdFilter(model as Sugarism.CmdFilter);
+
             default:
                 return null;
         }
