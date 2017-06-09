@@ -18,11 +18,6 @@ public class ObjectManager : MonoBehaviour
         {
             _targetCharacterArray[i] = new TargetCharacter(i);
         }
-
-        //load();
-
-        //if((null != _scenarioList) && (_scenarioList.Count > 0))
-        //    _selectedScenario = _scenarioList[0];   // sample
     }
 
 
@@ -40,12 +35,20 @@ public class ObjectManager : MonoBehaviour
     private TargetCharacter[] _targetCharacterArray = null;
     public TargetCharacter[] TargetCharacterArray { get { return _targetCharacterArray; } }
 
+    private int _caseKey = -1;
+    public int CaseKey
+    {
+        get { return _caseKey; }
+        set { _caseKey = value; }
+    }
+
     //
 
     private Dictionary<int, Sugarism.Character>     _characterDict;
     private List<Scenario>                          _scenarioList;
 
-    private Scenario _selectedScenario;
+    private int _targetId = -1;
+    private Scenario _scenario = null;
 
     #endregion
 
@@ -70,22 +73,71 @@ public class ObjectManager : MonoBehaviour
     }
 
 
+    public bool LoadScenario(int targetId)
+    {
+        if (false == TargetCharacter.isValid(targetId))
+        {
+            Log.Error(string.Format("invalid target id({0})", targetId));
+            return false;
+        }
+
+        string dirPath = string.Format("{0}{1}{2}", Configuration.SCENARIO_FOLDER_PATH,
+                        RsrcLoader.DIR_SEPARATOR, Manager.Instance.DTTarget[targetId].scenarioDirName);
+
+        TargetCharacter tc = Manager.Instance.Object.TargetCharacterArray[targetId];        
+        string filename = (tc.LastOpenedScenarioNo + 1).ToString(); // without extension
+
+        string fullPath = string.Format("{0}{1}{2}", dirPath, 
+                        RsrcLoader.DIR_SEPARATOR, filename);
+
+        _scenario = null;
+        bool isLoaded = RsrcLoader.Instance.Load(fullPath, out _scenario);
+
+        if (isLoaded)
+            _targetId = targetId;
+
+        return isLoaded;
+    }
+
+
     // temp : test (data <-> ui)
     public void NextCmd()
     {
-        if (null == _selectedScenario)
+        if (_isEndedScenario)
+        {
+            _isEndedScenario = false;
+            _scenario = null;
+            
+            Manager.Instance.ScenarioEndEvent.Invoke();
             return;
+        }
+
+        if (null == _scenario)
+        {
+            Log.Error("not found scenario, load please");
+            return;
+        }
 
         play();
     }
 
+    private bool _isEndedScenario = false;
     private void play()
     {
-        bool canMorePlay = _selectedScenario.Play();
+        bool canMorePlay = _scenario.Play();
         if (false == canMorePlay)
         {
-            _selectedScenario = null;
-            Log.Debug("end. Scenario");  // @todo : TRANSITION
+            _isEndedScenario = true;
+
+            if (TargetCharacter.isValid(_targetId))
+            {
+                TargetCharacter c = _targetCharacterArray[_targetId];
+                ++c.LastOpenedScenarioNo;
+
+                _targetId = -1;
+            }
+
+            Log.Debug("end. scenario");
         }
     }
 

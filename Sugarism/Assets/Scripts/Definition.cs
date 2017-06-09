@@ -94,13 +94,19 @@ public enum EStat
 // 나중에 파일로 빼자.
 public class Def
 {
+    // Resolution
+    public const int RESOLUTION_WIDTH = 540;
+    public const int RESOLUTION_HEIGHT = 960;
+    public const int RESOLUTION_WIDTH_RATIO = 9;
+    public const int RESOLUTION_HEIGHT_RATIO = 16;
+
     // UI
     public const string BACK = "뒤로";
 
     // Calendar
     public const int INIT_YEAR = 199;
     public const int PERIOD_YEAR = 4;
-    public const int INIT_MONTH = 1;   // 탄생월은 나중에 user-defined. (zodiac)
+    public const int INIT_MONTH = 1;
     public const int INIT_DAY = 1;
     public const string YEAR_UNIT = "年";
     public const string MONTH_UNIT = "月";
@@ -139,6 +145,7 @@ public class Def
     public const string PROFILE_FORMAT = "{0} ({1})\n{2}, {3}";
 
     // Main Character
+    public const int MAIN_CHARACTER_ID = 0; // DTCharacter.id
     public const int INIT_AGE = 12;
     public const string STRESS_FORMAT = "스트레스 {0}";
 
@@ -149,6 +156,9 @@ public class Def
     // Target Character
     public const int MIN_FEELING = 0;
     public const int MAX_FEELING = 100;
-    public const int MIN_SCENARIO = 0;
-    public const int MAX_SCENARIO = Calendar.MAX_MONTH * PERIOD_YEAR;   // 12 * 4
+    public const int MIN_SCENARIO = 1;// 시나리오는 이 번호부터 시작한다.
+    public const int MAX_SCENARIO = 1;//Calendar.MAX_MONTH * PERIOD_YEAR;   // 12 * 4
+
+    // Lines
+    public const string ANONYMOUS = "???";
 }

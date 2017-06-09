@@ -10,7 +10,7 @@ public class Configuration
     // - All asset names and paths in Unity use forward slashes, 
     //  paths using backslashes will not work.
 
-    public const string CHARACTER_FILE_PATH = "sample";
+    public const string CHARACTER_FILE_PATH = "character";
     public const string SCENARIO_FOLDER_PATH = "Scenarios";
 
     //

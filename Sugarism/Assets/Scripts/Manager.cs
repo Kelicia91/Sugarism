@@ -17,6 +17,12 @@ public class Manager : MonoBehaviour
         // custom event
         _cmdLinesEvent = new CmdLinesEvent();
 
+        _cmdFilterEvent = new CmdFilterEvent();
+        _cmdFeelingEvent = new CmdFeelingEvent();
+        _cmdSwitchEvent = new CmdSwitchEvent();
+        _scenarioStartEvent = new ScenarioStartEvent();
+        _scenarioEndEvent = new ScenarioEndEvent();
+
         _moneyChangeEvent = new MoneyChangeEvent();
         _yearChangeEvent = new YearChangeEvent();
         _monthChangeEvent = new MonthChangeEvent();
@@ -36,6 +42,11 @@ public class Manager : MonoBehaviour
         // manager
         _object = Instantiate(PrefObjectManager);
         _ui = Instantiate(PrefUIManager);
+
+        // game
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        Screen.SetResolution(Screen.width, (Screen.width / Def.RESOLUTION_WIDTH_RATIO * Def.RESOLUTION_HEIGHT_RATIO), true);
+        Log.Debug(string.Format("Screen width: {0}, height: {1}", Screen.width, Screen.height));
     }
 
 
@@ -78,6 +89,21 @@ public class Manager : MonoBehaviour
     // CustomEvent
     private CmdLinesEvent _cmdLinesEvent = null;
     public CmdLinesEvent CmdLinesEvent { get { return _cmdLinesEvent; } }
+
+    private CmdSwitchEvent _cmdSwitchEvent = null;
+    public CmdSwitchEvent CmdSwitchEvent { get { return _cmdSwitchEvent; } }
+
+    private CmdFilterEvent _cmdFilterEvent = null;
+    public CmdFilterEvent CmdFilterEvent { get { return _cmdFilterEvent; } }
+
+    private CmdFeelingEvent _cmdFeelingEvent = null;
+    public CmdFeelingEvent CmdFeelingEvent { get { return _cmdFeelingEvent; } }
+
+    private ScenarioStartEvent _scenarioStartEvent = null;
+    public ScenarioStartEvent ScenarioStartEvent { get { return _scenarioStartEvent; } }
+
+    private ScenarioEndEvent _scenarioEndEvent = null;
+    public ScenarioEndEvent ScenarioEndEvent { get { return _scenarioEndEvent; } }
 
     private MoneyChangeEvent _moneyChangeEvent = null;
     public MoneyChangeEvent MoneyChangeEvent { get { return _moneyChangeEvent; } }
