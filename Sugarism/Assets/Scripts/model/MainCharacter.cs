@@ -12,7 +12,8 @@ public partial class MainCharacter
         _money = money;
 
         _actCount = new int[Manager.Instance.DTAction.Count];
-        for (int i = 0; i < _actCount.Length; ++i)
+        int numActCount = _actCount.Length;
+        for (int i = 0; i < numActCount; ++i)
         {
             _actCount[i] = 0;
         }

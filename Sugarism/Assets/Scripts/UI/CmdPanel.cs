@@ -111,6 +111,8 @@ public class CmdPanel : Panel
     private void onClickStateButton()
     {
         Manager.Instance.UI.MainPanel.Hide();
-        Manager.Instance.UI.StatePanel.Show();
+        //Manager.Instance.UI.StatePanel.Show();
+
+        Manager.Instance.Object.BoardGameMode.Start(1); // test~~~~~
     }
 }

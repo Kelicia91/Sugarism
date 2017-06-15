@@ -52,7 +52,8 @@ public class ActionListPanel : Panel
 
     private void hideAllChildren()
     {
-        for (int i = 0; i < _viewArray.Length; ++i)
+        int numViewArray = _viewArray.Length;
+        for (int i = 0; i < numViewArray; ++i)
         {
             _viewArray[i].Hide();
         }

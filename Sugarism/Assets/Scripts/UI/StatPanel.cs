@@ -51,6 +51,23 @@ public class StatPanel : Panel
         setValue(value);
     }
 
+    public void Set(EStat statType, int value)
+    {
+        if (EStat.MAX == statType)
+        {
+            Log.Error("invalid stat type");
+            return;
+        }
+
+        _statType = statType;
+
+        int statId = (int)statType;
+        Stat stat = Manager.Instance.DTStat[statId];
+        setNameText(stat.name);
+        
+        setValue(value);
+    }
+
     private void setValue(int value)
     {
         Slider.value = value;

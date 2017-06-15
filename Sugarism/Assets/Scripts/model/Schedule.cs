@@ -325,7 +325,9 @@ public partial class Schedule
         int actionPeriod = Calendar.LastDay[month] / numOfAction;
 
         int[] beginDayOfAction = new int[numOfAction];
-        for (int i = 0; i < beginDayOfAction.Length; ++i)
+
+        int numBeginDayOfAction = beginDayOfAction.Length;
+        for (int i = 0; i < numBeginDayOfAction; ++i)
         {
             beginDayOfAction[i] = actionPeriod * i + 1;
         }
@@ -337,14 +339,16 @@ public partial class Schedule
     {
         int actionPeriod = Calendar.LastDay[month] / numOfAction;
 
-        int[] enddayOfAction = new int[numOfAction];
-        for (int i = 0; i < enddayOfAction.Length; ++i)
+        int[] endDayOfAction = new int[numOfAction];
+
+        int numEndDayOfAction = endDayOfAction.Length;
+        for (int i = 0; i < numEndDayOfAction; ++i)
         {
-            enddayOfAction[i] = actionPeriod * (i + 1);
+            endDayOfAction[i] = actionPeriod * (i + 1);
         }
 
-        enddayOfAction[(numOfAction - 1)] = Calendar.LastDay[month];
+        endDayOfAction[(numOfAction - 1)] = Calendar.LastDay[month];
 
-        return enddayOfAction;
+        return endDayOfAction;
     }
 }

@@ -30,7 +30,8 @@ public class SwitchPanel : Panel
         if (null == _caseBtnArray)
             return;
 
-        for (int i = 0; i < _caseBtnArray.Length; ++i)
+        int numCaseBtnArray = _caseBtnArray.Length;
+        for (int i = 0; i < numCaseBtnArray; ++i)
             _caseBtnArray[i].gameObject.SetActive(false);
     }
 
@@ -57,7 +58,8 @@ public class SwitchPanel : Panel
 
         _caseBtnArray = new CaseButton[Sugarism.CmdSwitch.MAX_COUNT_CASE];
 
-        for (int i = 0; i < _caseBtnArray.Length; ++i)
+        int numCaseBtnArray = _caseBtnArray.Length;
+        for (int i = 0; i < numCaseBtnArray; ++i)
         {
             GameObject o = Instantiate(PrefCaseButton);
             o.transform.SetParent(CasePanel.transform, false);
@@ -72,20 +74,21 @@ public class SwitchPanel : Panel
 
     private void onCmdSwitch(CmdCase[] caseArray)
     {
-        if (caseArray.Length > _caseBtnArray.Length)
+        int numCaseArray = caseArray.Length;
+        if (numCaseArray > _caseBtnArray.Length)
         {
             Log.Error("invalid case count; bigger then max case count");
             return;
         }
 
-        for (int i = 0; i < caseArray.Length; ++i)
+        for (int i = 0; i < numCaseArray; ++i)
         {
             CmdCase c = caseArray[i];
             _caseBtnArray[i].Set(c.Key, c.Description);
             _caseBtnArray[i].gameObject.SetActive(true);
         }
 
-        for (int i = caseArray.Length; i < _caseBtnArray.Length; ++i)
+        for (int i = numCaseArray; i < _caseBtnArray.Length; ++i)
         {
             _caseBtnArray[i].Set(-1, string.Empty);
             _caseBtnArray[i].gameObject.SetActive(false);

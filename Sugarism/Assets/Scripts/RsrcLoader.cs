@@ -59,6 +59,7 @@ public class RsrcLoader
         return true;
     }
 
+    //@todo: remove it
     public bool Load(string path, out List<Scenario> scenarioList)
     {
         scenarioList = null;
