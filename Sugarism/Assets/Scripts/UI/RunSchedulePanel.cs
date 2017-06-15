@@ -62,7 +62,8 @@ public class RunSchedulePanel : Panel
 
         AnimImage.gameObject.SetActive(false);
 
-        for (int i = 0; i < _statPanelList.Count; i++)
+        int statPanelListCount = _statPanelList.Count;
+        for (int i = 0; i < statPanelListCount; i++)
             _statPanelList[i].Hide();
 
         NPCPanel.Hide();
@@ -157,12 +158,14 @@ public class RunSchedulePanel : Panel
             }
         }
 
-        for (int i = 0; i < statList.Count; ++i)
+        int statListCount = statList.Count;
+        int statPanelListCount = _statPanelList.Count;
+        for (int i = 0; i < statListCount; ++i)
         {
             _statPanelList[i].Set(statList[i]);
             _statPanelList[i].Show();
         }
-        for (int i = statList.Count; i < _statPanelList.Count; i++)
+        for (int i = statList.Count; i < statPanelListCount; i++)
         {
             _statPanelList[i].Hide();   // hide unused panel
         }

@@ -75,7 +75,9 @@ public class SwitchPanel : Panel
     private void onCmdSwitch(CmdCase[] caseArray)
     {
         int numCaseArray = caseArray.Length;
-        if (numCaseArray > _caseBtnArray.Length)
+        int numCaseBtnArray = _caseBtnArray.Length;
+
+        if (numCaseArray > numCaseBtnArray)
         {
             Log.Error("invalid case count; bigger then max case count");
             return;
@@ -88,7 +90,7 @@ public class SwitchPanel : Panel
             _caseBtnArray[i].gameObject.SetActive(true);
         }
 
-        for (int i = numCaseArray; i < _caseBtnArray.Length; ++i)
+        for (int i = numCaseArray; i < numCaseBtnArray; ++i)
         {
             _caseBtnArray[i].Set(-1, string.Empty);
             _caseBtnArray[i].gameObject.SetActive(false);

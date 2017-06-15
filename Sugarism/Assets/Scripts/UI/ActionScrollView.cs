@@ -179,7 +179,8 @@ public class ActionScrollView : Panel
         actionIdList = new List<int>();
 
         // query : select row.id from DTAction where row.type = actionType
-        for (int i = 0; i < Manager.Instance.DTAction.Count; ++i)
+        int actionCount = Manager.Instance.DTAction.Count;
+        for (int i = 0; i < actionCount; ++i)
         {
             if (actionType == Manager.Instance.DTAction[i].type)
             {
