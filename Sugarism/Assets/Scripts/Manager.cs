@@ -65,6 +65,7 @@ public class Manager : MonoBehaviour
     public ActionObject AsstDTAction;
     public ActionTypeObject AsstDTActionType;
     public BackgroundObject AsstDTBackground;
+    public BoardGamePlayerObject AsstDTBoardGamePlayer;
     public CharacterObject AsstDTCharacter;
     public ConstitutionObject AsstDTConstitution;
     public MiniPictureObject AsstDTMiniPicture;
@@ -89,6 +90,7 @@ public class Manager : MonoBehaviour
     public ActionObject DTAction { get { return AsstDTAction; } }
     public ActionTypeObject DTActionType { get { return AsstDTActionType; } }
     public BackgroundObject DTBackground { get { return AsstDTBackground; } }
+    public BoardGamePlayerObject DTBoardGamePlayer { get { return AsstDTBoardGamePlayer; } }
     public CharacterObject DTCharacter { get { return AsstDTCharacter; } }
     public ConstitutionObject DTConstitution { get { return AsstDTConstitution; } }
     public MiniPictureObject DTMiniPicture { get { return AsstDTMiniPicture; } }

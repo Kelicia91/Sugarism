@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public GameObject PrefSelectTargetPanel;
     public GameObject PrefStoryPanel;
     public GameObject PrefStatePanel;
+    public GameObject PrefBoardGamePanel;
 
 
     /********* Game Interface *********/
@@ -39,6 +40,9 @@ public class UIManager : MonoBehaviour
     private StatePanel _statePanel = null;
     public StatePanel StatePanel { get { return _statePanel; } }
 
+    private BoardGamePanel _boardGamePanel = null;
+    public BoardGamePanel BoardGamePanel { get { return _boardGamePanel; } }
+
 
     // Use this for initialization
     void Start ()
@@ -50,6 +54,7 @@ public class UIManager : MonoBehaviour
         SelectTargetPanel.Hide();
         StoryPanel.Hide();
         StatePanel.Hide();
+        BoardGamePanel.Hide();
 
         MainPanel.Show();
 
@@ -93,6 +98,10 @@ public class UIManager : MonoBehaviour
         o = Instantiate(PrefStatePanel);
         _statePanel = o.GetComponent<StatePanel>();
         _statePanel.transform.SetParent(_canvas.transform, false);
+
+        o = Instantiate(PrefBoardGamePanel);
+        _boardGamePanel = o.GetComponent<BoardGamePanel>();
+        _boardGamePanel.transform.SetParent(_canvas.transform, false);
     }
 
     

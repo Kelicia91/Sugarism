@@ -4,7 +4,7 @@
 public class ObjectManager : MonoBehaviour
 {
     void Awake()
-    {        
+    {
         _calendar = new Calendar(Def.INIT_YEAR, Def.INIT_MONTH, Def.INIT_DAY);
         _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY);
         
@@ -12,21 +12,28 @@ public class ObjectManager : MonoBehaviour
         _schedule.Constrution(Def.MAX_NUM_ACTION_IN_MONTH, _calendar, _mainCharacter);
 
         _targetCharacterArray = new TargetCharacter[Manager.Instance.DTTarget.Count];
-        for (int i = 0; i < _targetCharacterArray.Length; ++i)
+
+        int numTargetCharacterArray = _targetCharacterArray.Length;
+        for (int i = 0; i < numTargetCharacterArray; ++i)
         {
             _targetCharacterArray[i] = new TargetCharacter(i);
         }
+
+        _boardGameMode = new BoardGame.BoardGameMode();
     }
 
 
     #region Field, Property
 
+    /***** Nurture *****/
     private Calendar _calendar = null;
     public Calendar Calendar { get { return _calendar; } }
 
     private Schedule _schedule = null;
     public Schedule Schedule { get { return _schedule; } }
 
+
+    /***** Date *****/
     private MainCharacter _mainCharacter = null;
     public MainCharacter MainCharacter { get { return _mainCharacter; } }
 
@@ -39,13 +46,17 @@ public class ObjectManager : MonoBehaviour
         get { return _caseKey; }
         set { _caseKey = value; }
     }
-
-    //
+    
     private int _targetId = -1;
     private Scenario _scenario = null;
 
-    #endregion
-    
+
+    /***** BoardGame *****/
+    private BoardGame.BoardGameMode _boardGameMode = null;
+    public BoardGame.BoardGameMode BoardGameMode { get { return _boardGameMode; } }
+
+    #endregion  // Field, Property
+
 
     public bool LoadScenario(int targetId)
     {

@@ -1,0 +1,61 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public class PersonalInfoPanel : Panel
+{
+    /********* Editor Interface *********/
+    // prefabs
+    public GameObject PrefPlayerInfoPanel;
+
+    //
+    private PlayerInfoPanel _userInfoPanel = null;
+    private PlayerInfoPanel _aiInfoPanel = null;
+
+
+    void Awake()
+    {
+        _userInfoPanel = create();
+        _aiInfoPanel = create();
+    }
+
+    private PlayerInfoPanel create()
+    {
+        if (null == PrefPlayerInfoPanel)
+        {
+            Log.Error("not found prefab player info panel");
+            return null;
+        }
+
+        GameObject o = Instantiate(PrefPlayerInfoPanel);
+        o.transform.SetParent(transform, false);
+
+        return o.GetComponent<PlayerInfoPanel>();
+    }
+
+    public void OnStart(BoardGame.UserPlayer user, BoardGame.AIPlayer ai)
+    {
+        if (null != _userInfoPanel)
+        {
+            _userInfoPanel.Set(user);
+            _userInfoPanel.Show();
+        }
+        else
+        {
+            Log.Error("not found user info panel");
+            _userInfoPanel.Hide();
+        }
+
+        if (null != _aiInfoPanel)
+        {
+            _aiInfoPanel.Set(ai);
+            _aiInfoPanel.Show();
+        }
+        else
+        {
+            Log.Error("not found ai info panel");
+            _aiInfoPanel.Hide();
+        }
+    }
+}

@@ -145,7 +145,7 @@ public class Def
     public const string PROFILE_FORMAT = "{0} ({1})\n{2}, {3}";
 
     // Main Character
-    public const int MAIN_CHARACTER_ID = 0; // DTCharacter.id
+    public const int MAIN_CHARACTER_ID = 0; // DTCharacter.id, DTBoardGamePlayer.id
     public const int INIT_AGE = 12;
     public const string STRESS_FORMAT = "스트레스 {0}";
 
@@ -161,4 +161,11 @@ public class Def
 
     // Lines
     public const string ANONYMOUS = "???";
+
+    // BoardGame
+    public const string BOARD_CRITERION_LOW = "L";
+    public const string BOARD_CRITERION_HIGH = "H";
+    public const string BOARD_START = "START";
+    public const string BOARD_WIN = "W I N";
+    public const string BOARD_LOSE = "L O S E";
 }
