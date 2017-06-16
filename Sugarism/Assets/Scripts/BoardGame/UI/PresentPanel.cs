@@ -38,7 +38,7 @@ public class PresentPanel : Panel
     {
         if (null != _userPresentPanel)
         {
-            //_userPresentPanel.Set(user);
+            _userPresentPanel.Set(user);
             _userPresentPanel.Show();
         }
         else
@@ -49,7 +49,7 @@ public class PresentPanel : Panel
 
         if (null != _aiPresentPanel)
         {
-            //_aiPresentPanel.Set(ai);
+            _aiPresentPanel.Set(ai);
             _aiPresentPanel.Show();
         }
         else

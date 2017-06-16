@@ -26,7 +26,16 @@ public class FlowSlider : MonoBehaviour
 
     private void onFlowChanged(int flow)
     {
-        setValue(flow);
+        //setValue(flow);
+
+        if (gameObject.activeInHierarchy)
+        {
+            StartCoroutine(move(flow));
+        }
+        else
+        {
+            setValue(flow);
+        }
     }
 
     private void setValue(int value)
@@ -38,5 +47,23 @@ public class FlowSlider : MonoBehaviour
         }
 
         _slider.value = value;
+    }
+
+
+    IEnumerator move(int flow)
+    {
+        const float waitSeconds = 0.1f;
+
+        float startValue = _slider.value;
+        float t = 0.0f;
+        while (t < 1.0f)
+        {
+            _slider.value = Mathf.SmoothStep(startValue, flow, t);
+            t += waitSeconds;
+            yield return new WaitForSeconds(waitSeconds);
+        }
+
+        setValue(flow);
+        Manager.Instance.Object.BoardGameMode.JudgeIter();
     }
 }

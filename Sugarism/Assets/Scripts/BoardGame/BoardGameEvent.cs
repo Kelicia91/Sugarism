@@ -105,20 +105,55 @@
         }
     }
 
-    public class JudgeEvent
+    public class EndEvent
+    {
+        public delegate void Handler(BoardGameMode.EUserGameState state);
+        private event Handler _event;
+
+        public EndEvent()
+        {
+            _event = new Handler(onEnd);
+        }
+
+        // default handler
+        private void onEnd(BoardGameMode.EUserGameState state)
+        {
+            Log.Debug(string.Format("onEnd; UserGameState({0})", state));
+        }
+
+        public void Invoke(BoardGameMode.EUserGameState state) { _event.Invoke(state); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
+    public class BingoEvent
     {
         public delegate void Handler();
         private event Handler _event;
 
-        public JudgeEvent()
+        public BingoEvent()
         {
-            _event = new Handler(onJudge);
+            _event = new Handler(onBingo);
         }
 
         // default handler
-        private void onJudge()
+        private void onBingo()
         {
-            Log.Debug("onJudge");
+            Log.Debug("onBingo;");
         }
 
         public void Invoke() { _event.Invoke(); }
@@ -140,23 +175,58 @@
         }
     }
 
-    public class EndEvent
+    public class AttackEvent
     {
-        public delegate void Handler(BoardGameMode.EUserGameState state);
+        public delegate void Handler(int playerId);
         private event Handler _event;
 
-        public EndEvent()
+        public AttackEvent()
         {
-            _event = new Handler(onEnd);
+            _event = new Handler(onAttack);
         }
 
         // default handler
-        private void onEnd(BoardGameMode.EUserGameState state)
+        private void onAttack(int playerId)
         {
-            Log.Debug(string.Format("onEnd; UserGameState({0})", state));
+            Log.Debug(string.Format("onAttack; playerId({0})", playerId));
         }
 
-        public void Invoke(BoardGameMode.EUserGameState state) { _event.Invoke(state); }
+        public void Invoke(int playerId) { _event.Invoke(playerId); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
+    public class CounterAttackEvent
+    {
+        public delegate void Handler(int playerId);
+        private event Handler _event;
+
+        public CounterAttackEvent()
+        {
+            _event = new Handler(onCounterAttack);
+        }
+
+        // default handler
+        private void onCounterAttack(int playerId)
+        {
+            Log.Debug(string.Format("onCounterAttack; playerId({0})", playerId));
+        }
+
+        public void Invoke(int playerId) { _event.Invoke(playerId); }
 
         public void Attach(Handler handler)
         {

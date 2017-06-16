@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class PlayerCardListPanel : Panel
@@ -31,7 +31,9 @@ public class PlayerCardListPanel : Panel
             _cardArray[i] = card;
         }
 
-        Manager.Instance.Object.BoardGameMode.ShuffleEvent.Attach(onShuffle);
+        var mode = Manager.Instance.Object.BoardGameMode;
+        mode.ShuffleEvent.Attach(onShuffle);
+        mode.RemoveAllDefenseEvent.Attach(onRemoveAllDefense);
     }
 
     public void Set(BoardGame.Player player)
@@ -60,6 +62,30 @@ public class PlayerCardListPanel : Panel
         for (int i = 0; i < numPlayerCard; ++i)
         {
             _cardArray[i].SetCard(_player.CardArray[i]);
+            _cardArray[i].gameObject.SetActive(true);
         }
+    }
+
+    private void onRemoveAllDefense(int playerId, int index)
+    {
+        Log.Debug("PlayerCardListPanel.onRemoveAllDefense");
+
+        if (_player.Id != playerId)
+            return;
+
+        const float waitSeconds = 1.0f;
+        StartCoroutine(disappear(waitSeconds, _cardArray[index]));
+    }
+
+    IEnumerator disappear(float waitSeconds, CardButton card)
+    {
+        // @todo: 뭔가아쉬운 연출...
+        for (int i = 0; i < 1; ++i)
+        {
+            yield return new WaitForSeconds(waitSeconds);
+        }
+        
+        card.gameObject.SetActive(false);
+        Manager.Instance.Object.BoardGameMode.JudgeIter();
     }
 }

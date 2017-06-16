@@ -19,8 +19,11 @@ public class DrawCardPanel : Panel
     {
         _image = GetComponent<Image>();
 
-        Manager.Instance.Object.BoardGameMode.ShuffleEvent.Attach(onShuffle);
-        Manager.Instance.Object.BoardGameMode.JudgeEvent.Attach(onJudge);
+        var mode = Manager.Instance.Object.BoardGameMode;
+        mode.ShuffleEvent.Attach(onShuffle);
+        mode.DrawEvent.Attach(onDraw);
+        mode.AttackEvent.Attach(onAttack);
+        mode.RemoveAllDefenseEvent.Attach(onRemoveAllDefense);
     }
 
     public void Set(BoardGame.Player player)
@@ -35,7 +38,7 @@ public class DrawCardPanel : Panel
         Hide();
     }
 
-    private void onJudge()
+    private void onDraw()
     {
         if (null == _player)
         {
@@ -45,6 +48,26 @@ public class DrawCardPanel : Panel
 
         set(_player.DrawCard);
         show();
+    }
+
+    private void onRemoveAllDefense(int playerId, int index)
+    {
+        if (_player.Id != playerId)
+        {
+            Show();
+        }
+        else
+        {
+            Hide();
+        }
+    }
+
+    private void onAttack(int playerId)
+    {
+        if (_player.Id != playerId)
+            return;
+
+        Show();
     }
 
     private void show()
@@ -71,7 +94,8 @@ public class DrawCardPanel : Panel
             yield return new WaitForSeconds(.2f);
         }
 
-        Manager.Instance.Object.BoardGameMode.Judge();
+        if (Def.MAIN_CHARACTER_ID == _player.Id)
+            Manager.Instance.Object.BoardGameMode.StartJudge();  // just called once!
     }
 
     private void set(BoardGame.Card card)

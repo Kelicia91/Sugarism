@@ -7,18 +7,18 @@ public class BlockingPanel : Panel
 {
     void Awake()
     {
+        Manager.Instance.Object.BoardGameMode.ShuffleEvent.Attach(onShuffle);
         Manager.Instance.Object.BoardGameMode.DrawEvent.Attach(onDraw);
-        Manager.Instance.Object.BoardGameMode.JudgeEvent.Attach(onJudge);
 
         Hide();
     }
 
-    private void onDraw()
+    private void onShuffle()
     {
         Hide();
     }
 
-    private void onJudge()
+    private void onDraw()
     {
         Show();
     }

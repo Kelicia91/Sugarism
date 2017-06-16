@@ -141,8 +141,8 @@ public class CardButton : MonoBehaviour
         }
 
         _player.Pop(_index);
-        
-        Manager.Instance.Object.BoardGameMode.JudgeEvent.Invoke();
+
+        Manager.Instance.Object.BoardGameMode.DrawEvent.Invoke();
     }
 
     private void setText(string s)

@@ -25,7 +25,7 @@ namespace BoardGame
             set
             {
                 _owner = value;
-                Manager.Instance.Object.BoardGameMode.BoardUnitOwnerChangeEvent.Invoke(Row, Col, _owner);
+                Manager.Instance.Object.BoardGameMode.CellOwnerChangeEvent.Invoke(Row, Col, _owner);
             }
         }
 
@@ -36,7 +36,7 @@ namespace BoardGame
             set
             {
                 _isBingo = value;
-                Manager.Instance.Object.BoardGameMode.BoardUnitBingoChangeEvent.Invoke(Row, Col, _isBingo);
+                Manager.Instance.Object.BoardGameMode.CellBingoChangeEvent.Invoke(Row, Col, _isBingo);
             }
         }
 

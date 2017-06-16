@@ -25,8 +25,8 @@ public class CellPanel : Panel
     {
         _image = GetComponent<Image>();
 
-        Manager.Instance.Object.BoardGameMode.BoardUnitOwnerChangeEvent.Attach(onBoardUnitOwnerChanged);
-        Manager.Instance.Object.BoardGameMode.BoardUnitBingoChangeEvent.Attach(onBoardUnitBingoChanged);
+        Manager.Instance.Object.BoardGameMode.CellOwnerChangeEvent.Attach(onBoardUnitOwnerChanged);
+        Manager.Instance.Object.BoardGameMode.CellBingoChangeEvent.Attach(onBoardUnitBingoChanged);
     }
 
     public void Set(BoardGame.Cell cell)
@@ -106,7 +106,16 @@ public class CellPanel : Panel
             return;
 
         Color c = getOwnerColor(owner);
-        setColor(c);
+
+        if (gameObject.activeInHierarchy)
+        {
+            const float waitSeconds = 0.1f;
+            StartCoroutine(coloring(waitSeconds, c));
+        }
+        else
+        {
+            setColor(c);
+        }
     }
 
     private void onBoardUnitBingoChanged(int row, int col, bool isBingo)
@@ -118,5 +127,20 @@ public class CellPanel : Panel
             return;
 
         setBingo(isBingo);
+    }
+
+    IEnumerator coloring(float waitSeconds, Color target)
+    {
+        Color targetColor = target;
+        for (float alpha = 0.0f; alpha <= 1.0f; alpha += 0.3f)
+        {
+            Color c = new Color(targetColor.r, targetColor.g, targetColor.b, alpha);
+            setColor(c);
+
+            yield return new WaitForSeconds(waitSeconds);
+        }
+
+        setColor(target);
+        Manager.Instance.Object.BoardGameMode.JudgeIter();
     }
 }

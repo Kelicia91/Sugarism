@@ -95,11 +95,17 @@ namespace BoardGame
         private DrawEvent _drawEvent = null;
         public DrawEvent DrawEvent { get { return _drawEvent; } }
 
-        private JudgeEvent _judgeEvent = null;
-        public JudgeEvent JudgeEvent { get { return _judgeEvent; } }
-
         private EndEvent _endEvent = null;
         public EndEvent EndEvent { get { return _endEvent; } }
+
+        private BingoEvent _bingoEvent = null;
+        public BingoEvent BingoEvent { get { return _bingoEvent; } }
+
+        private AttackEvent _attackEvent = null;
+        public AttackEvent AttackEvent { get { return _attackEvent; } }
+
+        private CounterAttackEvent _counterAttackEvent = null;
+        public CounterAttackEvent CounterAttackEvent { get { return _counterAttackEvent; } }
 
         private RemoveAllDefenseEvent _removeAllDefenseEvent = null;
         public RemoveAllDefenseEvent RemoveAllDefenseEvent { get { return _removeAllDefenseEvent; } }
@@ -113,11 +119,11 @@ namespace BoardGame
         private FlowChangeEvent _flowChangeEvent = null;
         public FlowChangeEvent FlowChangeEvent { get { return _flowChangeEvent; } }
 
-        private CellOwnerChangeEvent _boardUnitOwnerChangeEvent = null;
-        public CellOwnerChangeEvent BoardUnitOwnerChangeEvent { get { return _boardUnitOwnerChangeEvent; } }
+        private CellOwnerChangeEvent _cellOwnerChangeEvent = null;
+        public CellOwnerChangeEvent CellOwnerChangeEvent { get { return _cellOwnerChangeEvent; } }
 
-        private CellBingoChangeEvent _boardUnitBingoChangeEvent = null;
-        public CellBingoChangeEvent BoardUnitBingoChangeEvent { get { return _boardUnitBingoChangeEvent; } }
+        private CellBingoChangeEvent _cellBingoChangeEvent = null;
+        public CellBingoChangeEvent CellBingoChangeEvent { get { return _cellBingoChangeEvent; } }
 
         #endregion
 
@@ -128,14 +134,17 @@ namespace BoardGame
             _startEvent = new StartEvent();
             _shuffleEvent = new ShuffleEvent();
             _drawEvent = new DrawEvent();
-            _judgeEvent = new JudgeEvent();
             _endEvent = new EndEvent();
+
+            _bingoEvent = new BingoEvent();
+            _attackEvent = new AttackEvent();
+            _counterAttackEvent = new CounterAttackEvent();
             _removeAllDefenseEvent = new RemoveAllDefenseEvent();
             _turnChangeEvent = new TurnChangeEvent();
             _criterionChangeEvent = new CriterionChangeEvent();
             _flowChangeEvent = new FlowChangeEvent();
-            _boardUnitOwnerChangeEvent = new CellOwnerChangeEvent();
-            _boardUnitBingoChangeEvent = new CellBingoChangeEvent();
+            _cellOwnerChangeEvent = new CellOwnerChangeEvent();
+            _cellBingoChangeEvent = new CellBingoChangeEvent();
 
             _board = new Board();
         }
@@ -167,21 +176,23 @@ namespace BoardGame
 
             ShuffleEvent.Invoke();
 
-            Draw();
-        }
-
-        public void Draw()
-        {
             _ai.Draw();
-
-            DrawEvent.Invoke();
         }
 
-        public void Judge()
+        private IEnumerator _iterJudge = null;
+        public void StartJudge()
         {
-            judge();
+            _iterJudge = Judge();   // @NOTE: not support operation Reset();
+            JudgeIter();
+        }
 
-            --RemainTurn;
+        public void JudgeIter()
+        {
+            if (null == _iterJudge)
+                return;
+
+            if (_iterJudge.MoveNext())
+                return;
 
             EUserGameState state = isOver();
             switch (state)
@@ -195,6 +206,15 @@ namespace BoardGame
                     Shuffle();
                     break;
             }
+        }
+        
+        IEnumerator Judge()
+        {
+            IEnumerator iter = judge();
+            while (iter.MoveNext())
+                yield return null;
+            
+            --RemainTurn;
         }
 
         public void End(EUserGameState state)
@@ -229,155 +249,174 @@ namespace BoardGame
         }
 
 
-        private void judge()
+        IEnumerator judge()
         {
             Card.EType userCardType = _user.DrawCard.Type;
             Card.EType aiCardType = _ai.DrawCard.Type;
 
-            switch (userCardType)
+            if ((Card.EType.Number == userCardType) && (Card.EType.Number == aiCardType))
             {
-                case Card.EType.Number:
-                    switch (aiCardType)
-                    {
-                        case Card.EType.Number:
-                            judgeUserNumAINum();
-                            break;
-
-                        case Card.EType.Attack:
-                            judgeUserNumAIAttack();
-                            break;
-
-                        case Card.EType.Defense:
-                            judgeUserNumAIDefense();
-                            break;
-
-                        default:
-                            Log.Error("invalid card type that ai draw");
-                            return;
-                    }
-                    break;
-
-                case Card.EType.Attack:
-                    switch (aiCardType)
-                    {
-                        case Card.EType.Number:
-                            judgeUserAttackAINum();
-                            break;
-
-                        case Card.EType.Attack:
-                            judgeUserAttackAIAttack();
-                            break;
-
-                        case Card.EType.Defense:
-                            judgeUserAttackAIDefense();
-                            break;
-
-                        default:
-                            Log.Error("invalid card type that ai draw");
-                            return;
-                    }
-                    break;
-
-                case Card.EType.Defense:
-                    switch (aiCardType)
-                    {
-                        case Card.EType.Number:
-                            judgeUserDefenseAINum();
-                            break;
-
-                        case Card.EType.Attack:
-                            judgeUserDefenseAIAttack();
-                            break;
-
-                        case Card.EType.Defense:
-                            judgeUserDefenseAIDefense();
-                            break;
-
-                        default:
-                            Log.Error("invalid card type that ai draw");
-                            return;
-                    }
-                    break;
-
-                default:
-                    Log.Error("invalid card type that user draw");
-                    return;
+                IEnumerator iter = judgeUserNumAINum();
+                while (iter.MoveNext())
+                    yield return null;
+                yield break;
+            }
+            else if ((Card.EType.Number == userCardType) && (Card.EType.Attack == aiCardType))
+            {
+                IEnumerator iter = judgeUserNumAIAttack();
+                while (iter.MoveNext())
+                    yield return null;
+                yield break;
+            }
+            else if ((Card.EType.Number == userCardType) && (Card.EType.Defense == aiCardType))
+            {
+                IEnumerator iter = judgeUserNumAIDefense();
+                while (iter.MoveNext())
+                    yield return null;
+                yield break;
+            }
+            else if ((Card.EType.Attack == userCardType) && (Card.EType.Number == aiCardType))
+            {
+                IEnumerator iter = judgeUserAttackAINum();
+                while (iter.MoveNext())
+                    yield return null;
+                yield break;
+            }
+            else if ((Card.EType.Attack == userCardType) && (Card.EType.Attack == aiCardType))
+            {
+                judgeUserAttackAIAttack();
+                yield break;
+            }
+            else if ((Card.EType.Attack == userCardType) && (Card.EType.Defense == aiCardType))
+            {
+                IEnumerator iter = judgeUserAttackAIDefense();
+                while (iter.MoveNext())
+                    yield return null;
+                yield break;
+            }
+            else if ((Card.EType.Defense == userCardType) && (Card.EType.Number == aiCardType))
+            {
+                IEnumerator iter = judgeUserDefenseAINum();
+                while (iter.MoveNext())
+                    yield return null;
+                yield break;
+            }
+            else if ((Card.EType.Defense == userCardType) && (Card.EType.Attack == aiCardType))
+            {
+                IEnumerator iter = judgeUserDefenseAIAttack();
+                while (iter.MoveNext())
+                    yield return null;
+                yield break;
+            }
+            else if ((Card.EType.Defense == userCardType) && (Card.EType.Defense == aiCardType))
+            {
+                IEnumerator iter = judgeUserDefenseAIDefense();
+                while (iter.MoveNext())
+                    yield return null;
+                yield break;
+            }
+            else
+            {
+                Log.Error("invalid card type to draw");
+                yield break;
             }
         }
 
         /*** user.defense ***/
-        private void judgeUserDefenseAINum()
+        IEnumerator judgeUserDefenseAINum()
         {
             NumberCard aiNumberCard = _ai.DrawCard as NumberCard;
             Log.Debug(string.Format("judge; user(D), ai({0})", aiNumberCard.No));
 
-            _user.RemoveAllDefenseOfOpponent();
+            int removeCount = _user.RemoveAllDefenseOfOpponent();
+            if (removeCount > 0)
+                yield return null;
 
             _ai.Push();
-            if (EUserGameState.Unknown != isOver())
-                return;
+            yield return null;
 
-            processBoard(aiNumberCard.No, _ai);
+            if (EUserGameState.Unknown != isOver())
+                yield break;
+
+            IEnumerator iter = processBoard(aiNumberCard.No, _ai);
+            while (iter.MoveNext())
+                yield return null;
         }
 
-        private void judgeUserDefenseAIAttack()
+        IEnumerator judgeUserDefenseAIAttack()
         {
             Log.Debug("judge; user(D), ai(A)");
 
             _user.CounterAttack();
+            yield return null;
         }
 
-        private void judgeUserDefenseAIDefense()
+        IEnumerator judgeUserDefenseAIDefense()
         {
             Log.Debug("judge; user(D), ai(D)");
 
-            _user.RemoveAllDefenseOfOpponent();
-            _ai.RemoveAllDefenseOfOpponent();
+            int removeCount = 0;
+            removeCount = _user.RemoveAllDefenseOfOpponent();
+            if (removeCount > 0)
+                yield return null;
+
+            removeCount = _ai.RemoveAllDefenseOfOpponent();
+            if (removeCount > 0)
+                yield return null;
         }
 
         /*** user.attack ***/
-        private void judgeUserAttackAINum()
+        IEnumerator judgeUserAttackAINum()
         {
             Log.Debug("judge; user(A), ai(N)");
 
             _user.Attack();
+            yield return null;
         }
 
-        private void judgeUserAttackAIAttack()
+        void judgeUserAttackAIAttack()
         {
             Log.Debug("judge; user(A), ai(A)");
         }
 
-        private void judgeUserAttackAIDefense()
+        IEnumerator judgeUserAttackAIDefense()
         {
             Log.Debug("judge; user(A), ai(D)");
 
             _ai.CounterAttack();
+            yield return null;
         }
 
         /*** user.number ***/
-        private void judgeUserNumAIAttack()
+        IEnumerator judgeUserNumAIAttack()
         {
             Log.Debug("judge; user(N), ai(A)");
 
             _ai.Attack();
+            yield return null;
         }
 
-        private void judgeUserNumAIDefense()
+        IEnumerator judgeUserNumAIDefense()
         {
             NumberCard userNumberCard = _user.DrawCard as NumberCard;
             Log.Debug(string.Format("judge; user({0}), ai(D)", userNumberCard.No));
 
-            _ai.RemoveAllDefenseOfOpponent();
+            int removeCount = _ai.RemoveAllDefenseOfOpponent();
+            if (removeCount > 0)
+                yield return null;
 
             _user.Push();
-            if (EUserGameState.Unknown != isOver())
-                return;
+            yield return null;
 
-            processBoard(userNumberCard.No, _user);
+            if (EUserGameState.Unknown != isOver())
+                yield break;
+
+            IEnumerator iter= processBoard(userNumberCard.No, _user);
+            while (iter.MoveNext())
+                yield return null;
         }
 
-        private void judgeUserNumAINum()
+        IEnumerator judgeUserNumAINum()
         {
             Player superiority;
             byte superNum;
@@ -388,17 +427,27 @@ namespace BoardGame
             bool isCompared = compare(out superiority, out superNum, out inferiority, out inferNum);
             
             if (false == isCompared)
-                return; // tie or error
+            {
+                // tie or error
+                yield break;
+            }
             
             superiority.Push();
+            yield return null;
+
             if (EUserGameState.Unknown != isOver())
-                return;
+                yield break;
 
-            EUserGameState state = processBoard(superNum, superiority);
-            if (EUserGameState.Unknown != state)
-                return;
+            IEnumerator superIter = processBoard(superNum, superiority);
+            while (superIter.MoveNext())
+                yield return null;
 
-            processBoard(inferNum, inferiority);
+            if (EUserGameState.Unknown != isOver())
+                yield break;
+
+            IEnumerator inferIter = processBoard(inferNum, inferiority);
+            while (inferIter.MoveNext())
+                yield return null;
         }
 
         private bool compare(out Player superiority, out byte superNum,
@@ -461,24 +510,26 @@ namespace BoardGame
             }
         }
 
-        private EUserGameState processBoard(byte num, Player player)
+        IEnumerator processBoard(byte num, Player player)
         {
             _board.SetCellOwner(num, player.Owner);
+            yield return null;
 
             int count = _board.GetBingoCount(player.Owner);
             if (count <= 0)
-                return EUserGameState.Unknown;
+                yield break;
+
+            BingoEvent.Invoke();
+            yield return null;
 
             player.Bingo(count);
+            yield return null;
 
-            EUserGameState state = isOver();
-            if (EUserGameState.Unknown != state)
-                return state;
+            if (EUserGameState.Unknown != isOver())
+                yield break;
 
             switchCriterion();
             _board.InitBingo();
-
-            return EUserGameState.Unknown;
         }
 
         private void switchCriterion()

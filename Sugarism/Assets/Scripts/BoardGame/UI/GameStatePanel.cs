@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 
-public class GameStatePanel : Panel
+public class GameStatePanel : Panel, IPointerClickHandler
 {
     /********* Editor Interface *********/
     // styles
     public FontStyle StartFontStyle = FontStyle.Bold;
     public FontStyle EndFontStyle = FontStyle.BoldAndItalic;
     public Color StartColor = Color.white;
-    public Color WinColor = Color.red;
+    public Color WinColor = Color.magenta;
     public Color LoseColor = Color.blue;
 
     // prefabs
     public Text Text;
+
+    //
+    private bool _isEnd = false;
 
 
     void Awake()
@@ -25,6 +29,8 @@ public class GameStatePanel : Panel
 
     public void OnStart()
     {
+        _isEnd = false;
+
         setText(Def.BOARD_START, StartFontStyle, StartColor);
         show(onStart);
     }
@@ -81,7 +87,7 @@ public class GameStatePanel : Panel
             yield return new WaitForSeconds(.1f);
         }
 
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(.5f);
         handler.Invoke();
     }
 
@@ -114,6 +120,17 @@ public class GameStatePanel : Panel
 
     private void end()
     {
+        _isEnd = true;
+    }
+
+    // 오브젝트에서 포인터를 누르고 동일한 오브젝트에서 뗄 때 호출됩니다.
+    void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+    {
+        if (false == _isEnd)
+            return;
+
+        Log.Debug("clicked game state panel");
+
         Manager.Instance.UI.BoardGamePanel.Hide();
         Manager.Instance.UI.MainPanel.Show();
     }

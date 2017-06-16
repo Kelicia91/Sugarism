@@ -167,8 +167,10 @@ namespace BoardGame
             Log.Debug(string.Format("player id:{0}, num:{1}, att:{2}, def:{3}", Id, numNumberCard, NumAttack, NumDefense));
         }
 
-        public void RemoveAllDefenseOfOpponent()
+        public int RemoveAllDefenseOfOpponent()
         {
+            int removeCount = 0;
+
             Card[] oppCardArray = Opponent.CardArray;
 
             int numCard = oppCardArray.Length;
@@ -182,9 +184,12 @@ namespace BoardGame
                     oppCardArray[i] = null;
                     --Opponent.NumDefense;
 
+                    ++removeCount;
                     Manager.Instance.Object.BoardGameMode.RemoveAllDefenseEvent.Invoke(Opponent.Id, i);
                 }
             }
+
+            return removeCount;
         }
 
         public void Pop(int drawCardIndex)

@@ -29,24 +29,32 @@ namespace BoardGame
 
         public override void Push()
         {
+            Mode.AttackEvent.Invoke(Id);
+
             int value = GetHowMuchPush();
             Mode.PlusFlow(value);
         }
 
         public override void Bingo(int bingoCount)
         {
+            Mode.AttackEvent.Invoke(Id);
+
             int value = GetHowMuchBingo(bingoCount);
             Mode.PlusFlow(value);
         }
 
         public override void Attack()
         {
+            Mode.AttackEvent.Invoke(Id);
+
             int value = GetHowMuchAttack();
             Mode.PlusFlow(value);
         }
 
         public override void CounterAttack()
         {
+            Mode.CounterAttackEvent.Invoke(Id);
+
             int value = Opponent.GetHowMuchAttack();
             Mode.PlusFlow(value);
         }
