@@ -153,12 +153,12 @@ public abstract class ExtAction
         _MainCharacter.Arts += _Action.arts;
     }
 
-    public void Done()
+    public void Finish()
     {
-        done();
+        finish();
     }
 
-    protected virtual void done()
+    protected virtual void finish()
     {
         int achievementRatio = 0;
         int npcId = _Action.npcId;
@@ -197,7 +197,7 @@ public class PartTimeAction : ExtAction
         return isSuccessed;
     }
 
-    protected override void done()
+    protected override void finish()
     {
         float quotient = ((float)_successCount) / _actionPeriod;
 
@@ -255,7 +255,7 @@ public class LessonAction : ExtAction
         return isSuccessed;
     }
 
-    protected override void done()
+    protected override void finish()
     {
         float quotient = ((float)_successCount) / _actionPeriod;
 

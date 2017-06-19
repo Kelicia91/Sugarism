@@ -170,18 +170,18 @@ public partial class Schedule
         }
 
         if (_day == _endDayArray[_actionOrder])
-            done();
+            finish();
         else
             NextDay();
     }
 
-    private void done()
+    private void finish()
     {
         int doneActionIndex = _actionOrder;
         ++_actionOrder;
 
         ExtAction extAction = _extActionArray[doneActionIndex];
-        extAction.Done();
+        extAction.Finish();
     }
 
 
