@@ -11,10 +11,10 @@ interface IPlayable
 
 public class Scenario : IPlayable
 {
-    private Sugarism.Scenario _model;
+    private Sugarism.Scenario _model = null;
 
-    private List<Scene> _sceneList;
-    private IEnumerator<Scene> _sceneIter;
+    private List<Scene> _sceneList = null;
+    private IEnumerator<Scene> _sceneIter = null;
 
     public Scenario(Sugarism.Scenario model)
     {

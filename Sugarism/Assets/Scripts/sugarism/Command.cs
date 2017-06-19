@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class Command : IPlayable
 {
-    private Sugarism.Command _model;
+    private Sugarism.Command _model = null;
 
     public Command(Sugarism.Command model)
     {

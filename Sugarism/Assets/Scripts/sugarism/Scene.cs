@@ -6,10 +6,10 @@ using UnityEngine;
 // @note : differ from struct 'UnityEngine.Scene'
 public class Scene : IPlayable
 {
-    private Sugarism.Scene _model;
+    private Sugarism.Scene _model = null;
 
-    private List<Command> _cmdList;
-    private IEnumerator<Command> _cmdIter;
+    private List<Command> _cmdList = null;
+    private IEnumerator<Command> _cmdIter = null;
 
     public Scene(Sugarism.Scene model)
     {
