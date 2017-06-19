@@ -7,8 +7,8 @@ public class CmdPanel : Panel
 {
     /********* Editor Interface *********/
     // values
-    public int SPACE_Y_BETWEEN_BUTTON;
-    public Vector2 SPACE_FROM_ANCHOR;
+    public int SPACE_Y_BETWEEN_BUTTON = 0;
+    public Vector2 SPACE_FROM_ANCHOR = new Vector2(0.0f, 20.0f);
     // prefabs
     public Button PrefCmdButton;
 
@@ -17,10 +17,11 @@ public class CmdPanel : Panel
     {
         SCHEDULE = 0,
         STORY,
-        STATE
+        STATE,
+        TEST_BOARD_GAME
     }
 
-    private Button[] _cmdButtonArray;
+    private Button[] _cmdButtonArray = null;
 
     void Start()
     {
@@ -72,6 +73,9 @@ public class CmdPanel : Panel
             case ECmdType.STATE:
                 return Def.CMD_STATE_NAME;
 
+            case ECmdType.TEST_BOARD_GAME:
+                return Def.CMD_TEST_BOARD_GAME;
+
             default:
                 return string.Empty;
         }
@@ -89,6 +93,9 @@ public class CmdPanel : Panel
 
             case ECmdType.STATE:
                 return onClickStateButton;
+
+            case ECmdType.TEST_BOARD_GAME:
+                return onClickTestBoardGameButton;
 
             default:
                 return null;
@@ -111,8 +118,14 @@ public class CmdPanel : Panel
     private void onClickStateButton()
     {
         Manager.Instance.UI.MainPanel.Hide();
-        //Manager.Instance.UI.StatePanel.Show();
+        Manager.Instance.UI.StatePanel.Show();
+    }
 
-        Manager.Instance.Object.BoardGameMode.Start(1); // test~~~~~
+    private void onClickTestBoardGameButton()
+    {
+        Manager.Instance.UI.MainPanel.Hide();
+
+        int opponentPlayerId = 1;  // test~~~~~
+        Manager.Instance.Object.BoardGameMode.Start(opponentPlayerId);
     }
 }

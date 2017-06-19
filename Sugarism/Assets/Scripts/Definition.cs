@@ -129,6 +129,7 @@ public class Def
     public const string CMD_RUN_SCHEDULE_NAME = "실 행";
     public const string CMD_GO_OUT_NAME = "외 출";
     public const string CMD_STATE_NAME = "상 태";
+    public const string CMD_TEST_BOARD_GAME = "보드게임";
 
     // Action
     public const int ACTION_IDLE_ID = 0;
