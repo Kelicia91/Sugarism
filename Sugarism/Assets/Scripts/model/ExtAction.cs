@@ -49,7 +49,6 @@ public abstract class ExtAction
     public void Do()
     {
         updateStat();
-        _MainCharacter.Increment(Id);
 
         bool isSuccessed = doing();
         Manager.Instance.ScheduleDoEvent.Invoke(isSuccessed);
@@ -155,6 +154,8 @@ public abstract class ExtAction
 
     public void Finish()
     {
+        _MainCharacter.Increment(Id);
+
         finish();
     }
 
