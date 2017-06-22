@@ -130,6 +130,7 @@ public class Def
     public const string CMD_GO_OUT_NAME = "외 출";
     public const string CMD_STATE_NAME = "상 태";
     public const string CMD_TEST_BOARD_GAME = "보드게임";
+    public const string CMD_TEST_COMBAT = "일기토";
 
     // Action
     public const int ACTION_IDLE_ID = 0;
@@ -146,7 +147,7 @@ public class Def
     public const string PROFILE_FORMAT = "{0} ({1})\n{2}, {3}";
 
     // Main Character
-    public const int MAIN_CHARACTER_ID = 0; // DTCharacter.id, DTBoardGamePlayer.id
+    public const int MAIN_CHARACTER_ID = 0; // DTCharacter, DTBoardGamePlayer, DTCombatPlayer
     public const int INIT_AGE = 12;
     public const string STRESS_FORMAT = "스트레스 {0}";
 
@@ -163,10 +164,21 @@ public class Def
     // Lines
     public const string ANONYMOUS = "???";
 
+    // Battle
+    public const string START = "START";
+    public const string WIN = "W I N";
+    public const string LOSE = "L O S E";
+
     // BoardGame
     public const string BOARD_CRITERION_LOW = "L";
     public const string BOARD_CRITERION_HIGH = "H";
-    public const string BOARD_START = "START";
-    public const string BOARD_WIN = "W I N";
-    public const string BOARD_LOSE = "L O S E";
+
+    // Combat
+    public const string HP = "HP";
+    public const string MP = "MP";
+    public const string WARRIOR_VALUES = "전사평가";
+    public const string TRICKER_VALUES = "책사평가";
+    public const string COMBAT_CMD_ATTACK = "공 격";
+    public const string COMBAT_CMD_TRICK = "책 략";
+    public const string COMBAT_COMMENT_PLAYER_TURN = "의 차례!";
 }

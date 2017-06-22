@@ -8,9 +8,11 @@ public class ObjectManager : MonoBehaviour
         _calendar = new Calendar(Def.INIT_YEAR, Def.INIT_MONTH, Def.INIT_DAY);
         _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY);
         
+        // schedule
         _schedule = gameObject.AddComponent<Schedule>();
         _schedule.Constrution(Def.MAX_NUM_ACTION_IN_MONTH, _calendar, _mainCharacter);
 
+        // target character
         _targetCharacterArray = new TargetCharacter[Manager.Instance.DTTarget.Count];
 
         int numTargetCharacterArray = _targetCharacterArray.Length;
@@ -19,7 +21,11 @@ public class ObjectManager : MonoBehaviour
             _targetCharacterArray[i] = new TargetCharacter(i);
         }
 
+        // board game
         _boardGameMode = new BoardGame.BoardGameMode();
+
+        // combat
+        _combatMode = new Combat.CombatMode();
     }
 
 
@@ -54,6 +60,11 @@ public class ObjectManager : MonoBehaviour
     /***** BoardGame *****/
     private BoardGame.BoardGameMode _boardGameMode = null;
     public BoardGame.BoardGameMode BoardGameMode { get { return _boardGameMode; } }
+
+
+    /***** Combat *****/
+    private Combat.CombatMode _combatMode = null;
+    public Combat.CombatMode CombatMode { get { return _combatMode; } }
 
     #endregion  // Field, Property
 
