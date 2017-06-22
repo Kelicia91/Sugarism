@@ -147,7 +147,7 @@ namespace Combat
 
         public bool CanTrick()
         {
-            if (Mp > Def.MIN_STAT)
+            if (Mp >= MP_CONSUMPTION)
                 return true;
             else
                 return false;
