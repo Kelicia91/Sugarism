@@ -200,7 +200,7 @@ namespace BoardGame
                 case EUserGameState.Win:
                 case EUserGameState.Lose:
                     End(state);
-                    break;
+                    return;
 
                 default:
                     Shuffle();

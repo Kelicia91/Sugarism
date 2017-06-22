@@ -31,18 +31,18 @@ public class GameStatePanel : Panel, IPointerClickHandler
     {
         _isEnd = false;
 
-        setText(Def.BOARD_START, StartFontStyle, StartColor);
+        setText(Def.START, StartFontStyle, StartColor);
         show(onStart);
     }
 
     private void win()
     {
-        setText(Def.BOARD_WIN, EndFontStyle, WinColor);
+        setText(Def.WIN, EndFontStyle, WinColor);
     }
 
     private void lose()
     {
-        setText(Def.BOARD_LOSE, EndFontStyle, LoseColor);
+        setText(Def.LOSE, EndFontStyle, LoseColor);
     }
 
     private void setText(string s, FontStyle fontStyle, Color c)
