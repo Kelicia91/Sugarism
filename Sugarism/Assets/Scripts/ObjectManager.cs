@@ -5,11 +5,11 @@ public class ObjectManager : MonoBehaviour
 {
     void Awake()
     {
-        _calendar = new Calendar(Def.INIT_YEAR, Def.INIT_MONTH, Def.INIT_DAY);
+        _calendar = new Nurture.Calendar(Def.INIT_YEAR, Def.INIT_MONTH, Def.INIT_DAY);
         _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY);
         
         // schedule
-        _schedule = gameObject.AddComponent<Schedule>();
+        _schedule = gameObject.AddComponent<Nurture.Schedule>();
         _schedule.Constrution(Def.MAX_NUM_ACTION_IN_MONTH, _calendar, _mainCharacter);
 
         // target character
@@ -32,11 +32,11 @@ public class ObjectManager : MonoBehaviour
     #region Field, Property
 
     /***** Nurture *****/
-    private Calendar _calendar = null;
-    public Calendar Calendar { get { return _calendar; } }
+    private Nurture.Calendar _calendar = null;
+    public Nurture.Calendar Calendar { get { return _calendar; } }
 
-    private Schedule _schedule = null;
-    public Schedule Schedule { get { return _schedule; } }
+    private Nurture.Schedule _schedule = null;
+    public Nurture.Schedule Schedule { get { return _schedule; } }
 
 
     /***** Date *****/

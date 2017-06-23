@@ -19,7 +19,7 @@ public class CalendarPanel : Panel
     // Use this for initialization
     void Start ()
     {
-        Calendar _calendar = Manager.Instance.Object.Calendar;
+        Nurture.Calendar _calendar = Manager.Instance.Object.Calendar;
         if (null != _calendar)
         {
             setYearText(_calendar.Year.ToString());
