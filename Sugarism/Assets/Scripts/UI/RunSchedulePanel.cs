@@ -17,7 +17,7 @@ public class RunSchedulePanel : Panel
     public GameObject StatsPanel;
     public GameObject PrefStatPanel;
 
-    public NPCNotifyPanel NPCPanel;
+    public ActionDialoguePanel DialoguePanel;
     public MessagePanel MessagePanel;
 
 
@@ -66,7 +66,7 @@ public class RunSchedulePanel : Panel
         for (int i = 0; i < statPanelListCount; i++)
             _statPanelList[i].Hide();
 
-        NPCPanel.Hide();
+        DialoguePanel.Hide();
         MessagePanel.Hide();
     }
 
@@ -227,7 +227,7 @@ public class RunSchedulePanel : Panel
         NPC npc = Manager.Instance.DTNPC[npcId];
         string lines = npc.firstMeetDesc;
 
-        NPCPanel.Show(npcId, lines, onClickNpcFirstMeet);
+        DialoguePanel.Show(npcId, lines, onClickNpcFirstMeet);
     }
 
     private void onClickNpcFirstMeet()
@@ -389,7 +389,7 @@ public class RunSchedulePanel : Panel
             lines = string.Format("{0}\n({1})", npc.bonusDesc, msg);
         }
 
-        NPCPanel.Show(npcId, lines, onClickNpcFinish);
+        DialoguePanel.Show(npcId, lines, onClickNpcFinish);
     }
 
     private void onClickNpcFinish()
