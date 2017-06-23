@@ -57,8 +57,7 @@ public class Calendar
         set
         {
             _day = value;
-
-            // @todo : 윤년 그딴거(..) 일단 무시
+            
             if (_day > LastDay[Month])
             {
                 _day = MIN_DAY;

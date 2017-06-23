@@ -212,10 +212,14 @@ public partial class Schedule
             _extActionArray[_actionOrder] = _idleAction;
             Manager.Instance.ScheduleCancelEvent.Invoke();
         }
+        else if (_mainCharacter.GetActCount(extAction.Id) <= 0)
+        {
+            extAction.First();
+        }
         else
         {
-            first();
-        }        
+            Do();
+        }
     }
 
     //private IEnumerator scheduling(float waitSeconds)
