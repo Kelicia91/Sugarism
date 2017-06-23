@@ -5,11 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-public class NPCNotifyPanel : Panel, IPointerClickHandler
+public class ActionDialoguePanel : Panel, IPointerClickHandler
 {
     /********* Editor Interface *********/
     // prefabs
-    public Image Image;
+    public Image CharacterImage;
+    public Image CGImage;
     public Text NameText;
     public Text LinesText;
 
@@ -19,6 +20,7 @@ public class NPCNotifyPanel : Panel, IPointerClickHandler
 
     public override void Show()
     {
+        Log.Error("not supported Show()");
         return; // blocking base.Show()
     }
 
@@ -39,7 +41,7 @@ public class NPCNotifyPanel : Panel, IPointerClickHandler
     // 오브젝트에서 포인터를 누르고 동일한 오브젝트에서 뗄 때 호출됩니다.
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
-        Log.Debug("clicked NPCNotifyPanel");
+        Log.Debug("clicked ActionDialoguePanel");
 
         Hide();
 
