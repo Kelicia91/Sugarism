@@ -6,9 +6,11 @@ namespace Nurture
 {
     public class VacationAction : ActionController
     {
-        ESeason _season = ESeason.MAX;
-        Vacation _vacation;
+        //
+        private ESeason _season = ESeason.MAX;
+        private readonly Vacation _vacation;
 
+        // constructor
         public VacationAction(int id, Mode mode) : base(id, mode)
         {
             _season = _mode.Calendar.Get();
