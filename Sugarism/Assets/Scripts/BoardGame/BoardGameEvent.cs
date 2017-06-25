@@ -3,7 +3,7 @@
     public class StartEvent
     {
         public delegate void Handler(UserPlayer user, AIPlayer ai);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public StartEvent()
         {
@@ -38,7 +38,7 @@
     public class ShuffleEvent
     {
         public delegate void Handler();
-        private event Handler _event;
+        private event Handler _event = null;
 
         public ShuffleEvent()
         {
@@ -73,7 +73,7 @@
     public class DrawEvent
     {
         public delegate void Handler();
-        private event Handler _event;
+        private event Handler _event = null;
 
         public DrawEvent()
         {
@@ -108,7 +108,7 @@
     public class EndEvent
     {
         public delegate void Handler(BoardGameMode.EUserGameState state);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public EndEvent()
         {
@@ -143,7 +143,7 @@
     public class BingoEvent
     {
         public delegate void Handler();
-        private event Handler _event;
+        private event Handler _event = null;
 
         public BingoEvent()
         {
@@ -178,7 +178,7 @@
     public class AttackEvent
     {
         public delegate void Handler(int playerId);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public AttackEvent()
         {
@@ -213,7 +213,7 @@
     public class CounterAttackEvent
     {
         public delegate void Handler(int playerId);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public CounterAttackEvent()
         {
@@ -248,7 +248,7 @@
     public class RemoveAllDefenseEvent
     {
         public delegate void Handler(int playerId, int index);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public RemoveAllDefenseEvent()
         {
@@ -283,7 +283,7 @@
     public class TurnChangeEvent
     {
         public delegate void Handler(int turn);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public TurnChangeEvent()
         {
@@ -318,7 +318,7 @@
     public class CriterionChangeEvent
     {
         public delegate void Handler(BoardGameMode.ENumberCriterion criterion);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public CriterionChangeEvent()
         {
@@ -353,7 +353,7 @@
     public class FlowChangeEvent
     {
         public delegate void Handler(int flow);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public FlowChangeEvent()
         {
@@ -388,7 +388,7 @@
     public class CellOwnerChangeEvent
     {
         public delegate void Handler(int row, int col, Cell.EOwner owner);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public CellOwnerChangeEvent()
         {
@@ -423,7 +423,7 @@
     public class CellBingoChangeEvent
     {
         public delegate void Handler(int row, int col, bool isBingo);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public CellBingoChangeEvent()
         {

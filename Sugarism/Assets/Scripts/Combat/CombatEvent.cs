@@ -8,7 +8,7 @@ namespace Combat
     public class StartEvent
     {
         public delegate void Handler(UserPlayer user, AIPlayer ai);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public StartEvent()
         {
@@ -43,7 +43,7 @@ namespace Combat
     public class StartUserBattleEvent
     {
         public delegate void Handler();
-        private event Handler _event;
+        private event Handler _event = null;
 
         public StartUserBattleEvent()
         {
@@ -78,7 +78,7 @@ namespace Combat
     public class EndUserBattleEvent
     {
         public delegate void Handler();
-        private event Handler _event;
+        private event Handler _event = null;
 
         public EndUserBattleEvent()
         {
@@ -113,7 +113,7 @@ namespace Combat
     public class StartAIBattleEvent
     {
         public delegate void Handler();
-        private event Handler _event;
+        private event Handler _event = null;
 
         public StartAIBattleEvent()
         {
@@ -148,7 +148,7 @@ namespace Combat
     public class EndAIBattleEvent
     {
         public delegate void Handler();
-        private event Handler _event;
+        private event Handler _event = null;
 
         public EndAIBattleEvent()
         {
@@ -183,7 +183,7 @@ namespace Combat
     public class EndEvent
     {
         public delegate void Handler(CombatMode.EUserGameState state);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public EndEvent()
         {
@@ -218,7 +218,7 @@ namespace Combat
     public class TurnChangeEvent
     {
         public delegate void Handler(byte turn);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public TurnChangeEvent()
         {
@@ -253,7 +253,7 @@ namespace Combat
     public class HpChangeEvent
     {
         public delegate void Handler(int playerId, int hp);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public HpChangeEvent()
         {
@@ -288,7 +288,7 @@ namespace Combat
     public class MpChangeEvent
     {
         public delegate void Handler(int playerId, int mp);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public MpChangeEvent()
         {
@@ -323,7 +323,7 @@ namespace Combat
     public class CriticalAttackEvent
     {
         public delegate void Handler(int playerId, int damage);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public CriticalAttackEvent()
         {
@@ -358,7 +358,7 @@ namespace Combat
     public class AttackEvent
     {
         public delegate void Handler(int playerId, int damage);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public AttackEvent()
         {
@@ -393,7 +393,7 @@ namespace Combat
     public class CriticalTrickEvent
     {
         public delegate void Handler(int playerId, int damage);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public CriticalTrickEvent()
         {
@@ -428,7 +428,7 @@ namespace Combat
     public class TrickEvent
     {
         public delegate void Handler(int playerId, int damage);
-        private event Handler _event;
+        private event Handler _event = null;
 
         public TrickEvent()
         {
