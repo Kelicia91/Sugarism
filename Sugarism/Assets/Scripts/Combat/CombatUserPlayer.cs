@@ -9,15 +9,15 @@ namespace Combat
         // constructor
         public UserPlayer(CombatMode mode) : base(mode, Def.MAIN_CHARACTER_ID)
         {
-            MainCharacter main = Manager.Instance.Object.MainCharacter;
-            _hp = main.Stamina;
-            _mp = main.Intellect;
-            _attack = main.Attack;
-            _defense = main.Defence;
-            _intellect = main.Intellect;
-            _tactic = main.Tactic;
+            _name = Manager.Instance.Object.MainCharacter.Name;
 
-            _name = main.Name;
+            Nurture.Character c = Manager.Instance.Object.NurtureMode.Character;
+            _hp = c.Stamina;
+            _mp = c.Intellect;
+            _attack = c.Attack;
+            _defense = c.Defense;
+            _intellect = c.Intellect;
+            _tactic = c.Tactic;
         }
 
     }   // class

@@ -11,8 +11,9 @@ namespace BoardGame
         {
             _id = Def.MAIN_CHARACTER_ID;
 
-            MainCharacter character = Manager.Instance.Object.MainCharacter;
-            _name = character.Name;
+            _name = Manager.Instance.Object.MainCharacter.Name;
+
+            Nurture.Character character = Manager.Instance.Object.NurtureMode.Character;
 
             _intellect = character.Intellect;
             _tactic = character.Tactic;
