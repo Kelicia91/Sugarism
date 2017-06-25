@@ -8,49 +8,50 @@ namespace Nurture
     {
         private int _id = -1;
         public int Id { get { return _id; } }
+        
+        protected readonly Action _action;
 
-        protected readonly Action _Action;
-        protected readonly MainCharacter _MainCharacter;
+        protected readonly Mode _mode = null;
 
-        protected ActionController(int id, MainCharacter mainCharacter)
+
+        // constructor
+        protected ActionController(int id, Mode mode)
         {
             _id = id;
-            _Action = Manager.Instance.DTAction[_id];
+            _action = Manager.Instance.DTAction[_id];
 
-            _MainCharacter = mainCharacter;
+            _mode = mode;
         }
 
-        public void Begin()
+        public void Start()
         {
-            Manager.Instance.ScheduleBeginEvent.Invoke(_id);
+            start();
         }
+
+        protected abstract void start();
 
         public void First()
         {
             first();
         }
 
-        protected virtual void first()
-        {
-            Manager.Instance.Object.Schedule.Do();
-        }
+        protected abstract void first();
 
         public void Do()
         {
-            updateStat();
+            updateStats();
 
-            bool isSuccessed = doing();
-            Manager.Instance.ScheduleDoEvent.Invoke(isSuccessed);
+            doing();
         }
 
-        protected abstract bool doing();
+        protected abstract void doing();
 
         protected bool isSuccess()
         {
             int min = 0;    // inclusive
             int max = 100;  // exclusive
 
-            int randomValue = UnityEngine.Random.Range(min, max);
+            int randomValue = Random.Range(min, max);
 
             string msg = string.Format("Random Value : {0}", randomValue);
             Log.Debug(msg);
@@ -81,8 +82,8 @@ namespace Nurture
             float quotient = 0;
 
             // set element[0]
-            int currentVal = _MainCharacter.Get(_Action.criticalStat);
-            int baseVal = _Action.criticalStatBaseValue;
+            int currentVal = _mode.Character.Get(_action.criticalStat);
+            int baseVal = _action.criticalStatBaseValue;
             if (currentVal >= baseVal)
             {
                 elemArray[0] = Def.CRITICAL_WEIGHT; // * 1
@@ -95,13 +96,13 @@ namespace Nurture
 
             // set element[1]
             const float REMAIN_WEIGHT = 1.0f - Def.CRITICAL_WEIGHT;
-            if (_MainCharacter.Stress >= _MainCharacter.Stamina)
+            if (_mode.Character.Stress >= _mode.Character.Stamina)
             {
                 elemArray[1] = 0.0f;
             }
             else
             {
-                quotient = ((float)_MainCharacter.Stress) / _MainCharacter.Stamina;
+                quotient = ((float)_mode.Character.Stress) / _mode.Character.Stamina;
                 elemArray[1] = REMAIN_WEIGHT * (1.0f - quotient);
             }
 
@@ -119,43 +120,36 @@ namespace Nurture
             return successProbability;
         }
 
-        private void updateStat()
+        private void updateStats()
         {
-            _MainCharacter.Stress += _Action.stress;
+            Character c = _mode.Character;
 
-            _MainCharacter.Stamina += _Action.stamina;
-            _MainCharacter.Intellect += _Action.intellect;
-            _MainCharacter.Grace += _Action.grace;
-            _MainCharacter.Charm += _Action.charm;
+            c.Stress += _action.stress;
 
-            _MainCharacter.Attack += _Action.attack;
-            _MainCharacter.Defence += _Action.defense;
+            c.Stamina += _action.stamina;
+            c.Intellect += _action.intellect;
+            c.Grace += _action.grace;
+            c.Charm += _action.charm;
 
-            _MainCharacter.Leadership += _Action.leadership;
-            _MainCharacter.Tactic += _Action.tactic;
+            c.Attack += _action.attack;
+            c.Defense += _action.defense;
 
-            _MainCharacter.Morality += _Action.morality;
-            _MainCharacter.Goodness += _Action.goodness;
+            c.Leadership += _action.leadership;
+            c.Tactic += _action.tactic;
 
-            _MainCharacter.Sensibility += _Action.sensibility;
-            _MainCharacter.Arts += _Action.arts;
+            c.Morality += _action.morality;
+            c.Goodness += _action.goodness;
+
+            c.Sensibility += _action.sensibility;
+            c.Arts += _action.arts;
         }
 
-        public void Finish()
+        public void End()
         {
-            _MainCharacter.Increment(Id);
-
-            finish();
+            end();
         }
 
-        protected virtual void finish()
-        {
-            int achievementRatio = 0;
-            int npcId = _Action.npcId;
-            string msg = null;
-
-            Manager.Instance.ScheduleFinishEvent.Invoke(achievementRatio, npcId, msg);
-        }
+        protected abstract void end();
 
     }   // class
 

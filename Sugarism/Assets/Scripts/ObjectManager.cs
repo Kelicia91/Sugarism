@@ -5,14 +5,9 @@ public class ObjectManager : MonoBehaviour
 {
     void Awake()
     {
-        _calendar = new Nurture.Calendar(Def.INIT_YEAR, Def.INIT_MONTH, Def.INIT_DAY);
         _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY);
-        
-        // schedule
-        _schedule = gameObject.AddComponent<Nurture.Schedule>();
-        _schedule.Constrution(Def.MAX_NUM_ACTION_IN_MONTH, _calendar, _mainCharacter);
 
-        // target character
+        // date
         _targetCharacterArray = new TargetCharacter[Manager.Instance.DTTarget.Count];
 
         int numTargetCharacterArray = _targetCharacterArray.Length;
@@ -20,6 +15,9 @@ public class ObjectManager : MonoBehaviour
         {
             _targetCharacterArray[i] = new TargetCharacter(i);
         }
+
+        // nurture
+        _nurtureMode = new Nurture.Mode(_mainCharacter);
 
         // board game
         _boardGameMode = new BoardGame.BoardGameMode();
@@ -30,19 +28,11 @@ public class ObjectManager : MonoBehaviour
 
 
     #region Field, Property
-
-    /***** Nurture *****/
-    private Nurture.Calendar _calendar = null;
-    public Nurture.Calendar Calendar { get { return _calendar; } }
-
-    private Nurture.Schedule _schedule = null;
-    public Nurture.Schedule Schedule { get { return _schedule; } }
-
-
-    /***** Date *****/
+    
     private MainCharacter _mainCharacter = null;
     public MainCharacter MainCharacter { get { return _mainCharacter; } }
 
+    /***** Date *****/
     private TargetCharacter[] _targetCharacterArray = null;
     public TargetCharacter[] TargetCharacterArray { get { return _targetCharacterArray; } }
 
@@ -56,12 +46,14 @@ public class ObjectManager : MonoBehaviour
     private int _targetId = -1;
     private Scenario _scenario = null;
 
+    /***** Nurture *****/
+    private Nurture.Mode _nurtureMode = null;
+    public Nurture.Mode NurtureMode { get { return _nurtureMode; } }
 
     /***** BoardGame *****/
     private BoardGame.BoardGameMode _boardGameMode = null;
     public BoardGame.BoardGameMode BoardGameMode { get { return _boardGameMode; } }
-
-
+    
     /***** Combat *****/
     private Combat.CombatMode _combatMode = null;
     public Combat.CombatMode CombatMode { get { return _combatMode; } }

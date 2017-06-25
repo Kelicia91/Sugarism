@@ -9,9 +9,9 @@ namespace Nurture
         ESeason _season = ESeason.MAX;
         Vacation _vacation;
 
-        public VacationAction(int id, MainCharacter mainCharacter) : base(id, mainCharacter)
+        public VacationAction(int id, Mode mode) : base(id, mode)
         {
-            _season = Manager.Instance.Object.Calendar.Get();
+            _season = _mode.Calendar.Get();
             if (ESeason.MAX == _season)
             {
                 Log.Error("invalid season");
@@ -22,32 +22,50 @@ namespace Nurture
             _vacation = Manager.Instance.DTVacation[seasonId];
         }
 
-        protected override bool doing()
+        protected override void start()
         {
-            updateStat(_vacation);
-            _MainCharacter.Money += _Action.money;
-
-            return true;
+            _mode.Schedule.ActionStartEvent.Invoke(Id);
         }
 
-        private void updateStat(Vacation vacation)
+        protected override void first()
         {
-            _MainCharacter.Stamina += vacation.stamina;
-            _MainCharacter.Intellect += vacation.intellect;
-            _MainCharacter.Grace += vacation.grace;
-            _MainCharacter.Charm += vacation.charm;
+            _mode.Schedule.ActionFirstEvent.Invoke();
+        }
 
-            _MainCharacter.Attack += vacation.attack;
-            _MainCharacter.Defence += vacation.defense;
+        protected override void doing()
+        {
+            updateStats(_vacation);
 
-            _MainCharacter.Leadership += vacation.leadership;
-            _MainCharacter.Tactic += vacation.tactic;
+            _mode.Currency.Money += _action.money;
 
-            _MainCharacter.Morality += vacation.morality;
-            _MainCharacter.Goodness += vacation.goodness;
+            _mode.Schedule.ActionDoEvent.Invoke();
+        }
 
-            _MainCharacter.Sensibility += vacation.sensibility;
-            _MainCharacter.Arts += vacation.arts;
+        private void updateStats(Vacation vacation)
+        {
+            Character c = _mode.Character;
+
+            c.Stamina += vacation.stamina;
+            c.Intellect += vacation.intellect;
+            c.Grace += vacation.grace;
+            c.Charm += vacation.charm;
+
+            c.Attack += vacation.attack;
+            c.Defense += vacation.defense;
+
+            c.Leadership += vacation.leadership;
+            c.Tactic += vacation.tactic;
+
+            c.Morality += vacation.morality;
+            c.Goodness += vacation.goodness;
+
+            c.Sensibility += vacation.sensibility;
+            c.Arts += vacation.arts;
+        }
+
+        protected override void end()
+        {
+            _mode.Schedule.ActionEndEvent.Invoke();
         }
 
     }   // class

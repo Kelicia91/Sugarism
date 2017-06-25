@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 // Singleton 남발 방지용.
@@ -30,20 +28,6 @@ public class Manager : MonoBehaviour
         _scenarioEndEvent = new ScenarioEndEvent();
 
         _moneyChangeEvent = new MoneyChangeEvent();
-        _yearChangeEvent = new YearChangeEvent();
-        _monthChangeEvent = new MonthChangeEvent();
-        _dayChangeEvent = new DayChangeEvent();
-
-        _scheduleChangeEvent = new ScheduleChangeEvent();
-        _scheduleStartEvent = new ScheduleStartEvent();
-        _scheduleBeginEvent = new ScheduleBeginEvent();
-        _scheduleCancelEvent = new ScheduleCancelEvent();
-        _scheduleFirstEvent = new ScheduleFirstEvent();
-        _scheduleDoEvent = new ScheduleDoEvent();
-        _scheduleFinishEvent = new ScheduleFinishEvent();
-        _scheduleEndEvent = new ScheduleEndEvent();
-
-        _mainCharacterStatEvent = new MainCharacterStatEvent();
 
         // manager
         _object = Instantiate(PrefObjectManager);
@@ -146,42 +130,6 @@ public class Manager : MonoBehaviour
 
     private MoneyChangeEvent _moneyChangeEvent = null;
     public MoneyChangeEvent MoneyChangeEvent { get { return _moneyChangeEvent; } }
-
-    private YearChangeEvent _yearChangeEvent = null;
-    public YearChangeEvent YearChangeEvent { get { return _yearChangeEvent; } }
-
-    private MonthChangeEvent _monthChangeEvent = null;
-    public MonthChangeEvent MonthChangeEvent { get { return _monthChangeEvent; } }
-
-    private DayChangeEvent _dayChangeEvent = null;
-    public DayChangeEvent DayChangeEvent { get { return _dayChangeEvent; } }
-
-    private ScheduleChangeEvent _scheduleChangeEvent = null;
-    public ScheduleChangeEvent ScheduleChangeEvent { get { return _scheduleChangeEvent; } }
-
-    private ScheduleStartEvent _scheduleStartEvent = null;
-    public ScheduleStartEvent ScheduleStartEvent { get { return _scheduleStartEvent; } }
-
-    private ScheduleBeginEvent _scheduleBeginEvent = null;
-    public ScheduleBeginEvent ScheduleBeginEvent { get { return _scheduleBeginEvent; } }
-
-    private ScheduleCancelEvent _scheduleCancelEvent = null;
-    public ScheduleCancelEvent ScheduleCancelEvent { get { return _scheduleCancelEvent; } }
-
-    private ScheduleFirstEvent _scheduleFirstEvent = null;
-    public ScheduleFirstEvent ScheduleFirstEvent { get { return _scheduleFirstEvent; } }
-
-    private ScheduleDoEvent _scheduleDoEvent = null;
-    public ScheduleDoEvent ScheduleDoEvent { get { return _scheduleDoEvent; } }
-
-    private ScheduleFinishEvent _scheduleFinishEvent = null;
-    public ScheduleFinishEvent ScheduleFinishEvent { get { return _scheduleFinishEvent; } }
-
-    private ScheduleEndEvent _scheduleEndEvent = null;
-    public ScheduleEndEvent ScheduleEndEvent { get { return _scheduleEndEvent; } }
-
-    private MainCharacterStatEvent _mainCharacterStatEvent = null;
-    public MainCharacterStatEvent MainCharacterStatEvent { get { return _mainCharacterStatEvent; } }
 }
  
  

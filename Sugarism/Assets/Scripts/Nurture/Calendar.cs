@@ -14,11 +14,30 @@ namespace Nurture
         // LastDay[0] is garbage value.
         public static readonly int[] LastDay = { -1, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
+        #region Events
+
+        private YearChangeEvent _yearChangeEvent = null;
+        public YearChangeEvent YearChangeEvent { get { return _yearChangeEvent; } }
+
+        private MonthChangeEvent _monthChangeEvent = null;
+        public MonthChangeEvent MonthChangeEvent { get { return _monthChangeEvent; } }
+
+        private DayChangeEvent _dayChangeEvent = null;
+        public DayChangeEvent DayChangeEvent { get { return _dayChangeEvent; } }
+
+        #endregion
+
+
+        // constructor
         public Calendar(int year, int month, int day)
         {
             _year = year;
             _month = month;
             _day = day;
+            
+            _yearChangeEvent = new YearChangeEvent();
+            _monthChangeEvent = new MonthChangeEvent();
+            _dayChangeEvent = new DayChangeEvent();
         }
 
         private int _year;
@@ -29,7 +48,7 @@ namespace Nurture
             {
                 _year = value;
 
-                Manager.Instance.YearChangeEvent.Invoke(_year);
+                YearChangeEvent.Invoke(_year);
             }
         }
 
@@ -47,7 +66,7 @@ namespace Nurture
                     ++Year;
                 }
 
-                Manager.Instance.MonthChangeEvent.Invoke(_month);
+                MonthChangeEvent.Invoke(_month);
             }
         }
 
@@ -65,7 +84,7 @@ namespace Nurture
                     ++Month;
                 }
 
-                Manager.Instance.DayChangeEvent.Invoke(_day);
+                DayChangeEvent.Invoke(_day);
             }
         }
 

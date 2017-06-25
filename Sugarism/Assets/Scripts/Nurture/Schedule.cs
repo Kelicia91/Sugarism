@@ -1,41 +1,78 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+
 
 namespace Nurture
 {
-    public partial class Schedule : MonoBehaviour
+    public partial class Schedule
     {
-        private int NUM_OF_ACTION;
+        private readonly Mode _mode = null;
 
-        private Calendar _calendar = null;
-        private MainCharacter _mainCharacter = null;
+        private readonly int _MAX_NUM_OF_ACTION = 0;
+
         private int[] _actionArray = null;
-
         private IdleAction _idleAction = null;
 
+        #region Events
 
-        // Must call once.
-        public void Constrution(int numOfAction, Calendar calendar, MainCharacter mainCharacter)
+        private ScheduleInsertEvent _insertEvent = null;
+        public ScheduleInsertEvent InsertEvent { get { return _insertEvent; } }
+
+        private ScheduleStartEvent _startEvent = null;
+        public ScheduleStartEvent StartEvent { get { return _startEvent; } }
+
+        private ActionCancelEvent _actionCancelEvent = null;
+        public ActionCancelEvent ActionCancelEvent { get { return _actionCancelEvent; } }
+
+        private ActionStartEvent _actionStartEvent = null;
+        public ActionStartEvent ActionStartEvent { get { return _actionStartEvent; } }
+
+        private ActionFirstEvent _actionFirstEvent = null;
+        public ActionFirstEvent ActionFirstEvent { get { return _actionFirstEvent; } }
+
+        private ActionDoEvent _actionDoEvent = null;
+        public ActionDoEvent ActionDoEvent { get { return _actionDoEvent; } }
+
+        private ActionEndEvent _actionEndEvent = null;
+        public ActionEndEvent ActionEndEvent { get { return _actionEndEvent; } }
+
+        private ScheduleEndEvent _endEvent = null;
+        public ScheduleEndEvent EndEvent { get { return _endEvent; } }
+
+        #endregion
+
+
+        // constructor
+        public Schedule(Mode mode, int maxNumOfAction)
         {
-            NUM_OF_ACTION = numOfAction;
+            _mode = mode;
 
-            _calendar = calendar;
-            _mainCharacter = mainCharacter;
-            _actionArray = new int[NUM_OF_ACTION];
+            _MAX_NUM_OF_ACTION = maxNumOfAction;
 
-            _idleAction = new IdleAction(Def.ACTION_IDLE_ID, _mainCharacter);
+            _actionArray = new int[_MAX_NUM_OF_ACTION];
+            _idleAction = new IdleAction(Def.ACTION_IDLE_ID, _mode);
+            
+            _insertEvent = new ScheduleInsertEvent();
+            _startEvent = new ScheduleStartEvent();
+            _actionCancelEvent = new ActionCancelEvent();
+            _actionStartEvent = new ActionStartEvent();
+            _actionFirstEvent = new ActionFirstEvent();
+            _actionDoEvent = new ActionDoEvent();
+            _actionEndEvent = new ActionEndEvent();
+            _endEvent = new ScheduleEndEvent();
 
-            Initialize();
+            initialize();
         }
 
-        public void Initialize()
+        private void initialize()
         {
-            for (int i = 0; i < NUM_OF_ACTION; ++i)
+            int actionArrayLength = _actionArray.Length;
+            for (int i = 0; i < actionArrayLength; ++i)
             {
                 _actionArray[i] = -1;
             }
+
+            _iterator = null;
         }
 
         public int GetActionId(int index)
@@ -48,7 +85,8 @@ namespace Nurture
 
         public bool IsFull()
         {
-            for (int i = 0; i < NUM_OF_ACTION; ++i)
+            int actionArrayLength = _actionArray.Length;
+            for (int i = 0; i < actionArrayLength; ++i)
             {
                 if (false == ExtAction.isValid(_actionArray[i]))
                     return false;
@@ -72,14 +110,14 @@ namespace Nurture
         {
             _actionArray[index] = actionId;
 
-            Manager.Instance.ScheduleChangeEvent.Invoke(index, _actionArray[index]);
+            InsertEvent.Invoke(index, _actionArray[index]);
         }
 
         private bool isValid(int index)
         {
             if (index < 0)
                 return false;
-            else if (index >= NUM_OF_ACTION)
+            else if (index >= _actionArray.Length)
                 return false;
             else
                 return true;
@@ -89,199 +127,101 @@ namespace Nurture
 
     public partial class Schedule
     {
-        /* SCHEDULEING
-         * : Act Unit = Schedule = 1 Month
-         */
-
-        int _month = -1;
-        int _day = -1;
-
-        int[] _beginDayArray = null;
-        int[] _endDayArray = null;
-        ActionController[] _extActionArray = null;
-
-        int _actionOrder = -1;
-
-
-        private void initScheduling()
-        {
-            _month = _calendar.Month;
-            _day = _calendar.Day;
-
-            _beginDayArray = getBeginDayOfActon(_month, NUM_OF_ACTION);
-            _endDayArray = getEndDayOfAction(_month, NUM_OF_ACTION);
-            _extActionArray = generate();
-
-            _actionOrder = 0;
-        }
-
-        public void NextDay()
-        {
-            ++_day;
-            _calendar.Day = _day;
-
-            scheduling();
-        }
+        private IEnumerator _iterator = null;
 
         public void Run()
         {
-            Log.Debug(Def.START_SCHEDULE_DESC);
+            _iterator = scheduling();
+            StartEvent.Invoke();
 
-            initScheduling();
-
-            scheduling();
-            //StartCoroutine(scheduling(Configuration.DAY_RUNNING_TIME_SECONDS));
+            Iterate();
         }
 
-        public void Begin()
+        public void Iterate()
         {
-            begin();
-        }
-
-        private void begin()
-        {
-            ActionController extAction = _extActionArray[_actionOrder];
-            extAction.Begin();
-        }
-
-        private void first()
-        {
-            ActionController extAction = _extActionArray[_actionOrder];
-
-            if (_mainCharacter.GetActCount(extAction.Id) <= 0)
-                extAction.First();
-            else
-                Do();
-        }
-
-        public void Do()
-        {
-            StartCoroutine(doing(Configuration.DAY_RUNNING_TIME_SECONDS));
-        }
-
-        private IEnumerator doing(float waitSeconds)
-        {
-            while (true)
+            if (null == _iterator)
             {
-                ActionController extAction = _extActionArray[_actionOrder];
-                extAction.Do();
-
-                yield return new WaitForSeconds(waitSeconds);
-                break;
-            }
-
-            if (_day == _endDayArray[_actionOrder])
-                finish();
-            else
-                NextDay();
-        }
-
-        private void finish()
-        {
-            int doneActionIndex = _actionOrder;
-            ++_actionOrder;
-
-            ActionController extAction = _extActionArray[doneActionIndex];
-            extAction.Finish();
-        }
-
-
-        private void scheduling()
-        {
-            if (_day > Calendar.LastDay[_month])
-            {
-                Initialize();
-                Manager.Instance.ScheduleEndEvent.Invoke();
+                Log.Error("not found schedule iterator");
                 return;
             }
 
-            if (_day == _beginDayArray[_actionOrder])
-            {
-                begin();
+            if (_iterator.MoveNext())
                 return;
-            }
 
-            CanBeCanceled();
+            EndEvent.Invoke();
+            initialize();
         }
 
-        public void CanBeCanceled()
+        private IEnumerator scheduling()
         {
-            ActionController extAction = _extActionArray[_actionOrder];
+            int MONTH = _mode.Calendar.Month;
 
-            if (isLackMoney(extAction.Id))
+            int[] BEGINDAY_ACTION = getBeginDayOfActon(MONTH, _MAX_NUM_OF_ACTION);
+            int[] ENDDAY_ACTION = getEndDayOfAction(MONTH, _MAX_NUM_OF_ACTION);
+
+            ActionController[] actionCtrlArray = generate();
+
+            int index = 0;
+            int day = _mode.Calendar.Day;
+
+            // LOOP : day by day
+            while (day <= Calendar.LastDay[MONTH])
             {
-                _extActionArray[_actionOrder] = _idleAction;
-                Manager.Instance.ScheduleCancelEvent.Invoke();
-            }
-            else if (_mainCharacter.GetActCount(extAction.Id) <= 0)
-            {
-                extAction.First();
-            }
-            else
-            {
-                Do();
-            }
+                if (true == isLackMoney(actionCtrlArray[index].Id))
+                {
+                    ActionCancelEvent.Invoke();
+                    yield return null;
+
+                    if (day > BEGINDAY_ACTION[index])
+                    {
+                        actionCtrlArray[index].End();
+                        yield return null;
+
+                        _mode.Character.IncrementActionCount(actionCtrlArray[index].Id);
+                    }
+
+                    actionCtrlArray[index] = _idleAction;
+                    BEGINDAY_ACTION[index] = day;
+                }
+
+                ActionController action = actionCtrlArray[index];
+
+                if (day == BEGINDAY_ACTION[index])
+                {
+                    action.Start();
+                    yield return null;
+
+                    if (_mode.Character.GetActionCount(action.Id) <= 0)
+                    {
+                        action.First();
+                        yield return null;
+                    }
+                }
+
+                action.Do();
+                yield return null;
+
+                if (day == ENDDAY_ACTION[index])
+                {
+                    action.End();
+                    yield return null;
+
+                    _mode.Character.IncrementActionCount(action.Id);
+                    ++index;
+                }
+
+                ++day;
+                _mode.Calendar.Day = day;
+
+            }   // while
         }
-
-        //private IEnumerator scheduling(float waitSeconds)
-        //{
-        //    int MONTH = _calendar.Month;
-
-        //    int[] BEGINDAY_ACT = getBeginDayOfActon(MONTH, NUM_OF_ACTION);
-        //    int[] ENDDAY_ACT = getEndDayOfAction(MONTH, NUM_OF_ACTION);
-
-        //    ExtAction[] extActionArray = generate();
-
-        //    int actionOrder = 0;
-        //    int day = _calendar.Day;
-
-        //    bool isAlarmLackMoney = false;
-
-        //    while (day <= Calendar.LastDay[MONTH])
-        //    {
-        //        ExtAction extAction = extActionArray[actionOrder];
-
-        //        if (isLackMoney(extAction.Id))
-        //        {
-        //            extAction = _idleAction;
-        //            if (false == isAlarmLackMoney)
-        //            {
-        //                isAlarmLackMoney = true;
-        //                Log.Debug(Def.ALARM_LACK_MONEY_DESC);
-        //            }
-        //        }
-
-        //        if (day == BEGINDAY_ACT[actionOrder])
-        //            extAction.Begin();
-
-        //        if (_mainCharacter.GetActCount(extAction.Id) <= 0)
-        //            extAction.First();
-
-        //        extAction.Do();
-
-        //        if (day == ENDDAY_ACT[actionOrder])
-        //        {
-        //            extAction.Done();
-        //            ++actionOrder;
-        //            isAlarmLackMoney = false;
-        //        }
-
-        //        ++day;
-        //        _calendar.Day = day;
-
-        //        yield return new WaitForSeconds(waitSeconds);
-        //    }
-
-        //    Manager.Instance.ScheduleDoneEvent.Invoke();
-        //    Initialize();
-        //}
 
         private bool isLackMoney(int actionId)
         {
             Action action = Manager.Instance.DTAction[actionId];
 
             // @note : action.money can be < 0.
-            int sum = _mainCharacter.Money + action.money;
+            int sum = _mode.Currency.Money + action.money;
             if (sum < 0)
                 return true;
             else
@@ -290,14 +230,14 @@ namespace Nurture
 
         private ActionController[] generate()
         {
-            ActionController[] extActionArray = new ActionController[NUM_OF_ACTION];
+            ActionController[] actionCtrlArray = new ActionController[_MAX_NUM_OF_ACTION];
 
-            for (int i = 0; i < NUM_OF_ACTION; ++i)
+            for (int i = 0; i < _MAX_NUM_OF_ACTION; ++i)
             {
                 int actionId = _actionArray[i];
                 if (Def.ACTION_VACATION_ID == actionId)
                 {
-                    extActionArray[i] = new VacationAction(actionId, _mainCharacter);
+                    actionCtrlArray[i] = new VacationAction(actionId, _mode);
                     continue;
                 }
 
@@ -305,24 +245,25 @@ namespace Nurture
                 switch (action.type)
                 {
                     case EActionType.PARTTIME:
-                        extActionArray[i] = new PartTimeAction(actionId, _mainCharacter);
+                        actionCtrlArray[i] = new PartTimeAction(actionId, _mode);
                         break;
 
                     case EActionType.LESSON:
-                        extActionArray[i] = new LessonAction(actionId, _mainCharacter);
+                        actionCtrlArray[i] = new LessonAction(actionId, _mode);
                         break;
 
                     case EActionType.RELAX:
-                        extActionArray[i] = new RelaxAction(actionId, _mainCharacter);
+                        actionCtrlArray[i] = new RelaxAction(actionId, _mode);
                         break;
 
                     default:
-                        extActionArray[i] = null;
+                        Log.Error("invalid action type");
+                        actionCtrlArray[i] = null;
                         break;
                 }
             }
 
-            return extActionArray;
+            return actionCtrlArray;
         }
 
         private int[] getBeginDayOfActon(int month, int numOfAction)

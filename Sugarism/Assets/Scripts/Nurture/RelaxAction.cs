@@ -6,15 +6,28 @@ namespace Nurture
 {
     public class RelaxAction : ActionController
     {
-        public RelaxAction(int id, MainCharacter mainCharacter) : base(id, mainCharacter)
+        public RelaxAction(int id, Mode mode) : base(id, mode) { }
+
+        protected override void start()
         {
+            _mode.Schedule.ActionStartEvent.Invoke(Id);
         }
 
-        protected override bool doing()
+        protected override void first()
         {
-            _MainCharacter.Money += _Action.money;
+            _mode.Schedule.ActionFirstEvent.Invoke();
+        }
 
-            return true;
+        protected override void doing()
+        {
+            _mode.Currency.Money += _action.money;
+
+            _mode.Schedule.ActionDoEvent.Invoke();
+        }
+
+        protected override void end()
+        {
+            _mode.Schedule.ActionEndEvent.Invoke();
         }
 
     }   // class

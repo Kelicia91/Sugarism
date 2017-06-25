@@ -1,21 +1,34 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace Nurture
 {
-    // 돈을 소비하는 action을 스케줄에 넣었는데 은전이 부족한 경우 강제로 셋팅.
+    // If true = Schedule.isLackMoney, Force to replace current action with this.
     public class IdleAction : ActionController
     {
-        public IdleAction(int id, MainCharacter mainCharacter) : base(id, mainCharacter)
+        public IdleAction(int id, Mode mode) : base(id, mode) { }
+
+        protected override void start()
         {
-            // do nothing
+            _mode.Schedule.ActionStartEvent.Invoke(Id);
         }
 
-        protected override bool doing()
+        protected override void first()
         {
-            return true;
+            _mode.Schedule.ActionFirstEvent.Invoke();
+        }
+
+        protected override void doing()
+        {
+            _mode.Schedule.ActionDoEvent.Invoke();
+        }
+
+        protected override void end()
+        {
+            _mode.Schedule.ActionEndEvent.Invoke();
         }
 
     }   // class

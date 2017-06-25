@@ -9,19 +9,24 @@ namespace Nurture
         private int _successCount = 0;
         private int _actionPeriod = 0;
 
-        public LessonAction(int id, MainCharacter mainCharacter) : base(id, mainCharacter)
+        public LessonAction(int id, Mode mode) : base(id, mode)
         {
 
+        }
+
+        protected override void start()
+        {
+            _mode.Schedule.ActionStartEvent.Invoke(Id);
         }
 
         protected override void first()
         {
-            Manager.Instance.ScheduleFirstEvent.Invoke(_Action.npcId);
+            _mode.Schedule.ActionFirstEvent.Invoke(_action.npcId);
         }
 
-        protected override bool doing()
+        protected override void doing()
         {
-            _MainCharacter.Money += _Action.money;
+            _mode.Currency.Money += _action.money;
 
             bool isSuccessed = isSuccess();
             if (isSuccessed)
@@ -30,10 +35,10 @@ namespace Nurture
             }
 
             ++_actionPeriod;
-            return isSuccessed;
+            _mode.Schedule.ActionDoEvent.Invoke(isSuccessed);
         }
 
-        protected override void finish()
+        protected override void end()
         {
             float quotient = ((float)_successCount) / _actionPeriod;
 
@@ -45,8 +50,8 @@ namespace Nurture
             string msg = null;
             if (achievementRatio <= 0)
             {
-                _MainCharacter.Stress += _Action.failStress;
-                msg = string.Format(Def.STRESS_FORMAT, _Action.failStress);
+                _mode.Character.Stress += _action.failStress;
+                msg = string.Format(Def.STRESS_FORMAT, _action.failStress);
             }
             else if (achievementRatio < 100)
             {
@@ -54,11 +59,11 @@ namespace Nurture
             }
             else
             {
-                _MainCharacter.Stress += _Action.bonus;
-                msg = string.Format(Def.STRESS_FORMAT, _Action.bonus);
+                _mode.Character.Stress += _action.bonus;
+                msg = string.Format(Def.STRESS_FORMAT, _action.bonus);
             }
 
-            Manager.Instance.ScheduleFinishEvent.Invoke(achievementRatio, _Action.npcId, msg);
+            _mode.Schedule.ActionEndEvent.Invoke(achievementRatio, _action.npcId, msg);
         }
 
     }   // class
