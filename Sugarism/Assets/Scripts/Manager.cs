@@ -47,6 +47,8 @@ public class Manager : MonoBehaviour
 
     // KYI : DataTable assets
     public ActionObject AsstDTAction;
+    public ActionLessonObject AsstDTActionLesson;
+    public ActionPartTimeObject AsstDTActionPartTime;
     public ActionTypeObject AsstDTActionType;
     public BackgroundObject AsstDTBackground;
     public BoardGamePlayerObject AsstDTBoardGamePlayer;
@@ -73,6 +75,8 @@ public class Manager : MonoBehaviour
 
     // KYI : DataTable
     public ActionObject DTAction { get { return AsstDTAction; } }
+    public ActionLessonObject DTActionLesson { get { return AsstDTActionLesson; } }
+    public ActionPartTimeObject DTActionPartTime { get { return AsstDTActionPartTime; } }
     public ActionTypeObject DTActionType { get { return AsstDTActionType; } }
     public BackgroundObject DTBackground { get { return AsstDTBackground; } }
     public BoardGamePlayerObject DTBoardGamePlayer { get { return AsstDTBoardGamePlayer; } }
