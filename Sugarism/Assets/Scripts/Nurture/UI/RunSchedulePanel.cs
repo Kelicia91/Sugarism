@@ -66,8 +66,6 @@ public class RunSchedulePanel : Panel
         setActionNameText(string.Empty);
         setProgressDescriptionText(string.Empty);
 
-        //AnimImage.gameObject.SetActive(false);
-
         int statPanelListCount = _statPanelList.Count;
         for (int i = 0; i < statPanelListCount; i++)
             _statPanelList[i].Hide();
