@@ -8,7 +8,7 @@ public class RunSchedulePanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
-    public Image ActionImage;
+    public Image ActionIconImage;
     public Text ActionNameText;
     public Text ProgressDescriptionText;
 
@@ -22,13 +22,15 @@ public class RunSchedulePanel : Panel
 
 
     //
-    private Image _backgroundImage;
-    private RunScheduleAnimController _animController;
+    private Image _backgroundImage = null;
+    private RunScheduleAnimController _animController = null;
 
     private const int DEFAULT_NUM_STAT_PANEL = 2;
     private List<StatPanel> _statPanelList = null;
     private int _actionId = -1;
 
+    //
+    Nurture.Schedule _schedule = null;
 
     void Awake()
     {
@@ -45,22 +47,26 @@ public class RunSchedulePanel : Panel
         _backgroundImage = GetComponent<Image>();
         _animController = AnimImage.GetComponent<RunScheduleAnimController>();
 
-        Manager.Instance.ScheduleBeginEvent.Attach(onScheduleBegin);
-        Manager.Instance.ScheduleCancelEvent.Attach(onScheduleCancel);
-        Manager.Instance.ScheduleFirstEvent.Attach(onScheduleFirst);
-        Manager.Instance.ScheduleDoEvent.Attach(onScheduleDo);
-        Manager.Instance.ScheduleFinishEvent.Attach(onScheduleFinish);
+        _schedule = Manager.Instance.Object.NurtureMode.Schedule;
+        _schedule.ActionCancelEvent.Attach(onActionCancel);
+        _schedule.ActionStartEvent.Attach(onActionStart);
+        _schedule.ActionFirstEvent.Attach(onActionFirst);
+        _schedule.ActionFirstEvent.Attach(onActionFirstNPC);
+        _schedule.ActionDoEvent.Attach(onActionDo);
+        _schedule.ActionDoEvent.Attach(onActionDoResult);
+        _schedule.ActionEndEvent.Attach(onActionEnd);
+        _schedule.ActionEndEvent.Attach(onActionEndAchievement);
     }
 
     void OnEnable()
     {
         setBackgroundImage(null);
 
-        ActionImage.enabled = false;
+        ActionIconImage.enabled = false;
         setActionNameText(string.Empty);
         setProgressDescriptionText(string.Empty);
 
-        AnimImage.gameObject.SetActive(false);
+        //AnimImage.gameObject.SetActive(false);
 
         int statPanelListCount = _statPanelList.Count;
         for (int i = 0; i < statPanelListCount; i++)
@@ -101,6 +107,25 @@ public class RunSchedulePanel : Panel
         }
 
         ProgressDescriptionText.text = s;
+    }
+    
+    private Sprite getVactionImage()
+    {
+        ESeason season = Manager.Instance.Object.NurtureMode.Calendar.Get();
+        if (ESeason.MAX == season)
+        {
+            Log.Error("invalid season");
+            return null;
+        }
+
+        int seasonId = (int)season;
+        Vacation vacation = Manager.Instance.DTVacation[seasonId];
+
+        int midAge = (Def.INIT_AGE + (Def.INIT_AGE + Def.PERIOD_YEAR)) / 2;
+        if (Manager.Instance.Object.MainCharacter.Age >= midAge)
+            return vacation.adultHood;
+        else
+            return vacation.childHood;
     }
 
     private void initStat(Action action)
@@ -170,8 +195,17 @@ public class RunSchedulePanel : Panel
             _statPanelList[i].Hide();   // hide unused panel
         }
     }
-    
-    private void begin(int actionId)
+
+
+    private const float DEFAULT_DELAY_SECONDS = 0.1f;
+    private const string RESUME_METHOD_NAME = "resume"; // for Invoke()
+    private void resume()
+    {
+        _schedule.Iterate();
+    }
+
+
+    private void start(int actionId)
     {
         _actionId = actionId;
         Action action = Manager.Instance.DTAction[_actionId];
@@ -184,45 +218,52 @@ public class RunSchedulePanel : Panel
 
         setBackgroundImage(sprite);
 
-        ActionImage.sprite = action.icon;
-        ActionImage.enabled = true;
+        ActionIconImage.sprite = action.icon;
+        ActionIconImage.enabled = true;
         setActionNameText(action.name);
         setProgressDescriptionText(string.Empty);
-        
+
         initStat(action);
+
+        _animController.ResetTrigger(RunScheduleAnimController.ETrigger.END);
     }
 
-
-    private void onScheduleBegin(int actionId)
+    /*** ACTION START ***/
+    private void onActionStart(int actionId)
     {
-        begin(actionId);
+        start(actionId);
 
-        Action action = Manager.Instance.DTAction[actionId];
-        // @todo :일정 시간후 자동 hide 또는 입력받으면 hide
+        Action action = Manager.Instance.DTAction[_actionId];
+        
         string msg = string.Format(Def.ACTION_BEGIN_DESC_FORMAT, action.beginDesc);
-        MessagePanel.Show(msg, onDisableScheduleBeginConfirm);
+        MessagePanel.Show(msg, onClickActionStartConfirm);
     }
 
-    private void onDisableScheduleBeginConfirm()
+    private void onClickActionStartConfirm()
     {
-        Manager.Instance.Object.Schedule.CanBeCanceled();
+        resume();
     }
 
-
-    private void onScheduleCancel()
+    /*** ACTION CANCEL ***/
+    private void onActionCancel()
     {
-        AnimImage.gameObject.SetActive(false);
+        endAnim();
 
         MessagePanel.Show(Def.ALARM_LACK_MONEY_DESC, onClickScheduleCancelConfirm);
     }
 
     private void onClickScheduleCancelConfirm()
     {
-        Manager.Instance.Object.Schedule.Begin();
+        resume();
+    }
+    
+    /*** ACTION FIRST ***/
+    private void onActionFirst()
+    {
+        Invoke(RESUME_METHOD_NAME, DEFAULT_DELAY_SECONDS);
     }
 
-    
-    private void onScheduleFirst(int npcId)
+    private void onActionFirstNPC(int npcId)
     {
         NPC npc = Manager.Instance.DTNPC[npcId];
         string lines = npc.firstMeetDesc;
@@ -232,146 +273,102 @@ public class RunSchedulePanel : Panel
 
     private void onClickNpcFirstMeet()
     {
-        Manager.Instance.Object.Schedule.Do();
+        resume();
     }
 
-
-    
-    private void onScheduleDo(bool isSuccessed)
+    /*** ACTION DO ***/
+    private void onActionDo()
     {
-        if (Def.ACTION_VACATION_ID == _actionId)
-        {
-            doVacation();
-            return;
-        }
-
-        // Awake 에서 초기화 해주기 위함
-        _animController.gameObject.SetActive(true);
-        
         Action action = Manager.Instance.DTAction[_actionId];
-        switch (action.type)
+
+        if (RunScheduleAnimController.ETrigger.MAX == action.animTrigger)
+        {
+            // case. vacation
+            Invoke(RESUME_METHOD_NAME, DEFAULT_DELAY_SECONDS);
+        }
+        else
+        {
+            _animController.SetTrigger(action.animTrigger);
+
+            float animLength = _animController.GetCurrentStateLength(RunScheduleAnimController.DEFAULT_LAYER_INDEX);
+            Invoke(RESUME_METHOD_NAME, animLength);
+        }
+    }
+
+    private void onActionDoResult(bool isSuccessed)
+    {
+        Action action = Manager.Instance.DTAction[_actionId];
+
+        //
+        string description = getActionDoResultDescription(action.type, isSuccessed);
+        setProgressDescriptionText(description);
+
+        //
+        _animController.SetTrigger(action.animTrigger);
+
+        string methodName = getAcionResultMethodName(isSuccessed);
+        float animLength = _animController.GetCurrentStateLength(RunScheduleAnimController.DEFAULT_LAYER_INDEX);
+        Invoke(methodName, animLength);
+    }
+
+    private const string ACTION_SUCCESS_METHOD_NAME = "actionSuccess";   // for Invoke()
+    private void actionSuccess()
+    {
+        _animController.SetTrigger(RunScheduleAnimController.ETrigger.SUCCESS);
+
+        float animLength = _animController.GetCurrentStateLength(RunScheduleAnimController.DEFAULT_LAYER_INDEX);
+        Invoke(RESUME_METHOD_NAME, animLength);
+    }
+
+    private const string ACTION_FAIL_METHOD_NAME = "actionFail";  // for Invoke()
+    private void actionFail()
+    {
+        _animController.SetTrigger(RunScheduleAnimController.ETrigger.FAIL);
+
+        float animLength = _animController.GetCurrentStateLength(RunScheduleAnimController.DEFAULT_LAYER_INDEX);
+        Invoke(RESUME_METHOD_NAME, animLength);
+    }
+
+    private string getAcionResultMethodName(bool isSuccessed)
+    {
+        if (isSuccessed)
+            return ACTION_SUCCESS_METHOD_NAME;
+        else
+            return ACTION_FAIL_METHOD_NAME;
+    }
+
+    private string getActionDoResultDescription(EActionType actionType, bool isSuccessed)
+    {
+        switch (actionType)
         {
             case EActionType.PARTTIME:
-                doPartTime(action, isSuccessed);
-                break;
+                if (isSuccessed)
+                    return Def.ACTION_PARTTIME_DOING_SUCCESS_DESC;
+                else
+                    return Def.ACTION_PARTTIME_DOING_FAIL_DESC;
 
             case EActionType.LESSON:
-                doLesson(action, isSuccessed);
-                break;
-
-            case EActionType.RELAX:
-                doRelax(action);
-                break;
-
-            case EActionType.IDLE:
-                doIdle(action);
-                break;
+                if (isSuccessed)
+                    return Def.ACTION_LESSON_DOING_SUCCESS_DESC;
+                else
+                    return Def.ACTION_LESSON_DOING_FAIL_DESC;
 
             default:
-                break;
+                return null;
         }
     }
 
-    private void doPartTime(Action action, bool isSuccessed)
+    /*** ACTION END ***/
+    private void onActionEnd()
     {
-        string description;
-        RunScheduleAnimController.ETrigger resultAnimTrigger;
-        if (isSuccessed)
-        {
-            description = Def.ACTION_PARTTIME_DOING_SUCCESS_DESC;
-            resultAnimTrigger = action.successAnim;
-        }
-        else
-        {
-            description = Def.ACTION_PARTTIME_DOING_FAIL_DESC;
-            resultAnimTrigger = action.failAnim;
-        }
+        endAnim();
 
-        setProgressDescriptionText(description);
-        StartCoroutine(animate(isSuccessed, action.normalAnim, resultAnimTrigger));
+        Invoke(RESUME_METHOD_NAME, DEFAULT_DELAY_SECONDS);
     }
 
-    private void doLesson(Action action, bool isSuccessed)
+    private void onActionEndAchievement(int achievementRatio, int npcId, string msg)
     {
-        string description;
-        RunScheduleAnimController.ETrigger resultAnimTrigger;
-        if (isSuccessed)
-        {
-            description = Def.ACTION_LESSON_DOING_SUCCESS_DESC;
-            resultAnimTrigger = action.successAnim;
-        }
-        else
-        {
-            description = Def.ACTION_PARTTIME_DOING_FAIL_DESC;
-            resultAnimTrigger = action.failAnim;
-        }
-
-        setProgressDescriptionText(description);
-        StartCoroutine(animate(isSuccessed, action.normalAnim, resultAnimTrigger));
-    }
-
-    private IEnumerator animate(bool isSuccessed
-        , RunScheduleAnimController.ETrigger normal
-        , RunScheduleAnimController.ETrigger result)
-    {
-        float waitSeconds = Configuration.DAY_RUNNING_TIME_SECONDS * 0.4f;
-
-        while (true)
-        {
-            _animController.SetTrigger(normal);
-            yield return new WaitForSeconds(waitSeconds);
-            break;
-        }
-
-        _animController.SetTrigger(result);
-    }
-
-    private void doRelax(Action action)
-    {
-        _animController.SetTrigger(action.normalAnim);
-    }
-
-    private void doIdle(Action action)
-    {
-        _animController.SetTrigger(action.normalAnim);
-    }
-
-    private void doVacation()
-    {
-        // do nothing..
-    }
-
-    private Sprite getVactionImage()
-    {
-        ESeason season = Manager.Instance.Object.Calendar.Get();
-        if (ESeason.MAX == season)
-        {
-            Log.Error("invalid season");
-            return null;
-        }
-
-        int seasonId = (int)season;
-        Vacation vacation = Manager.Instance.DTVacation[seasonId];
-        
-        int midAge = (Def.INIT_AGE + (Def.INIT_AGE + Def.PERIOD_YEAR)) / 2;
-        if (Manager.Instance.Object.MainCharacter.Age >= midAge)
-            return vacation.adultHood;
-        else
-            return vacation.childHood;
-    }
-
-
-
-    private void onScheduleFinish(int achievementRatio, int npcId, string msg)
-    {
-        _animController.SetTrigger(RunScheduleAnimController.ETrigger.Finish);
-        //AnimImage.gameObject.SetActive(false);
-
-        if (false == ExtNPC.IsValid(npcId))
-        {
-            finish();
-            return;
-        }
+        endAnim();
 
         NPC npc = Manager.Instance.DTNPC[npcId];
 
@@ -389,16 +386,21 @@ public class RunSchedulePanel : Panel
             lines = string.Format("{0}\n({1})", npc.bonusDesc, msg);
         }
 
-        DialoguePanel.Show(npcId, lines, onClickNpcFinish);
+        DialoguePanel.Show(npcId, lines, onClickNpcEnd);
     }
 
-    private void onClickNpcFinish()
+    private void onClickNpcEnd()
     {
-        finish();
+        resume();
     }
 
-    private void finish()
+
+    //
+    private void endAnim()
     {
-        Manager.Instance.Object.Schedule.NextDay();
+        Action action = Manager.Instance.DTAction[_actionId];
+        _animController.ResetTrigger(action.animTrigger);
+
+        _animController.SetTrigger(RunScheduleAnimController.ETrigger.END);
     }
 }

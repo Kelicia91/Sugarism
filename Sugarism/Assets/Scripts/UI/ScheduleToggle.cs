@@ -38,7 +38,7 @@ public class ScheduleToggle : MonoBehaviour
         }
 
         _toggle.onValueChanged.AddListener(onValueChanged);
-        Manager.Instance.ScheduleChangeEvent.Attach(onScheduleChanged);
+        Manager.Instance.Object.NurtureMode.Schedule.InsertEvent.Attach(onScheduleInserted);
     }
 
     // This function is called when the object becomes enabled and active.
@@ -47,7 +47,7 @@ public class ScheduleToggle : MonoBehaviour
         onEnable();
 
         // action panel
-        int actionId = Manager.Instance.Object.Schedule.GetActionId(ScheduleIndex);
+        int actionId = Manager.Instance.Object.NurtureMode.Schedule.GetActionId(ScheduleIndex);
         set(actionId);   
     }
 
@@ -85,7 +85,7 @@ public class ScheduleToggle : MonoBehaviour
         Manager.Instance.UI.SchedulePanel.SelectedScheduleIndex = ScheduleIndex;
     }
     
-    private void onScheduleChanged(int scheduleIndex, int actionId)
+    private void onScheduleInserted(int scheduleIndex, int actionId)
     {
         if (ScheduleIndex == scheduleIndex)
             set(actionId);

@@ -19,7 +19,7 @@ public class CalendarPanel : Panel
     // Use this for initialization
     void Start ()
     {
-        Nurture.Calendar _calendar = Manager.Instance.Object.Calendar;
+        Nurture.Calendar _calendar = Manager.Instance.Object.NurtureMode.Calendar;
         if (null != _calendar)
         {
             setYearText(_calendar.Year.ToString());
@@ -35,9 +35,9 @@ public class CalendarPanel : Panel
         setMonthUnitText(Def.MONTH_UNIT);
         setDayUnitText(Def.DAY_UNIT);
 
-        Manager.Instance.YearChangeEvent.Attach(onYearChanged);
-        Manager.Instance.MonthChangeEvent.Attach(onMonthChanged);
-        Manager.Instance.DayChangeEvent.Attach(onDayChanged);
+        _calendar.YearChangeEvent.Attach(onYearChanged);
+        _calendar.MonthChangeEvent.Attach(onMonthChanged);
+        _calendar.DayChangeEvent.Attach(onDayChanged);
     }
 
     private void setYearText(string s)

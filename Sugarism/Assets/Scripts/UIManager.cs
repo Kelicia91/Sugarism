@@ -63,8 +63,9 @@ public class UIManager : MonoBehaviour
 
         MainPanel.Show();
 
-        Manager.Instance.ScheduleStartEvent.Attach(onScheduleStart);
-        Manager.Instance.ScheduleEndEvent.Attach(onScheduleEnd);
+        Nurture.Mode nurtureMode = Manager.Instance.Object.NurtureMode;
+        nurtureMode.Schedule.StartEvent.Attach(onScheduleStart);
+        nurtureMode.Schedule.EndEvent.Attach(onScheduleEnd);
 
         Manager.Instance.ScenarioStartEvent.Attach(onScenarioStart);
         Manager.Instance.ScenarioEndEvent.Attach(onScenarioEnd);

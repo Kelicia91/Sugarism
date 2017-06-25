@@ -29,7 +29,7 @@ public class StatPanel : Panel
 
     void Start()
     {
-        Manager.Instance.MainCharacterStatEvent.Attach(onMainCharacterStatChanged);
+        Manager.Instance.Object.NurtureMode.Character.StatEvent.Attach(onCharacterStatChanged);
     }
 
     public void Set(EStat statType)
@@ -45,9 +45,8 @@ public class StatPanel : Panel
         int statId = (int)statType;
         Stat stat = Manager.Instance.DTStat[statId];
         setNameText(stat.name);
-
-        MainCharacter mainCharacter = Manager.Instance.Object.MainCharacter;
-        int value = mainCharacter.Get(_statType);
+        
+        int value = Manager.Instance.Object.NurtureMode.Character.Get(_statType);
         setValue(value);
     }
 
@@ -97,7 +96,7 @@ public class StatPanel : Panel
     }
     
 
-    private void onMainCharacterStatChanged(EStat statType, int value)
+    private void onCharacterStatChanged(EStat statType, int value)
     {
         if (_statType != statType)
             return;

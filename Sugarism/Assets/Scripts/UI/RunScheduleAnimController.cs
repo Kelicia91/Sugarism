@@ -5,28 +5,38 @@ using UnityEngine;
 
 public class RunScheduleAnimController : MonoBehaviour
 {
-    // @note: window 'Animator' - Parameters 'Trigers'
+    // @note: window 'Animator' - Parameters 'Triggers'
     public enum ETrigger
     {
-        DoLesson = 0,
-        DoPartTime,
+        END = 0,
 
-        DoWalking,
-        DoFreedom,
-        DoIdle,
+        SUCCESS = 1,
+        FAIL = 2,
 
-        LessonSuccess,
-        LessonFail,
-        PartTimeSuccess,
-        PartTimeFail,
+        IDLE,
+        WALKING,
+        FREEDOM,
 
-        Finish,
+        FARM,
+        MARKET,
+        RESIDENCE,
+        PUB,
+
+        ARENA,
+        TACTIC,
+        POLITICS,
+        ARTS,
+
+        // HERE add a new trigger.
 
         MAX
     }
 
     //
-    private Animator _animator;
+    public const int DEFAULT_LAYER_INDEX = 0;
+
+    //
+    private Animator _animator = null;
 
     //
     void Awake()
@@ -34,40 +44,47 @@ public class RunScheduleAnimController : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    //
-    void OnEnable()
+
+    public void ResetTrigger(ETrigger triggerType)
     {
-        //SetTrigger(ETrigger.Finish);  // 제대로 안먹힌다..
-        Log.Debug("RunScheduleAnimController.OnEnable");
+        Log.Debug(string.Format("RunScheduleAnimController.ResetTrigger; {0}", triggerType));
+
+        if (ETrigger.MAX == triggerType)
+            return;
+
+        resetTrigger(triggerType);
+    }
+
+    private void resetTrigger(ETrigger triggerType)
+    {
+        string s = triggerType.ToString();
+        _animator.ResetTrigger(s);
     }
 
     public void SetTrigger(ETrigger triggerType)
     {
+        Log.Debug(string.Format("RunScheduleAnimController.SetTrigger; {0}", triggerType));
+
         if (ETrigger.MAX == triggerType)
-        {
-            Log.Error("invalid trigger type");
             return;
-        }
 
         setTrigger(triggerType);
     }
 
-    private string _prevTrigger = string.Empty;
-    //private const string ANIM_PARAM_NAME = "stateNo";
     private void setTrigger(ETrigger triggerType)
     {
-        _animator.ResetTrigger(_prevTrigger);
-
         string s = triggerType.ToString();
         _animator.SetTrigger(s);
+    }
 
-        _prevTrigger = s;
 
-        // int 변수 하나로 제어해도 disable 이 finish 보다 먼저 일어나는지..
-        // 마지막 행동에 대해서만 finish 가 제대로 안 먹혀서
-        // 다음에 다시 애니메이션 시작하려고 하면 마지막 행동 상태에서 여전히 남아있음..
-        // 해결해야 하는 문제.. 고로 anim state 관리를 trigger 하든 int 하든 해결방법이 못됨.
-        //int value = (int)triggerType;
-        //_animator.SetInteger(ANIM_PARAM_NAME, value);
+    public float GetCurrentStateLength(int layerIndex)
+    {
+        AnimatorStateInfo info = _animator.GetCurrentAnimatorStateInfo(layerIndex);
+
+        float length = info.length;
+        Log.Debug(string.Format("animator state info. length: {0}", length));
+
+        return length;
     }
 }

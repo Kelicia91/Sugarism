@@ -23,7 +23,7 @@ public class ProfilePanel : Panel
         EConstitution constitution = mainCharacter.Constitution;
         setConstitutionText(get(constitution));
 
-        EZodiac zodiac = mainCharacter.Zodiac;
+        EZodiac zodiac = Manager.Instance.Object.NurtureMode.Character.Zodiac;
         setZodiacText(get(zodiac));
 
         int age = mainCharacter.Age;

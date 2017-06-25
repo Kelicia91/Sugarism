@@ -27,7 +27,7 @@ public class RunButton : MonoBehaviour
         }
 
         setText(Def.CMD_RUN_SCHEDULE_NAME);
-        Manager.Instance.ScheduleChangeEvent.Attach(onScheduleChanged);
+        Manager.Instance.Object.NurtureMode.Schedule.InsertEvent.Attach(onScheduleInserted);
 	}
 
     // call before strat()
@@ -55,18 +55,17 @@ public class RunButton : MonoBehaviour
         // y - 스케줄패널 hide, 런스케줄패널 show
 
         //
-        Manager.Instance.ScheduleStartEvent.Invoke();
-        Manager.Instance.Object.Schedule.Run();
+        Manager.Instance.Object.NurtureMode.Schedule.Run();
     }
 
-    private void onScheduleChanged(int scheduleIndex, int actionId)
+    private void onScheduleInserted(int scheduleIndex, int actionId)
     {
         setInteractable();
     }
 
     private void setInteractable()
     {
-        if (Manager.Instance.Object.Schedule.IsFull())
+        if (Manager.Instance.Object.NurtureMode.Schedule.IsFull())
             _btn.interactable = true;
         else
             _btn.interactable = false;

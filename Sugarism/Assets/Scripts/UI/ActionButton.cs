@@ -91,6 +91,6 @@ public class ActionButton : MonoBehaviour
     private void onClick()
     {
         int index = Manager.Instance.UI.SchedulePanel.SelectedScheduleIndex;
-        Manager.Instance.Object.Schedule.Insert(index, _actionId);
+        Manager.Instance.Object.NurtureMode.Schedule.Insert(index, _actionId);
     }
 }

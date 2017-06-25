@@ -20,7 +20,7 @@ public class DashBoardText : MonoBehaviour
     // Use this for initialization
     void OnEnable()
     {
-        Nurture.Calendar calendar = Manager.Instance.Object.Calendar;
+        Nurture.Calendar calendar = Manager.Instance.Object.NurtureMode.Calendar;
 
         string s = string.Format("{0} {1}  {2} {3}", 
                                 calendar.Year, Def.YEAR_UNIT,
