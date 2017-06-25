@@ -13,6 +13,9 @@ public class ActionTypeToggle : MonoBehaviour
     public Text Text;
 
     //
+    private const EActionType DEFAULT_ENABLE_ACTION_TYPE = EActionType.PARTTIME;
+
+    //
     private Toggle _toggle = null;
     private EActionType _actionType = EActionType.MAX;
 
@@ -53,7 +56,7 @@ public class ActionTypeToggle : MonoBehaviour
 
     private void onEnable()
     {
-        if (EActionType.PARTTIME == _actionType)
+        if (DEFAULT_ENABLE_ACTION_TYPE == _actionType)
             _toggle.isOn = true;
         else
             _toggle.isOn = false;
