@@ -3,7 +3,7 @@ public class CmdLinesEvent
 {
     public delegate void Handler(int characterId, bool isAnonymous, 
                                 string lines, Sugarism.ELinesEffect linesEffect);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdLinesEvent()
     {
@@ -48,7 +48,7 @@ public class CmdAppearEvent
 {
     public delegate void Handler(int characterId, Sugarism.EFace face
                             , Sugarism.ECostume costume, Sugarism.EPosition position);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdAppearEvent()
     {
@@ -91,7 +91,7 @@ public class CmdAppearEvent
 public class CmdSwitchEvent
 {
     public delegate void Handler(CmdCase[] caseArray);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdSwitchEvent()
     {
@@ -135,7 +135,7 @@ public class CmdSwitchEvent
 public class CmdTextEvent
 {
     public delegate void Handler(string text);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdTextEvent()
     {
@@ -171,7 +171,7 @@ public class CmdTextEvent
 public class CmdBackgroundEvent
 {
     public delegate void Handler(int id);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdBackgroundEvent()
     {
@@ -207,7 +207,7 @@ public class CmdBackgroundEvent
 public class CmdMiniPictureEvent
 {
     public delegate void Handler(int id);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdMiniPictureEvent()
     {
@@ -243,7 +243,7 @@ public class CmdMiniPictureEvent
 public class CmdPictureEvent
 {
     public delegate void Handler(int id);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdPictureEvent()
     {
@@ -279,7 +279,7 @@ public class CmdPictureEvent
 public class CmdSEEvent
 {
     public delegate void Handler(int id);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdSEEvent()
     {
@@ -315,7 +315,7 @@ public class CmdSEEvent
 public class CmdFilterEvent
 {
     public delegate void Handler(Sugarism.EFilter filter);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdFilterEvent()
     {
@@ -351,7 +351,7 @@ public class CmdFilterEvent
 public class CmdFeelingEvent
 {
     public delegate void Handler(int characterId, Sugarism.EOperation op, int value);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public CmdFeelingEvent()
     {
@@ -388,7 +388,7 @@ public class CmdFeelingEvent
 public class ScenarioStartEvent
 {
     public delegate void Handler();
-    private event Handler _event;
+    private event Handler _event = null;
 
     public ScenarioStartEvent()
     {
@@ -424,7 +424,7 @@ public class ScenarioStartEvent
 public class ScenarioEndEvent
 {
     public delegate void Handler();
-    private event Handler _event;
+    private event Handler _event = null;
 
     public ScenarioEndEvent()
     {
@@ -460,7 +460,7 @@ public class ScenarioEndEvent
 public class MoneyChangeEvent
 {
     public delegate void Handler(int money);
-    private event Handler _event;
+    private event Handler _event = null;
 
     public MoneyChangeEvent()
     {
