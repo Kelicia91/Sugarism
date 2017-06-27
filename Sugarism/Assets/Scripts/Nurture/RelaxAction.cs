@@ -8,26 +8,11 @@ namespace Nurture
     {
         public RelaxAction(int id, Mode mode) : base(id, mode) { }
 
-        protected override void start()
-        {
-            _mode.Schedule.ActionStartEvent.Invoke(Id);
-        }
-
-        protected override void first()
-        {
-            _mode.Schedule.ActionFirstEvent.Invoke();
-        }
-
         protected override void doing()
         {
             _mode.Currency.Money += _action.money;
 
-            _mode.Schedule.ActionDoEvent.Invoke();
-        }
-
-        protected override void end()
-        {
-            _mode.Schedule.ActionEndEvent.Invoke();
+            base.doing();
         }
 
     }   // class

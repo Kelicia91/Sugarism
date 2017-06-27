@@ -24,23 +24,13 @@ namespace Nurture
             _vacation = Manager.Instance.DTVacation[seasonId];
         }
 
-        protected override void start()
-        {
-            _mode.Schedule.ActionStartEvent.Invoke(Id);
-        }
-
-        protected override void first()
-        {
-            _mode.Schedule.ActionFirstEvent.Invoke();
-        }
-
         protected override void doing()
         {
-            updateStats(_vacation);
-
             _mode.Currency.Money += _action.money;
 
-            _mode.Schedule.ActionDoEvent.Invoke();
+            updateStats(_vacation);
+
+            base.doing();
         }
 
         private void updateStats(Vacation vacation)
@@ -63,11 +53,6 @@ namespace Nurture
 
             c.Sensibility += vacation.sensibility;
             c.Arts += vacation.arts;
-        }
-
-        protected override void end()
-        {
-            _mode.Schedule.ActionEndEvent.Invoke();
         }
 
     }   // class

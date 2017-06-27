@@ -23,20 +23,29 @@ namespace Nurture
             _mode = mode;
         }
 
+        // START
         public void Start()
         {
             start();
         }
 
-        protected abstract void start();
+        protected virtual void start()
+        {
+            _mode.Schedule.ActionStartEvent.Invoke(Id);
+        }
 
+        // FIRST
         public void First()
         {
             first();
         }
 
-        protected abstract void first();
+        protected virtual void first()
+        {
+            _mode.Schedule.ActionFirstEvent.Invoke();
+        }
 
+        // DO
         public void Do()
         {
             doing();
@@ -44,7 +53,10 @@ namespace Nurture
             updateStats();
         }
 
-        protected abstract void doing();
+        protected virtual void doing()
+        {
+            _mode.Schedule.ActionDoEvent.Invoke();
+        }
 
         private void updateStats()
         {
@@ -70,12 +82,27 @@ namespace Nurture
             c.Arts += _action.arts;
         }
 
+        // BEFORE END
+        public void BeforeEnd()
+        {
+            beforeEnd();
+        }
+
+        protected virtual void beforeEnd()
+        {
+            _mode.Schedule.ActionBeforeEndEvent.Invoke();
+        }
+    
+        // END
         public void End()
         {
             end();
         }
 
-        protected abstract void end();
+        protected virtual void end()
+        {
+            _mode.Schedule.ActionEndEvent.Invoke();
+        }
 
     }   // class
 

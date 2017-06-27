@@ -40,11 +40,6 @@ namespace Nurture
             return -1;
         }
 
-        protected override void start()
-        {
-            _mode.Schedule.ActionStartEvent.Invoke(Id);
-        }
-
         protected override void first()
         {
             _mode.Schedule.ActionFirstEvent.Invoke(_parttime.npcId);

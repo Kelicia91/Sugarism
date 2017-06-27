@@ -40,11 +40,6 @@ namespace Nurture
             return -1;
         }
 
-        protected override void start()
-        {
-            _mode.Schedule.ActionStartEvent.Invoke(Id);
-        }
-
         protected override void first()
         {
             _mode.Schedule.ActionFirstEvent.Invoke(_lesson.npcId);
@@ -62,6 +57,38 @@ namespace Nurture
 
             ++_actionPeriod;
             _mode.Schedule.ActionDoEvent.Invoke(isSuccessed);
+        }
+
+        protected override void beforeEnd()
+        {
+            if (false == isExamDay())
+            {
+                base.beforeEnd();
+                return;
+            }
+
+            Exam.Exam exam = null;
+            switch (_lesson.examType)
+            {
+                case Exam.EType.COMBAT:
+                    // @todo
+                    break;
+
+                case Exam.EType.BOARD_GAME:
+                    // @todo
+                    break;
+
+                case Exam.EType.SCORE:
+                    exam = new Exam.ScoreExam(isFirstExam(), _lesson.npcId, new ScoreExamLessonArts());
+                    break;
+
+                default:
+                    Log.Error("not found exam type");
+                    base.beforeEnd();
+                    return;
+            }
+
+            _mode.Schedule.ActionBeforeEndEvent.Invoke(exam);
         }
 
         protected override void end()
@@ -170,6 +197,93 @@ namespace Nurture
             Log.Debug(msg);
 
             return successProbability;
+        }
+
+
+        private bool isExamDay()
+        {
+            int remainder = _mode.Character.GetActionCount(Id) % Def.EXAM_PERIOD;
+            if (0 == remainder)
+                return true;
+            else
+                return false;
+        }
+
+        private bool isFirstExam()
+        {
+            int quotient = _mode.Character.GetActionCount(Id) / Def.EXAM_PERIOD;
+            if (1 == quotient)
+                return true;
+            else
+                return false;
+        }
+
+    }   // class
+
+    
+    // @note: Temp class..
+    public class ScoreExamLessonArts
+    {
+        public const int EXCELLENT_STRESS = -30;
+        public const int BAD_STRESS = 30;
+
+        public readonly Score.StatWeight[] ScoreExamStatWeightArray = 
+        {
+            new Score.StatWeight(EStat.STRESS, 10),
+            new Score.StatWeight(EStat.CHARM, 30),
+            new Score.StatWeight(EStat.SENSIBILITY, 30),
+            new Score.StatWeight(EStat.ARTS, 30)
+        };
+
+        public string GetNPCComment(Score.EGrade grade)
+        {
+            switch (grade)
+            {
+                case Score.EGrade.S:
+                    return Def.ARTS_EXAM_END_NPC_COMMENT_S;
+
+                case Score.EGrade.A:
+                    return Def.ARTS_EXAM_END_NPC_COMMENT_A;
+
+                case Score.EGrade.B:
+                    return Def.ARTS_EXAM_END_NPC_COMMENT_B;
+
+                case Score.EGrade.C:
+                    return Def.ARTS_EXAM_END_NPC_COMMENT_C;
+
+                case Score.EGrade.D:
+                    return Def.ARTS_EXAM_END_NPC_COMMENT_D;
+
+                default:
+                    Log.Error(string.Format("invalid grade; {0}", grade));
+                    return null;
+            }
+        }
+        
+        public string Reward(Score.EGrade grade)
+        {
+            const string REWARD_MSG_FORMAT = "\n({0})";
+            string rewardMsg = null;
+
+            Character nChacater = Manager.Instance.Object.NurtureMode.Character;
+            switch (grade)
+            {
+                case Score.EGrade.S:
+                    nChacater.Stress += EXCELLENT_STRESS;
+                    rewardMsg = string.Format(REWARD_MSG_FORMAT, string.Format(Def.STRESS_FORMAT, EXCELLENT_STRESS));
+                    break;
+
+                case Score.EGrade.D:
+                    nChacater.Stress += BAD_STRESS;
+                    rewardMsg = string.Format(REWARD_MSG_FORMAT, string.Format(Def.STRESS_FORMAT, BAD_STRESS));
+                    break;
+
+                default:
+                    rewardMsg = string.Empty;
+                    break;
+            }
+
+            return rewardMsg;
         }
 
     }   // class
