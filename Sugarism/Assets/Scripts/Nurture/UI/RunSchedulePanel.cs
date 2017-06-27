@@ -8,9 +8,9 @@ public class RunSchedulePanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
-    public Image ActionIconImage;
-    public Text ActionNameText;
-    public Text ProgressDescriptionText;
+    public CurrencyPanel CurrencyPanel;
+    public CalendarPanel CalendarPanel;
+    public ScheduleProgressPanel ProgressPanel;
 
     public Image AnimImage;
 
@@ -54,6 +54,8 @@ public class RunSchedulePanel : Panel
         _schedule.ActionFirstEvent.Attach(onActionFirstNPC);
         _schedule.ActionDoEvent.Attach(onActionDo);
         _schedule.ActionDoEvent.Attach(onActionDoResult);
+        _schedule.ActionBeforeEndEvent.Attach(onActionBeforeEnd);
+        _schedule.ActionBeforeEndEvent.Attach(onActionBeforeEndExam);
         _schedule.ActionEndEvent.Attach(onActionEnd);
         _schedule.ActionEndEvent.Attach(onActionEndAchievement);
     }
@@ -61,10 +63,6 @@ public class RunSchedulePanel : Panel
     void OnEnable()
     {
         setBackgroundImage(null);
-
-        ActionIconImage.enabled = false;
-        setActionNameText(string.Empty);
-        setProgressDescriptionText(string.Empty);
 
         int statPanelListCount = _statPanelList.Count;
         for (int i = 0; i < statPanelListCount; i++)
@@ -83,28 +81,6 @@ public class RunSchedulePanel : Panel
         }
 
         _backgroundImage.sprite = s;
-    }
-
-    private void setActionNameText(string s)
-    {
-        if (null == ActionNameText)
-        {
-            Log.Error("not found action name text");
-            return;
-        }
-
-        ActionNameText.text = s;
-    }
-
-    private void setProgressDescriptionText(string s)
-    {
-        if (null == ProgressDescriptionText)
-        {
-            Log.Error("not found progress description text");
-            return;
-        }
-
-        ProgressDescriptionText.text = s;
     }
     
     private Sprite getVactionImage()
@@ -201,7 +177,18 @@ public class RunSchedulePanel : Panel
     {
         _schedule.Iterate();
     }
+    
+    
+    /*** ACTION START ***/
+    private void onActionStart(int actionId)
+    {
+        start(actionId);
 
+        Action action = Manager.Instance.DTAction[_actionId];
+        
+        string msg = string.Format(Def.ACTION_BEGIN_DESC_FORMAT, action.beginDesc);
+        MessagePanel.Show(msg, onClickActionStartConfirm);
+    }
 
     private void start(int actionId)
     {
@@ -216,31 +203,18 @@ public class RunSchedulePanel : Panel
 
         setBackgroundImage(sprite);
 
-        ActionIconImage.sprite = action.icon;
-        ActionIconImage.enabled = true;
-        setActionNameText(action.name);
-        setProgressDescriptionText(string.Empty);
+        ProgressPanel.OnActionStart(action.icon, action.name);
 
         initStat(action);
 
         _animController.ResetTrigger(RunScheduleAnimController.ETrigger.END);
     }
 
-    /*** ACTION START ***/
-    private void onActionStart(int actionId)
-    {
-        start(actionId);
-
-        Action action = Manager.Instance.DTAction[_actionId];
-        
-        string msg = string.Format(Def.ACTION_BEGIN_DESC_FORMAT, action.beginDesc);
-        MessagePanel.Show(msg, onClickActionStartConfirm);
-    }
-
     private void onClickActionStartConfirm()
     {
         resume();
     }
+
 
     /*** ACTION CANCEL ***/
     private void onActionCancel()
@@ -255,6 +229,7 @@ public class RunSchedulePanel : Panel
         resume();
     }
     
+
     /*** ACTION FIRST ***/
     private void onActionFirst()
     {
@@ -263,7 +238,7 @@ public class RunSchedulePanel : Panel
 
     private void onActionFirstNPC(int npcId)
     {
-        NPC npc = Manager.Instance.DTNPC[npcId];
+        ActionNPC npc = Manager.Instance.DTActionNPC[npcId];
         string lines = npc.firstMeetDesc;
 
         DialoguePanel.Show(npcId, lines, onClickNpcFirstMeet);
@@ -273,6 +248,7 @@ public class RunSchedulePanel : Panel
     {
         resume();
     }
+
 
     /*** ACTION DO ***/
     private void onActionDo()
@@ -299,7 +275,7 @@ public class RunSchedulePanel : Panel
 
         //
         string description = getActionDoResultDescription(action.type, isSuccessed);
-        setProgressDescriptionText(description);
+        ProgressPanel.SetProgressDescriptionText(description);
 
         //
         _animController.SetTrigger(action.animTrigger);
@@ -356,19 +332,82 @@ public class RunSchedulePanel : Panel
         }
     }
 
+
+    /*** ACTION BEFORE END ***/
+    private void onActionBeforeEnd()
+    {
+        endAnim();
+        ProgressPanel.HideActionProgressPanel();
+
+        Invoke(RESUME_METHOD_NAME, DEFAULT_DELAY_SECONDS);
+    }
+
+    private Exam.Exam _exam = null;
+    private void onActionBeforeEndExam(Exam.Exam exam)
+    {
+        endAnim();
+        ProgressPanel.HideActionProgressPanel();
+
+        _exam = exam;
+        _exam.StartEvent.Attach(onExamStart);
+        _exam.EndEvent.Attach(onExamEnd);
+        _exam.DialogueEvent.Attach(onExamDialogue);
+        _exam.DialogueEvent.Attach(onExamDialogueNPC);
+
+        _exam.Start();
+    }
+
+    private void resumeExam()
+    {
+        if (null == _exam)
+        {
+            Log.Error("not found exam");
+            return;
+        }
+
+        _exam.Iterate();
+    }
+
+
+    /*** ACTION.LESSON.EXAM ***/
+    private void onExamStart()
+    {
+        // do something for ui
+    }
+
+    private void onExamEnd()
+    {
+        // do something for ui
+
+        _exam.StartEvent.Detach(onExamStart);
+        _exam.EndEvent.Detach(onExamEnd);
+        _exam.DialogueEvent.Detach(onExamDialogue);
+        _exam.DialogueEvent.Detach(onExamDialogueNPC);
+        _exam = null;
+
+        Invoke(RESUME_METHOD_NAME, DEFAULT_DELAY_SECONDS);
+    }
+
+    private void onExamDialogue(string lines)
+    {
+        DialoguePanel.Show(lines, resumeExam);
+    }
+
+    private void onExamDialogueNPC(int npcId, string lines)
+    {
+        DialoguePanel.Show(npcId, lines, resumeExam);
+    }
+
+
     /*** ACTION END ***/
     private void onActionEnd()
     {
-        endAnim();
-
         Invoke(RESUME_METHOD_NAME, DEFAULT_DELAY_SECONDS);
     }
 
     private void onActionEndAchievement(int achievementRatio, int npcId, string msg)
     {
-        endAnim();
-
-        NPC npc = Manager.Instance.DTNPC[npcId];
+        ActionNPC npc = Manager.Instance.DTActionNPC[npcId];
 
         string lines = null;
         if (achievementRatio <= 0)
