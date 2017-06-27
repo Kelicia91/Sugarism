@@ -30,6 +30,9 @@ namespace Nurture
         private ActionFirstEvent _actionFirstEvent = null;
         public ActionFirstEvent ActionFirstEvent { get { return _actionFirstEvent; } }
 
+        private ActionBeforeEndEvent _actionBeforeEndEvent = null;
+        public ActionBeforeEndEvent ActionBeforeEndEvent { get { return _actionBeforeEndEvent; } }
+
         private ActionDoEvent _actionDoEvent = null;
         public ActionDoEvent ActionDoEvent { get { return _actionDoEvent; } }
 
@@ -58,6 +61,7 @@ namespace Nurture
             _actionStartEvent = new ActionStartEvent();
             _actionFirstEvent = new ActionFirstEvent();
             _actionDoEvent = new ActionDoEvent();
+            _actionBeforeEndEvent = new ActionBeforeEndEvent();
             _actionEndEvent = new ActionEndEvent();
             _endEvent = new ScheduleEndEvent();
 
@@ -174,10 +178,10 @@ namespace Nurture
 
                     if (day > BEGINDAY_ACTION[index])
                     {
+                        _mode.Character.IncrementActionCount(actionCtrlArray[index].Id);
+
                         actionCtrlArray[index].End();
                         yield return null;
-
-                        _mode.Character.IncrementActionCount(actionCtrlArray[index].Id);
                     }
 
                     actionCtrlArray[index] = _idleAction;
@@ -203,10 +207,14 @@ namespace Nurture
 
                 if (day == ENDDAY_ACTION[index])
                 {
-                    action.End();
+                    _mode.Character.IncrementActionCount(action.Id);
+
+                    action.BeforeEnd();
                     yield return null;
 
-                    _mode.Character.IncrementActionCount(action.Id);
+                    action.End();
+                    yield return null;
+                                        
                     ++index;
                 }
 

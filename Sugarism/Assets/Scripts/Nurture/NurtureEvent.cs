@@ -373,6 +373,71 @@ namespace Nurture
         }
     }
 
+
+
+    public class ActionBeforeEndEvent
+    {
+        public delegate void Handler();
+        private event Handler _event = null;
+
+        public delegate void ExamHandler(Exam.Exam exam);
+        private event ExamHandler _examEvent = null;
+
+        public ActionBeforeEndEvent()
+        {
+            _event = new Handler(onActionBeforeEnd);
+            _examEvent = new ExamHandler(onActionBeforeEndExam);
+        }
+
+        // default handler
+        private void onActionBeforeEnd()
+        {
+            Log.Debug(string.Format("onActionBeforeEnd;"));
+        }
+
+        public void Invoke() { _event.Invoke(); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+
+        // default handler
+        private void onActionBeforeEndExam(Exam.Exam exam)
+        {
+            Log.Debug(string.Format("onActionBeforeEndExam; {0}", exam.Type));
+        }
+
+        public void Invoke(Exam.Exam exam) { _examEvent.Invoke(exam); }
+
+        public void Attach(ExamHandler handler)
+        {
+            if (null == handler)
+                return;
+
+            _examEvent += handler;
+        }
+
+        public void Detach(ExamHandler handler)
+        {
+            if (null == handler)
+                return;
+
+            _examEvent -= handler;
+        }
+    }
+
     public class ActionEndEvent
     {
         public delegate void Handler();
