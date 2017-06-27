@@ -48,6 +48,7 @@ public class Manager : MonoBehaviour
     // KYI : DataTable assets
     public ActionObject AsstDTAction;
     public ActionLessonObject AsstDTActionLesson;
+    public ActionNPCObject AsstDTActionNPC;
     public ActionPartTimeObject AsstDTActionPartTime;
     public ActionTypeObject AsstDTActionType;
     public BackgroundObject AsstDTBackground;
@@ -55,8 +56,7 @@ public class Manager : MonoBehaviour
     public CharacterObject AsstDTCharacter;
     public CombatPlayerObject AsstDTCombatPlayer;
     public ConstitutionObject AsstDTConstitution;
-    public MiniPictureObject AsstDTMiniPicture;
-    public NPCObject AsstDTNPC;
+    public MiniPictureObject AsstDTMiniPicture;    
     public PictureObject AsstDTPicture;
     public SEObject AsstDTSE;
     public StatObject AsstDTStat;
@@ -76,6 +76,7 @@ public class Manager : MonoBehaviour
     // KYI : DataTable
     public ActionObject DTAction { get { return AsstDTAction; } }
     public ActionLessonObject DTActionLesson { get { return AsstDTActionLesson; } }
+    public ActionNPCObject DTActionNPC { get { return AsstDTActionNPC; } }
     public ActionPartTimeObject DTActionPartTime { get { return AsstDTActionPartTime; } }
     public ActionTypeObject DTActionType { get { return AsstDTActionType; } }
     public BackgroundObject DTBackground { get { return AsstDTBackground; } }
@@ -84,7 +85,6 @@ public class Manager : MonoBehaviour
     public CombatPlayerObject DTCombatPlayer { get { return AsstDTCombatPlayer; } }
     public ConstitutionObject DTConstitution { get { return AsstDTConstitution; } }
     public MiniPictureObject DTMiniPicture { get { return AsstDTMiniPicture; } }
-    public NPCObject DTNPC { get { return AsstDTNPC; } }
     public PictureObject DTPicture { get { return AsstDTPicture; } }
     public SEObject DTSE { get { return AsstDTSE; } }
     public StatObject DTStat { get { return AsstDTStat; } }
