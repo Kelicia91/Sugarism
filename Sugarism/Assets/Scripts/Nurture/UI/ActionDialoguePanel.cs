@@ -10,7 +10,6 @@ public class ActionDialoguePanel : Panel, IPointerClickHandler
     /********* Editor Interface *********/
     // prefabs
     public Image CharacterImage;
-    public Image CGImage;
     public Text NameText;
     public Text LinesText;
 
@@ -24,13 +23,28 @@ public class ActionDialoguePanel : Panel, IPointerClickHandler
         return; // blocking base.Show()
     }
 
+    // for MainCharacter
+    public void Show(string lines, UnityEngine.Events.UnityAction clickHandler)
+    {
+        string userName = Manager.Instance.Object.MainCharacter.Name;
+        Sprite userImage = null;
+
+        show(userImage, userName, lines, clickHandler);
+    }
+
+    // for NPC
     public void Show(int npcId, string lines, UnityEngine.Events.UnityAction clickHandler)
     {
-        NPC npc = Manager.Instance.DTNPC[npcId];
-
+        ActionNPC npc = Manager.Instance.DTActionNPC[npcId];
         Character c = Manager.Instance.DTCharacter[npc.characterId];
-        NameText.text = c.name;
 
+        show(npc.image, c.name, lines, clickHandler);
+    }
+
+    private void show(Sprite s, string name, string lines, UnityEngine.Events.UnityAction clickHandler)
+    {
+        CharacterImage.sprite = s;
+        NameText.text = name;
         LinesText.text = lines;
 
         _clickHandler = clickHandler;
