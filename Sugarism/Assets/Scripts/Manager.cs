@@ -56,8 +56,10 @@ public class Manager : MonoBehaviour
     public CharacterObject AsstDTCharacter;
     public CombatPlayerObject AsstDTCombatPlayer;
     public ConstitutionObject AsstDTConstitution;
-    public MiniPictureObject AsstDTMiniPicture;    
+    public MiniPictureObject AsstDTMiniPicture;
+    public OneToOneExamObject AsstDTOneToOneExam;
     public PictureObject AsstDTPicture;
+    public ScoreExamObject AsstDTScoreExam;
     public SEObject AsstDTSE;
     public StatObject AsstDTStat;
     public TargetObject AsstDTTarget;
@@ -85,7 +87,9 @@ public class Manager : MonoBehaviour
     public CombatPlayerObject DTCombatPlayer { get { return AsstDTCombatPlayer; } }
     public ConstitutionObject DTConstitution { get { return AsstDTConstitution; } }
     public MiniPictureObject DTMiniPicture { get { return AsstDTMiniPicture; } }
+    public OneToOneExamObject DTOneToOneExam { get { return AsstDTOneToOneExam; } }
     public PictureObject DTPicture { get { return AsstDTPicture; } }
+    public ScoreExamObject DTScoreExam { get { return AsstDTScoreExam; } }
     public SEObject DTSE { get { return AsstDTSE; } }
     public StatObject DTStat { get { return AsstDTStat; } }
     public TargetObject DTTarget { get { return AsstDTTarget; } }

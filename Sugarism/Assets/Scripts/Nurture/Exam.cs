@@ -1,13 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Exam
 {
     public enum EType
     {
         COMBAT = 0,
-        BOARD_GAME,
+        BOARD_GAME_TRICKER,
+        BOARD_GAME_POLITICIAN,
         SCORE,
 
         MAX
@@ -20,11 +19,14 @@ namespace Exam
         private EType _type = EType.MAX;
         public EType Type { get { return _type; } }
 
-        private bool _isFirst = false;
-        public bool IsFirst { get { return _isFirst; } }
+        private int _id = -1;
+        public int Id { get { return _id; } }
 
         private int _npcId = -1;
         public int NPCId { get { return _npcId; } }
+
+        private bool _isFirst = false;
+        public bool IsFirst { get { return _isFirst; } }
 
         //
         private IEnumerator _iterator = null;
@@ -45,11 +47,12 @@ namespace Exam
 
 
         // constructor
-        protected Exam(EType type, bool isFirst, int npcId)
+        protected Exam(EType type, int id, int npcId, bool isFirst)
         {
             _type = type;
-            _isFirst = isFirst;
+            _id = id;
             _npcId = npcId;
+            _isFirst = isFirst;
 
             _iterator = null;
 
