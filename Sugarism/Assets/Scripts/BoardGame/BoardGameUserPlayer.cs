@@ -19,13 +19,23 @@ namespace BoardGame
             _tactic = character.Tactic;
             _leadership = character.Leadership;
 
-            _power = character.Intellect / 100 + 1;
+            _grace = character.Grace;
+            _morality = character.Morality;
+            _goodness = character.Goodness;
 
-            _cardCapacity = setMaxNumCard(Intellect);
-            _cardArray = new Card[CardCapacity];
+            switch (Mode.ValuationBasis)
+            {
+                case EValuationBasis.Tricker:
+                    initialize(Intellect, Intellect, Tactic, Leadership);
+                    break;
 
-            AttackShuffleProbability = BoardGameMode.DEFAULT_ATTACK_CARD_SHUFFLE_PROBABILITY + (BoardGameMode.STAT_WEIGHT * character.Tactic / Def.MAX_STAT);
-            DefenseShuffleProbability = BoardGameMode.DEFAULT_DEFENSE_CARD_SHUFFLE_PROBABILITY + (BoardGameMode.STAT_WEIGHT * character.Leadership / Def.MAX_STAT);
+                case EValuationBasis.Politician:
+                    initialize(Grace, Grace, Morality, Goodness);
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         public override void Push()

@@ -2,7 +2,7 @@
 {
     public class StartEvent
     {
-        public delegate void Handler(UserPlayer user, AIPlayer ai);
+        public delegate void Handler(EValuationBasis valuationBasis, UserPlayer user, AIPlayer ai);
         private event Handler _event = null;
 
         public StartEvent()
@@ -11,12 +11,12 @@
         }
 
         // default handler
-        private void onStart(UserPlayer user, AIPlayer ai)
+        private void onStart(EValuationBasis valuationBasis, UserPlayer user, AIPlayer ai)
         {
-            Log.Debug(string.Format("onStart; user({0}), ai({1})", user.Name, ai.Name));
+            Log.Debug(string.Format("onStart; valuationBasis({0}) user({1}), ai({2})", valuationBasis, user.Name, ai.Name));
         }
 
-        public void Invoke(UserPlayer user, AIPlayer ai) { _event.Invoke(user, ai); }
+        public void Invoke(EValuationBasis valuationBasis, UserPlayer user, AIPlayer ai) { _event.Invoke(valuationBasis, user, ai); }
 
         public void Attach(Handler handler)
         {
@@ -107,7 +107,7 @@
 
     public class EndEvent
     {
-        public delegate void Handler(BoardGameMode.EUserGameState state);
+        public delegate void Handler(EUserGameState state);
         private event Handler _event = null;
 
         public EndEvent()
@@ -116,12 +116,12 @@
         }
 
         // default handler
-        private void onEnd(BoardGameMode.EUserGameState state)
+        private void onEnd(EUserGameState state)
         {
             Log.Debug(string.Format("onEnd; UserGameState({0})", state));
         }
 
-        public void Invoke(BoardGameMode.EUserGameState state) { _event.Invoke(state); }
+        public void Invoke(EUserGameState state) { _event.Invoke(state); }
 
         public void Attach(Handler handler)
         {
@@ -317,7 +317,7 @@
 
     public class CriterionChangeEvent
     {
-        public delegate void Handler(BoardGameMode.ENumberCriterion criterion);
+        public delegate void Handler(ENumberCriterion criterion);
         private event Handler _event = null;
 
         public CriterionChangeEvent()
@@ -326,12 +326,12 @@
         }
 
         // default handler
-        private void onCriterionChanged(BoardGameMode.ENumberCriterion criterion)
+        private void onCriterionChanged(ENumberCriterion criterion)
         {
             Log.Debug(string.Format("onCriterionChanged; {0}", criterion));
         }
 
-        public void Invoke(BoardGameMode.ENumberCriterion criterion) { _event.Invoke(criterion); }
+        public void Invoke(ENumberCriterion criterion) { _event.Invoke(criterion); }
 
         public void Attach(Handler handler)
         {

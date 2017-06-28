@@ -20,13 +20,23 @@ namespace BoardGame
             _tactic = player.tactic;
             _leadership = player.leadership;
 
-            _power = player.intellect / 100 + 1;
+            _grace = player.grace;
+            _morality = player.morality;
+            _goodness = player.goodness;
 
-            _cardCapacity = setMaxNumCard(player.intellect);
-            _cardArray = new Card[CardCapacity];
+            switch (Mode.ValuationBasis)
+            {
+                case EValuationBasis.Tricker:
+                    initialize(Intellect, Intellect, Tactic, Leadership);
+                    break;
 
-            AttackShuffleProbability = BoardGameMode.DEFAULT_ATTACK_CARD_SHUFFLE_PROBABILITY + (BoardGameMode.STAT_WEIGHT * player.tactic / Def.MAX_STAT);
-            DefenseShuffleProbability = BoardGameMode.DEFAULT_DEFENSE_CARD_SHUFFLE_PROBABILITY + (BoardGameMode.STAT_WEIGHT * player.leadership / Def.MAX_STAT);
+                case EValuationBasis.Politician:
+                    initialize(Grace, Grace, Morality, Goodness);
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         public override void Push()
@@ -219,13 +229,13 @@ namespace BoardGame
 
         private int getBestNumCardIndex()
         {
-            BoardGameMode.ENumberCriterion criterion = Mode.Criterion;
+            ENumberCriterion criterion = Mode.Criterion;
             switch (criterion)
             {
-                case BoardGameMode.ENumberCriterion.Low:
+                case ENumberCriterion.Low:
                     return getLowestNumCardIndex();
 
-                case BoardGameMode.ENumberCriterion.High:
+                case ENumberCriterion.High:
                     return getHighestNumCardIndex();
 
                 default:
@@ -238,13 +248,13 @@ namespace BoardGame
             int index = -1;
             int lowest = NumberCard.MAX_NO;
 
-            int numCard = _cardArray.Length;
+            int numCard = CardArray.Length;
             for (int i = 0; i < numCard; ++i)
             {
-                if (Card.EType.Number != _cardArray[i].Type)
+                if (Card.EType.Number != CardArray[i].Type)
                     continue;
 
-                NumberCard numberCard = _cardArray[i] as NumberCard;
+                NumberCard numberCard = CardArray[i] as NumberCard;
 
                 int num = numberCard.No;
                 if (num <= lowest)
@@ -262,13 +272,13 @@ namespace BoardGame
             int index = -1;
             int highest = NumberCard.MIN_NO;
 
-            int numCard = _cardArray.Length;
+            int numCard = CardArray.Length;
             for (int i = 0; i < numCard; ++i)
             {
-                if (Card.EType.Number != _cardArray[i].Type)
+                if (Card.EType.Number != CardArray[i].Type)
                     continue;
 
-                NumberCard numberCard = _cardArray[i] as NumberCard;
+                NumberCard numberCard = CardArray[i] as NumberCard;
 
                 int num = numberCard.No;
                 if (num >= highest)
@@ -283,10 +293,10 @@ namespace BoardGame
 
         private int getAttackCardIndex()
         {
-            int numCard = _cardArray.Length;
+            int numCard = CardArray.Length;
             for (int i = 0; i < numCard; ++i)
             {
-                if (Card.EType.Attack == _cardArray[i].Type)
+                if (Card.EType.Attack == CardArray[i].Type)
                     return i;
             }
 
@@ -295,10 +305,10 @@ namespace BoardGame
 
         private int getDefenseCardIndex()
         {
-            int numCard = _cardArray.Length;
+            int numCard = CardArray.Length;
             for (int i = 0; i < numCard; ++i)
             {
-                if (Card.EType.Defense == _cardArray[i].Type)
+                if (Card.EType.Defense == CardArray[i].Type)
                     return i;
             }
 

@@ -1,9 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace BoardGame
 {
+    public enum ENumberCriterion    { Low, High, MAX }
+    public enum EUserGameState      { Unknown, Win, Lose }
+    public enum EValuationBasis     { Tricker, Politician, MAX }
+
     public class BoardGameMode
     {
         // const
@@ -15,7 +17,7 @@ namespace BoardGame
 
         public const int DEFAULT_ATTACK_CARD_SHUFFLE_PROBABILITY = 10;
         public const int DEFAULT_DEFENSE_CARD_SHUFFLE_PROBABILITY = 10;
-        public const int STAT_WEIGHT = 20;
+        public const int STAT_WEIGHT_SHUFFLE_PROBABILITY = 20;
 
         public const byte PUSH_WEIGHT = 1;
         public const byte BINGO_WEIGHT = 2;
@@ -27,12 +29,9 @@ namespace BoardGame
 
         public const int INIT_REMAIN_TURN = 10;
         public const int URGENT_REMAIN_TURN = 3;
-
-        public enum ENumberCriterion { Low, High, MAX }
+                
         public const ENumberCriterion INIT_CRITERION = ENumberCriterion.High;
-
-        public enum EUserGameState { Unknown, Win, Lose }
-
+        
         // 1 vs 1
         private UserPlayer _user = null;
         private AIPlayer _ai = null;
@@ -82,6 +81,9 @@ namespace BoardGame
                 CriterionChangeEvent.Invoke(_criterion);
             }
         }
+
+        private EValuationBasis _valuationBasis = EValuationBasis.MAX;
+        public EValuationBasis ValuationBasis { get { return _valuationBasis; } }
 
 
         #region Events
@@ -150,14 +152,21 @@ namespace BoardGame
         }
 
 
-        public void Start(int playerId)
+        public void Start(EValuationBasis valuationBasis, int playerId)
         {
+            if (EValuationBasis.MAX == valuationBasis)
+            {
+                Log.Error("invalid valuation basis");
+                return;
+            }
+
             if (false == ExtBoardGamePlayer.isValid(playerId))
             {
                 Log.Error(string.Format("invalid player id ({0})", playerId));
                 return;
             }
 
+            _valuationBasis = valuationBasis;
             initialize();
 
             _user = new UserPlayer(this);
@@ -166,7 +175,7 @@ namespace BoardGame
             _user.Start(_ai);
             _ai.Start(_user);
             
-            StartEvent.Invoke(_user, _ai);
+            StartEvent.Invoke(_valuationBasis, _user, _ai);
         }
 
         public void Shuffle()

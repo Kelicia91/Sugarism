@@ -13,6 +13,7 @@ namespace BoardGame
         protected string _name = null;
         public string Name { get { return _name; } }
 
+        //
         protected int _intellect = 0;
         public int Intellect { get { return _intellect; } }
 
@@ -22,13 +23,35 @@ namespace BoardGame
         protected int _leadership = 0;
         public int Leadership { get { return _leadership; } }
 
-        protected int _power = 0;
+        protected int _grace = 0;
+        public int Grace { get { return _grace; } }
+
+        protected int _morality = 0;
+        public int Morality { get { return _morality; } }
+
+        protected int _goodness = 0;
+        public int Goodness { get { return _goodness; } }
+        //
+
+        private int _power = 0;
         public int Power { get { return _power; } }
 
-        protected byte _cardCapacity = 0;
-        public int CardCapacity { get { return _cardCapacity; } }
+        private byte _cardCapacity = 0;
+        public byte CardCapacity
+        {
+            get { return _cardCapacity; }
+            private set
+            {
+                _cardCapacity = value;
 
-        protected Card[] _cardArray = null;
+                if (_cardCapacity < BoardGameMode.MIN_NUM_CARD)
+                    _cardCapacity = BoardGameMode.MIN_NUM_CARD;
+                else if (_cardCapacity > BoardGameMode.MAX_NUM_CARD)
+                    _cardCapacity = BoardGameMode.MAX_NUM_CARD;
+            }
+        }
+
+        private Card[] _cardArray = null;
         public Card[] CardArray { get { return _cardArray; } }
 
         private BoardGameMode _mode = null;
@@ -48,7 +71,7 @@ namespace BoardGame
         protected int AttackShuffleProbability
         {
             get { return _attackShuffleProbability; }
-            set
+            private set
             {
                 _attackShuffleProbability = value;
 
@@ -63,7 +86,7 @@ namespace BoardGame
         protected int DefenseShuffleProbability
         {
             get { return _defenseShuffleProbability; }
-            set
+            private set
             {
                 _defenseShuffleProbability = value;
 
@@ -112,17 +135,18 @@ namespace BoardGame
         protected Player(BoardGameMode mode, Cell.EOwner owner)
         {
             _mode = mode;
-            _opponent = null;
-
-            _drawCard = null;
-
-            _attackShuffleProbability = 0;
-            _defenseShuffleProbability = 0;
-
-            _numAttack = 0;
-            _numDefense = 0;
-
             _owner = owner;
+        }
+
+        protected void initialize(int powerBaseStat, int cardCapacityBaseStat, int attackShuffleProbabilityBaseStat, int defenseShuffleProbabilityBaseStat)
+        {
+            _power = powerBaseStat / 100 + 1;
+
+            _cardCapacity = setMaxNumCard(cardCapacityBaseStat);
+            _cardArray = new Card[CardCapacity];
+
+            AttackShuffleProbability = BoardGameMode.DEFAULT_ATTACK_CARD_SHUFFLE_PROBABILITY + (BoardGameMode.STAT_WEIGHT_SHUFFLE_PROBABILITY * attackShuffleProbabilityBaseStat / Def.MAX_STAT);
+            DefenseShuffleProbability = BoardGameMode.DEFAULT_DEFENSE_CARD_SHUFFLE_PROBABILITY + (BoardGameMode.STAT_WEIGHT_SHUFFLE_PROBABILITY * defenseShuffleProbabilityBaseStat / Def.MAX_STAT);
         }
 
         public abstract void Push();
