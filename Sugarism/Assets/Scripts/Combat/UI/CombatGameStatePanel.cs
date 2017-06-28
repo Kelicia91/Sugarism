@@ -138,6 +138,5 @@ public class CombatGameStatePanel : Panel, IPointerClickHandler
         Log.Debug("clicked combat's game state panel");
 
         Manager.Instance.UI.CombatPanel.Hide();
-        Manager.Instance.UI.MainPanel.Show();
     }
 }
