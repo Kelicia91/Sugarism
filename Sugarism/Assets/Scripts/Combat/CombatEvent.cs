@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
+﻿
 namespace Combat
 {
     public class StartEvent
@@ -18,7 +14,7 @@ namespace Combat
         // default handler
         private void onStart(UserPlayer user, AIPlayer ai)
         {
-            Log.Debug(string.Format("onStart; user({0}), ai({1})", user.Name, ai.Name));
+            Log.Debug(string.Format("Combat.onStart; user({0}), ai({1})", user.Name, ai.Name));
         }
 
         public void Invoke(UserPlayer user, AIPlayer ai) { _event.Invoke(user, ai); }
@@ -193,7 +189,7 @@ namespace Combat
         // default handler
         private void onEnd(CombatMode.EUserGameState state)
         {
-            Log.Debug(string.Format("onEnd; UserGameState({0})", state));
+            Log.Debug(string.Format("Combat.onEnd; UserGameState({0})", state));
         }
 
         public void Invoke(CombatMode.EUserGameState state) { _event.Invoke(state); }

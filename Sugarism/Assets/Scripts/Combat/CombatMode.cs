@@ -137,7 +137,7 @@ namespace Combat
             {
                 case EUserGameState.Win:
                 case EUserGameState.Lose:
-                    End(state);
+                    end(state);
                     return;
 
                 default:
@@ -172,7 +172,7 @@ namespace Combat
             --RemainTurn;
         }
 
-        public void End(EUserGameState state)
+        private void end(EUserGameState state)
         {
             EndEvent.Invoke(state);
         }
