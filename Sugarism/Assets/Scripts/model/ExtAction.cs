@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 public class ExtAction
 {
     public static bool isValid(int id)
