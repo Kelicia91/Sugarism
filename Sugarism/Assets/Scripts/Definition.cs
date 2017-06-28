@@ -182,37 +182,28 @@ public class Def
     public const string COMBAT_CMD_TRICK = "책 략";
     public const string COMBAT_COMMENT_PLAYER_TURN = "의 차례!";
 
-    // Poem
-    public const string USER_POEM_S = "S등급 시 blah-blah";
-    public const string USER_POEM_A = "A등급 시 blah-blah";
-    public const string USER_POEM_B = "B등급 시 blah-blah";
-    public const string USER_POEM_C = "C등급 시 blah-blah";
-    public const string USER_POEM_D = "D등급 시 blah-blah";
-
     // Lesson
-    public const int EXAM_PERIOD = 1; // 4;
+    public const int EXAM_PERIOD = 1; // 테스트용 값 // 4; 
+    public const string EXAM_USER_START = "(후우- 조금 긴장되는걸..?)";
+
+    // Lesson - OneToOne Exam(Combat, BoardGame)
+    public const string EXAM_USER_WIN = "이겼다!";
+    public const string EXAM_USER_LOSE = "칫..";
 
     // Lesson - Score Exam
-    public const string SCORE_EXAM_USER_START = "(후우- 조금 긴장되는걸..?)";
+    public const int SCORE_EXAM_EXCELLENT_STRESS = -30;
+    public const int SCORE_EXAM_BAD_STRESS = 30;
+    
     public const string SCORE_EXAM_USER_COMMENT_REACT_S = "(후훗, 이정도야 뭘.)";
     public const string SCORE_EXAM_USER_COMMENT_REACT_A = "(좋았어, 좀더 분발하자!)";
     public const string SCORE_EXAM_USER_COMMENT_REACT_B = "(..뭐, 나쁘진 않네.)";
     public const string SCORE_EXAM_USER_COMMENT_REACT_C = "모..몸상태가 안 좋았던 것 뿐이에요..! 하..하..";
     public const string SCORE_EXAM_USER_COMMENT_REACT_D = "우우.. 창피해..";
 
-    // Lesson - Arts Score Exam
-    public const string ARTS_EXAM_START_NPC_ALARM = "오늘은 시험을 보겠어요.";
-    public const string ARTS_EXAM_START_NPC_PROCESS_METHOD = "앞으로 나와서 시를 짓고 제가 점수를 매길 거에요.";
-    public const string ARTS_EXAM_START_NPC_EVALUATE_METHOD = "평가는 수업시간에 배운 것들을 바탕으로 100점이 만점이에요.";
-    public const string ARTS_EXAM_START_NPC_START = "그럼 시작할까요?";
-
-    public const string ARTS_EXAM_END_NPC_ALARM = "모두 수고했어요. 채점 결과를 발표할까요?";
-    public const string ARTS_EXAM_END_NPC_PLAYER = "{0} 양의 점수는...";
-    public const string ARTS_EXAM_END_NPC_SCORE = "{0} 점이에요.";
-
-    public const string ARTS_EXAM_END_NPC_COMMENT_S = "정말 훌륭해요! 솔직히 감동했어요.";
-    public const string ARTS_EXAM_END_NPC_COMMENT_A = "좀더 분발하면 아주 좋은 결과가 있을 것 같네요.";
-    public const string ARTS_EXAM_END_NPC_COMMENT_B = "아쉽네요. 더 잘할 수 있을거라 생각했는데.";
-    public const string ARTS_EXAM_END_NPC_COMMENT_C = "음.. 아직은 노력이 더 필요해 보이네요.";
-    public const string ARTS_EXAM_END_NPC_COMMENT_D = "아아.. 갈길이 멀어 보이네요.";
+    // Poem
+    public const string USER_POEM_S = "S등급 시 blah-blah";
+    public const string USER_POEM_A = "A등급 시 blah-blah";
+    public const string USER_POEM_B = "B등급 시 blah-blah";
+    public const string USER_POEM_C = "C등급 시 blah-blah";
+    public const string USER_POEM_D = "D등급 시 blah-blah";
 }
