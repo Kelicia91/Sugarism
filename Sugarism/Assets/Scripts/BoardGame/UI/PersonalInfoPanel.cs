@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class PersonalInfoPanel : Panel
@@ -34,11 +32,11 @@ public class PersonalInfoPanel : Panel
         return o.GetComponent<PlayerInfoPanel>();
     }
 
-    public void OnStart(BoardGame.UserPlayer user, BoardGame.AIPlayer ai)
+    public void OnStart(BoardGame.EValuationBasis valuationBasis, BoardGame.UserPlayer user, BoardGame.AIPlayer ai)
     {
         if (null != _userInfoPanel)
         {
-            _userInfoPanel.Set(user);
+            _userInfoPanel.Set(valuationBasis, user);
             _userInfoPanel.Show();
         }
         else
@@ -49,7 +47,7 @@ public class PersonalInfoPanel : Panel
 
         if (null != _aiInfoPanel)
         {
-            _aiInfoPanel.Set(ai);
+            _aiInfoPanel.Set(valuationBasis, ai);
             _aiInfoPanel.Show();
         }
         else

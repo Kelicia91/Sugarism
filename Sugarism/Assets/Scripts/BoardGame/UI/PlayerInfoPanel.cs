@@ -23,7 +23,7 @@ public class PlayerInfoPanel : Panel
     }
 
 
-    public void Set(BoardGame.Player player)
+    public void Set(BoardGame.EValuationBasis valuationBasis, BoardGame.Player player)
     {
         if (null == player)
         {
@@ -32,7 +32,20 @@ public class PlayerInfoPanel : Panel
         }
         
         setNameText(player.Name);
-        setStats(player);
+
+        switch(valuationBasis)
+        {
+            case BoardGame.EValuationBasis.Tricker:
+                setTrickerStats(player);
+                break;
+
+            case BoardGame.EValuationBasis.Politician:
+                setPolticianStats(player);
+                break;
+
+            default:
+                break;
+        }
     }
 
 
@@ -56,11 +69,18 @@ public class PlayerInfoPanel : Panel
         }
     }
 
-    private void setStats(BoardGame.Player player)
+    private void setTrickerStats(BoardGame.Player player)
     {
         _statPanelArray[0].Set(EStat.INTELLECT, player.Intellect);
         _statPanelArray[1].Set(EStat.TACTIC, player.Tactic);
         _statPanelArray[2].Set(EStat.LEADERSHIP, player.Leadership);
+    }
+
+    private void setPolticianStats(BoardGame.Player player)
+    {
+        _statPanelArray[0].Set(EStat.GRACE, player.Grace);
+        _statPanelArray[1].Set(EStat.MORALITY, player.Morality);
+        _statPanelArray[2].Set(EStat.GOODNESS, player.Goodness);
     }
 
     private void setNameText(string s)

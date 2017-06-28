@@ -107,7 +107,7 @@ public class PlayerPresentPanel : Panel
         setImage(p.idle);
     }
 
-    private void onEnd(BoardGame.BoardGameMode.EUserGameState state)
+    private void onEnd(BoardGame.EUserGameState state)
     {
         BoardGamePlayer p = Manager.Instance.DTBoardGamePlayer[_player.Id];
         setImage(p.idle);

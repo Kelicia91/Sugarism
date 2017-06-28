@@ -27,7 +27,7 @@ public class BoardGamePanel : Panel
     }
 
 
-    private void onStart(BoardGame.UserPlayer user, BoardGame.AIPlayer ai)
+    private void onStart(BoardGame.EValuationBasis valuationBasis, BoardGame.UserPlayer user, BoardGame.AIPlayer ai)
     {
         TurnPanel.OnStart();
         CriterionPanel.Show();
@@ -36,7 +36,7 @@ public class BoardGamePanel : Panel
         PresentPanel.OnStart(user, ai);
         
         CardPanel.OnStart(user, ai);
-        PersonalInfoPanel.OnStart(user, ai);
+        PersonalInfoPanel.OnStart(valuationBasis, user, ai);
 
         BlockingPanel.Show();
         GameStatePanel.Hide();

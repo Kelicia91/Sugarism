@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -19,34 +17,34 @@ public class CriterionPanel : Panel
         Manager.Instance.Object.BoardGameMode.CriterionChangeEvent.Attach(onCriterionChanged);
     }
 
-    private void onCriterionChanged(BoardGame.BoardGameMode.ENumberCriterion criterion)
+    private void onCriterionChanged(BoardGame.ENumberCriterion criterion)
     {
         setText(getStringCriterion(criterion));
         setColor(getColorCriterion(criterion));
     }
 
-    private string getStringCriterion(BoardGame.BoardGameMode.ENumberCriterion criterion)
+    private string getStringCriterion(BoardGame.ENumberCriterion criterion)
     {
         switch(criterion)
         {
-            case BoardGame.BoardGameMode.ENumberCriterion.Low:
+            case BoardGame.ENumberCriterion.Low:
                 return Def.BOARD_CRITERION_LOW;
 
-            case BoardGame.BoardGameMode.ENumberCriterion.High:
+            case BoardGame.ENumberCriterion.High:
                 return Def.BOARD_CRITERION_HIGH;
 
             default:
                 return string.Empty;
         }
     }
-    private Color getColorCriterion(BoardGame.BoardGameMode.ENumberCriterion criterion)
+    private Color getColorCriterion(BoardGame.ENumberCriterion criterion)
     {
         switch (criterion)
         {
-            case BoardGame.BoardGameMode.ENumberCriterion.Low:
+            case BoardGame.ENumberCriterion.Low:
                 return LOW_COLOR;
 
-            case BoardGame.BoardGameMode.ENumberCriterion.High:
+            case BoardGame.ENumberCriterion.High:
                 return HIGH_COLOR;
 
             default:

@@ -98,19 +98,19 @@ public class GameStatePanel : Panel, IPointerClickHandler
         Manager.Instance.Object.BoardGameMode.Shuffle();
     }
 
-    private void onEnd(BoardGame.BoardGameMode.EUserGameState state)
+    private void onEnd(BoardGame.EUserGameState state)
     {
         switch (state)
         {
-            case BoardGame.BoardGameMode.EUserGameState.Win:
+            case BoardGame.EUserGameState.Win:
                 win();
                 break;
 
-            case BoardGame.BoardGameMode.EUserGameState.Lose:
+            case BoardGame.EUserGameState.Lose:
                 lose();
                 break;
 
-            case BoardGame.BoardGameMode.EUserGameState.Unknown:
+            case BoardGame.EUserGameState.Unknown:
                 Log.Error("unknown game state");
                 return;
         }
