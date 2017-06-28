@@ -130,15 +130,15 @@ public class CmdPanel : Panel
 
     private void onClickTestBoardGameButton()
     {
-        Manager.Instance.UI.MainPanel.Hide();
+        //Manager.Instance.UI.MainPanel.Hide();
 
         int opponentPlayerId = 1;  // test~~~~~
-        Manager.Instance.Object.BoardGameMode.Start(opponentPlayerId);
+        Manager.Instance.Object.BoardGameMode.Start(BoardGame.EValuationBasis.Tricker, opponentPlayerId);
     }
 
     private void onClickTestCombatButton()
     {
-        Manager.Instance.UI.MainPanel.Hide();
+        //Manager.Instance.UI.MainPanel.Hide();
 
         int opponentPlayerId = 3; // test~~~
         Manager.Instance.Object.CombatMode.Start(opponentPlayerId);
