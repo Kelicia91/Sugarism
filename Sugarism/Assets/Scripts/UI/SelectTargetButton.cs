@@ -98,10 +98,15 @@ public class SelectTargetButton : MonoBehaviour
 
     private void onClick()
     {
+        //@todo : enable input blocking panel -> disable
+    
         bool isLoaded = Manager.Instance.Object.LoadScenario(_targetId);
         if (isLoaded)
         {
             Manager.Instance.ScenarioStartEvent.Invoke();
+
+            Manager.Instance.UI.SelectTargetPanel.Hide();
+
             Manager.Instance.Object.NextCmd();
         }
         else

@@ -32,17 +32,29 @@ public class StoryPanel : Panel
         _seAudioSource = gameObject.AddComponent<AudioSource>();
         _seAudioSource.loop = false;
 
-        set(Sugarism.EPosition.None);
-        set(Sugarism.EFilter.None);
-        ClearPanel.Show();
-
         Manager.Instance.CmdAppearEvent.Attach(onCmdAppear);
         Manager.Instance.CmdFilterEvent.Attach(onCmdFilter);
         Manager.Instance.CmdBackgroundEvent.Attach(onCmdBackground);
         Manager.Instance.CmdPictureEvent.Attach(onCmdPicture);
         Manager.Instance.CmdSEEvent.Attach(onCmdSE);
+
+        Manager.Instance.ScenarioStartEvent.Attach(onScenarioStart);
+        Manager.Instance.ScenarioEndEvent.Attach(onScenarioEnd);
     }
 
+    private void initialize()
+    {
+        set(BackgroundImage, null);
+
+        set(Sugarism.EFilter.None);
+        set(Sugarism.EPosition.None);
+
+        DialogPanel.Hide();
+        MiniPicturePanel.Hide();
+
+        ClearPanel.Show();
+        SwitchPanel.Hide();
+    }
 
     private void set(GameObject o, Sprite sprite)
     {
@@ -212,5 +224,17 @@ public class StoryPanel : Panel
 
         SE se = Manager.Instance.DTSE[id];
         playSE(se.audioClip);
+    }
+
+    // call handler
+    private void onScenarioStart()
+    {
+        initialize();
+        Show();
+    }
+
+    private void onScenarioEnd()
+    {
+        Hide();
     }
 }
