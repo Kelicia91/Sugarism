@@ -81,6 +81,5 @@ public class StatePanel : Panel
     private void onClickBackButton()
     {
         Hide();
-        Manager.Instance.UI.MainPanel.Show();
     }
 }

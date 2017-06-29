@@ -71,6 +71,5 @@ public class SchedulePanel : Panel
     private void onClickBackButton()
     {
         Hide();
-        Manager.Instance.UI.MainPanel.Show();
     }
 }

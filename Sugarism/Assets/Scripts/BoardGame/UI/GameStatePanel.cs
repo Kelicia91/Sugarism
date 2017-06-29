@@ -132,6 +132,5 @@ public class GameStatePanel : Panel, IPointerClickHandler
         Log.Debug("clicked game state panel");
 
         Manager.Instance.UI.BoardGamePanel.Hide();
-        Manager.Instance.UI.MainPanel.Show();
     }
 }

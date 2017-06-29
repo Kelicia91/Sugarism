@@ -112,19 +112,19 @@ public class CmdPanel : Panel
     
     private void onClickScheduleButton()
     {
-        Manager.Instance.UI.MainPanel.Hide();
+        //Manager.Instance.UI.MainPanel.Hide();
         Manager.Instance.UI.SchedulePanel.Show();
     }
 
     private void onClickStoryButton()
     {
-        Manager.Instance.UI.MainPanel.Hide();
+        //Manager.Instance.UI.MainPanel.Hide();
         Manager.Instance.UI.SelectTargetPanel.Show();
     }
 
     private void onClickStateButton()
     {
-        Manager.Instance.UI.MainPanel.Hide();
+        //Manager.Instance.UI.MainPanel.Hide();
         Manager.Instance.UI.StatePanel.Show();
     }
 
