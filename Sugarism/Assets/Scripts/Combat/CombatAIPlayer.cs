@@ -21,17 +21,35 @@ namespace Combat
         public AIPlayer(CombatMode mode, int id) : base(mode, id)
         {
             CombatPlayer p = Manager.Instance.DTCombatPlayer[id];
-            _hp = p.hp;
-            _mp = p.intellect;
-            _attack = p.attack;
-            _defense = p.defense;
-            _intellect = p.intellect;
-            _tactic = p.tactic;
+            _orient = p.orient;
 
             Character c = Manager.Instance.DTCharacter[p.characterId];
             _name = c.name;
 
+            _hp = p.hp;
+            _mp = p.intellect;
+            _criticalProbability = p.criticalProbability;
+            _attack = p.attack;
+            _defense = p.defense;
+            _intellect = p.intellect;
+            _tactic = p.tactic;   
+        }
+
+        public AIPlayer(CombatMode mode, int id, int hp, int mp, int criticalProbability, int attack, int defense, int intellect, int tactic) : base(mode, id)
+        {
+            CombatPlayer p = Manager.Instance.DTCombatPlayer[id];
             _orient = p.orient;
+
+            Character c = Manager.Instance.DTCharacter[p.characterId];
+            _name = c.name;
+
+            _hp = hp;
+            _mp = mp;
+            _criticalProbability = criticalProbability;
+            _attack = attack;
+            _defense = defense;
+            _intellect = intellect;
+            _tactic = tactic;
         }
 
         public override void Start(Player opponent)

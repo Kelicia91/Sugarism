@@ -105,11 +105,36 @@ namespace Combat
                 Log.Error(string.Format("invalid player id: {0}", playerId));
                 return;
             }
+            
+            UserPlayer user = new UserPlayer(this);
+            AIPlayer ai = new AIPlayer(this, playerId);
 
+            start(user, ai);
+        }
+
+        public void Start(UserPlayer userPlayer, AIPlayer aiPlayer)
+        {
+            if (null == userPlayer)
+            {
+                Log.Error("not found user player");
+                return;
+            }
+
+            if (null == aiPlayer)
+            {
+                Log.Error("not found ai player");
+                return;
+            }
+
+            start(userPlayer, aiPlayer);
+        }
+
+        private void start(UserPlayer userPlayer, AIPlayer aiPlayer)
+        {
             initialize();
 
-            _user = new UserPlayer(this);
-            _ai = new AIPlayer(this, playerId);
+            _user = userPlayer;
+            _ai = aiPlayer;
 
             _user.Start(_ai);
             _ai.Start(_user);

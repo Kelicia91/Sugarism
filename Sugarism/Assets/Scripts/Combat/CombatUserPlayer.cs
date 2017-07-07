@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 namespace Combat
 {
     public class UserPlayer : Player
@@ -10,6 +7,9 @@ namespace Combat
         public UserPlayer(CombatMode mode) : base(mode, Def.MAIN_CHARACTER_ID)
         {
             _name = Manager.Instance.Object.MainCharacter.Name;
+
+            CombatPlayer p = Manager.Instance.DTCombatPlayer[Id];
+            _criticalProbability = p.criticalProbability;
 
             Nurture.Character c = Manager.Instance.Object.NurtureMode.Character;
             _hp = c.Stamina;

@@ -54,7 +54,7 @@ namespace Combat
             }
         }
 
-        private int _criticalProbability = 0;
+        protected int _criticalProbability = 0;
         public int CriticalProbability { get { return _criticalProbability; } }
 
         protected int _attack = 0;
@@ -93,9 +93,6 @@ namespace Combat
         {
             _mode = mode;
             _id = id;
-
-            CombatPlayer p = Manager.Instance.DTCombatPlayer[Id];
-            _criticalProbability = p.criticalProbability;
         }
 
         public virtual void Start(Player opponent)
