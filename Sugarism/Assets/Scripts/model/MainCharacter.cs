@@ -58,6 +58,15 @@ public partial class MainCharacter : Nurture.ICurrency
         }
     }
 
+    public bool IsChildHood()
+    {
+        int midAge = (Def.INIT_AGE + (Def.INIT_AGE + Def.PERIOD_YEAR)) / 2;
+        if (Age < midAge)
+            return true;
+        else
+            return false;
+    }
+
     // stats : date
     // @todo
 }
