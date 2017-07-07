@@ -138,7 +138,7 @@ namespace BoardGame
             _owner = owner;
         }
 
-        protected void initialize(int powerBaseStat, int cardCapacityBaseStat, int attackShuffleProbabilityBaseStat, int defenseShuffleProbabilityBaseStat)
+        private void initialize(int powerBaseStat, int cardCapacityBaseStat, int attackShuffleProbabilityBaseStat, int defenseShuffleProbabilityBaseStat)
         {
             _power = powerBaseStat / 100 + 1;
 
@@ -149,6 +149,23 @@ namespace BoardGame
             DefenseShuffleProbability = BoardGameMode.DEFAULT_DEFENSE_CARD_SHUFFLE_PROBABILITY + (BoardGameMode.STAT_WEIGHT_SHUFFLE_PROBABILITY * defenseShuffleProbabilityBaseStat / Def.MAX_STAT);
         }
 
+        private void initialize(EValuationBasis valuationBasis)
+        {
+            switch (valuationBasis)
+            {
+                case EValuationBasis.Tricker:
+                    initialize(Intellect, Intellect, Tactic, Leadership);
+                    break;
+
+                case EValuationBasis.Politician:
+                    initialize(Grace, Grace, Morality, Goodness);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
         public abstract void Push();
         public abstract void Bingo(int bingoCount);
         public abstract void Attack();
@@ -157,6 +174,8 @@ namespace BoardGame
         public void Start(Player opponent)
         {
             _opponent = opponent;
+
+            initialize(Mode.ValuationBasis);
         }
 
         public void Shuffle()

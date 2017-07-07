@@ -166,15 +166,46 @@ namespace BoardGame
                 return;
             }
 
+            UserPlayer userPlayer = new UserPlayer(this);
+            AIPlayer aiPlayer = new AIPlayer(this, playerId);
+
+            start(valuationBasis, userPlayer, aiPlayer);
+        }
+
+        public void Start(EValuationBasis valuationBasis, UserPlayer userPlayer, AIPlayer aiPlayer)
+        {
+            if (EValuationBasis.MAX == valuationBasis)
+            {
+                Log.Error("invalid valuation basis");
+                return;
+            }
+
+            if (null == userPlayer)
+            {
+                Log.Error("not found board game.user player");
+                return;
+            }
+
+            if (null == aiPlayer)
+            {
+                Log.Error("not found board game.ai player");
+                return;
+            }
+
+            start(valuationBasis, userPlayer, aiPlayer);
+        }
+
+        private void start(EValuationBasis valuationBasis, UserPlayer userPlayer, AIPlayer aiPlayer)
+        {
             _valuationBasis = valuationBasis;
             initialize();
 
-            _user = new UserPlayer(this);
-            _ai = new AIPlayer(this, playerId);
+            _user = userPlayer;
+            _ai = aiPlayer;
 
             _user.Start(_ai);
             _ai.Start(_user);
-            
+
             StartEvent.Invoke(_valuationBasis, _user, _ai);
         }
 
@@ -202,6 +233,8 @@ namespace BoardGame
 
             if (_iterJudge.MoveNext())
                 return;
+
+            _iterJudge = null;
 
             EUserGameState state = isOver();
             switch (state)
@@ -268,68 +301,58 @@ namespace BoardGame
                 IEnumerator iter = judgeUserNumAINum();
                 while (iter.MoveNext())
                     yield return null;
-                yield break;
             }
             else if ((Card.EType.Number == userCardType) && (Card.EType.Attack == aiCardType))
             {
                 IEnumerator iter = judgeUserNumAIAttack();
                 while (iter.MoveNext())
                     yield return null;
-                yield break;
             }
             else if ((Card.EType.Number == userCardType) && (Card.EType.Defense == aiCardType))
             {
                 IEnumerator iter = judgeUserNumAIDefense();
                 while (iter.MoveNext())
                     yield return null;
-                yield break;
             }
             else if ((Card.EType.Attack == userCardType) && (Card.EType.Number == aiCardType))
             {
                 IEnumerator iter = judgeUserAttackAINum();
                 while (iter.MoveNext())
                     yield return null;
-                yield break;
             }
             else if ((Card.EType.Attack == userCardType) && (Card.EType.Attack == aiCardType))
             {
                 judgeUserAttackAIAttack();
-                yield break;
             }
             else if ((Card.EType.Attack == userCardType) && (Card.EType.Defense == aiCardType))
             {
                 IEnumerator iter = judgeUserAttackAIDefense();
                 while (iter.MoveNext())
                     yield return null;
-                yield break;
             }
             else if ((Card.EType.Defense == userCardType) && (Card.EType.Number == aiCardType))
             {
                 IEnumerator iter = judgeUserDefenseAINum();
                 while (iter.MoveNext())
                     yield return null;
-                yield break;
             }
             else if ((Card.EType.Defense == userCardType) && (Card.EType.Attack == aiCardType))
             {
                 IEnumerator iter = judgeUserDefenseAIAttack();
                 while (iter.MoveNext())
                     yield return null;
-                yield break;
             }
             else if ((Card.EType.Defense == userCardType) && (Card.EType.Defense == aiCardType))
             {
                 IEnumerator iter = judgeUserDefenseAIDefense();
                 while (iter.MoveNext())
                     yield return null;
-                yield break;
             }
             else
             {
                 Log.Error("invalid card type to draw");
-                yield break;
             }
-        }
+        }   // judge()
 
         /*** user.defense ***/
         IEnumerator judgeUserDefenseAINum()
@@ -474,7 +497,7 @@ namespace BoardGame
             NumberCard aiNumCard = _ai.DrawCard as NumberCard;
             byte aiNum = aiNumCard.No;
 
-            Log.Debug(string.Format("judge; user({0}), ai({1})", userNum, aiNum));
+            Log.Debug(string.Format("compare; user({0}), ai({1})", userNum, aiNum));
 
             if (userNum == aiNum)
                 return false; // tie
@@ -536,9 +559,11 @@ namespace BoardGame
 
             if (EUserGameState.Unknown != isOver())
                 yield break;
+            
+            _board.InitBingo();
 
             switchCriterion();
-            _board.InitBingo();
+            yield return null;
         }
 
         private void switchCriterion()

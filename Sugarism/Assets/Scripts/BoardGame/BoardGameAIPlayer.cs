@@ -23,20 +23,25 @@ namespace BoardGame
             _grace = player.grace;
             _morality = player.morality;
             _goodness = player.goodness;
+        }
 
-            switch (Mode.ValuationBasis)
-            {
-                case EValuationBasis.Tricker:
-                    initialize(Intellect, Intellect, Tactic, Leadership);
-                    break;
+        public AIPlayer(BoardGameMode mode, int id
+            , int intellect, int tactic, int leadership
+            , int grace, int morality, int goodness) : base(mode, Cell.EOwner.AI)
+        {
+            _id = id;
 
-                case EValuationBasis.Politician:
-                    initialize(Grace, Grace, Morality, Goodness);
-                    break;
+            BoardGamePlayer player = Manager.Instance.DTBoardGamePlayer[_id];
+            int characterId = player.characterId;
+            _name = Manager.Instance.DTCharacter[characterId].name;
 
-                default:
-                    break;
-            }
+            _intellect = intellect;
+            _tactic = tactic;
+            _leadership = leadership;
+
+            _grace = grace;
+            _morality = morality;
+            _goodness = goodness;
         }
 
         public override void Push()

@@ -22,20 +22,6 @@ namespace BoardGame
             _grace = character.Grace;
             _morality = character.Morality;
             _goodness = character.Goodness;
-
-            switch (Mode.ValuationBasis)
-            {
-                case EValuationBasis.Tricker:
-                    initialize(Intellect, Intellect, Tactic, Leadership);
-                    break;
-
-                case EValuationBasis.Politician:
-                    initialize(Grace, Grace, Morality, Goodness);
-                    break;
-
-                default:
-                    break;
-            }
         }
 
         public override void Push()
