@@ -25,10 +25,14 @@ namespace Exam
         private int _npcId = -1;
         public int NPCId { get { return _npcId; } }
 
+        private int _rivalId = -1;
+        public int RivalId { get { return _rivalId; } }
+
         private bool _isFirst = false;
         public bool IsFirst { get { return _isFirst; } }
 
         //
+        protected readonly Rival _rival;
         private IEnumerator _iterator = null;
 
 
@@ -47,12 +51,18 @@ namespace Exam
 
 
         // constructor
-        protected Exam(EType type, int id, int npcId, bool isFirst)
+        protected Exam(EType type, int id, int npcId, int rivalId, bool isFirst)
         {
             _type = type;
             _id = id;
             _npcId = npcId;
+            _rivalId = rivalId;
             _isFirst = isFirst;
+
+            if (ExtRival.isValid(_rivalId))
+                _rival = Manager.Instance.DTRival[_rivalId];
+            else
+                Log.Error(string.Format("invalid rival id: {0}", _rivalId));
 
             _iterator = null;
 

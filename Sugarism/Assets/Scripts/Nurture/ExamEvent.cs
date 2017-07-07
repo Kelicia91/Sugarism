@@ -79,10 +79,14 @@ namespace Exam
         public delegate void NPCHandler(int npcId, string lines);
         private event NPCHandler _npcEvent = null;
 
+        public delegate void RivalHandler(Rival rival, string lines);
+        private event RivalHandler _rivalEvent = null;
+
         public DialogueEvent()
         {
             _event = new Handler(onDialogue);
             _npcEvent = new NPCHandler(onDialogueNPC);
+            _rivalEvent = new RivalHandler(onDialogueRival);
         }
 
         // default handler
@@ -131,6 +135,30 @@ namespace Exam
                 return;
 
             _npcEvent -= handler;
+        }
+
+        // default handler
+        private void onDialogueRival(Rival rival, string lines)
+        {
+            Log.Debug(string.Format("Exam.onDialogue; rival.CharacterId({0}): {1}", rival.characterId, lines));
+        }
+
+        public void Invoke(Rival rival, string lines) { _rivalEvent.Invoke(rival, lines); }
+
+        public void Attach(RivalHandler handler)
+        {
+            if (null == handler)
+                return;
+
+            _rivalEvent += handler;
+        }
+
+        public void Detach(RivalHandler handler)
+        {
+            if (null == handler)
+                return;
+
+            _rivalEvent -= handler;
         }
     }
 
