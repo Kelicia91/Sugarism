@@ -71,16 +71,16 @@ namespace Nurture
             switch (_lesson.examType)
             {
                 case Exam.EType.COMBAT:
-                    exam = new Exam.CombatExam(_lesson.examId, _lesson.npcId, isFirstExam());
+                    exam = new Exam.CombatExam(_lesson.examId, _lesson.npcId, _lesson.rivalId, isFirstExam());
                     break;
 
                 case Exam.EType.BOARD_GAME_TRICKER:
                 case Exam.EType.BOARD_GAME_POLITICIAN:
-                    exam = new Exam.BoardGameExam(_lesson.examType, _lesson.examId, _lesson.npcId, isFirstExam());
+                    exam = new Exam.BoardGameExam(_lesson.examType, _lesson.examId, _lesson.npcId, _lesson.rivalId, isFirstExam());
                     break;
 
                 case Exam.EType.SCORE:
-                    exam = new Exam.ScoreExam(_lesson.examId, _lesson.npcId, isFirstExam());
+                    exam = new Exam.ScoreExam(_lesson.examId, _lesson.npcId, _lesson.rivalId, isFirstExam());
                     break;
 
                 default:
