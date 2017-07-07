@@ -12,6 +12,9 @@ namespace Score
 
     public class ScoreMode
     {
+        public const int SUM_WEIGHT = 100;
+
+        public const int MIN_SCORE = 0;
         public const int PERFECT_SCORE = 100;
 
         // constructor
@@ -22,7 +25,7 @@ namespace Score
 
         public EGrade GetGrade(int score)
         {
-            if (score < 0)
+            if (score < MIN_SCORE)
                 return EGrade.MAX;
             else if (score > PERFECT_SCORE)
                 return EGrade.MAX;
@@ -45,19 +48,19 @@ namespace Score
             if (null == p)
             {
                 Log.Error("not found player");
-                return 0;
+                return MIN_SCORE;
             }
 
             if (null == statWeight)
             {
                 Log.Error("not found stat weight");
-                return 0;
+                return MIN_SCORE;
             }
 
             if (false == isValidWeight(statWeight))
             {
                 Log.Error("invalid SUM(stat.Weight)");
-                return 0;
+                return MIN_SCORE;
             }
 
             return getScore(p, statWeight);
@@ -82,7 +85,7 @@ namespace Score
                 elements[i] = Mathf.RoundToInt(statWeight[i].Weight * normalized);
             }
 
-            int score = 0;
+            int score = MIN_SCORE;
             for (int i = 0; i < statWeightArrayLength; ++i)
             {
                 score += elements[i];
@@ -98,10 +101,16 @@ namespace Score
             int statWeightLength = statWeight.Length;
             for (int i = 0; i < statWeightLength; ++i)
             {
+                if (statWeight[i].Weight < 0)
+                {
+                    Log.Error(string.Format("invalid state weight; stat({0}), weight({1})", statWeight[i].StatType, statWeight[i].Weight));
+                    return false;
+                }
+
                 sum += statWeight[i].Weight;
             }
 
-            if (PERFECT_SCORE == sum)
+            if (SUM_WEIGHT == sum)
                 return true;
             else
                 return false;

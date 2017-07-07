@@ -10,12 +10,15 @@ namespace Score
             ;   // @todo
         }
 
-        public AIPlayer(int charm, int sensibility, int arts) : base(-1)
+        public AIPlayer(int id, int charm, int sensibility, int arts) : base(id)
         {
             _stress = getRandomStress();
             _charm = charm;
             _sensibility = sensibility;
             _arts = arts;
+
+            Log.Debug(string.Format("score.ai; stress({0}) charm({1}) sensibility({2}) arts({3})",
+                                                Stress, Charm, Sensibility, Arts));
         }
 
         private int getRandomStress()
