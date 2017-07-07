@@ -190,10 +190,21 @@ public class Def
     public const string EXAM_USER_WIN = "이겼다!";
     public const string EXAM_USER_LOSE = "칫..";
 
+    // Lesson - Combat Exam
+    public const float COMBAT_RIVAL_AI_STAT_MIN_RATIO = 0.95f;
+    public const float COMBAT_RIVAL_AI_STAT_MAX_RATIO = 1.10f;
+
+    // Lesson - BoardGame Exam
+    public const float BOARDGAME_RIVAL_AI_STAT_MIN_RATIO = 0.90f;
+    public const float BOARDGAME_RIVAL_AI_STAT_MAX_RATIO = 1.10f;
+
     // Lesson - Score Exam
     public const int SCORE_EXAM_EXCELLENT_STRESS = -30;
     public const int SCORE_EXAM_BAD_STRESS = 30;
-    
+
+    public const float SCORE_RIVAL_AI_STAT_MIN_RATIO = 0.95f;
+    public const float SCORE_RIVAL_AI_STAT_MAX_RATIO = 1.10f;
+
     public const string SCORE_EXAM_USER_COMMENT_REACT_S = "(후훗, 이정도야 뭘.)";
     public const string SCORE_EXAM_USER_COMMENT_REACT_A = "(좋았어, 좀더 분발하자!)";
     public const string SCORE_EXAM_USER_COMMENT_REACT_B = "(..뭐, 나쁘진 않네.)";

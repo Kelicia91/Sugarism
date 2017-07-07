@@ -59,6 +59,7 @@ public class Manager : MonoBehaviour
     public MiniPictureObject AsstDTMiniPicture;
     public OneToOneExamObject AsstDTOneToOneExam;
     public PictureObject AsstDTPicture;
+    public RivalObject AsstDTRival;
     public ScoreExamObject AsstDTScoreExam;
     public SEObject AsstDTSE;
     public StatObject AsstDTStat;
@@ -89,6 +90,7 @@ public class Manager : MonoBehaviour
     public MiniPictureObject DTMiniPicture { get { return AsstDTMiniPicture; } }
     public OneToOneExamObject DTOneToOneExam { get { return AsstDTOneToOneExam; } }
     public PictureObject DTPicture { get { return AsstDTPicture; } }
+    public RivalObject DTRival { get { return AsstDTRival; } }
     public ScoreExamObject DTScoreExam { get { return AsstDTScoreExam; } }
     public SEObject DTSE { get { return AsstDTSE; } }
     public StatObject DTStat { get { return AsstDTStat; } }
