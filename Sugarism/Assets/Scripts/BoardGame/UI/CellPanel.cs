@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -104,16 +103,14 @@ public class CellPanel : Panel
 
         if ((_cell.Row != row) || (_cell.Col != col))
             return;
-
-        Color c = getOwnerColor(owner);
-
+        
         if (gameObject.activeInHierarchy)
         {
-            const float waitSeconds = 0.1f;
-            StartCoroutine(coloring(waitSeconds, c));
+            StartCoroutine(coloring(waitSeconds, owner));
         }
         else
         {
+            Color c = getOwnerColor(owner);
             setColor(c);
         }
     }
@@ -129,9 +126,10 @@ public class CellPanel : Panel
         setBingo(isBingo);
     }
 
-    IEnumerator coloring(float waitSeconds, Color target)
+    private const float waitSeconds = 0.1f;
+    private IEnumerator coloring(float waitSeconds, BoardGame.Cell.EOwner owner)
     {
-        Color targetColor = target;
+        Color targetColor = getOwnerColor(owner);
         for (float alpha = 0.0f; alpha <= 1.0f; alpha += 0.3f)
         {
             Color c = new Color(targetColor.r, targetColor.g, targetColor.b, alpha);
@@ -140,7 +138,10 @@ public class CellPanel : Panel
             yield return new WaitForSeconds(waitSeconds);
         }
 
-        setColor(target);
-        Manager.Instance.Object.BoardGameMode.JudgeIter();
+        setColor(targetColor);
+
+        // except case : initialize because of bingo
+        if (owner != BoardGame.Cell.EOwner.Empty)
+            Manager.Instance.Object.BoardGameMode.JudgeIter();
     }
 }
