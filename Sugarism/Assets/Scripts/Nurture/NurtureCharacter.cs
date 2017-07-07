@@ -102,7 +102,7 @@ namespace Nurture
             get { return _stress; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_stress.Equals(adjustedValue))
                     return;
 
@@ -117,7 +117,7 @@ namespace Nurture
             get { return _stamina; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_stamina.Equals(adjustedValue))
                     return;
 
@@ -132,7 +132,7 @@ namespace Nurture
             get { return _intellect; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_intellect.Equals(adjustedValue))
                     return;
 
@@ -147,7 +147,7 @@ namespace Nurture
             get { return _grace; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_grace.Equals(adjustedValue))
                     return;
 
@@ -162,7 +162,7 @@ namespace Nurture
             get { return _charm; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_charm.Equals(adjustedValue))
                     return;
 
@@ -177,7 +177,7 @@ namespace Nurture
             get { return _attack; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_attack.Equals(adjustedValue))
                     return;
 
@@ -192,7 +192,7 @@ namespace Nurture
             get { return _defense; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_defense.Equals(adjustedValue))
                     return;
 
@@ -207,7 +207,7 @@ namespace Nurture
             get { return _leadership; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_leadership.Equals(adjustedValue))
                     return;
 
@@ -222,7 +222,7 @@ namespace Nurture
             get { return _tactic; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_tactic.Equals(adjustedValue))
                     return;
 
@@ -237,7 +237,7 @@ namespace Nurture
             get { return _morality; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_morality.Equals(adjustedValue))
                     return;
 
@@ -252,7 +252,7 @@ namespace Nurture
             get { return _goodness; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_goodness.Equals(adjustedValue))
                     return;
 
@@ -267,7 +267,7 @@ namespace Nurture
             get { return _sensibility; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_sensibility.Equals(adjustedValue))
                     return;
 
@@ -282,7 +282,7 @@ namespace Nurture
             get { return _arts; }
             set
             {
-                int adjustedValue = adjust(value);
+                int adjustedValue = Adjust(value);
                 if (_arts.Equals(adjustedValue))
                     return;
 
@@ -292,14 +292,14 @@ namespace Nurture
         }
 
 
-        private int adjust(int value)
+        public static int Adjust(int stat)
         {
-            if (value < Def.MIN_STAT)
+            if (stat < Def.MIN_STAT)
                 return Def.MIN_STAT;
-            else if (value > Def.MAX_STAT)
+            else if (stat > Def.MAX_STAT)
                 return Def.MAX_STAT;
             else
-                return value;
+                return stat;
         }
 
 
