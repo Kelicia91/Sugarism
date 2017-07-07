@@ -26,10 +26,24 @@ public class ActionDialoguePanel : Panel, IPointerClickHandler
     // for MainCharacter
     public void Show(string lines, UnityEngine.Events.UnityAction clickHandler)
     {
-        string userName = Manager.Instance.Object.MainCharacter.Name;
         Sprite userImage = null;
+        string userName = Manager.Instance.Object.MainCharacter.Name;
 
         show(userImage, userName, lines, clickHandler);
+    }
+
+    // for Rival
+    public void Show(Rival rival, string lines, UnityEngine.Events.UnityAction clickHandler)
+    {
+        Sprite rivalImage = null;
+        if (Manager.Instance.Object.MainCharacter.IsChildHood())
+            rivalImage = rival.childHood;
+        else
+            rivalImage = rival.adultHood;
+
+        Character c = Manager.Instance.DTCharacter[rival.characterId];
+
+        show(rivalImage, c.name, lines, clickHandler);
     }
 
     // for NPC

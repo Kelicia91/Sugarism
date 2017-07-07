@@ -93,12 +93,11 @@ public class RunSchedulePanel : Panel
 
         int seasonId = (int)season;
         Vacation vacation = Manager.Instance.DTVacation[seasonId];
-
-        int midAge = (Def.INIT_AGE + (Def.INIT_AGE + Def.PERIOD_YEAR)) / 2;
-        if (Manager.Instance.Object.MainCharacter.Age >= midAge)
-            return vacation.adultHood;
-        else
+        
+        if (Manager.Instance.Object.MainCharacter.IsChildHood())
             return vacation.childHood;
+        else
+            return vacation.adultHood;
     }
 
     private void initStat(Action action)
@@ -352,6 +351,7 @@ public class RunSchedulePanel : Panel
         _exam.EndEvent.Attach(onExamEnd);
         _exam.DialogueEvent.Attach(onExamDialogue);
         _exam.DialogueEvent.Attach(onExamDialogueNPC);
+        _exam.DialogueEvent.Attach(onExamDialogueRival);
 
         _exam.Start();
     }
@@ -382,6 +382,7 @@ public class RunSchedulePanel : Panel
         _exam.EndEvent.Detach(onExamEnd);
         _exam.DialogueEvent.Detach(onExamDialogue);
         _exam.DialogueEvent.Detach(onExamDialogueNPC);
+        _exam.DialogueEvent.Detach(onExamDialogueRival);
         _exam = null;
 
         Invoke(RESUME_METHOD_NAME, DEFAULT_DELAY_SECONDS);
@@ -395,6 +396,11 @@ public class RunSchedulePanel : Panel
     private void onExamDialogueNPC(int npcId, string lines)
     {
         DialoguePanel.Show(npcId, lines, resumeExam);
+    }
+
+    private void onExamDialogueRival(Rival rival, string lines)
+    {
+        DialoguePanel.Show(rival, lines, resumeExam);
     }
 
 
