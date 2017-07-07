@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine;
 
 namespace Exam
 {
@@ -6,16 +7,20 @@ namespace Exam
     {
         //
         private readonly global::ScoreExam _exam;   // DataTable.Row
+        private readonly Score.StatWeight[] _statWeight = null;
         private Score.ScoreMode _mode = null;
         
 
         // constructor
-        public ScoreExam(int id, int npcId, bool isFirst) : base(EType.SCORE, id, npcId, isFirst)
+        public ScoreExam(int id, int npcId, int rivalId, bool isFirst) : base(EType.SCORE, id, npcId, rivalId, isFirst)
         {
             if (false == ExtScoreExam.isValid(id))
                 Log.Error(string.Format("invalid score exam.id : {0}", id));
             else
+            {
                 _exam = Manager.Instance.DTScoreExam[Id];
+                _statWeight = getStatWeight();
+            }  
             
             _mode = new Score.ScoreMode();
         }
@@ -43,7 +48,7 @@ namespace Exam
             // SCORE
             Score.UserPlayer user = new Score.UserPlayer();
 
-            int userScore = _mode.GetScore(user, getStatWeight());
+            int userScore = _mode.GetScore(user, _statWeight);
             Log.Debug(string.Format("user score: {0}", userScore));
 
             Score.EGrade userGrade = _mode.GetGrade(userScore);
@@ -76,7 +81,52 @@ namespace Exam
             string userReactMsg = string.Format("{0}{1}", user.GetCommentReact(userGrade), rewardMsg);
             DialogueEvent.Invoke(userReactMsg);
             yield return null;
-        }
+            
+            // RIVAL
+            if (IsFirst)
+            {
+                Log.Debug("@todo: open rival first meet scenerio");
+            }
+            else
+            {
+                Score.AIPlayer aiPlayer = getRivalPlayer(_rival.scorePlayerId, user);
+
+                int aiScore = _mode.GetScore(aiPlayer, _statWeight);
+                Log.Debug(string.Format("ai score: {0}", aiScore));
+
+                if (userScore == aiScore)
+                {
+                    if (userScore <= Score.ScoreMode.MIN_SCORE)
+                        ++aiScore;
+                    else if (userScore >= Score.ScoreMode.PERFECT_SCORE)
+                        --aiScore;
+                    else
+                        judgeSameScore(user.Stress, aiPlayer.Stress, ref aiScore);
+
+                    Log.Debug(string.Format("fixed ai score: {0}", aiScore));
+                }
+
+                string rivalLines = null;
+                string userLines = null;
+                if (userScore > aiScore)
+                {
+                    rivalLines = _exam.RivalLose;
+                    userLines = _exam.UserWin;
+                }
+                else
+                {
+                    rivalLines = _exam.RivalWin;
+                    userLines = _exam.UserLose;
+                }
+
+                string rivalScoreLines = string.Format(rivalLines, aiScore);
+                DialogueEvent.Invoke(_rival, rivalScoreLines);
+                yield return null;
+
+                DialogueEvent.Invoke(userLines);
+                yield return null;
+            }
+        }   // end routine
 
         private Score.StatWeight[] getStatWeight()
         {
@@ -140,6 +190,44 @@ namespace Exam
             }
 
             return rewardMsg;
+        }
+
+        private void judgeSameScore(int userStress, int aiStress, ref int aiScore)
+        {
+            if (userStress >= aiStress)
+            {
+                ++aiScore;
+            }
+            else
+            {
+                --aiScore;
+            }
+        }
+
+        private Score.AIPlayer getRivalPlayer(int scorePlayerId, Score.UserPlayer userPlayer)
+        {
+            if (null == userPlayer)
+            {
+                Log.Error("user player is null");
+                return null;
+            }
+            
+            int charm = getRivalStat(userPlayer.Charm, Def.SCORE_RIVAL_AI_STAT_MIN_RATIO, Def.SCORE_RIVAL_AI_STAT_MAX_RATIO);
+            int sensibility = getRivalStat(userPlayer.Sensibility, Def.SCORE_RIVAL_AI_STAT_MIN_RATIO, Def.SCORE_RIVAL_AI_STAT_MAX_RATIO);
+            int arts = getRivalStat(userPlayer.Arts, Def.SCORE_RIVAL_AI_STAT_MIN_RATIO, Def.SCORE_RIVAL_AI_STAT_MAX_RATIO);
+            
+            return new Score.AIPlayer(scorePlayerId, charm, sensibility, arts);
+        }
+
+        private int getRivalStat(int baseStat, float minRaio, float maxRatio)
+        {
+            int min = Mathf.RoundToInt(baseStat * minRaio);
+            min = Nurture.Character.Adjust(min);
+
+            int max = Mathf.RoundToInt(baseStat * maxRatio);
+            max = Nurture.Character.Adjust(max);
+
+            return Random.Range(min, (max+1));
         }
 
     }   // class

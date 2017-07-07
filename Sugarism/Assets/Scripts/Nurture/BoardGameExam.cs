@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEngine;
 
 namespace Exam
 {
@@ -7,14 +8,16 @@ namespace Exam
         //
         private readonly BoardGame.EValuationBasis _valuationBasis = BoardGame.EValuationBasis.MAX;
         private readonly OneToOneExam _exam;
-
-        private int _rivalId = 1; // temp
+        
         private string _userName = null;
-        private string _rivalName = "라이벌";  // temp
-        private string _userResultMsg = null;
+        private string _rivalName = null;
+
+        private string _userFirstResultLines = null;
+        private string _userResultLines = null;
+        private string _rivalResultLines = null;
 
         // constructor
-        public BoardGameExam(EType type, int id, int npcId, bool isFirst) : base(type, id, npcId, isFirst)
+        public BoardGameExam(EType type, int id, int npcId, int rivalId, bool isFirst) : base(type, id, npcId, rivalId, isFirst)
         {
             switch (type)
             {
@@ -37,6 +40,11 @@ namespace Exam
                 _exam = Manager.Instance.DTOneToOneExam[id];
 
             _userName = Manager.Instance.Object.MainCharacter.Name;
+
+            if (false == ExtCharacter.IsValid(_rival.characterId))
+                Log.Error(string.Format("invalid character id: {0}", _rival.characterId));
+            else
+                _rivalName = Manager.Instance.DTCharacter[_rival.characterId].name;
 
             Manager.Instance.Object.BoardGameMode.EndEvent.Attach(onEnd);
         }
@@ -63,12 +71,27 @@ namespace Exam
             yield return null;
 
             //
-            Manager.Instance.Object.BoardGameMode.Start(_valuationBasis, _rivalId);
+            BoardGame.UserPlayer userPlayer = new BoardGame.UserPlayer(Manager.Instance.Object.BoardGameMode);
+            BoardGame.AIPlayer aiPlayer = getRivalPlayer(_rival.boardGamePlayerId, userPlayer);
+
+            Manager.Instance.Object.BoardGameMode.Start(_valuationBasis, userPlayer, aiPlayer);
             yield return null;
 
-            //
-            DialogueEvent.Invoke(_userResultMsg);
-            yield return null;
+            if (IsFirst)
+            {
+                DialogueEvent.Invoke(_userFirstResultLines);
+                yield return null;
+
+                Log.Debug("@todo: open rival first meet scenerio");
+            }
+            else
+            {
+                DialogueEvent.Invoke(_rival, _rivalResultLines);
+                yield return null;
+
+                DialogueEvent.Invoke(_userResultLines);
+                yield return null;
+            }
 
             Manager.Instance.Object.BoardGameMode.EndEvent.Detach(onEnd);
         }
@@ -80,12 +103,16 @@ namespace Exam
             {
                 case BoardGame.EUserGameState.Win:
                     winnerName = _userName;
-                    _userResultMsg = Def.EXAM_USER_WIN;
+                    _userFirstResultLines = Def.EXAM_USER_WIN;
+                    _rivalResultLines = _exam.RivalLose;
+                    _userResultLines = _exam.UserWin;
                     break;
 
                 case BoardGame.EUserGameState.Lose:
                     winnerName = _rivalName;
-                    _userResultMsg = Def.EXAM_USER_LOSE;
+                    _userFirstResultLines = Def.EXAM_USER_LOSE;
+                    _rivalResultLines = _exam.RivalWin;
+                    _userResultLines = _exam.UserLose;
                     break;
 
                 default:
@@ -95,6 +122,49 @@ namespace Exam
 
             string resultMsg = string.Format(_exam.NPCEndWinnerName, winnerName);
             DialogueEvent.Invoke(NPCId, resultMsg);
+        }
+
+        private BoardGame.AIPlayer getRivalPlayer(int boardGamePlayerId, BoardGame.UserPlayer userPlayer)
+        {
+            if (null == userPlayer)
+            {
+                Log.Error("not found board game.user player");
+                return null;
+            }
+
+            int intellect = 0, tactic = 0, leadership = 0, grace = 0, morality = 0, goodness = 0;
+            switch(_valuationBasis)
+            {
+                case BoardGame.EValuationBasis.Tricker:
+                    intellect = getRivalStat(userPlayer.Intellect, Def.BOARDGAME_RIVAL_AI_STAT_MIN_RATIO, Def.BOARDGAME_RIVAL_AI_STAT_MAX_RATIO);
+                    tactic = getRivalStat(userPlayer.Tactic, Def.BOARDGAME_RIVAL_AI_STAT_MIN_RATIO, Def.BOARDGAME_RIVAL_AI_STAT_MAX_RATIO);
+                    leadership = getRivalStat(userPlayer.Leadership, Def.BOARDGAME_RIVAL_AI_STAT_MIN_RATIO, Def.BOARDGAME_RIVAL_AI_STAT_MAX_RATIO);
+                    break;
+
+                case BoardGame.EValuationBasis.Politician:
+                    grace = getRivalStat(userPlayer.Grace, Def.BOARDGAME_RIVAL_AI_STAT_MIN_RATIO, Def.BOARDGAME_RIVAL_AI_STAT_MAX_RATIO);
+                    morality = getRivalStat(userPlayer.Morality, Def.BOARDGAME_RIVAL_AI_STAT_MIN_RATIO, Def.BOARDGAME_RIVAL_AI_STAT_MAX_RATIO);
+                    goodness = getRivalStat(userPlayer.Goodness, Def.BOARDGAME_RIVAL_AI_STAT_MIN_RATIO, Def.BOARDGAME_RIVAL_AI_STAT_MAX_RATIO);
+                    break;
+
+                default:
+                    Log.Error("invalid BoardGame.EValuationBasis");
+                    break;
+            }
+
+            return new BoardGame.AIPlayer(Manager.Instance.Object.BoardGameMode, boardGamePlayerId
+                                    , intellect, tactic, leadership, grace, morality, goodness);
+        }
+
+        private int getRivalStat(int baseStat, float minRaio, float maxRatio)
+        {
+            int min = Mathf.RoundToInt(baseStat * minRaio);
+            min = Nurture.Character.Adjust(min);
+
+            int max = Mathf.RoundToInt(baseStat * maxRatio);
+            max = Nurture.Character.Adjust(max);
+
+            return Random.Range(min, (max + 1));
         }
     }
 }
