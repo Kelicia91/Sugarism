@@ -79,7 +79,7 @@ public class ProfilePanel : Panel
 
     private string get(int age)
     {
-        string strAge = string.Format("({0})", age);
+        string strAge = age.ToString();
         return strAge;
     }
 
