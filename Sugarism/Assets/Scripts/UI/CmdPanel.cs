@@ -1,145 +1,80 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 public class CmdPanel : Panel
 {
-    /********* Editor Interface *********/
-    // values
-    public int SPACE_Y_BETWEEN_BUTTON = 10;
-    public Vector2 SPACE_FROM_ANCHOR = new Vector2(0.0f, 10.0f);
     // prefabs
-    public Button PrefCmdButton;
+    public Sprite ScheduleIcon;
+    public Sprite StateIcon;
+
+    public GameObject PrefCmdButton;
 
     //
-    private enum ECmdType
-    {
-        SCHEDULE = 0,
-        STORY,
-        STATE,
-        TEST_BOARD_GAME,
-        TEST_COMBAT
-    }
-
-    private Button[] _cmdButtonArray = null;
-
     void Start()
     {
         if (null == PrefCmdButton)
         {
-            Log.Error("not found cmd button");
+            Log.Error("not found prefab cmd button");
             return;
         }
 
-        Array cmdArray = Enum.GetValues(typeof(ECmdType));
-        int numOfCmd = cmdArray.Length;
-
-        RectTransform rectTransform = PrefCmdButton.GetComponent<RectTransform>();
-        float btnHeight = rectTransform.rect.height;
-        float deltaY = btnHeight + SPACE_Y_BETWEEN_BUTTON;
-
-        float posY = (numOfCmd - 1) * deltaY + SPACE_FROM_ANCHOR.y;   // top to bottom
-
-        _cmdButtonArray = new Button[numOfCmd];
-        for (int i = 0; i < numOfCmd; ++i)
+        /** reverse to order **/
         {
-            Button btn = Instantiate(PrefCmdButton);
-            btn.transform.SetParent(transform, false);
-
-            RectTransform rect = btn.GetComponent<RectTransform>();
-            rect.anchoredPosition = new Vector2(SPACE_FROM_ANCHOR.x, posY);
-            posY -= deltaY;
-
-            ECmdType cmdType = (ECmdType)cmdArray.GetValue(i);            
-            Text btnText = btn.GetComponentInChildren<Text>();
-            btnText.text = getName(cmdType);
-
-            btn.onClick.AddListener(getHandler(cmdType));
-
-            _cmdButtonArray[i] = btn;
+            // temp.begin
+            createCmdButton(StateIcon, Def.CMD_TEST_COMBAT, onClickTestCombatButton);
+            createCmdButton(StateIcon, Def.CMD_TEST_BOARD_GAME, onClickTestBoardGameButton);
+            createCmdButton(StateIcon, Def.CMD_GO_OUT_NAME, onClickStoryButton);
+            // temp.end
         }
+        createCmdButton(StateIcon, Def.CMD_STATE_NAME, onClickStateButton);
+        createCmdButton(ScheduleIcon, Def.CMD_SCHEDULE_NAME, onClickScheduleButton);
     }
 
-    private string getName(ECmdType cmdType)
+    private void createCmdButton(Sprite sprite, string text, 
+                                UnityEngine.Events.UnityAction clickHandler)
     {
-        switch (cmdType)
+        GameObject o = Instantiate(PrefCmdButton);
+        o.transform.SetParent(transform, false);
+
+        CmdButton btn = o.GetComponent<CmdButton>();
+        if (null == btn)
         {
-            case ECmdType.SCHEDULE:
-                return Def.CMD_SCHEDULE_NAME;
-
-            case ECmdType.STORY:
-                return Def.CMD_GO_OUT_NAME;
-
-            case ECmdType.STATE:
-                return Def.CMD_STATE_NAME;
-
-            case ECmdType.TEST_BOARD_GAME:
-                return Def.CMD_TEST_BOARD_GAME;
-
-            case ECmdType.TEST_COMBAT:
-                return Def.CMD_TEST_COMBAT;
-
-            default:
-                return string.Empty;
+            Log.Error("not found CmdButton");
+            return;
         }
-    }
 
-    private UnityEngine.Events.UnityAction getHandler(ECmdType cmdType)
-    {
-        switch (cmdType)
-        {
-            case ECmdType.SCHEDULE:
-                return onClickScheduleButton;
-
-            case ECmdType.STORY:
-                return onClickStoryButton;
-
-            case ECmdType.STATE:
-                return onClickStateButton;
-
-            case ECmdType.TEST_BOARD_GAME:
-                return onClickTestBoardGameButton;
-
-            case ECmdType.TEST_COMBAT:
-                return onClickTestCombatButton;
-
-            default:
-                return null;
-        }
+        btn.SetIcon(sprite);
+        btn.SetText(text);
+        btn.AddClickListener(clickHandler);
     }
 
     
     private void onClickScheduleButton()
     {
-        //Manager.Instance.UI.MainPanel.Hide();
         Manager.Instance.UI.SchedulePanel.Show();
-    }
-
-    private void onClickStoryButton()
-    {
-        //Manager.Instance.UI.MainPanel.Hide();
-        Manager.Instance.UI.SelectTargetPanel.Show();
     }
 
     private void onClickStateButton()
     {
-        //Manager.Instance.UI.MainPanel.Hide();
         Manager.Instance.UI.StatePanel.Show();
+    }
+
+    
+    // for test
+    private void onClickStoryButton()
+    {
+        Manager.Instance.UI.SelectTargetPanel.Show();
     }
 
     private void onClickTestBoardGameButton()
     {
-        //Manager.Instance.UI.MainPanel.Hide();
-
         int opponentPlayerId = 1;  // test~~~~~
         Manager.Instance.Object.BoardGameMode.Start(BoardGame.EValuationBasis.Tricker, opponentPlayerId);
     }
 
     private void onClickTestCombatButton()
     {
-        //Manager.Instance.UI.MainPanel.Hide();
-
         int opponentPlayerId = 3; // test~~~
         Manager.Instance.Object.CombatMode.Start(opponentPlayerId);
     }
