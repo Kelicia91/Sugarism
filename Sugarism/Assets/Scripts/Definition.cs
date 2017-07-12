@@ -95,8 +95,8 @@ public enum EStat
 public class Def
 {
     // Resolution
-    public const int RESOLUTION_WIDTH = 540;
-    public const int RESOLUTION_HEIGHT = 960;
+    //public const int RESOLUTION_WIDTH = 900;
+    //public const int RESOLUTION_HEIGHT = 1600;
     public const int RESOLUTION_WIDTH_RATIO = 9;
     public const int RESOLUTION_HEIGHT_RATIO = 16;
 
