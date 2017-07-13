@@ -13,9 +13,10 @@ public class UIManager : MonoBehaviour
     public GameObject PrefMainPanel;
     public GameObject PrefSchedulePanel;
     public GameObject PrefRunSchedulePanel;
-    public GameObject PrefSelectTargetPanel;
-    public GameObject PrefStoryPanel;
     public GameObject PrefStatePanel;
+    public GameObject PrefCurrencyPanel;
+    public GameObject PrefSelectTargetPanel;
+    public GameObject PrefStoryPanel;    
     public GameObject PrefBoardGamePanel;
     public GameObject PrefCombatPanel;
 
@@ -32,14 +33,17 @@ public class UIManager : MonoBehaviour
     private RunSchedulePanel _runSchedulePanel = null;
     public RunSchedulePanel RunSchedulePanel { get { return _runSchedulePanel; } }
 
+    private StatePanel _statePanel = null;
+    public StatePanel StatePanel { get { return _statePanel; } }
+
+    private CurrencyPanel _currencyPanel = null;
+    public CurrencyPanel CurrencyPanel { get { return _currencyPanel; } }
+
     private SelectTargetPanel _selectTargetPanel = null;
     public SelectTargetPanel SelectTargetPanel { get { return _selectTargetPanel; } }
 
     private StoryPanel _storyPanel = null;
     public StoryPanel StoryPanel { get { return _storyPanel; } }
-
-    private StatePanel _statePanel = null;
-    public StatePanel StatePanel { get { return _statePanel; } }
 
     private BoardGamePanel _boardGamePanel = null;
     public BoardGamePanel BoardGamePanel { get { return _boardGamePanel; } }
@@ -90,6 +94,14 @@ public class UIManager : MonoBehaviour
         _runSchedulePanel = o.GetComponent<RunSchedulePanel>();
         _runSchedulePanel.transform.SetParent(_canvas.transform, false);
 
+        o = Instantiate(PrefStatePanel);
+        _statePanel = o.GetComponent<StatePanel>();
+        _statePanel.transform.SetParent(_canvas.transform, false);
+
+        o = Instantiate(PrefCurrencyPanel);
+        _currencyPanel = o.GetComponent<CurrencyPanel>();
+        _currencyPanel.transform.SetParent(_canvas.transform, false);
+
         o = Instantiate(PrefSelectTargetPanel);
         _selectTargetPanel = o.GetComponent<SelectTargetPanel>();
         _selectTargetPanel.transform.SetParent(_canvas.transform, false);
@@ -97,10 +109,6 @@ public class UIManager : MonoBehaviour
         o = Instantiate(PrefStoryPanel);
         _storyPanel = o.GetComponent<StoryPanel>();
         _storyPanel.transform.SetParent(_canvas.transform, false);
-
-        o = Instantiate(PrefStatePanel);
-        _statePanel = o.GetComponent<StatePanel>();
-        _statePanel.transform.SetParent(_canvas.transform, false);
 
         o = Instantiate(PrefBoardGamePanel);
         _boardGamePanel = o.GetComponent<BoardGamePanel>();

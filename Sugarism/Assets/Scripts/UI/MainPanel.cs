@@ -9,7 +9,6 @@ public class MainPanel : Panel
     /********* Editor Interface *********/
     // prefabs
     public GameObject PrefBackButton;
-    public GameObject PrefCurrencyPanel;
     public GameObject PrefCalendarPanel;
     public GameObject PrefProfilePanel;
     public GameObject PrefCmdPanel;
@@ -17,9 +16,6 @@ public class MainPanel : Panel
 
     /********* Game Interface *********/
     private Button _backButton = null;
-
-    private CurrencyPanel _currencyPanel = null;
-    public CurrencyPanel CurrencyPanel { get { return _currencyPanel; } }
 
     private CalendarPanel _calendarPanel = null;
     public CalendarPanel CalendarPanel { get { return _calendarPanel; } }
@@ -43,6 +39,19 @@ public class MainPanel : Panel
         CmdPanel.Show();
     }
 
+    public override void Show()
+    {
+        CurrencyPanel c =Manager.Instance.UI.CurrencyPanel;
+        c.ActPowePanel.SetCharge(true);
+        c.ActPowePanel.Show();
+        c.GoldPanel.SetCharge(true);
+        c.GoldPanel.Show();
+        c.MoneyPanel.SetCharge(true);
+        c.MoneyPanel.Show();
+
+        base.Show();
+    }
+
     private void create()
     {
         GameObject o = null;
@@ -50,10 +59,6 @@ public class MainPanel : Panel
         o = Instantiate(PrefBackButton);
         _backButton = o.GetComponent<Button>();
         _backButton.transform.SetParent(transform, false);
-
-        o = Instantiate(PrefCurrencyPanel);
-        _currencyPanel = o.GetComponent<CurrencyPanel>();
-        _currencyPanel.transform.SetParent(transform, false);
 
         o = Instantiate(PrefCalendarPanel);
         _calendarPanel = o.GetComponent<CalendarPanel>();

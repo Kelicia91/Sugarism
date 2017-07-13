@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 
-public class ChargeablePanel : MonoBehaviour
+public class ChargeablePanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
@@ -10,6 +10,12 @@ public class ChargeablePanel : MonoBehaviour
     public Text Text;
     public Button ChargeButton;
 
+
+    public void SetCharge(bool isEnabled)
+    {
+        ChargeButton.enabled = isEnabled;
+        ChargeButton.interactable = isEnabled;
+    }
 
     public void AddClickListener(UnityEngine.Events.UnityAction clickHandler)
     {

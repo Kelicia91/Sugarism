@@ -11,17 +11,25 @@ public class CurrencyPanel : Panel
     public Sprite GoldIcon;
     public Sprite MoneyIcon;
 
+    //
+    private ChargeablePanel _actPower = null;
+    public ChargeablePanel ActPowePanel { get { return _actPower; } }
 
-    // Use this for initialization
-    void Start ()
+    private ChargeablePanel _gold = null;
+    public ChargeablePanel GoldPanel { get { return _gold; } }
+
+    private ChargeablePanel _money = null;
+    public ChargeablePanel MoneyPanel { get { return _money; } }
+
+    //
+    void Awake()
     {
-        createChargeablePanel(typeof(ActPowerPanel), ActPowerIcon);
-        createChargeablePanel(typeof(GoldPanel), GoldIcon);
-        createChargeablePanel(typeof(MoneyPanel), MoneyIcon);
+        _actPower = create(typeof(ActPowerPanel), ActPowerIcon);
+        _gold = create(typeof(GoldPanel), GoldIcon);
+        _money = create(typeof(MoneyPanel), MoneyIcon);
     }
 
-
-    private void createChargeablePanel(Type componentType, Sprite iconSprite)
+    private ChargeablePanel create(Type componentType, Sprite iconSprite)
     {
         GameObject o = Instantiate(PrefChargeablePanel);
         o.transform.SetParent(transform, false);
@@ -30,5 +38,7 @@ public class CurrencyPanel : Panel
 
         ChargeablePanel c = o.GetComponent<ChargeablePanel>();
         c.SetIcon(iconSprite);
+
+        return c;
     }
 }
