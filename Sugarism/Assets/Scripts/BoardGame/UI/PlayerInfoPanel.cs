@@ -9,6 +9,7 @@ public class PlayerInfoPanel : Panel
     /********* Editor Interface *********/
     // prefabs
     public Text NameText;
+    public GameObject Panel;
     public GameObject PrefStatPanel;
 
     //
@@ -63,7 +64,7 @@ public class PlayerInfoPanel : Panel
         for (int i = 0; i < numStat; ++i)
         {
             GameObject o = Instantiate(PrefStatPanel);
-            o.transform.SetParent(transform, false);
+            o.transform.SetParent(Panel.transform, false);
 
             _statPanelArray[i] = o.GetComponent<StatPanel>();
         }
