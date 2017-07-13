@@ -10,7 +10,7 @@ public class ActionTypeToggleGroup : Panel
     public GameObject PrefActionTypeToggle;
 
     //
-    private ToggleGroup _toggleGroup;
+    private ToggleGroup _toggleGroup = null;
 
     //
     void Awake()
@@ -34,12 +34,6 @@ public class ActionTypeToggleGroup : Panel
         {
             GameObject o = Instantiate(PrefActionTypeToggle);
             o.transform.SetParent(transform, false);
-
-            // @ anchor(left,top), pivot(1,1)
-            RectTransform rectTransform = o.GetComponent<RectTransform>();
-            float height = rectTransform.rect.height;
-            float posY = -1 * i * height;
-            rectTransform.anchoredPosition = new Vector2(0.0f, posY);
 
             ActionTypeToggle toggle = o.GetComponent<ActionTypeToggle>();
             EActionType val = (EActionType)actionTypeArray.GetValue(i);
