@@ -7,7 +7,6 @@ public class RunSchedulePanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
-    public CurrencyPanel CurrencyPanel;
     public CalendarPanel CalendarPanel;
     public ScheduleProgressPanel ProgressPanel;
 
@@ -69,6 +68,17 @@ public class RunSchedulePanel : Panel
 
         DialoguePanel.Hide();
         MessagePanel.Hide();
+    }
+
+    public override void Show()
+    {
+        CurrencyPanel c = Manager.Instance.UI.CurrencyPanel;
+        c.ActPowePanel.Hide();
+        c.GoldPanel.Hide();
+        c.MoneyPanel.SetCharge(false);
+        c.MoneyPanel.Show();
+
+        base.Show();
     }
 
     private void setBackgroundImage(Sprite s)
