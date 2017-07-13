@@ -11,10 +11,9 @@ public class ChargeablePanel : Panel
     public Button ChargeButton;
 
 
-    public void SetCharge(bool isEnabled)
+    public void SetCharge(bool isInteractable)
     {
-        ChargeButton.enabled = isEnabled;
-        ChargeButton.interactable = isEnabled;
+        ChargeButton.interactable = isInteractable;
     }
 
     public void AddClickListener(UnityEngine.Events.UnityAction clickHandler)
