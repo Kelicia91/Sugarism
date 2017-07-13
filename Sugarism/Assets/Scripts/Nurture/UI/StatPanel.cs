@@ -19,12 +19,17 @@ public class StatPanel : Panel
     void Awake()
     {
         if (null == Slider)
+        {
             Log.Error("not found slider");
-
-        Slider.wholeNumbers = true;
-        Slider.minValue = Def.MIN_STAT;
-        Slider.maxValue = Def.MAX_STAT;
-        Slider.value = Slider.minValue;
+        }
+        else
+        {
+            Slider.interactable = false;
+            Slider.wholeNumbers = true;
+            Slider.minValue = Def.MIN_STAT;
+            Slider.maxValue = Def.MAX_STAT;
+            Slider.value = Slider.minValue;
+        }
     }
 
     void Start()
