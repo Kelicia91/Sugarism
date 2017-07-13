@@ -8,7 +8,10 @@ public class ActionTypeToggle : MonoBehaviour
 {
     /********* Editor Interface *********/
     // colors
-    public Color SelectionColor;
+    public Color UnSelectionBgColor = Color.black;
+    public Color UnSelectionTextColor = Color.white;
+    public Color SelectionBgColor = Color.white;
+    public Color SelectionTextColor = Color.black;
     // prefabs
     public Text Text;
 
@@ -73,6 +76,17 @@ public class ActionTypeToggle : MonoBehaviour
         Text.text = s;
     }
 
+    private void setTextColor(Color c)
+    {
+        if (null == Text)
+        {
+            Log.Error("Not Found Text");
+            return;
+        }
+
+        Text.color = c;
+    }
+
     private string getActionTypeName()
     {
         if (EActionType.MAX != _actionType)
@@ -97,8 +111,8 @@ public class ActionTypeToggle : MonoBehaviour
 
     private void onChecked()
     {
-        Graphic g = _toggle.targetGraphic;
-        g.color = SelectionColor;
+        setBackgroundColor(SelectionBgColor);
+        setTextColor(SelectionTextColor);
 
         ActionListPanel p = Manager.Instance.UI.SchedulePanel.ActionListPanel;
         p.Show(_actionType);
@@ -106,7 +120,13 @@ public class ActionTypeToggle : MonoBehaviour
 
     private void onUnchecked()
     {
+        setBackgroundColor(UnSelectionBgColor);
+        setTextColor(UnSelectionTextColor);
+    }
+
+    private void setBackgroundColor(Color c)
+    {
         Graphic g = _toggle.targetGraphic;
-        g.color = _toggle.colors.normalColor;
+        g.color = c;
     }
 }
