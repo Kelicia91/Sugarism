@@ -7,7 +7,7 @@ public class RunSchedulePanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
-    public CalendarPanel CalendarPanel;
+    public GameObject PrefCalendarPanel;
     public ScheduleProgressPanel ProgressPanel;
 
     public Image AnimImage;
@@ -32,6 +32,17 @@ public class RunSchedulePanel : Panel
 
     void Awake()
     {
+        if (null != PrefCalendarPanel)
+        {
+            GameObject o = Instantiate(PrefCalendarPanel);
+            o.transform.SetParent(transform, false);
+            o.transform.SetAsFirstSibling();
+        }
+        else
+        {
+            Log.Error("not found prefab calendar panel");
+        }
+
         _statPanelList = new List<StatPanel>();
         for (int i = 0; i < DEFAULT_NUM_STAT_PANEL; ++i)
         {
