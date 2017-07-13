@@ -174,13 +174,14 @@ public class Def
     public const string BOARD_CRITERION_HIGH = "H";
 
     // Combat
-    public const string HP = "HP";
-    public const string MP = "MP";
+    public const string HP = "H  P";
+    public const string MP = "M  P";
     public const string WARRIOR_VALUES = "전사평가";
     public const string TRICKER_VALUES = "책사평가";
     public const string COMBAT_CMD_ATTACK = "공 격";
     public const string COMBAT_CMD_TRICK = "책 략";
     public const string COMBAT_COMMENT_PLAYER_TURN = "의 차례!";
+    public const string COMBAT_COMMENT_WINNER = " 승리!";
 
     // Lesson
     public const int EXAM_PERIOD = 1; // 테스트용 값 // 4; 

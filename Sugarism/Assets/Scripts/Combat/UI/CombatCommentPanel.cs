@@ -23,18 +23,21 @@ public class CombatCommentPanel : Panel
     void Awake()
     {
         setPlayerNameText(string.Empty);
-        setSuffixText(Def.COMBAT_COMMENT_PLAYER_TURN);
+        setSuffixText(string.Empty);
 
         Combat.CombatMode mode = Manager.Instance.Object.CombatMode;
         mode.StartUserBattleEvent.Attach(onStartUserBattle);
         mode.StartAIBattleEvent.Attach(onStartAIBattle);
         mode.EndAIBattleEvent.Attach(onEndAIBattle);
+        mode.EndEvent.Attach(onEnd);
     }
 
     public void OnStart(Combat.UserPlayer user, Combat.AIPlayer ai)
     {
         _userName = user.Name;
         _aiName = ai.Name;
+
+        setSuffixText(Def.COMBAT_COMMENT_PLAYER_TURN);
 
         hideTexts();
     }
@@ -68,6 +71,31 @@ public class CombatCommentPanel : Panel
     private void onEndAIBattle()
     {
         hideTexts();
+    }
+
+    private void onEnd(Combat.CombatMode.EUserGameState state)
+    {
+        hideTexts();
+
+        switch (state)
+        {
+            case Combat.CombatMode.EUserGameState.Win:
+                setPlayerNameText(_userName);
+                setPlayerNameColor(UserPlayerNameTextColor);
+                break;
+
+            case Combat.CombatMode.EUserGameState.Lose:
+                setPlayerNameText(_aiName);
+                setPlayerNameColor(AIPlayerNameTextColor);
+                break;
+
+            default:
+                return;
+        }
+
+        setSuffixText(Def.COMBAT_COMMENT_WINNER);
+
+        showTexts();
     }
 
     private void showTexts()
