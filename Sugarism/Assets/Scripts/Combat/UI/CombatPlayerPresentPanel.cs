@@ -10,8 +10,8 @@ public class CombatPlayerPresentPanel : Panel
     // styles - damage text
     public Color CriticalColor = Color.red;
     public Color NormalColor = Color.magenta;
-    public int CriticalSize = 26;
-    public int NormalSize = 20;
+    public int CriticalSize = 100;
+    public int NormalSize = 70;
     // prefabs
     public Image Image;
     public FloatingText FloatingText;
@@ -56,8 +56,14 @@ public class CombatPlayerPresentPanel : Panel
             return;
         }
 
-        RectTransform rect = o.GetComponent<RectTransform>();
-        rect.rotation = new Quaternion(0.0f, 180.0f, 0.0f, 0.0f);
+        Quaternion rotation = new Quaternion(0.0f, 180.0f, 0.0f, 0.0f);
+
+        RectTransform[] childrenRect = o.GetComponentsInChildren<RectTransform>();
+        int childrenRectCount = childrenRect.Length;
+        for (int i = 0; i < childrenRectCount; ++i)
+        {
+            childrenRect[i].localRotation = rotation;
+        }
     }
 
     private void set(Sprite s)

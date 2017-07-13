@@ -43,24 +43,26 @@ public class FloatingText : MonoBehaviour
 
         show();
         
-        StartCoroutine(floating());
+        StartCoroutine(floating(FLOATING_WAIT_SECONDS));
     }
 
     private const float FROM_TEXT_COLOR_ALPHA = 1.0f;
     //private const float TO_TEXT_COLOR_ALPHA = 0.0f;
     private const float FROM_TEXT_POS_Y = 0.0f;
-    private const float TO_TEXT_POS_Y = 40.0f;
+    private const float TO_TEXT_POS_Y = 100.0f;
 
-    private IEnumerator floating()
+    private const float FLOATING_WAIT_SECONDS = 0.1f;
+
+    private IEnumerator floating(float waitSeconds)
     {
         for (float alpha = FROM_TEXT_COLOR_ALPHA, y = FROM_TEXT_POS_Y; 
             y < TO_TEXT_POS_Y; 
-            alpha -= 0.1f, y += 4.0f)
+            alpha -= 0.1f, y += 10.0f)
         {
             _text.color = new Color(_text.color.r, _text.color.g, _text.color.b, alpha);
             _textRectTransform.anchoredPosition = new Vector2(0.0f, y);
 
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(waitSeconds);
         }
         
         Hide();
