@@ -11,7 +11,7 @@ public class SwitchPanel : Panel
     public GameObject CasePanel;
 
     //
-    private CaseButton[] _caseBtnArray;
+    private CaseButton[] _caseBtnArray = null;
 
 
     // Use this for initialization
@@ -19,7 +19,7 @@ public class SwitchPanel : Panel
     {
         create();
 
-        Manager.Instance.CmdSwitchEvent.Attach(onCmdSwitch);
+        Manager.Instance.Object.StoryMode.CmdSwitchEvent.Attach(onCmdSwitch);
 
         Hide();
     }
@@ -72,7 +72,7 @@ public class SwitchPanel : Panel
     }
 
 
-    private void onCmdSwitch(CmdCase[] caseArray)
+    private void onCmdSwitch(Story.CmdCase[] caseArray)
     {
         int numCaseArray = caseArray.Length;
         int numCaseBtnArray = _caseBtnArray.Length;
@@ -85,7 +85,7 @@ public class SwitchPanel : Panel
 
         for (int i = 0; i < numCaseArray; ++i)
         {
-            CmdCase c = caseArray[i];
+            Story.CmdCase c = caseArray[i];
             _caseBtnArray[i].Set(c.Key, c.Description);
             _caseBtnArray[i].gameObject.SetActive(true);
         }

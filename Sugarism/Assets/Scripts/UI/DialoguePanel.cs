@@ -24,8 +24,9 @@ public class DialoguePanel : Panel
     //
     void Awake()
     {
-        Manager.Instance.CmdLinesEvent.Attach(onCmdLines);
-        Manager.Instance.CmdTextEvent.Attach(onCmdText);
+        Story.Mode storyMode = Manager.Instance.Object.StoryMode;
+        storyMode.CmdLinesEvent.Attach(onCmdLines);
+        storyMode.CmdTextEvent.Attach(onCmdText);
 
         Hide();
     }

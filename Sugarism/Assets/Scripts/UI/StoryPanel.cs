@@ -32,14 +32,16 @@ public class StoryPanel : Panel
         _seAudioSource = gameObject.AddComponent<AudioSource>();
         _seAudioSource.loop = false;
 
-        Manager.Instance.CmdAppearEvent.Attach(onCmdAppear);
-        Manager.Instance.CmdFilterEvent.Attach(onCmdFilter);
-        Manager.Instance.CmdBackgroundEvent.Attach(onCmdBackground);
-        Manager.Instance.CmdPictureEvent.Attach(onCmdPicture);
-        Manager.Instance.CmdSEEvent.Attach(onCmdSE);
+        Story.Mode storyMode = Manager.Instance.Object.StoryMode;
 
-        Manager.Instance.ScenarioStartEvent.Attach(onScenarioStart);
-        Manager.Instance.ScenarioEndEvent.Attach(onScenarioEnd);
+        storyMode.CmdAppearEvent.Attach(onCmdAppear);
+        storyMode.CmdFilterEvent.Attach(onCmdFilter);
+        storyMode.CmdBackgroundEvent.Attach(onCmdBackground);
+        storyMode.CmdPictureEvent.Attach(onCmdPicture);
+        storyMode.CmdSEEvent.Attach(onCmdSE);
+
+        storyMode.ScenarioStartEvent.Attach(onScenarioStart);
+        storyMode.ScenarioEndEvent.Attach(onScenarioEnd);
     }
 
     private void initialize()
@@ -200,7 +202,7 @@ public class StoryPanel : Panel
     private const string ON_TIMER_NAME = "onTimer";
     private void onTimer()
     {
-        Manager.Instance.Object.NextCmd();
+        Manager.Instance.Object.StoryMode.NextCmd();
         ClearPanel.Show();
     }
     

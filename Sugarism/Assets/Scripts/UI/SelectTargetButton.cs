@@ -33,7 +33,7 @@ public class SelectTargetButton : MonoBehaviour
 
     void OnEnable()
     {
-        if (false == TargetCharacter.isValid(_targetId))
+        if (false == ExtTarget.isValid(_targetId))
             return;
         
         refresh();
@@ -41,7 +41,7 @@ public class SelectTargetButton : MonoBehaviour
     
     public void Set(int targetId)
     {
-        if (false == TargetCharacter.isValid(targetId))
+        if (false == ExtTarget.isValid(targetId))
             return;
 
         _targetId = targetId;
@@ -57,7 +57,7 @@ public class SelectTargetButton : MonoBehaviour
         Character c = Manager.Instance.DTCharacter[t.characterId];
         set(c.name);
 
-        TargetCharacter tc = Manager.Instance.Object.TargetCharacterArray[_targetId];
+        Story.TargetCharacter tc = Manager.Instance.Object.StoryMode.TargetCharacterArray[_targetId];
         set(tc.Feeling);
     }
 
@@ -99,15 +99,17 @@ public class SelectTargetButton : MonoBehaviour
     private void onClick()
     {
         //@todo : enable input blocking panel -> disable
+
+        Story.Mode storyMode = Manager.Instance.Object.StoryMode;
     
-        bool isLoaded = Manager.Instance.Object.LoadScenario(_targetId);
+        bool isLoaded = storyMode.LoadScenario(_targetId);
         if (isLoaded)
         {
-            Manager.Instance.ScenarioStartEvent.Invoke();
+            storyMode.ScenarioStartEvent.Invoke();
 
             Manager.Instance.UI.SelectTargetPanel.Hide();
 
-            Manager.Instance.Object.NextCmd();
+            storyMode.NextCmd();
         }
         else
         {

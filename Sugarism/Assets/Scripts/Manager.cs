@@ -13,20 +13,6 @@ public class Manager : MonoBehaviour
         _instance = this;
 
         // custom event
-        _cmdLinesEvent = new CmdLinesEvent();
-        _cmdTextEvent = new CmdTextEvent();
-        _cmdAppearEvent = new CmdAppearEvent();
-        _cmdBackgroundEvent = new CmdBackgroundEvent();
-        _cmdMiniPictureEvent = new CmdMiniPictureEvent();
-        _cmdPictureEvent = new CmdPictureEvent();
-        _cmdFilterEvent = new CmdFilterEvent();
-        _cmdSEEvent = new CmdSEEvent();
-        _cmdFeelingEvent = new CmdFeelingEvent();
-        _cmdSwitchEvent = new CmdSwitchEvent();
-
-        _scenarioStartEvent = new ScenarioStartEvent();
-        _scenarioEndEvent = new ScenarioEndEvent();
-
         _moneyChangeEvent = new MoneyChangeEvent();
 
         // manager
@@ -97,47 +83,8 @@ public class Manager : MonoBehaviour
     public TargetObject DTTarget { get { return AsstDTTarget; } }
     public VacationObject DTVacation { get { return AsstDTVacation; } }
     public ZodiacObject DTZodiac { get { return AsstDTZodiac; } }
-       
 
     // CustomEvent
-    private CmdLinesEvent _cmdLinesEvent = null;
-    public CmdLinesEvent CmdLinesEvent { get { return _cmdLinesEvent; } }
-
-    private CmdTextEvent _cmdTextEvent = null;
-    public CmdTextEvent CmdTextEvent { get { return _cmdTextEvent; } }
-
-    private CmdAppearEvent _cmdAppearEvent = null;
-    public CmdAppearEvent CmdAppearEvent { get { return _cmdAppearEvent; } }
-
-    private CmdBackgroundEvent _cmdBackgroundEvent = null;
-    public CmdBackgroundEvent CmdBackgroundEvent { get { return _cmdBackgroundEvent; } }
-
-    private CmdMiniPictureEvent _cmdMiniPictureEvent = null;
-    public CmdMiniPictureEvent CmdMiniPictureEvent { get { return _cmdMiniPictureEvent; } }
-
-    private CmdPictureEvent _cmdPictureEvent = null;
-    public CmdPictureEvent CmdPictureEvent { get { return _cmdPictureEvent; } }
-
-    private CmdFilterEvent _cmdFilterEvent = null;
-    public CmdFilterEvent CmdFilterEvent { get { return _cmdFilterEvent; } }
-
-    private CmdSEEvent _cmdSEEvent = null;
-    public CmdSEEvent CmdSEEvent { get { return _cmdSEEvent; } }
-
-    private CmdFeelingEvent _cmdFeelingEvent = null;
-    public CmdFeelingEvent CmdFeelingEvent { get { return _cmdFeelingEvent; } }
-
-    private CmdSwitchEvent _cmdSwitchEvent = null;
-    public CmdSwitchEvent CmdSwitchEvent { get { return _cmdSwitchEvent; } }
-
-    
-    private ScenarioStartEvent _scenarioStartEvent = null;
-    public ScenarioStartEvent ScenarioStartEvent { get { return _scenarioStartEvent; } }
-
-    private ScenarioEndEvent _scenarioEndEvent = null;
-    public ScenarioEndEvent ScenarioEndEvent { get { return _scenarioEndEvent; } }
-
-
     private MoneyChangeEvent _moneyChangeEvent = null;
     public MoneyChangeEvent MoneyChangeEvent { get { return _moneyChangeEvent; } }
 }

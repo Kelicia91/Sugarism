@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class RsrcLoader
@@ -22,11 +20,11 @@ public class RsrcLoader
 
     private RsrcLoader()
     {
-        // do something
+        Log.Debug("RsrcLoader is constructed");
     }
     
     //
-    public bool Load(string path, out Scenario scenario)
+    public bool Load(string path, out Sugarism.Scenario scenario)
     {
         Log.Debug(string.Format("try to load scenario: {0}", path));
         scenario = null;
@@ -53,45 +51,7 @@ public class RsrcLoader
             return false;
         }
 
-        Sugarism.Scenario mScenario = result as Sugarism.Scenario;
-        scenario = new Scenario(mScenario);
-
-        return true;
-    }
-
-    //@todo: remove it
-    public bool Load(string path, out List<Scenario> scenarioList)
-    {
-        scenarioList = null;
-
-        //
-        if (string.IsNullOrEmpty(path))
-            return false;
-
-        TextAsset[] textAssets = Resources.LoadAll<TextAsset>(path);
-        if (null == textAssets)
-            return false;
-
-        //
-        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
-        settings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
-
-        scenarioList = new List<Scenario>();
-        for (int i = 0; i < textAssets.Length; ++i)
-        {
-            object result = null;
-            bool isDeserialized = JsonUtils.Deserialize<Sugarism.Scenario>(textAssets[i].text, out result, settings);
-            if (false == isDeserialized)
-            {
-                string msg = string.Format("Failed to Load {0}th Scenario", i);
-                Log.Error(msg);
-                return false;
-            }
-
-            Sugarism.Scenario mScenario = result as Sugarism.Scenario;
-            Scenario scenario = new Scenario(mScenario);
-            scenarioList.Add(scenario);
-        }
+        scenario = result as Sugarism.Scenario;
 
         return true;
     }

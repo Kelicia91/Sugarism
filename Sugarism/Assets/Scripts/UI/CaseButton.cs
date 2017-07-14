@@ -12,7 +12,7 @@ public class CaseButton : MonoBehaviour
 
     //
     private int _key = -1;
-    private Button _button;
+    private Button _button = null;
 
 
 	// Use this for initialization
@@ -48,11 +48,14 @@ public class CaseButton : MonoBehaviour
 
     private void onClick()
     {
-        Manager.Instance.UI.StoryPanel.SwitchPanel.HideAllCase();
+        SwitchPanel switchPanel = Manager.Instance.UI.StoryPanel.SwitchPanel;
+        Story.Mode storyMode = Manager.Instance.Object.StoryMode;
 
-        Manager.Instance.Object.CaseKey = _key;
-        Manager.Instance.Object.NextCmd();
+        switchPanel.HideAllCase();
 
-        Manager.Instance.UI.StoryPanel.SwitchPanel.Hide();
+        storyMode.CaseKey = _key;
+        storyMode.NextCmd();
+
+        switchPanel.Hide();
     }
 }

@@ -20,6 +20,6 @@ public class ClearPanel : Panel, IPointerClickHandler
         if (null != Manager.Instance.UI.StoryPanel.MiniPicturePanel)
             Manager.Instance.UI.StoryPanel.MiniPicturePanel.Hide();
 
-        Manager.Instance.Object.NextCmd();
+        Manager.Instance.Object.StoryMode.NextCmd();
     }
 }

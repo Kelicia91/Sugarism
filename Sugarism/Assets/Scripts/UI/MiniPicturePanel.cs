@@ -12,7 +12,7 @@ public class MiniPicturePanel : Panel
     // Use this for initialization
     void Awake()
     {
-        Manager.Instance.CmdMiniPictureEvent.Attach(onCmdMiniPicture);
+        Manager.Instance.Object.StoryMode.CmdMiniPictureEvent.Attach(onCmdMiniPicture);
 
         Hide();
 	}
