@@ -9,8 +9,8 @@ public class SelectTargetButton : MonoBehaviour
     /********* Editor Interface *********/
     // prefabs
     public Text NameText;
-    public Text ValueText;
-    public Slider Slider;
+    //public Text ValueText;
+    //public Slider Slider;
     public Image Image;
     
     //
@@ -22,13 +22,13 @@ public class SelectTargetButton : MonoBehaviour
         Button btn = GetComponent<Button>();
         btn.onClick.AddListener(onClick);
 
-        if (null != Slider)
-        {
-            Slider.wholeNumbers = true;
-            Slider.minValue = Def.MIN_FEELING;
-            Slider.maxValue = Def.MAX_FEELING;
-            Slider.value = Slider.minValue;
-        }
+        //if (null != Slider)
+        //{
+        //    Slider.wholeNumbers = true;
+        //    Slider.minValue = Def.MIN_FEELING;
+        //    Slider.maxValue = Def.MAX_FEELING;
+        //    Slider.value = Slider.minValue;
+        //}
     }
 
     void OnEnable()
@@ -57,8 +57,8 @@ public class SelectTargetButton : MonoBehaviour
         Character c = Manager.Instance.DTCharacter[t.characterId];
         set(c.name);
 
-        Story.TargetCharacter tc = Manager.Instance.Object.StoryMode.TargetCharacterArray[_targetId];
-        set(tc.Feeling);
+        //Story.TargetCharacter tc = Manager.Instance.Object.StoryMode.TargetCharacterArray[_targetId];
+        //set(tc.Feeling);
     }
 
     private void set(string name)
@@ -72,18 +72,18 @@ public class SelectTargetButton : MonoBehaviour
         NameText.text = name;
     }
 
-    private void set(int value)
-    {
-        if (null == ValueText)
-            Log.Error("not found value text");
-        else
-            ValueText.text = value.ToString();
+    //private void set(int value)
+    //{
+    //    if (null == ValueText)
+    //        Log.Error("not found value text");
+    //    else
+    //        ValueText.text = value.ToString();
 
-        if (null == Slider)
-            Log.Error("not found slider");
-        else
-            Slider.value = (float)value;
-    }
+    //    if (null == Slider)
+    //        Log.Error("not found slider");
+    //    else
+    //        Slider.value = (float)value;
+    //}
 
     private void set(Sprite sprite)
     {
