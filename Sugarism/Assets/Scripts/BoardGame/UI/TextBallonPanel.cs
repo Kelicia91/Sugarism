@@ -1,10 +1,14 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 public class TextBallonPanel : Panel
 {
+    /********* Editor Interface *********/
+    // exposed variables
+    public float FixedShakeAmount = 20.0f;
+
+    //
     private RectTransform _rect = null;
 
     void Awake()
@@ -26,12 +30,11 @@ public class TextBallonPanel : Panel
     
     IEnumerator Shake()
     {
-        const float fixedPower = 5.0f;
         const float waitSeconds = 0.1f;
 
         for (float power = 1.5f; power > 0.0f; power -= 0.2f)
         {
-            _rect.anchoredPosition = Random.insideUnitCircle * fixedPower * power;
+            _rect.anchoredPosition = Random.insideUnitCircle * FixedShakeAmount * power;
 
             yield return new WaitForSeconds(waitSeconds);
         }
