@@ -8,8 +8,8 @@ public class StoryPanel : Panel
 {
     /********* Editor Interface *********/
     // exposed variables
-    public float DELTA_POS_X = 50.0f;
-    public float DELTA_SCALE = 0.3f;
+    public float DELTA_POS_X = 100.0f;
+    public float DELTA_SCALE = 0.1f;
     // prefabs
     public GameObject BackgroundImage;
     public GameObject CharacterImage;

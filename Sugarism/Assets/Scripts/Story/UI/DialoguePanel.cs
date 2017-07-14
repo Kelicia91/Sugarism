@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -13,8 +11,8 @@ public class DialoguePanel : Panel
     public Text LinesText;
     // exposed variables
     public float InitShakeAmount = 1.0f;
-    public float FixedShakeAmount = 5.0f;
-    public float DecreaseFactor = 2.0f;
+    public float FixedShakeAmount = 20.0f;
+    public float DecreaseFactor = 1.0f;
 
     //
     private float _shake = 0.0f;
