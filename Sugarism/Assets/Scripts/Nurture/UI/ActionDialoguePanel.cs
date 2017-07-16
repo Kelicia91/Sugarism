@@ -9,7 +9,7 @@ public class ActionDialoguePanel : Panel, IPointerClickHandler
 {
     /********* Editor Interface *********/
     // prefabs
-    public Image CharacterImage;
+    public CharacterPanel CharacterPanel;
     public Text NameText;
     public Text LinesText;
 
@@ -26,24 +26,19 @@ public class ActionDialoguePanel : Panel, IPointerClickHandler
     // for MainCharacter
     public void Show(string lines, UnityEngine.Events.UnityAction clickHandler)
     {
-        Sprite userImage = null;
         string userName = Manager.Instance.Object.MainCharacter.Name;
 
-        show(userImage, userName, lines, clickHandler);
+        show(userName, lines, clickHandler);
     }
 
     // for Rival
     public void Show(Rival rival, string lines, UnityEngine.Events.UnityAction clickHandler)
     {
-        Sprite rivalImage = null;
-        if (Manager.Instance.Object.MainCharacter.IsChildHood())
-            rivalImage = rival.childHood;
-        else
-            rivalImage = rival.adultHood;
+        CharacterPanel.Set(rival);
 
         Character c = Manager.Instance.DTCharacter[rival.characterId];
 
-        show(rivalImage, c.name, lines, clickHandler);
+        show(c.name, lines, clickHandler);
     }
 
     // for NPC
@@ -52,12 +47,12 @@ public class ActionDialoguePanel : Panel, IPointerClickHandler
         ActionNPC npc = Manager.Instance.DTActionNPC[npcId];
         Character c = Manager.Instance.DTCharacter[npc.characterId];
 
-        show(npc.image, c.name, lines, clickHandler);
+        CharacterPanel.Set(c);
+        show(c.name, lines, clickHandler);
     }
 
-    private void show(Sprite s, string name, string lines, UnityEngine.Events.UnityAction clickHandler)
+    private void show(string name, string lines, UnityEngine.Events.UnityAction clickHandler)
     {
-        CharacterImage.sprite = s;
         NameText.text = name;
         LinesText.text = lines;
 
