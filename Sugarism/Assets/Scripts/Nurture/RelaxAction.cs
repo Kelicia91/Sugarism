@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 namespace Nurture
 {
     public class RelaxAction : ActionController
@@ -10,7 +7,7 @@ namespace Nurture
 
         protected override void doing()
         {
-            _mode.Currency.Money += _action.money;
+            _mode.Character.Money += _action.money;
 
             base.doing();
         }

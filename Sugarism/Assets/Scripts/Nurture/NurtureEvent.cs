@@ -106,6 +106,41 @@ namespace Nurture
         }
     }
 
+    public class AgeChangeEvent
+    {
+        public delegate void Handler(int age);
+        private event Handler _event = null;
+
+        public AgeChangeEvent()
+        {
+            _event = new Handler(onAgeChanged);
+        }
+
+        // default handler
+        private void onAgeChanged(int age)
+        {
+            Log.Debug(string.Format("onAgeChanged; {0}", age));
+        }
+
+        public void Invoke(int age) { _event.Invoke(age); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
     public class ScheduleInsertEvent
     {
         public delegate void Handler(int scheduleIndex, int actionId);

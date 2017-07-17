@@ -105,7 +105,6 @@ public class Def
 
     // Calendar
     public const int INIT_YEAR = 199;
-    public const int PERIOD_YEAR = 4;
     public const int INIT_MONTH = 1;
     public const int INIT_DAY = 1;
     public const string YEAR_UNIT = "年";
@@ -149,6 +148,9 @@ public class Def
     // Main Character
     public const int MAIN_CHARACTER_ID = 0; // DTCharacter, DTBoardGamePlayer, DTCombatPlayer
     public const int INIT_AGE = 12;
+    public const int PERIOD_YEAR = 4;
+    public const int MAX_AGE = INIT_AGE + PERIOD_YEAR;
+    public const int INIT_COSTUME_ID = 0;
     public const string STRESS_FORMAT = "스트레스 {0}";
 
     // Stat

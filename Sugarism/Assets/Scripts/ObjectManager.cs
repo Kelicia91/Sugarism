@@ -5,7 +5,7 @@ public class ObjectManager : MonoBehaviour
 {
     void Awake()
     {
-        _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY);
+        _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY, Def.INIT_COSTUME_ID);
 
         // story
         _storyMode = new Story.Mode();

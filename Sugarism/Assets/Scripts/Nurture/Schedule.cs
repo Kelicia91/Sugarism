@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using UnityEngine;
 
 
 namespace Nurture
@@ -229,7 +228,7 @@ namespace Nurture
             Action action = Manager.Instance.DTAction[actionId];
 
             // @note : action.money can be < 0.
-            int sum = _mode.Currency.Money + action.money;
+            int sum = _mode.Character.Money + action.money;
             if (sum < 0)
                 return true;
             else

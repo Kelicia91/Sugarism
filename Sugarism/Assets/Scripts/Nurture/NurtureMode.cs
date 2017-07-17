@@ -1,20 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 namespace Nurture
 {
-    public interface ICurrency
-    {
-        int Money { get; set; }
-    }
-
     public class Mode
     {
         // field, property
-        private ICurrency _currency = null;
-        public ICurrency Currency { get { return _currency; } }
-
         private Calendar _calendar = null;
         public Calendar Calendar { get { return _calendar; } }
 
@@ -26,12 +15,20 @@ namespace Nurture
         
 
         // constructor
-        public Mode(ICurrency currency)
+        public Mode(Character character)
         {
-            _currency = currency;
             _calendar = new Calendar(Def.INIT_YEAR, Def.INIT_MONTH, Def.INIT_DAY);
-            _character = new Character();
+            _character = character;
             _schedule = new Schedule(this, Def.MAX_NUM_ACTION_IN_MONTH);
+
+            Calendar.YearChangeEvent.Attach(onYearChanged);
+        }
+
+        private void onYearChanged(int year)
+        {
+            int yearDiff = year - Calendar.INIT_YEAR;
+
+            Character.Age += yearDiff;
         }
 
     }   // class

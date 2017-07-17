@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 namespace Nurture
 {
-    public partial class Character
+    public abstract partial class Character
     {
         // fields, property
         private int[] _actionCount = null;
 
+        public abstract int Money { get; set; }
+        
         private EZodiac _zodiac = EZodiac.MAX;
         public EZodiac Zodiac
         {
@@ -16,7 +15,20 @@ namespace Nurture
             set { _zodiac = value; init(_zodiac); }
         }
 
+        public readonly int INIT_AGE = 0;
+
+        private int _age = 0;
+        public int Age
+        {
+            get { return _age; }
+            set { _age = value; AgeChangeEvent.Invoke(_age); }
+        }
+
+
         #region Events
+
+        private AgeChangeEvent _ageChangeEvent = null;
+        public AgeChangeEvent AgeChangeEvent { get { return _ageChangeEvent; } }
 
         private CharacterStatEvent _statEvent = null;
         public CharacterStatEvent StatEvent { get { return _statEvent; } }
@@ -25,7 +37,7 @@ namespace Nurture
 
 
         // constructor
-        public Character()
+        public Character(int age)
         {
             _actionCount = new int[Manager.Instance.DTAction.Count];
             int numActCount = _actionCount.Length;
@@ -34,11 +46,11 @@ namespace Nurture
                 _actionCount[i] = 0;
             }
 
-            _statEvent = new CharacterStatEvent();
+            INIT_AGE = age;
+            _age = INIT_AGE;
 
-            // TEST
-            Zodiac = EZodiac.DRAGON;
-            //
+            _ageChangeEvent = new AgeChangeEvent();
+            _statEvent = new CharacterStatEvent();
         }
 
 
@@ -73,22 +85,24 @@ namespace Nurture
                 return;
             }
 
-            Stamina = Manager.Instance.DTZodiac[zodiacId].stamina;
-            Intellect = Manager.Instance.DTZodiac[zodiacId].intellect;
-            Grace = Manager.Instance.DTZodiac[zodiacId].grace;
-            Charm = Manager.Instance.DTZodiac[zodiacId].charm;
+            Zodiac zodiacFromDT = Manager.Instance.DTZodiac[zodiacId];
 
-            Attack = Manager.Instance.DTZodiac[zodiacId].attack;
-            Defense = Manager.Instance.DTZodiac[zodiacId].defense;
+            Stamina = zodiacFromDT.stamina;
+            Intellect = zodiacFromDT.intellect;
+            Grace = zodiacFromDT.grace;
+            Charm = zodiacFromDT.charm;
 
-            Leadership = Manager.Instance.DTZodiac[zodiacId].leadership;
-            Tactic = Manager.Instance.DTZodiac[zodiacId].tactic;
+            Attack = zodiacFromDT.attack;
+            Defense = zodiacFromDT.defense;
 
-            Morality = Manager.Instance.DTZodiac[zodiacId].morality;
-            Goodness = Manager.Instance.DTZodiac[zodiacId].goodness;
+            Leadership = zodiacFromDT.leadership;
+            Tactic = zodiacFromDT.tactic;
 
-            Sensibility = Manager.Instance.DTZodiac[zodiacId].sensibility;
-            Arts = Manager.Instance.DTZodiac[zodiacId].arts;
+            Morality = zodiacFromDT.morality;
+            Goodness = zodiacFromDT.goodness;
+
+            Sensibility = zodiacFromDT.sensibility;
+            Arts = zodiacFromDT.arts;
         }
 
     }   // class

@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 
 namespace Nurture
 {
@@ -51,7 +50,7 @@ namespace Nurture
             if (isSuccessed)
             {
                 ++_successCount;
-                _mode.Currency.Money += _action.money;
+                _mode.Character.Money += _action.money;
             }
 
             ++_actionPeriod;
@@ -81,7 +80,7 @@ namespace Nurture
             }
             else
             {
-                _mode.Currency.Money += _parttime.perfectMoney;
+                _mode.Character.Money += _parttime.perfectMoney;
 
                 string moneyMsg = string.Format(Def.MONEY_FORMAT, _parttime.perfectMoney);
                 msg = string.Format("{0}, {1}", achieveMsg, moneyMsg);

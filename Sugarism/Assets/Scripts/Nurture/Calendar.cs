@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 namespace Nurture
 {
     public class Calendar
@@ -13,6 +9,8 @@ namespace Nurture
 
         // LastDay[0] is garbage value.
         public static readonly int[] LastDay = { -1, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+        public readonly int INIT_YEAR = -1;
 
         #region Events
 
@@ -31,7 +29,8 @@ namespace Nurture
         // constructor
         public Calendar(int year, int month, int day)
         {
-            _year = year;
+            INIT_YEAR = year;
+            _year = INIT_YEAR;
             _month = month;
             _day = day;
             
@@ -40,19 +39,18 @@ namespace Nurture
             _dayChangeEvent = new DayChangeEvent();
         }
 
-        private int _year;
+        private int _year = 0;
         public int Year
         {
             get { return _year; }
             private set
             {
                 _year = value;
-
                 YearChangeEvent.Invoke(_year);
             }
         }
 
-        private int _month;
+        private int _month = 0;
         public int Month
         {
             get { return _month; }
@@ -70,7 +68,7 @@ namespace Nurture
             }
         }
 
-        private int _day;
+        private int _day = 0;
         public int Day
         {
             get { return _day; }
