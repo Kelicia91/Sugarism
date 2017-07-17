@@ -9,11 +9,42 @@ public class CharacterPanel : Panel
     public Image BaseShapeImage;
     public Image FaceExpressionImage;
     public Image CostumeImage;
-
-    //
-    void Awake()
+    
+    
+    public void SetMainCharacter()
     {
-        
+        Hide();
+
+        MainCharacter mc = Manager.Instance.Object.MainCharacter;
+
+        int looksId = mc.Age - mc.INIT_AGE;
+        if (false == ExtMainCharacterLooks.IsValid(looksId))
+        {
+            Log.Error(string.Format("invalid main character's looks id: {0}", looksId));
+            return;
+        }
+
+        MainCharacterLooks looks = Manager.Instance.DTMainCharacterLooks[looksId];
+        Sprite baseShape = looks.baseShape;
+        setBaseShape(baseShape);
+
+        Sprite faceExpression = looks.faceExpressionDefault;
+        setFaceExpression(faceExpression);
+        setFaceExpression(looks.faceExpressionPosX, looks.faceExpressionPosY);
+        setFaceExpression(true);
+
+        int costumeId = mc.WearingCostumeId;
+        Sprite costumeSprite = ExtMainCharacterCostume.Get(costumeId, looksId);
+        if (null == costumeSprite)
+        {
+            Log.Error(string.Format("not found main character's costume id: {0}, looks id: {1}", costumeId, looksId));
+            return;
+        }
+
+        setCostume(costumeSprite);
+        setCostume(true);
+
+        Show();
     }
 
     public void Set(Rival rival)
