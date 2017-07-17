@@ -8,6 +8,7 @@ public class MainPanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
+    public GameObject PrefMainCharacterPanel;
     public GameObject PrefBackButton;
     public GameObject PrefCalendarPanel;
     public GameObject PrefProfilePanel;
@@ -15,6 +16,7 @@ public class MainPanel : Panel
 
 
     /********* Game Interface *********/
+    private CharacterPanel _characterPanel = null;
     private Button _backButton = null;
 
     private CalendarPanel _calendarPanel = null;
@@ -25,12 +27,17 @@ public class MainPanel : Panel
 
     private CmdPanel _cmdPanel = null;
     public CmdPanel CmdPanel { get { return _cmdPanel; } }
-
+    
 
     // Use this for initialization
     void Start ()
     {
         create();
+
+        Manager.Instance.Object.NurtureMode.Character.AgeChangeEvent.Attach(onAgeChanged);
+
+        _characterPanel.SetMainCharacter();
+        _characterPanel.Show();
 
         _backButton.onClick.AddListener(onClick);
 
@@ -56,6 +63,10 @@ public class MainPanel : Panel
     {
         GameObject o = null;
 
+        o = Instantiate(PrefMainCharacterPanel);
+        _characterPanel = o.GetComponent<CharacterPanel>();
+        _characterPanel.transform.SetParent(transform, false);
+
         o = Instantiate(PrefBackButton);
         _backButton = o.GetComponent<Button>();
         _backButton.transform.SetParent(transform, false);
@@ -76,5 +87,10 @@ public class MainPanel : Panel
     private void onClick()
     {
         Log.Debug("click. back button");
+    }
+
+    private void onAgeChanged(int age)
+    {
+        _characterPanel.SetMainCharacter();
     }
 }
