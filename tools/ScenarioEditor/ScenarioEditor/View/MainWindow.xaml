@@ -61,6 +61,7 @@
             </MenuItem>
             <MenuItem Header="Settings">
                 <MenuItem Header="Character" Command="{Binding Path=CmdSetCharacterPath}"/>
+                <MenuItem Header="Target" Command="{Binding Path=CmdSetTargetPath}"/>
                 <MenuItem Header="Background" Command="{Binding Path=CmdSetBackgroundPath}"/>
                 <MenuItem Header="MiniPicture" Command="{Binding Path=CmdSetMiniPicturePath}"/>
                 <MenuItem Header="Picture" Command="{Binding Path=CmdSetPicturePath}"/>
