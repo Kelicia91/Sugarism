@@ -214,7 +214,7 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 캐릭터 출연.
+        ///   Looks up a localized string similar to 캐릭터 등장.
         /// </summary>
         public static string EditAppear {
             get {
@@ -309,6 +309,15 @@ namespace ScenarioEditor.Properties {
         public static string EditSwitchCase {
             get {
                 return ResourceManager.GetString("EditSwitchCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 타겟 등장.
+        /// </summary>
+        public static string EditTargetAppear {
+            get {
+                return ResourceManager.GetString("EditTargetAppear", resourceCulture);
             }
         }
         
@@ -502,6 +511,15 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 타겟을 찾을 수 없습니다..
+        /// </summary>
+        public static string ErrNotFoundTarget {
+            get {
+                return ResourceManager.GetString("ErrNotFoundTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 에러.
         /// </summary>
         public static string Error {
@@ -556,7 +574,7 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (캐릭터 파일 경로를 설정해주세요).
+        ///   Looks up a localized string similar to (파일 경로를 설정해주세요).
         /// </summary>
         public static string GuideFindPath {
             get {
@@ -660,6 +678,15 @@ namespace ScenarioEditor.Properties {
         public static string LabelSEFilePath {
             get {
                 return ResourceManager.GetString("LabelSEFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 타겟 파일 경로.
+        /// </summary>
+        public static string LabelTargetFilePath {
+            get {
+                return ResourceManager.GetString("LabelTargetFilePath", resourceCulture);
             }
         }
         

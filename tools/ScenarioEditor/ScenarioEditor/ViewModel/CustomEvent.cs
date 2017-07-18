@@ -37,6 +37,42 @@ namespace ScenarioEditor.ViewModel
     }
 
 
+    public class TargetListChangeEvent
+    {
+        public delegate void Handler();
+        private event Handler _event;
+
+        public TargetListChangeEvent()
+        {
+            _event = new Handler(onTargetListChanged);
+        }
+
+        // default handler
+        private void onTargetListChanged()
+        {
+            // do nothing
+        }
+
+        public void Invoke() { _event.Invoke(); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
+
     public class BackgroundListChangeEvent
     {
         public delegate void Handler();

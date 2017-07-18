@@ -31,7 +31,16 @@ namespace ScenarioEditor.ViewModel
                 ImportCharacter(Properties.Settings.Default.CharacterFilePath);
             else
                 Properties.Settings.Default.CharacterFilePath = Properties.Resources.GuideFindPath;
-                
+
+            // Target
+            _targetList = null;
+            _targetListChangeEvent = new TargetListChangeEvent();
+
+            if (FileUtils.Exists(Properties.Settings.Default.TargetFilePath))
+                ImportTarget(Properties.Settings.Default.TargetFilePath);
+            else
+                Properties.Settings.Default.TargetFilePath = Properties.Resources.GuideFindPath;
+
             // Background
             _backgroundList = null;
             _backgroundListChangeEvent = new BackgroundListChangeEvent();
@@ -86,6 +95,12 @@ namespace ScenarioEditor.ViewModel
             get { return _characterListChangeEvent; }
         }
 
+        private TargetListChangeEvent _targetListChangeEvent;
+        public TargetListChangeEvent TargetListChangeEvent
+        {
+            get { return _targetListChangeEvent; }
+        }
+
         private BackgroundListChangeEvent _backgroundListChangeEvent;
         public BackgroundListChangeEvent BackgroundListChangeEvent
         {
@@ -131,6 +146,24 @@ namespace ScenarioEditor.ViewModel
 
                 if (null != _characterListChangeEvent)
                     _characterListChangeEvent.Invoke();  /** Raise Event **/
+            }
+        }
+
+        private Model.Target[] _targetList;
+        public Model.Target[] TargetList
+        {
+            get { return _targetList; }
+            private set
+            {
+                _targetList = value;
+
+                for (int i = 0; i < _targetList.Length; ++i)
+                    _targetList[i].Id = i;
+
+                OnPropertyChanged();
+
+                if (null != _targetListChangeEvent)
+                    _targetListChangeEvent.Invoke();
             }
         }
         
@@ -229,6 +262,23 @@ namespace ScenarioEditor.ViewModel
         }
 
 
+        public void ImportTarget(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+                return;
+
+            Model.Target[] tArray = null;
+
+            bool isParsed = XmlUtils.Parse(filePath, out tArray);
+            if (false == isParsed)
+                return;
+
+            //
+            Properties.Settings.Default.TargetFilePath = filePath;
+            TargetList = tArray;
+        }
+
+
         public void ImportBackground(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
@@ -312,6 +362,21 @@ namespace ScenarioEditor.ViewModel
 
             // id(index) range : 0 ~ (CharacterList.Count - 1)
             if (id >= CharacterList.Length)
+                return false;
+
+            return true;
+        }
+
+        public bool IsValidTarget(int id)
+        {
+            if (id < 0)
+                return false;
+
+            if (null == TargetList)
+                return false;
+
+            // id(index) range : 0 ~ (TargetList.Count - 1)
+            if (id >= TargetList.Length)
                 return false;
 
             return true;

@@ -77,6 +77,19 @@ namespace ScenarioEditor.ViewModel
             }
         }
 
+        private ICommand _cmdSetTargetPath;
+        public ICommand CmdSetTargetPath
+        {
+            get
+            {
+                if (null == _cmdSetTargetPath)
+                {
+                    _cmdSetTargetPath = new RelayCommand(param => setTargetPath());
+                }
+                return _cmdSetTargetPath;
+            }
+        }
+
         private ICommand _cmdSetBackgroundPath;
         public ICommand CmdSetBackgroundPath
         {
@@ -275,6 +288,16 @@ namespace ScenarioEditor.ViewModel
             string result = Popup.Settings.Instance.Show(label, path);
 
             Common.Instance.ImportCharacter(result);
+        }
+
+        private void setTargetPath()
+        {
+            string label = Properties.Resources.LabelTargetFilePath;
+            string path = Properties.Settings.Default.TargetFilePath;
+
+            string result = Popup.Settings.Instance.Show(label, path);
+
+            Common.Instance.ImportTarget(result);
         }
 
         private void setBackgroundPath()

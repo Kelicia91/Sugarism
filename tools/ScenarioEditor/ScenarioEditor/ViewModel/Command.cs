@@ -74,6 +74,9 @@ namespace ScenarioEditor.ViewModel
                 case Sugarism.Command.Type.Case:
                     return new CmdCase(model as Sugarism.CmdCase);
 
+                case Sugarism.Command.Type.TargetAppear:
+                    return new CmdTargetAppear(model as Sugarism.CmdTargetAppear);
+
                 default:    // Sugarism.Command.Type.MAX
                     return null;
             }
@@ -93,7 +96,7 @@ namespace ScenarioEditor.ViewModel
                     return Create(new Sugarism.CmdText(string.Empty));
 
                 case Sugarism.Command.Type.Appear:
-                    return Create(new Sugarism.CmdAppear(ScenarioEditor.Model.Character.START_ID, Sugarism.EFace.Normal, Sugarism.ECostume.Normal, Sugarism.EPosition.Middle));
+                    return Create(new Sugarism.CmdAppear(ScenarioEditor.Model.Character.START_ID));
 
                 case Sugarism.Command.Type.Background:
                     return Create(new Sugarism.CmdBackground(Sugarism.CmdBackground.START_ID));
@@ -115,6 +118,11 @@ namespace ScenarioEditor.ViewModel
 
                 case Sugarism.Command.Type.Switch:
                     return Create(new Sugarism.CmdSwitch(ScenarioEditor.Model.Character.START_ID));
+
+                // case Sugarism.Command.Type.Case: // prohibit from adding it.
+
+                case Sugarism.Command.Type.TargetAppear:
+                    return Create(new Sugarism.CmdTargetAppear(ScenarioEditor.Model.Target.START_ID));
 
                 default:
                     return null;
