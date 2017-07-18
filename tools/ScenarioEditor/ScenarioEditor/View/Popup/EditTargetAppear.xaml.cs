@@ -33,6 +33,31 @@ namespace ScenarioEditor.View.Popup
         }
     }
 
+    // for ComboBox : convert Model.Target -> formatted string.
+    public class TargetConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if ((null == value) || (false == (value is Model.Target)))
+                return string.Empty;
+
+            Model.Target t = value as Model.Target;
+
+            if (false == ViewModel.Common.Instance.IsValidCharacter(t.CharacterId))
+                return t.Id;
+
+            Model.Character c = ViewModel.Common.Instance.CharacterList[t.CharacterId];
+
+            string s = string.Format("{0}:{1}", t.Id, c.Name);
+            return s;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     // for ComboBox : convert Sugarism.EFace -> formatted string.
     class EFaceConverter : IValueConverter
     {
