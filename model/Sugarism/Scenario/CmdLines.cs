@@ -18,28 +18,28 @@ namespace Sugarism
 
 
         // property
-        private int _characterId;
+        private int _characterId = -1;
         public int CharacterId
         {
             get { return _characterId; }
             set { _characterId = value; OnPropertyChanged("CharacterId"); }
         }
 
-        private bool _isAnonymous;
+        private bool _isAnonymous = false;
         public bool IsAnonymous
         {
             get { return _isAnonymous; }
             set { _isAnonymous = value; OnPropertyChanged("IsAnonymous"); }
         }
 
-        private string _lines;
+        private string _lines = null;
         public string Lines
         {
             get { return _lines; }
             set { _lines = value; OnPropertyChanged("Lines"); }
         }
 
-        private ELinesEffect _linesEffect;
+        private ELinesEffect _linesEffect = ELinesEffect.None;
         public ELinesEffect LinesEffect
         {
             get { return _linesEffect; }

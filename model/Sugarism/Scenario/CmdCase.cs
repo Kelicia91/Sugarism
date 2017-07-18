@@ -10,21 +10,21 @@ namespace Sugarism
 
 
         // property
-        private int _key;
+        private int _key = -1;
         public int Key
         {
             get { return _key; }
             set { _key = value; OnPropertyChanged("Key"); }
         }
 
-        private string _description;
+        private string _description = null;
         public string Description
         {
             get { return _description; }
             set { _description = value; OnPropertyChanged("Description"); }
         }
 
-        private List<Command> _cmdList;
+        private List<Command> _cmdList = null;
         public List<Command> CmdList
         {
             get { return _cmdList; }

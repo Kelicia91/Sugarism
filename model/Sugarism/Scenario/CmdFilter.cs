@@ -10,7 +10,7 @@ namespace Sugarism
     public class CmdFilter : Command
     {
         // property
-        private EFilter _filter;
+        private EFilter _filter = EFilter.None;
         public EFilter Filter
         {
             get { return _filter; }

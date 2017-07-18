@@ -9,7 +9,7 @@ namespace Sugarism
 
 
         // property
-        private int _id;
+        private int _id = -1;
         public int Id
         {
             get { return _id; }

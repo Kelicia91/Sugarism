@@ -10,7 +10,7 @@ namespace Sugarism
 
 
         // property
-        private string _text;
+        private string _text = null;
         public string Text
         {
             get { return _text; }

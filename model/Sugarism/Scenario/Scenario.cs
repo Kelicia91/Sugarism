@@ -13,7 +13,7 @@ namespace Sugarism
 
 
         // property
-        private List<Scene> _sceneList;
+        private List<Scene> _sceneList = null;
         public List<Scene> SceneList
         {
             get { return _sceneList; }

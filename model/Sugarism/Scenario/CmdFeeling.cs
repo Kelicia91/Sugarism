@@ -11,21 +11,21 @@ namespace Sugarism
     public class CmdFeeling : Command
     {
         // property
-        private int _characterId;
+        private int _characterId = -1;
         public int CharacterId
         {
             get { return _characterId; }
             set { _characterId = value; OnPropertyChanged("CharacterId"); }
         }
 
-        private EOperation _op;
+        private EOperation _op = EOperation.Add;
         public EOperation Op
         {
             get { return _op; }
             set { _op = value; OnPropertyChanged("Op"); }
         }
 
-        private int _value;
+        private int _value = 0;
         public int Value
         {
             get { return _value; }

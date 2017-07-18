@@ -12,7 +12,6 @@ namespace Sugarism
         // enum : all child class inherited Command
         public enum Type
         {
-            // Command
             Lines = 0,
             Text,
 
@@ -26,16 +25,17 @@ namespace Sugarism
 
             Feeling,
             
-            // Composite
             Switch,
             Case,
+
+            TargetAppear,
 
             MAX
         }
 
 
         // property
-        private Command.Type _cmdType;
+        private Command.Type _cmdType = Command.Type.MAX;
         public Command.Type CmdType
         {
             get { return _cmdType; }

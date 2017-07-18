@@ -13,14 +13,14 @@ namespace Sugarism
 
 
         // property
-        private string _description;
+        private string _description = null;
         public string Description
         {
             get { return _description; }
             set { _description = value; OnPropertyChanged("Description"); }
         }
 
-        private List<Command> _cmdList;
+        private List<Command> _cmdList = null;
         public List<Command> CmdList
         {
             get { return _cmdList; }

@@ -10,14 +10,14 @@ namespace Sugarism
 
 
         // property
-        private int _characterId;
+        private int _characterId = -1;
         public int CharacterId
         {
             get { return _characterId; }
             set { _characterId = value; OnPropertyChanged("CharacterId"); }
         }
 
-        private List<CmdCase> _caseList;
+        private List<CmdCase> _caseList = null;
         public List<CmdCase> CaseList
         {
             get { return _caseList; }
