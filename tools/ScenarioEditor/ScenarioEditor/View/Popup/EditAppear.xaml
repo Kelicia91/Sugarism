@@ -14,8 +14,6 @@
 
     <Window.Resources>
         <local:CharacterConverter x:Key="CharacterConverter"/>
-        <local:EFaceConverter x:Key="EFaceConverter"/>
-        <local:ECostumeConverter x:Key="ECostumeConverter"/>
         <local:EPositionConverter x:Key="EPositionConverter"/>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -25,7 +23,7 @@
     <StackPanel Margin="10">
 
         <StackPanel Orientation="Horizontal" Margin="0,5">
-            
+
             <ComboBox ItemsSource="{Binding Path=CharacterList}" SelectedItem="{Binding Path=SelectedItem}" HorizontalAlignment="Left"
                       Margin="0,0,10,0">
                 <ComboBox.ItemTemplate>
@@ -34,27 +32,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            
-            <TextBlock Text="{x:Static p:Resources.FaceExpression}"/>
-            <ComboBox ItemsSource="{Binding Path=FaceList}" SelectedItem="{Binding Path=Face}" HorizontalAlignment="Left"
-                          Margin="5,0,10,0">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Converter={StaticResource EFaceConverter}}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            
-            <TextBlock Text="{x:Static p:Resources.Costume}"/>
-            <ComboBox ItemsSource="{Binding Path=CostumeList}" SelectedItem="{Binding Path=Costume}" HorizontalAlignment="Left"
-                          Margin="5,0,10,0">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Converter={StaticResource ECostumeConverter}}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            
+
             <TextBlock Text="{x:Static p:Resources.CharacterPosition}"/>
             <ComboBox ItemsSource="{Binding Path=PosList}" SelectedItem="{Binding Path=Position}" HorizontalAlignment="Left"
                           Margin="5,0,0,0">

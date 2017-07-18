@@ -18,7 +18,7 @@ namespace ScenarioEditor.ViewModel
 
         #region Field
 
-        private Sugarism.CmdAppear _model;
+        private Sugarism.CmdAppear _model = null;
 
         #endregion //Field
 
@@ -49,30 +49,6 @@ namespace ScenarioEditor.ViewModel
             }
         }
 
-        public Sugarism.EFace Face
-        {
-            get { return _model.Face; }
-            set
-            {
-                _model.Face = value;
-                OnPropertyChanged();
-
-                OnPropertyChanged("ToText");
-            }
-        }
-
-        public Sugarism.ECostume Costume
-        {
-            get { return _model.Costume; }
-            set
-            {
-                _model.Costume = value;
-                OnPropertyChanged();
-
-                OnPropertyChanged("ToText");
-            }
-        }
-
         public Sugarism.EPosition Position
         {
             get { return _model.Position; }
@@ -98,7 +74,7 @@ namespace ScenarioEditor.ViewModel
 
         public override void Edit()
         {
-            bool isEdited = Popup.EditAppear.Instance.Show(CharacterId, Face, Costume, Position);
+            bool isEdited = Popup.EditAppear.Instance.Show(CharacterId, Position);
             if (false == isEdited)
                 return;
 
@@ -107,16 +83,13 @@ namespace ScenarioEditor.ViewModel
             else
                 Log.Error(Properties.Resources.ErrNotFoundCharacter);
             
-            Face = Popup.EditAppear.Instance.Face;
-            Costume = Popup.EditAppear.Instance.Costume;
             Position = Popup.EditAppear.Instance.Position;
         }
 
         public override string ToString()
         {
-            string content = string.Format("{0}:{1} - {2} / {3} / {4}",
-                            CharacterId, RefCharacterName,
-                            Face, Costume, Position);
+            string content = string.Format("{0}:{1} - {2}",
+                            CharacterId, RefCharacterName, Position);
 
             return ToString(content);
         }

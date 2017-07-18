@@ -22,24 +22,8 @@ namespace ScenarioEditor.ViewModel.Popup
 
         private EditAppear()
         {
-            _faceList = new List<Sugarism.EFace>();
-            Array arr = Enum.GetValues(typeof(Sugarism.EFace));
-            foreach (var v in arr)
-            {
-                Sugarism.EFace item = (Sugarism.EFace)v;
-                _faceList.Add(item);
-            }
-
-            _costumeList = new List<Sugarism.ECostume>();
-            arr = Enum.GetValues(typeof(Sugarism.ECostume));
-            foreach (var v in arr)
-            {
-                Sugarism.ECostume item = (Sugarism.ECostume)v;
-                _costumeList.Add(item);
-            }
-
             _posList = new List<Sugarism.EPosition>();
-            arr = Enum.GetValues(typeof(Sugarism.EPosition));
+            Array arr = Enum.GetValues(typeof(Sugarism.EPosition));
             foreach (var v in arr)
             {
                 Sugarism.EPosition item = (Sugarism.EPosition)v;
@@ -62,32 +46,6 @@ namespace ScenarioEditor.ViewModel.Popup
         {
             get { return _selectedItem; }
             set { _selectedItem = value; OnPropertyChanged(); }
-        }
-
-        private List<Sugarism.EFace> _faceList;
-        public List<Sugarism.EFace> FaceList
-        {
-            get { return _faceList; }
-        }
-
-        private Sugarism.EFace _face;
-        public Sugarism.EFace Face
-        {
-            get { return _face; }
-            set { _face = value; OnPropertyChanged(); }
-        }
-
-        private List<Sugarism.ECostume> _costumeList;
-        public List<Sugarism.ECostume> CostumeList
-        {
-            get { return _costumeList; }
-        }
-
-        private Sugarism.ECostume _costume;
-        public Sugarism.ECostume Costume
-        {
-            get { return _costume; }
-            set { _costume = value; OnPropertyChanged(); }
         }
 
         private List<Sugarism.EPosition> _posList;
@@ -113,13 +71,11 @@ namespace ScenarioEditor.ViewModel.Popup
         /// Show View.Popup.EditAppear.
         /// </summary>
         /// <param name="characterId">Character Id before editing.</param>
-        /// <param name="face">Face before editing.</param>
-        /// <param name="costume">Costume before editing.</param>
         /// <param name="pos">Position before editing.</param>
         /// <returns>Whether edit or not.</returns>
-        public bool Show(int characterId, Sugarism.EFace face, Sugarism.ECostume costume, Sugarism.EPosition pos)
+        public bool Show(int characterId, Sugarism.EPosition pos)
         {
-            reset(characterId, face, costume, pos);
+            reset(characterId, pos);
 
             View.Popup.EditAppear view = new View.Popup.EditAppear(this);
 
@@ -140,7 +96,7 @@ namespace ScenarioEditor.ViewModel.Popup
 
         #region Private Method
 
-        private void reset(int characterId, Sugarism.EFace face, Sugarism.ECostume costume, Sugarism.EPosition pos)
+        private void reset(int characterId, Sugarism.EPosition pos)
         {
             if (Common.Instance.IsValidCharacter(characterId))
             {
@@ -156,8 +112,6 @@ namespace ScenarioEditor.ViewModel.Popup
                     SelectedItem = null;
             }
             
-            Face = face;
-            Costume = costume;
             Position = pos;
         }
 
