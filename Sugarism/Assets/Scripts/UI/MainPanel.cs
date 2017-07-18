@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -16,7 +14,7 @@ public class MainPanel : Panel
 
 
     /********* Game Interface *********/
-    private CharacterPanel _characterPanel = null;
+    private MainCharacterPanel _mainCharacterPanel = null;
     private Button _backButton = null;
 
     private CalendarPanel _calendarPanel = null;
@@ -36,8 +34,8 @@ public class MainPanel : Panel
 
         Manager.Instance.Object.NurtureMode.Character.AgeChangeEvent.Attach(onAgeChanged);
 
-        _characterPanel.SetMainCharacter();
-        _characterPanel.Show();
+        _mainCharacterPanel.SetMainCharacter();
+        _mainCharacterPanel.Show();
 
         _backButton.onClick.AddListener(onClick);
 
@@ -64,8 +62,8 @@ public class MainPanel : Panel
         GameObject o = null;
 
         o = Instantiate(PrefMainCharacterPanel);
-        _characterPanel = o.GetComponent<CharacterPanel>();
-        _characterPanel.transform.SetParent(transform, false);
+        _mainCharacterPanel = o.GetComponent<MainCharacterPanel>();
+        _mainCharacterPanel.transform.SetParent(transform, false);
 
         o = Instantiate(PrefBackButton);
         _backButton = o.GetComponent<Button>();
@@ -91,6 +89,6 @@ public class MainPanel : Panel
 
     private void onAgeChanged(int age)
     {
-        _characterPanel.SetMainCharacter();
+        _mainCharacterPanel.SetMainCharacter();
     }
 }
