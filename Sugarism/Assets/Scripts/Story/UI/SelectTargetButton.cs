@@ -52,9 +52,9 @@ public class SelectTargetButton : MonoBehaviour
     private void refresh()
     {
         Target t = Manager.Instance.DTTarget[_targetId];
-        set(t.image);
 
         Character c = Manager.Instance.DTCharacter[t.characterId];
+        set(c.image);
         set(c.name);
 
         //Story.TargetCharacter tc = Manager.Instance.Object.StoryMode.TargetCharacterArray[_targetId];
