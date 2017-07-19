@@ -1,26 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
 public class StoryPanel : Panel
 {
     /********* Editor Interface *********/
-    // exposed variables
-    public float DELTA_POS_X = 100.0f;
-    public float DELTA_SCALE = 0.1f;
     // prefabs
     public GameObject BackgroundImage;
-    public GameObject CharacterImage;
+    public StoryCharacterPanel StoryCharacterPanel;
     public GameObject ForegroundImage;  // grayscale image
     public DialoguePanel DialogPanel;
     public MiniPicturePanel MiniPicturePanel;
-    public ClearPanel ClearPanel;
+    public ClearPanel InputPanel;
     public SwitchPanel SwitchPanel;
 
     // Layer z-order (back->front)
-    // : bg -> character -> fg -> dialogue -> mini cg -> clear(touch) -> switch
+    // : bg -> character -> fg -> dialogue -> mini cg -> clear(input) -> switch
 
     //
     private AudioSource _seAudioSource = null;
@@ -39,6 +34,8 @@ public class StoryPanel : Panel
         storyMode.CmdBackgroundEvent.Attach(onCmdBackground);
         storyMode.CmdPictureEvent.Attach(onCmdPicture);
         storyMode.CmdSEEvent.Attach(onCmdSE);
+        storyMode.CmdTargetAppearEvent.Attach(onCmdTargetAppear);
+        storyMode.CmdDisappearEvent.Attach(onCmdDisappear);
 
         storyMode.ScenarioStartEvent.Attach(onScenarioStart);
         storyMode.ScenarioEndEvent.Attach(onScenarioEnd);
@@ -47,14 +44,14 @@ public class StoryPanel : Panel
     private void initialize()
     {
         set(BackgroundImage, null);
-
         set(Sugarism.EFilter.None);
-        set(Sugarism.EPosition.None);
+
+        StoryCharacterPanel.Hide();
 
         DialogPanel.Hide();
         MiniPicturePanel.Hide();
 
-        ClearPanel.Show();
+        InputPanel.Show();
         SwitchPanel.Hide();
     }
 
@@ -97,58 +94,6 @@ public class StoryPanel : Panel
         }
     }
 
-    private void set(Sugarism.EPosition pos)
-    {
-        if (null == CharacterImage)
-        {
-            Log.Error("not found character image object");
-            return;
-        }
-
-        float posX = 0.0f;
-        float scale = 1.0f;
-        switch(pos)
-        {
-            case Sugarism.EPosition.Middle:
-                posX = 0.0f;
-                scale = 1.0f;
-                break;
-
-            case Sugarism.EPosition.Left:
-                posX -= DELTA_POS_X;
-                scale = 1.0f;
-                break;
-
-            case Sugarism.EPosition.Right:
-                posX += DELTA_POS_X;
-                scale = 1.0f;
-                break;
-
-            case Sugarism.EPosition.Front:
-                posX = 0.0f;
-                scale += DELTA_SCALE;
-                break;
-
-            case Sugarism.EPosition.Back:
-                posX = 0.0f;
-                scale -= DELTA_SCALE;
-                break;
-
-            case Sugarism.EPosition.None:
-                CharacterImage.SetActive(false);
-                return;
-
-            default:
-                return;
-        }
-
-        RectTransform rect = CharacterImage.GetComponent<RectTransform>();
-        rect.anchoredPosition = new Vector2(posX, rect.anchoredPosition.y);
-        rect.localScale = new Vector2(scale, scale);
-
-        CharacterImage.SetActive(true);
-    }
-
     private void playSE(AudioClip clip)
     {
         if (null == _seAudioSource)
@@ -164,21 +109,33 @@ public class StoryPanel : Panel
 
 
     // callback handler
-    private void onCmdAppear(int characterId, Sugarism.EFace face, 
+    private void onCmdAppear(int characterId, Sugarism.EPosition position)
+    {
+        //InputPanel.Hide();
+
+        StoryCharacterPanel.Set(characterId, position);
+
+        //Invoke(ON_TIMER_NAME, 0.1f);
+    }
+
+    private void onCmdTargetAppear(int targetId, bool isBlush, Sugarism.EFace face,
                             Sugarism.ECostume costume, Sugarism.EPosition position)
     {
-        ClearPanel.Hide();
+        //InputPanel.Hide();
 
-        // @todo: face
-        // @todo: costume
-        set(position);
+        StoryCharacterPanel.Set(targetId, isBlush, face, costume, position);
 
-        Invoke(ON_TIMER_NAME, 0.1f);
+        //Invoke(ON_TIMER_NAME, 0.1f);
+    }
+
+    private void onCmdDisappear()
+    {
+        StoryCharacterPanel.Hide();
     }
 
     private void onCmdFilter(Sugarism.EFilter filter)
     {
-        ClearPanel.Hide();
+        InputPanel.Hide();
 
         set(filter);
 
@@ -190,7 +147,7 @@ public class StoryPanel : Panel
         if (false == ExtBackground.IsValid(id))
             return;
 
-        ClearPanel.Hide();
+        InputPanel.Hide();
 
         Background bg = Manager.Instance.DTBackground[id];
         set(BackgroundImage, bg.sprite);
@@ -203,7 +160,7 @@ public class StoryPanel : Panel
     private void onTimer()
     {
         Manager.Instance.Object.StoryMode.NextCmd();
-        ClearPanel.Show();
+        InputPanel.Show();
     }
     
     private void onCmdPicture(int id)
@@ -213,8 +170,8 @@ public class StoryPanel : Panel
 
         Picture cg = Manager.Instance.DTPicture[id];
         set(BackgroundImage, cg.sprite);
-
-        set(Sugarism.EPosition.None);
+        
+        StoryCharacterPanel.Hide();
         set(Sugarism.EFilter.None);
         DialogPanel.Hide();
     }
