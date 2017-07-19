@@ -8,11 +8,13 @@ namespace ScenarioEditor.ViewModel
             _model = model;
 
             Common.Instance.CharacterListChangeEvent.Attach(onCharacterListChanged);
+            Common.Instance.TargetListChangeEvent.Attach(onTargetListChanged);
         }
 
         ~CmdFeeling()
         {
             Common.Instance.CharacterListChangeEvent.Detach(onCharacterListChanged);
+            Common.Instance.TargetListChangeEvent.Detach(onTargetListChanged);
         }
 
 
@@ -25,12 +27,12 @@ namespace ScenarioEditor.ViewModel
 
         #region Property
 
-        public int CharacterId
+        public int TargetId
         {
-            get { return _model.CharacterId; }
+            get { return _model.TargetId; }
             set
             {
-                _model.CharacterId = value;
+                _model.TargetId = value;
                 OnPropertyChanged();
 
                 OnPropertyChanged("RefCharacterName");
@@ -42,8 +44,13 @@ namespace ScenarioEditor.ViewModel
         {
             get
             {
-                if (Common.Instance.IsValidCharacter(CharacterId))
-                    return Common.Instance.CharacterList[CharacterId].Name;
+                if (false == Common.Instance.IsValidTarget(TargetId))
+                    return ScenarioEditor.Model.Character.STR_UNKNOWN;
+
+                int characterId = Common.Instance.TargetList[TargetId].CharacterId;
+
+                if (Common.Instance.IsValidCharacter(characterId))
+                    return Common.Instance.CharacterList[characterId].Name;
                 else
                     return ScenarioEditor.Model.Character.STR_UNKNOWN;
             }
@@ -85,23 +92,25 @@ namespace ScenarioEditor.ViewModel
 
         public override void Edit()
         {
-            bool isEdited = Popup.EditFeeling.Instance.Show(CharacterId, Op, Value);
+            Popup.EditFeeling popup = Popup.EditFeeling.Instance;
+
+            bool isEdited = popup.Show(TargetId, Op, Value);
             if (false == isEdited)
                 return;
 
-            if (null != Popup.EditFeeling.Instance.Character)
-                CharacterId = Popup.EditFeeling.Instance.Character.Id;
+            if (null != popup.SelectedItem)
+                TargetId = popup.SelectedItem.Id;
             else
                 Log.Error(Properties.Resources.ErrNotFoundCharacter);
 
-            Op = Popup.EditFeeling.Instance.Op;
-            Value = Popup.EditFeeling.Instance.Value;
+            Op = popup.Op;
+            Value = popup.Value;
         }
 
         public override string ToString()
         {
             string content = string.Format("{0}:{1} {2} {3}",
-                CharacterId, RefCharacterName, Op, Value);
+                TargetId, RefCharacterName, Op, Value);
             return ToString(content);
         }
 
@@ -112,6 +121,11 @@ namespace ScenarioEditor.ViewModel
 
         // callback handler
         private void onCharacterListChanged()
+        {
+            OnPropertyChanged("ToText");
+        }
+
+        private void onTargetListChanged()
         {
             OnPropertyChanged("ToText");
         }

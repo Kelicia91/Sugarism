@@ -74,6 +74,7 @@
     <Compile Include="ViewModel\CmdAppear.cs" />
     <Compile Include="ViewModel\CmdBackground.cs" />
     <Compile Include="ViewModel\CmdCase.cs" />
+    <Compile Include="ViewModel\CmdDisappear.cs" />
     <Compile Include="ViewModel\CmdFeeling.cs" />
     <Compile Include="ViewModel\CmdFilter.cs" />
     <Compile Include="ViewModel\CmdMiniPicture.cs" />

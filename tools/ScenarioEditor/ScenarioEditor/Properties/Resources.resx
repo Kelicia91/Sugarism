@@ -357,4 +357,7 @@
   <data name="LabelTargetFilePath" xml:space="preserve">
     <value>타겟 파일 경로</value>
   </data>
+  <data name="Blush" xml:space="preserve">
+    <value>홍조</value>
+  </data>
 </root>

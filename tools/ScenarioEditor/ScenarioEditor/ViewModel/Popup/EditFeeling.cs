@@ -36,16 +36,16 @@ namespace ScenarioEditor.ViewModel.Popup
 
         #region Property
 
-        public Model.Character[] CharacterList
+        public Model.Target[] TargetList
         {
-            get { return Common.Instance.CharacterList; }
+            get { return Common.Instance.TargetList; }
         }
 
-        private Model.Character _character;
-        public Model.Character Character
+        private Model.Target _selectedItem;
+        public Model.Target SelectedItem
         {
-            get { return _character; }
-            set { _character = value; OnPropertyChanged(); }
+            get { return _selectedItem; }
+            set { _selectedItem = value; OnPropertyChanged(); }
         }
 
         private List<Sugarism.EOperation> _opList;
@@ -76,13 +76,13 @@ namespace ScenarioEditor.ViewModel.Popup
         /// <summary>
         /// Show View.Popup.EditFeeling.
         /// </summary>
-        /// <param name="characterId">Character Id before editing.</param>
+        /// <param name="targetId">Target Id before editing.</param>
         /// <param name="op">Operation before editing.</param>
         /// <param name="value">Value before editing.</param>
         /// <returns>Whether edit or not.</returns>
-        public bool Show(int characterId, Sugarism.EOperation op, int value)
+        public bool Show(int targetId, Sugarism.EOperation op, int value)
         {
-            reset(characterId, op, value);
+            reset(targetId, op, value);
 
             View.Popup.EditFeeling view = new View.Popup.EditFeeling(this);
 
@@ -103,20 +103,20 @@ namespace ScenarioEditor.ViewModel.Popup
 
         #region Private Method
 
-        private void reset(int characterId, Sugarism.EOperation op, int value)
+        private void reset(int targetId, Sugarism.EOperation op, int value)
         {
-            if (Common.Instance.IsValidCharacter(characterId))
+            if (Common.Instance.IsValidTarget(targetId))
             {
-                Character = CharacterList[characterId];
+                SelectedItem = TargetList[targetId];
             }
             else
             {
-                if (null == CharacterList)
-                    Character = null;
-                else if (CharacterList.Length > 0)
-                    Character = CharacterList[0];
+                if (null == TargetList)
+                    SelectedItem = null;
+                else if (TargetList.Length > 0)
+                    SelectedItem = TargetList[0];
                 else
-                    Character = null;
+                    SelectedItem = null;
             }
 
             Op = op;

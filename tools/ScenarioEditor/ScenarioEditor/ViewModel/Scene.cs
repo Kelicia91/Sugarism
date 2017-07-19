@@ -365,6 +365,16 @@ namespace ScenarioEditor.ViewModel
             Sugarism.CmdLines linesModel = new Sugarism.CmdLines(ScenarioEditor.Model.Character.START_ID);
             CmdLines cmdlines = new CmdLines(linesModel);
             Insert(2, cmdlines);
+
+            // test : appear, target appear, disappear
+            CmdAppear cmdAppear = (CmdAppear) Command.Create(Sugarism.Command.Type.Appear);
+            Insert(3, cmdAppear);
+
+            CmdTargetAppear cmdTargetAppear = (CmdTargetAppear) Command.Create(Sugarism.Command.Type.TargetAppear);
+            Insert(4, cmdTargetAppear);
+
+            CmdDisappear cmdDisappear = (CmdDisappear) Command.Create(Sugarism.Command.Type.Disappear);
+            Insert(5, cmdDisappear);
         }
 
         private void insert(int index, Sugarism.Command cmd)

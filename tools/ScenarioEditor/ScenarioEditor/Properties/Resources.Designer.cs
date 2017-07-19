@@ -115,6 +115,15 @@ namespace ScenarioEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 홍조.
+        /// </summary>
+        public static string Blush {
+            get {
+                return ResourceManager.GetString("Blush", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 취소.
         /// </summary>
         public static string Cancel {

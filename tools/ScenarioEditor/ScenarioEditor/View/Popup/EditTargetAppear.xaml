@@ -45,6 +45,10 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
 
+            <TextBlock Text="{x:Static p:Resources.Blush}"/>
+            <CheckBox IsChecked="{Binding Path=IsBlush}"
+                      VerticalAlignment="Center" Margin="5,0,10,0"/>
+
             <TextBlock Text="{x:Static p:Resources.Costume}"/>
             <ComboBox ItemsSource="{Binding Path=CostumeList}" SelectedItem="{Binding Path=Costume}" HorizontalAlignment="Left"
                           Margin="5,0,10,0">

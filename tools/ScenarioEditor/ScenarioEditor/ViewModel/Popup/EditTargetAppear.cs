@@ -64,6 +64,13 @@ namespace ScenarioEditor.ViewModel.Popup
             set { _selectedItem = value; OnPropertyChanged(); }
         }
 
+        private bool _isBlush;
+        public bool IsBlush
+        {
+            get { return _isBlush; }
+            set { _isBlush = value; OnPropertyChanged(); }
+        }
+
         private List<Sugarism.EFace> _faceList;
         public List<Sugarism.EFace> FaceList
         {
@@ -113,13 +120,14 @@ namespace ScenarioEditor.ViewModel.Popup
         /// Show View.Popup.EditTargetAppear.
         /// </summary>
         /// <param name="targetId">Target Id before editing.</param>
+        /// <param name="isBlush">IsBlush before editing</param>
         /// <param name="face">Face before editing.</param>
         /// <param name="costume">Costume before editing.</param>
         /// <param name="pos">Position before editing.</param>
         /// <returns>Whether edit or not.</returns>
-        public bool Show(int targetId, Sugarism.EFace face, Sugarism.ECostume costume, Sugarism.EPosition pos)
+        public bool Show(int targetId, bool isBlush, Sugarism.EFace face, Sugarism.ECostume costume, Sugarism.EPosition pos)
         {
-            reset(targetId, face, costume, pos);
+            reset(targetId, isBlush, face, costume, pos);
 
             View.Popup.EditTargetAppear view = new View.Popup.EditTargetAppear(this);
 
@@ -140,7 +148,7 @@ namespace ScenarioEditor.ViewModel.Popup
 
         #region Private Method
 
-        private void reset(int targetId, Sugarism.EFace face, Sugarism.ECostume costume, Sugarism.EPosition pos)
+        private void reset(int targetId, bool isBlush, Sugarism.EFace face, Sugarism.ECostume costume, Sugarism.EPosition pos)
         {
             if (Common.Instance.IsValidTarget(targetId))
             {
@@ -156,6 +164,7 @@ namespace ScenarioEditor.ViewModel.Popup
                     SelectedItem = null;
             }
 
+            IsBlush = isBlush;
             Face = face;
             Costume = costume;
             Position = pos;

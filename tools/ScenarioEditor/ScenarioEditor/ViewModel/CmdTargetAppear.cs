@@ -56,6 +56,18 @@ namespace ScenarioEditor.ViewModel
             }
         }
 
+        public bool IsBlush
+        {
+            get { return _model.IsBlush; }
+            set
+            {
+                _model.IsBlush = value;
+                OnPropertyChanged();
+
+                OnPropertyChanged("ToText");
+            }
+        }
+
         public Sugarism.EFace Face
         {
             get { return _model.Face; }
@@ -107,7 +119,7 @@ namespace ScenarioEditor.ViewModel
         {
             Popup.EditTargetAppear popup = Popup.EditTargetAppear.Instance;
 
-            bool isEdited = popup.Show(TargetId, Face, Costume, Position);
+            bool isEdited = popup.Show(TargetId, IsBlush, Face, Costume, Position);
             if (false == isEdited)
                 return;
 
@@ -116,6 +128,7 @@ namespace ScenarioEditor.ViewModel
             else
                 Log.Error(Properties.Resources.ErrNotFoundTarget);
 
+            IsBlush = popup.IsBlush;
             Face = popup.Face;
             Costume = popup.Costume;
             Position = popup.Position;
@@ -123,9 +136,9 @@ namespace ScenarioEditor.ViewModel
 
         public override string ToString()
         {
-            string content = string.Format("{0}:{1} - {2} / {3} / {4}",
+            string content = string.Format("{0}:{1} - {2}({3}) / {4} / {5}",
                             TargetId, RefCharacterName,
-                            Face, Costume, Position);
+                            Face, IsBlush, Costume, Position);
 
             return ToString(content);
         }

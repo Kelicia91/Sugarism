@@ -77,6 +77,9 @@ namespace ScenarioEditor.ViewModel
                 case Sugarism.Command.Type.TargetAppear:
                     return new CmdTargetAppear(model as Sugarism.CmdTargetAppear);
 
+                case Sugarism.Command.Type.Disappear:
+                    return new CmdDisappear(model as Sugarism.CmdDisappear);
+
                 default:    // Sugarism.Command.Type.MAX
                     return null;
             }
@@ -119,10 +122,13 @@ namespace ScenarioEditor.ViewModel
                 case Sugarism.Command.Type.Switch:
                     return Create(new Sugarism.CmdSwitch(ScenarioEditor.Model.Character.START_ID));
 
-                // case Sugarism.Command.Type.Case: // prohibit from adding it.
+                // case Sugarism.Command.Type.Case: // prohibit user from adding it.
 
                 case Sugarism.Command.Type.TargetAppear:
                     return Create(new Sugarism.CmdTargetAppear(ScenarioEditor.Model.Target.START_ID));
+
+                case Sugarism.Command.Type.Disappear:
+                    return Create(new Sugarism.CmdDisappear());
 
                 default:
                     return null;
@@ -140,6 +146,12 @@ namespace ScenarioEditor.ViewModel
         private bool _isExpanded;
         private bool _isSelected;
         private InputBindingCollection _inputBindings;
+
+        private KeyBinding _keyBindEdit;
+        private KeyBinding _keyBindAddNext;
+        private KeyBinding _keyBindDelete;
+        private KeyBinding _keyBindUp;
+        private KeyBinding _keyBindDown;
 
         private ICommand _cmdExpand;
         private ICommand _cmdEdit;
