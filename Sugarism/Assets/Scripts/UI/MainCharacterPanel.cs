@@ -111,6 +111,7 @@ public class MainCharacterPanel : CharacterPanel
 
         CostumeImage.sprite = s;
         CostumeImage.preserveAspect = true;
+        CostumeImage.SetNativeSize();
     }
 
     protected void setCostume(bool isEnabled)

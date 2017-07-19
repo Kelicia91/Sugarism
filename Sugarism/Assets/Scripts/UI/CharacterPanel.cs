@@ -56,5 +56,6 @@ public class CharacterPanel : Panel
 
         BaseShapeImage.sprite = s;
         BaseShapeImage.preserveAspect = true;
+        BaseShapeImage.SetNativeSize();
     }
 }
