@@ -7,8 +7,7 @@ namespace Sugarism
         Left,
         Right,
         Front,
-        Back,
-        None
+        Back
     }
 
     public class CmdAppear : Command

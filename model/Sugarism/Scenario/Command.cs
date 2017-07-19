@@ -29,6 +29,7 @@ namespace Sugarism
             Case,
 
             TargetAppear,
+            Disappear,
 
             MAX
         }
