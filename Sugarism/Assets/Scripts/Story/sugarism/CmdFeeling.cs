@@ -13,9 +13,9 @@ namespace Story
 
         #region Property
 
-        public int CharacterId
+        public int TargetId
         {
-            get { return _model.CharacterId; }
+            get { return _model.TargetId; }
         }
 
         public Sugarism.EOperation Op
@@ -40,7 +40,7 @@ namespace Story
         {
             Log.Debug(ToString());
 
-            Mode.CmdFeelingEvent.Invoke(CharacterId, Op, Value);
+            Mode.CmdFeelingEvent.Invoke(TargetId, Op, Value);
 
             return false;   // no more child to play
         }

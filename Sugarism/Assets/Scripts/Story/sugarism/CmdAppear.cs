@@ -18,16 +18,6 @@ namespace Story
             get { return _model.CharacterId; }
         }
 
-        public Sugarism.EFace Face
-        {
-            get { return _model.Face; }
-        }
-
-        public Sugarism.ECostume Costume
-        {
-            get { return _model.Costume; }
-        }
-
         public Sugarism.EPosition Position
         {
             get { return _model.Position; }
@@ -45,7 +35,7 @@ namespace Story
         {
             Log.Debug(ToString());
 
-            Mode.CmdAppearEvent.Invoke(CharacterId, Face, Costume, Position);
+            Mode.CmdAppearEvent.Invoke(CharacterId, Position);
 
             return false;   // no more child to play
         }
@@ -53,8 +43,8 @@ namespace Story
         public override string ToString()
         {
             string s = string.Format(
-                        "CharacterId: {0}, Face: {1}, Costume: {2}, Pos: {3}",
-                        CharacterId, Face, Costume, Position);
+                        "CharacterId: {0}, Pos: {1}",
+                        CharacterId, Position);
 
             return ToString(s);
         }

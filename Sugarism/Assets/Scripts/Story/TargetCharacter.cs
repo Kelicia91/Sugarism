@@ -47,10 +47,9 @@ namespace Story
         }
 
 
-        private void onCmdFeeling(int characterId, Sugarism.EOperation op, int value)
+        private void onCmdFeeling(int targetId, Sugarism.EOperation op, int value)
         {
-            Target t = Manager.Instance.DTTarget[Id];
-            if (characterId != t.characterId)
+            if (targetId != Id)
                 return;
 
             operateFeeling(op, value);

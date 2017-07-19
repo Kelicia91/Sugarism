@@ -48,7 +48,13 @@ namespace Story
 
         private CmdSwitchEvent _cmdSwitchEvent = null;
         public CmdSwitchEvent CmdSwitchEvent { get { return _cmdSwitchEvent; } }
-        
+
+        private CmdTargetAppearEvent _cmdTargetAppearEvent = null;
+        public CmdTargetAppearEvent CmdTargetAppearEvent { get { return _cmdTargetAppearEvent; } }
+
+        private CmdDisappearEvent _cmdDisappearEvent = null;
+        public CmdDisappearEvent CmdDisappearEvent { get { return _cmdDisappearEvent; } }
+
         private ScenarioStartEvent _scenarioStartEvent = null;
         public ScenarioStartEvent ScenarioStartEvent { get { return _scenarioStartEvent; } }
 
@@ -72,6 +78,8 @@ namespace Story
             _cmdSEEvent = new CmdSEEvent();
             _cmdFeelingEvent = new CmdFeelingEvent();
             _cmdSwitchEvent = new CmdSwitchEvent();
+            _cmdTargetAppearEvent = new CmdTargetAppearEvent();
+            _cmdDisappearEvent = new CmdDisappearEvent();
 
             _scenarioStartEvent = new ScenarioStartEvent();
             _scenarioEndEvent = new ScenarioEndEvent();

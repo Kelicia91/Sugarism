@@ -67,6 +67,12 @@ namespace Story
                 case Sugarism.Command.Type.Case:
                     return new CmdCase(model as Sugarism.CmdCase, mode);
 
+                case Sugarism.Command.Type.TargetAppear:
+                    return new CmdTargetAppear(model as Sugarism.CmdTargetAppear, mode);
+
+                case Sugarism.Command.Type.Disappear:
+                    return new CmdDisappear(model as Sugarism.CmdDisappear, mode);
+
                 default:
                     return null;
             }
