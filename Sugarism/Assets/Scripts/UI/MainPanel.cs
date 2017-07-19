@@ -89,6 +89,9 @@ public class MainPanel : Panel
 
     private void onAgeChanged(int age)
     {
+        if (Def.MAX_AGE == age)
+            return;
+
         _mainCharacterPanel.SetMainCharacter();
     }
 }
