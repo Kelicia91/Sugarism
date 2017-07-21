@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class UIManager : MonoBehaviour
@@ -14,6 +12,7 @@ public class UIManager : MonoBehaviour
     public GameObject PrefSchedulePanel;
     public GameObject PrefRunSchedulePanel;
     public GameObject PrefStatePanel;
+    public GameObject PrefWardrobePanel;
     public GameObject PrefCurrencyPanel;
     public GameObject PrefSelectTargetPanel;
     public GameObject PrefStoryPanel;    
@@ -35,6 +34,9 @@ public class UIManager : MonoBehaviour
 
     private StatePanel _statePanel = null;
     public StatePanel StatePanel { get { return _statePanel; } }
+
+    private WardrobePanel _wardrobePanel = null;
+    public WardrobePanel WardrobePanel { get { return _wardrobePanel; } }
 
     private CurrencyPanel _currencyPanel = null;
     public CurrencyPanel CurrencyPanel { get { return _currencyPanel; } }
@@ -59,13 +61,15 @@ public class UIManager : MonoBehaviour
 
         SchedulePanel.Hide();
         RunSchedulePanel.Hide();
-        SelectTargetPanel.Hide();
-        StoryPanel.Hide();
         StatePanel.Hide();
+        WardrobePanel.Hide();
+        SelectTargetPanel.Hide();
+        StoryPanel.Hide();        
         BoardGamePanel.Hide();
         CombatPanel.Hide();
 
         MainPanel.Show();
+        CurrencyPanel.Show();
 
         Nurture.Mode nurtureMode = Manager.Instance.Object.NurtureMode;
         nurtureMode.Schedule.StartEvent.Attach(onScheduleStart);
@@ -97,6 +101,10 @@ public class UIManager : MonoBehaviour
         o = Instantiate(PrefStatePanel);
         _statePanel = o.GetComponent<StatePanel>();
         _statePanel.transform.SetParent(_canvas.transform, false);
+
+        o = Instantiate(PrefWardrobePanel);
+        _wardrobePanel = o.GetComponent<WardrobePanel>();
+        _wardrobePanel.transform.SetParent(_canvas.transform, false);
 
         o = Instantiate(PrefCurrencyPanel);
         _currencyPanel = o.GetComponent<CurrencyPanel>();
