@@ -14,6 +14,8 @@ public class Manager : MonoBehaviour
 
         // custom event
         _moneyChangeEvent = new MoneyChangeEvent();
+        _buyCostumeEvent = new BuyCostumeEvent();
+        _wearCostumeEvent = new WearCostumeEvent();
 
         // manager
         _object = Instantiate(PrefObjectManager);
@@ -91,6 +93,12 @@ public class Manager : MonoBehaviour
     // CustomEvent
     private MoneyChangeEvent _moneyChangeEvent = null;
     public MoneyChangeEvent MoneyChangeEvent { get { return _moneyChangeEvent; } }
+
+    private BuyCostumeEvent _buyCostumeEvent = null;
+    public BuyCostumeEvent BuyCostumeEvent { get { return _buyCostumeEvent; } }
+
+    private WearCostumeEvent _wearCostumeEvent = null;
+    public WearCostumeEvent WearCostumeEvent { get { return _wearCostumeEvent; } }
 }
  
  

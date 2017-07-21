@@ -33,3 +33,75 @@ public class MoneyChangeEvent
         _event -= handler;
     }
 }
+
+
+public class BuyCostumeEvent
+{
+    public delegate void Handler(int costumeId);
+    private event Handler _event = null;
+
+    public BuyCostumeEvent()
+    {
+        _event = new Handler(onBuyCostume);
+    }
+
+    // default handler
+    private void onBuyCostume(int costumeId)
+    {
+        Log.Debug(string.Format("onBuyCostume; {0}", costumeId));
+    }
+
+    public void Invoke(int costumeId) { _event.Invoke(costumeId); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
+
+
+public class WearCostumeEvent
+{
+    public delegate void Handler(int costumeId);
+    private event Handler _event = null;
+
+    public WearCostumeEvent()
+    {
+        _event = new Handler(onWearCostume);
+    }
+
+    // default handler
+    private void onWearCostume(int costumeId)
+    {
+        Log.Debug(string.Format("onWearCostume; {0}", costumeId));
+    }
+
+    public void Invoke(int costumeId) { _event.Invoke(costumeId); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}

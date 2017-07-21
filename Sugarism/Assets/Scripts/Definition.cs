@@ -120,14 +120,15 @@ public class Def
     // Currency
     public const int INIT_MONEY = 1500;
     public const int MIN_MONEY = 0;
-    public const int MAX_MONEY = 99999999;
+    public const int MAX_MONEY = 999999;
     public const string MONEY_FORMAT = "은전 {0}";
 
     // Command in UI
     public const string CMD_SCHEDULE_NAME = "일 정";
     public const string CMD_RUN_SCHEDULE_NAME = "실 행";
-    public const string CMD_GO_OUT_NAME = "외 출";
     public const string CMD_STATE_NAME = "상 태";
+    public const string CMD_WARDROBE_NAME = "옷 장";
+    public const string CMD_GO_OUT_NAME = "외 출";    
     public const string CMD_TEST_BOARD_GAME = "보드게임";
     public const string CMD_TEST_COMBAT = "일기토";
 
@@ -150,8 +151,10 @@ public class Def
     public const int INIT_AGE = 12;
     public const int PERIOD_YEAR = 4;
     public const int MAX_AGE = INIT_AGE + PERIOD_YEAR;
-    public const int INIT_COSTUME_ID = 0;
     public const string STRESS_FORMAT = "스트레스 {0}";
+    public const int DEFAULT_COSTUME_ID = 0;
+    public const string PUT_OFF_COSTUME = "해  제";
+    public const string PUT_ON_COSTUME = "착  용";
 
     // Stat
     public const int MIN_STAT = 0;

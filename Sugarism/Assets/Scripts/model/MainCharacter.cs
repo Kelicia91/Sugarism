@@ -4,8 +4,17 @@ public class MainCharacter : Nurture.Character
     public MainCharacter(int age, int money, int costumeId) : base(age)
     {
         _money = money;
+
+        _wardrobe = new Wardrobe();
+        int mainCharacterCostumeCount = Manager.Instance.DTMainCharacterCostume.Count;
+        for (int i = 0; i < mainCharacterCostumeCount; ++i)
+        {
+            CostumeController costumeCtrl = new CostumeController(i);
+            _wardrobe.CostumeList.Add(costumeCtrl);
+        }
+
         _wearingCostumeId = costumeId;
-        
+
         // TEST
         {
             Name = @"테스트";
@@ -53,8 +62,16 @@ public class MainCharacter : Nurture.Character
     public int WearingCostumeId
     {
         get { return _wearingCostumeId; }
-        set { _wearingCostumeId = value; }
+        private set
+        {
+            _wearingCostumeId = value;
+            Manager.Instance.WearCostumeEvent.Invoke(_wearingCostumeId);
+        }
     }
+
+    private Wardrobe _wardrobe = null;
+    public Wardrobe Wardrobe { get { return _wardrobe; } }
+
 
     public bool IsChildHood()
     {
@@ -63,5 +80,15 @@ public class MainCharacter : Nurture.Character
             return true;
         else
             return false;
+    }
+
+    public void PutOn(int costumeId)
+    {
+        WearingCostumeId = costumeId;
+    }
+
+    public void PutOff()
+    {
+        WearingCostumeId = Def.DEFAULT_COSTUME_ID;
     }
 }
