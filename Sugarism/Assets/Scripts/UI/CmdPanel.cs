@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CmdPanel : Panel
 {
+    /********* Editor Interface *********/
     // prefabs
     public Sprite ScheduleIcon;
+    public Sprite WardrobeIcon;
     public Sprite StateIcon;
 
     public GameObject PrefCmdButton;
@@ -22,12 +24,13 @@ public class CmdPanel : Panel
         /** reverse to order **/
         {
             // temp.begin
-            createCmdButton(StateIcon, Def.CMD_TEST_COMBAT, onClickTestCombatButton);
-            createCmdButton(StateIcon, Def.CMD_TEST_BOARD_GAME, onClickTestBoardGameButton);
+            //createCmdButton(StateIcon, Def.CMD_TEST_COMBAT, onClickTestCombatButton);
+            //createCmdButton(StateIcon, Def.CMD_TEST_BOARD_GAME, onClickTestBoardGameButton);
             createCmdButton(StateIcon, Def.CMD_GO_OUT_NAME, onClickStoryButton);
             // temp.end
         }
         createCmdButton(StateIcon, Def.CMD_STATE_NAME, onClickStateButton);
+        createCmdButton(WardrobeIcon, Def.CMD_WARDROBE_NAME, onClickWardrobeButton);
         createCmdButton(ScheduleIcon, Def.CMD_SCHEDULE_NAME, onClickScheduleButton);
     }
 
@@ -53,6 +56,11 @@ public class CmdPanel : Panel
     private void onClickScheduleButton()
     {
         Manager.Instance.UI.SchedulePanel.Show();
+    }
+
+    private void onClickWardrobeButton()
+    {
+        Manager.Instance.UI.WardrobePanel.Show();
     }
 
     private void onClickStateButton()
