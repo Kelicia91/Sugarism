@@ -10,6 +10,13 @@ public class MainCharacterPanel : CharacterPanel
     public Image CostumeImage;
 
 
+    //
+    void Awake()
+    {
+        Manager.Instance.WearCostumeEvent.Attach(onWearCostume);
+    }
+
+    //
     public virtual void SetMainCharacter()
     {
         Hide();
@@ -123,5 +130,15 @@ public class MainCharacterPanel : CharacterPanel
         }
 
         CostumeImage.enabled = isEnabled;
+    }
+
+
+    private void onWearCostume(int costumeId)
+    {
+        MainCharacter mc = Manager.Instance.Object.MainCharacter;
+        int looksId = mc.Age - mc.INIT_AGE;
+
+        Sprite s = ExtMainCharacterCostume.Get(costumeId, looksId);
+        setCostume(s);
     }
 }
