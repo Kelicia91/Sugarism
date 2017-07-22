@@ -27,10 +27,17 @@ public class ProfilePanel : Panel
         setZodiacText(get(zodiac));
 
         int age = mainCharacter.Age;
-        setAgeText(get(age));
+        setAgeText(age);
 
         string name = mainCharacter.Name;
-        setNameText(name);   
+        setNameText(name);
+
+        Manager.Instance.Object.NurtureMode.Character.AgeChangeEvent.Attach(onAgeChanged);
+    }
+
+    private void onAgeChanged(int age)
+    {
+        setAgeText(age);
     }
 
     private void setConstitutionText(string s)
@@ -55,7 +62,7 @@ public class ProfilePanel : Panel
         ZodiacText.text = s;
     }
 
-    private void setAgeText(string s)
+    private void setAgeText(int age)
     {
         if (null == AgeText)
         {
@@ -63,7 +70,7 @@ public class ProfilePanel : Panel
             return;
         }
 
-        AgeText.text = s;
+        AgeText.text = age.ToString();
     }
 
     private void setNameText(string s)
@@ -75,12 +82,6 @@ public class ProfilePanel : Panel
         }
 
         NameText.text = s;
-    }
-
-    private string get(int age)
-    {
-        string strAge = age.ToString();
-        return strAge;
     }
 
     private string get(EZodiac zodiac)
