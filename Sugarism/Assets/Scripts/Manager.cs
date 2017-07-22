@@ -47,6 +47,7 @@ public class Manager : MonoBehaviour
     public MainCharacterCostumeObject AsstDTMainCharacterCostume;
     public MainCharacterLooksObject AsstDTMainCharacterLooks;
     public MiniPictureObject AsstDTMiniPicture;
+    public NurtureEndingObject AsstDTNurtureEnding;
     public OneToOneExamObject AsstDTOneToOneExam;
     public PictureObject AsstDTPicture;
     public RivalObject AsstDTRival;
@@ -80,6 +81,7 @@ public class Manager : MonoBehaviour
     public MainCharacterCostumeObject DTMainCharacterCostume { get { return AsstDTMainCharacterCostume; } }
     public MainCharacterLooksObject DTMainCharacterLooks { get { return AsstDTMainCharacterLooks; } }
     public MiniPictureObject DTMiniPicture { get { return AsstDTMiniPicture; } }
+    public NurtureEndingObject DTNurtureEnding { get { return AsstDTNurtureEnding; } }
     public OneToOneExamObject DTOneToOneExam { get { return AsstDTOneToOneExam; } }
     public PictureObject DTPicture { get { return AsstDTPicture; } }
     public RivalObject DTRival { get { return AsstDTRival; } }
