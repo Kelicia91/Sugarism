@@ -90,6 +90,20 @@ public enum EStat
 }
 
 
+// 스텟 계열
+public enum EStatLine : byte
+{
+    NONE        = 0x0,
+
+    ATTACTER    = 0x1,
+    POLITICIAN  = 0x2,
+    TRICKER     = 0x4,
+    FIGHTER     = 0x8,
+
+    MAX         = byte.MaxValue
+}
+
+
 
 // 나중에 파일로 빼자.
 public class Def
@@ -128,6 +142,7 @@ public class Def
     public const string CMD_RUN_SCHEDULE_NAME = "실 행";
     public const string CMD_STATE_NAME = "상 태";
     public const string CMD_WARDROBE_NAME = "옷 장";
+    public const string CMD_ENDING = "엔 딩";
     public const string CMD_GO_OUT_NAME = "외 출";    
     public const string CMD_TEST_BOARD_GAME = "보드게임";
     public const string CMD_TEST_COMBAT = "일기토";
@@ -148,7 +163,7 @@ public class Def
 
     // Main Character
     public const int MAIN_CHARACTER_ID = 0; // DTCharacter, DTBoardGamePlayer, DTCombatPlayer
-    public const int INIT_AGE = 12;
+    public const int INIT_AGE = 16;
     public const int PERIOD_YEAR = 4;
     public const int MAX_AGE = INIT_AGE + PERIOD_YEAR;
     public const string STRESS_FORMAT = "스트레스 {0}";
