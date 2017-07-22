@@ -5,6 +5,8 @@ namespace Story
 {
     public class Mode
     {
+        private readonly Newtonsoft.Json.JsonSerializerSettings JSON_SETTINGS = null;
+
         private TargetCharacter[] _targetCharacterArray = null;
         public TargetCharacter[] TargetCharacterArray { get { return _targetCharacterArray; } }
 
@@ -69,6 +71,10 @@ namespace Story
         // constructor
         public Mode()
         {
+            // json settings
+            JSON_SETTINGS = new Newtonsoft.Json.JsonSerializerSettings();
+            JSON_SETTINGS.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+
             // events
             _cmdLinesEvent = new CmdLinesEvent();
             _cmdTextEvent = new CmdTextEvent();
@@ -114,8 +120,8 @@ namespace Story
             string fullPath = string.Format("{0}{1}{2}", dirPath,
                             RsrcLoader.DIR_SEPARATOR, filename);
 
-            
-            bool isLoaded = LoadScenario(fullPath);
+            TextAsset textAsset = getTextAsset(fullPath);
+            bool isLoaded = LoadScenario(textAsset);
             if (isLoaded)
             {
                 _targetId = targetId;
@@ -128,36 +134,29 @@ namespace Story
             return isLoaded;
         }
 
-        public bool LoadScenario(string path)
-        {
-            Sugarism.Scenario scenarioModel = null;
-            bool isLoaded = RsrcLoader.Instance.Load(path, out scenarioModel);
-            if (isLoaded)
-            {
-                _scenario = new Scenario(scenarioModel, this);
-            }
-            else
-            {
-                _scenario = null;
-            }
-
-            return isLoaded;
-        }
 
         public bool LoadScenario(TextAsset textAsset)
         {
-            Sugarism.Scenario scenarioModel = null;
-            bool isLoaded = RsrcLoader.Instance.Load(textAsset, out scenarioModel);
-            if (isLoaded)
+            if (null == textAsset)
             {
-                _scenario = new Scenario(scenarioModel, this);
+                Log.Error("not found text asset");
+                return false;
             }
-            else
+            
+            object result = null;
+            bool isDeserialized = JsonUtils.Deserialize<Sugarism.Scenario>(textAsset.text, 
+                                out result, JSON_SETTINGS);
+            if (false == isDeserialized)
             {
-                _scenario = null;
+                string msg = string.Format("Failed to Load Scenario from the text asset: {0}", textAsset.name);
+                Log.Error(msg);
+                return false;
             }
 
-            return isLoaded;
+            Sugarism.Scenario scenarioModel = result as Sugarism.Scenario;
+            _scenario = new Scenario(scenarioModel, this);
+
+            return true;
         }
 
 
@@ -201,6 +200,19 @@ namespace Story
 
                 Log.Debug("end. scenario");
             }
+        }
+
+        //
+        private TextAsset getTextAsset(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                Log.Error("not fount path");
+                return null;
+            }
+
+            TextAsset textAsset = Resources.Load<TextAsset>(path);
+            return textAsset;
         }
 
     }   // class
