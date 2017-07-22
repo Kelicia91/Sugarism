@@ -36,6 +36,11 @@ public class CmdButton : MonoBehaviour
         _button.onClick.AddListener(clickHandler);
     }
 
+    public void RemoveAllClickListener()
+    {
+        _button.onClick.RemoveAllListeners();
+    }
+
     public void SetIcon(Sprite s)
     {
         if (null == IconImage)
