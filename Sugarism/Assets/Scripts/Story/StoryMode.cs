@@ -1,4 +1,6 @@
-﻿
+﻿using UnityEngine;
+
+
 namespace Story
 {
     public class Mode
@@ -112,16 +114,46 @@ namespace Story
             string fullPath = string.Format("{0}{1}{2}", dirPath,
                             RsrcLoader.DIR_SEPARATOR, filename);
 
-            Sugarism.Scenario scenarioModel = null;
-            bool isLoaded = RsrcLoader.Instance.Load(fullPath, out scenarioModel);
+            
+            bool isLoaded = LoadScenario(fullPath);
             if (isLoaded)
             {
                 _targetId = targetId;
-                _scenario = new Scenario(scenarioModel, this);
             }
             else
             {
                 _targetId = -1;
+            }
+
+            return isLoaded;
+        }
+
+        public bool LoadScenario(string path)
+        {
+            Sugarism.Scenario scenarioModel = null;
+            bool isLoaded = RsrcLoader.Instance.Load(path, out scenarioModel);
+            if (isLoaded)
+            {
+                _scenario = new Scenario(scenarioModel, this);
+            }
+            else
+            {
+                _scenario = null;
+            }
+
+            return isLoaded;
+        }
+
+        public bool LoadScenario(TextAsset textAsset)
+        {
+            Sugarism.Scenario scenarioModel = null;
+            bool isLoaded = RsrcLoader.Instance.Load(textAsset, out scenarioModel);
+            if (isLoaded)
+            {
+                _scenario = new Scenario(scenarioModel, this);
+            }
+            else
+            {
                 _scenario = null;
             }
 
