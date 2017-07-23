@@ -70,10 +70,6 @@ public class UIManager : MonoBehaviour
 
         MainPanel.Show();
         CurrencyPanel.Show();
-
-        Nurture.Mode nurtureMode = Manager.Instance.Object.NurtureMode;
-        nurtureMode.Schedule.StartEvent.Attach(onScheduleStart);
-        nurtureMode.Schedule.EndEvent.Attach(onScheduleEnd);
     }
 
 
@@ -125,18 +121,5 @@ public class UIManager : MonoBehaviour
         o = Instantiate(PrefCombatPanel);
         _combatPanel = o.GetComponent<CombatPanel>();
         _combatPanel.transform.SetParent(_canvas.transform, false);
-    }
-
-    
-    private void onScheduleStart()
-    {
-        SchedulePanel.Hide();
-        RunSchedulePanel.Show();
-    }
-
-    private void onScheduleEnd()
-    {
-        RunSchedulePanel.Hide();
-        MainPanel.Show();
     }
 }

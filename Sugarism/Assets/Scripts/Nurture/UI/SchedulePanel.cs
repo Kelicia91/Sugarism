@@ -23,9 +23,11 @@ public class SchedulePanel : Panel
 
 
     // Initialization Call Order : Awake(once) -> OnEnable -> Start(once)
-    void Start()
+    void Awake()
     {
         create();
+        
+        Manager.Instance.Object.NurtureMode.Schedule.StartEvent.Attach(onScheduleStart);
     }
 
     private void create()
@@ -58,6 +60,11 @@ public class SchedulePanel : Panel
     }
 
     private void onClickBackButton()
+    {
+        Hide();
+    }
+
+    private void onScheduleStart()
     {
         Hide();
     }

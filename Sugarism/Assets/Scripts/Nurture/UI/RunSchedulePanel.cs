@@ -67,6 +67,10 @@ public class RunSchedulePanel : Panel
         _schedule.ActionBeforeEndEvent.Attach(onActionBeforeEndExam);
         _schedule.ActionEndEvent.Attach(onActionEnd);
         _schedule.ActionEndEvent.Attach(onActionEndAchievement);
+
+        Nurture.Mode nurtureMode = Manager.Instance.Object.NurtureMode;
+        nurtureMode.Schedule.StartEvent.Attach(onScheduleStart);
+        nurtureMode.Schedule.EndEvent.Attach(onScheduleEnd);
     }
 
     void OnEnable()
@@ -465,5 +469,17 @@ public class RunSchedulePanel : Panel
         _animController.ResetTrigger(action.animTrigger);
 
         _animController.SetTrigger(RunScheduleAnimController.ETrigger.END);
+    }
+
+
+    //
+    private void onScheduleStart()
+    {
+        Show();
+    }
+
+    private void onScheduleEnd()
+    {
+        Hide();
     }
 }
