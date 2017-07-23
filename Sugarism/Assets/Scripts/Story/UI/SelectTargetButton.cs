@@ -105,11 +105,7 @@ public class SelectTargetButton : MonoBehaviour
         bool isLoaded = storyMode.LoadScenario(_targetId);
         if (isLoaded)
         {
-            storyMode.ScenarioStartEvent.Invoke();
-
             Manager.Instance.UI.SelectTargetPanel.Hide();
-
-            storyMode.NextCmd();
         }
         else
         {
