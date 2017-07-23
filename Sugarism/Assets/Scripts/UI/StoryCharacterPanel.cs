@@ -62,10 +62,6 @@ public class StoryCharacterPanel : MainCharacterPanel
 
         Target target = Manager.Instance.DTTarget[targetId];
         setBaseShape(target.baseShape);
-        
-        setFaceExpression(get(ref target, face));
-        setFaceExpression(target.faceExpPosX, target.faceExpPosY);
-        setFaceExpression(true);
 
         if (isBlush)
         {
@@ -74,7 +70,11 @@ public class StoryCharacterPanel : MainCharacterPanel
         }
         setBlush(isBlush);
 
-        setCostume(get(ref target, costume));
+        base.setFaceExpression(get(ref target, face));
+        setFaceExpression(target.faceExpPosX, target.faceExpPosY);
+        setFaceExpression(true);
+
+        base.setCostume(get(ref target, costume));
         setCostume(true);
 
         set(pos);
@@ -196,5 +196,28 @@ public class StoryCharacterPanel : MainCharacterPanel
         }
 
         BlushImage.enabled = isEnabled;
+    }
+
+
+    private void setFaceExpression(bool isEnabled)
+    {
+        if (null == FaceExpressionImage)
+        {
+            Log.Error("not found face expression image component");
+            return;
+        }
+
+        FaceExpressionImage.enabled = isEnabled;
+    }
+
+    private void setCostume(bool isEnabled)
+    {
+        if (null == CostumeImage)
+        {
+            Log.Error("not found costume image component");
+            return;
+        }
+
+        CostumeImage.enabled = isEnabled;
     }
 }

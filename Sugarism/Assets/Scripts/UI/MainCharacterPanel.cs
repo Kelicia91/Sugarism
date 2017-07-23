@@ -9,21 +9,28 @@ public class MainCharacterPanel : CharacterPanel
     public Image FaceExpressionImage;
     public Image CostumeImage;
 
+    //
+    private MainCharacter _mainCharacter = null;
 
     //
     void Awake()
     {
+        _mainCharacter = Manager.Instance.Object.MainCharacter;
+
+        _mainCharacter.AgeChangeEvent.Attach(onAgeChanged);
+        _mainCharacter.ConditionEvent.Attach(onConditionChanged);
+
         Manager.Instance.WearCostumeEvent.Attach(onWearCostume);
+
+        show();
     }
 
     //
-    public virtual void SetMainCharacter()
+    private void show()
     {
         Hide();
 
-        MainCharacter mc = Manager.Instance.Object.MainCharacter;
-
-        int looksId = mc.Age - mc.INIT_AGE;
+        int looksId = _mainCharacter.Age - _mainCharacter.INIT_AGE;
         if (false == ExtMainCharacterLooks.IsValid(looksId))
         {
             Log.Error(string.Format("invalid main character's looks id: {0}", looksId));
@@ -33,23 +40,18 @@ public class MainCharacterPanel : CharacterPanel
         MainCharacterLooks looks = Manager.Instance.DTMainCharacterLooks[looksId];
         Sprite baseShape = looks.baseShape;
         setBaseShape(baseShape);
-
-        // @todo: 상태에 따른 얼굴 표정
-        Sprite faceExpression = looks.faceExpressionDefault;
-        setFaceExpression(faceExpression);
+        
+        setFaceExpression(_mainCharacter.Condition);
         setFaceExpression(looks.faceExpressionPosX, looks.faceExpressionPosY);
-        setFaceExpression(true);
 
-        int costumeId = mc.WearingCostumeId;
+        int costumeId = _mainCharacter.WearingCostumeId;
         Sprite costumeSprite = ExtMainCharacterCostume.Get(costumeId, looksId);
         if (null == costumeSprite)
         {
             Log.Error(string.Format("not found main character's costume id: {0}, looks id: {1}", costumeId, looksId));
             return;
         }
-
         setCostume(costumeSprite);
-        setCostume(true);
 
         Show();
     }
@@ -90,18 +92,7 @@ public class MainCharacterPanel : CharacterPanel
 
         rectTransform.anchoredPosition = new Vector2(posX, posY);
     }
-
-    protected void setFaceExpression(bool isEnabled)
-    {
-        if (null == FaceExpressionImage)
-        {
-            Log.Error("not found face expression image component");
-            return;
-        }
-
-        FaceExpressionImage.enabled = isEnabled;
-    }
-
+    
     protected void setCostume(Sprite s)
     {
         if (null == CostumeImage)
@@ -121,24 +112,56 @@ public class MainCharacterPanel : CharacterPanel
         CostumeImage.SetNativeSize();
     }
 
-    protected void setCostume(bool isEnabled)
+
+    private void onAgeChanged(int age)
     {
-        if (null == CostumeImage)
-        {
-            Log.Error("not found costume image component");
+        if (Def.MAX_AGE == age)
             return;
-        }
 
-        CostumeImage.enabled = isEnabled;
+        show();
     }
-
 
     private void onWearCostume(int costumeId)
     {
-        MainCharacter mc = Manager.Instance.Object.MainCharacter;
-        int looksId = mc.Age - mc.INIT_AGE;
+        int looksId = _mainCharacter.Age - _mainCharacter.INIT_AGE;
 
         Sprite s = ExtMainCharacterCostume.Get(costumeId, looksId);
         setCostume(s);
+    }
+
+    private void onConditionChanged(Nurture.ECondition condition)
+    {
+        setFaceExpression(condition);
+    }
+
+
+    private void setFaceExpression(Nurture.ECondition condition)
+    {
+        int looksId = _mainCharacter.Age - _mainCharacter.INIT_AGE;
+        if (false == ExtMainCharacterLooks.IsValid(looksId))
+        {
+            Log.Error(string.Format("invalid main character's looks id: {0}", looksId));
+            return;
+        }
+
+        MainCharacterLooks looks = Manager.Instance.DTMainCharacterLooks[looksId];
+
+        Sprite faceExpression = null;
+        switch (condition)
+        {
+            case Nurture.ECondition.Healthy:
+                faceExpression = looks.faceExpressionDefault;
+                break;
+
+            case Nurture.ECondition.Sick:
+            case Nurture.ECondition.Die:
+                faceExpression = looks.faceExpressionSick;
+                break;
+
+            default:
+                return;
+        }
+        
+        setFaceExpression(faceExpression);
     }
 }
