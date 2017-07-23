@@ -31,12 +31,7 @@ public class MainPanel : Panel
     void Start ()
     {
         create();
-
-        Manager.Instance.Object.NurtureMode.Character.AgeChangeEvent.Attach(onAgeChanged);
-
-        _mainCharacterPanel.SetMainCharacter();
-        _mainCharacterPanel.Show();
-
+        
         _backButton.onClick.AddListener(onClick);
 
         CalendarPanel.Show();
@@ -85,13 +80,5 @@ public class MainPanel : Panel
     private void onClick()
     {
         Log.Debug("click. back button");
-    }
-
-    private void onAgeChanged(int age)
-    {
-        if (Def.MAX_AGE == age)
-            return;
-
-        _mainCharacterPanel.SetMainCharacter();
     }
 }
