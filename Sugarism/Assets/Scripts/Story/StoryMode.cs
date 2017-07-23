@@ -123,7 +123,7 @@ namespace Story
                 return false;
             }
 
-            string dirPath = string.Format("{0}{1}{2}", Configuration.SCENARIO_FOLDER_PATH,
+            string dirPath = string.Format("{0}{1}{2}", RsrcLoader.SCENARIO_FOLDER_PATH,
                             RsrcLoader.DIR_SEPARATOR, Manager.Instance.DTTarget[targetId].scenarioDirName);
 
             TargetCharacter tc = TargetCharacterArray[targetId];
@@ -254,12 +254,12 @@ namespace Story
             if (isHappyEnding())
             {
                 Log.Debug("story; happy ending");
-                return getEndingScenarioPath(Configuration.TARGET_HAPPY_ENDING_FILENAME);
+                return getEndingScenarioPath(RsrcLoader.TARGET_HAPPY_ENDING_FILENAME);
             }
             else
             {
                 Log.Debug("story; normal ending");
-                return getEndingScenarioPath(Configuration.TARGET_NORMAL_ENDING_FILENAME);
+                return getEndingScenarioPath(RsrcLoader.TARGET_NORMAL_ENDING_FILENAME);
             }
         }
 
@@ -276,8 +276,8 @@ namespace Story
 
             Target t = Manager.Instance.DTTarget[_targetCharacter.Id];
 
-            string path = string.Format("{0}{1}{2}{3}{4}", 
-                            Configuration.SCENARIO_FOLDER_PATH,
+            string path = string.Format("{0}{1}{2}{3}{4}",
+                            RsrcLoader.SCENARIO_FOLDER_PATH,
                             RsrcLoader.DIR_SEPARATOR, t.scenarioDirName,
                             RsrcLoader.DIR_SEPARATOR, filename);
 
