@@ -117,6 +117,16 @@ public class Def
     // UI
     public const string BACK = "뒤로";
 
+    // Command in UI
+    public const string CMD_SCHEDULE_NAME = "일 정";
+    public const string CMD_RUN_SCHEDULE_NAME = "실 행";
+    public const string CMD_STATE_NAME = "상 태";
+    public const string CMD_WARDROBE_NAME = "옷 장";
+    public const string CMD_ENDING = "엔 딩";
+    public const string CMD_GO_OUT_NAME = "외 출";
+    public const string CMD_TEST_BOARD_GAME = "보드게임";
+    public const string CMD_TEST_COMBAT = "일기토";
+
     // Calendar
     public const int INIT_YEAR = 199;
     public const int INIT_MONTH = 1;
@@ -125,27 +135,14 @@ public class Def
     public const string MONTH_UNIT = "月";
     public const string DAY_UNIT = "日";
 
+    // Nurture
+    public const int NURTURE_BAD_ENDING_ID = 0;
+
     // Schedule
     public const int MAX_NUM_ACTION_IN_MONTH = 3;
     public const string WEEK_FORMAT = "{0}주 {1}";
     public const string START_SCHEDULE_DESC = "스케줄을 시작합니다.";
     public const string ALARM_LACK_MONEY_DESC = "은전이 부족합니다. 일정을 변경합니다.";
-
-    // Currency
-    public const int INIT_MONEY = 1500;
-    public const int MIN_MONEY = 0;
-    public const int MAX_MONEY = 999999;
-    public const string MONEY_FORMAT = "은전 {0}";
-
-    // Command in UI
-    public const string CMD_SCHEDULE_NAME = "일 정";
-    public const string CMD_RUN_SCHEDULE_NAME = "실 행";
-    public const string CMD_STATE_NAME = "상 태";
-    public const string CMD_WARDROBE_NAME = "옷 장";
-    public const string CMD_ENDING = "엔 딩";
-    public const string CMD_GO_OUT_NAME = "외 출";    
-    public const string CMD_TEST_BOARD_GAME = "보드게임";
-    public const string CMD_TEST_COMBAT = "일기토";
 
     // Action
     public const int ACTION_IDLE_ID = 0;
@@ -157,6 +154,12 @@ public class Def
     public const string ACTION_PARTTIME_DOING_FAIL_DESC = "오늘은 실수를 해버렸다..";
     public const string ACTION_LESSON_DOING_SUCCESS_DESC = "오늘은 수업을 잘 들었다!";
     public const string ACTION_LESSON_DOING_FAIL_DESC = "오늘은 수업에 집중하지 못 했다..";
+
+    // Currency
+    public const int INIT_MONEY = 1500;
+    public const int MIN_MONEY = 0;
+    public const int MAX_MONEY = 999999;
+    public const string MONEY_FORMAT = "은전 {0}";
 
     // Profile
     public const string PROFILE_FORMAT = "{0} ({1})\n{2}, {3}";
@@ -178,8 +181,9 @@ public class Def
     // Target Character
     public const int MIN_FEELING = 0;
     public const int MAX_FEELING = 100;
-    public const int MIN_SCENARIO = 1;// 시나리오는 이 번호부터 시작한다.
-    public const int MAX_SCENARIO = 1;//Calendar.MAX_MONTH * PERIOD_YEAR;   // 12 * 4
+    public const int ENDING_MIN_FEELING_PERCENT = 80;
+    public const int MIN_SCENARIO = 1;
+    public const int MAX_SCENARIO = Nurture.Calendar.MAX_MONTH * PERIOD_YEAR;
 
     // Lines
     public const string ANONYMOUS = "???";

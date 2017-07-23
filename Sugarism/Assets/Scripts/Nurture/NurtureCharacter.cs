@@ -1,4 +1,7 @@
-﻿
+﻿using System;
+using UnityEngine;
+
+
 namespace Nurture
 {
     public abstract partial class Character
@@ -363,6 +366,49 @@ namespace Nurture
                 default:
                     return 0;
             }
+        }
+
+        public int GetAverage(EStatLine statLine)
+        {
+            if (EStatLine.MAX == statLine)
+            {
+                Log.Error("invalid stat line");
+                return -1;
+            }
+
+            int STAT_COUNT = Manager.Instance.DTStat.Count;
+
+            //Log.Debug(string.Format("GetAverage; stat line: {0}", statLine));
+
+            int sum = 0, count = 0;
+            for (int statId = 0; statId < STAT_COUNT; ++statId)
+            {
+                if (statLine != Manager.Instance.DTStat[statId].statLine)
+                    continue;
+
+                if (false == Enum.IsDefined(typeof(EStat), statId))
+                {
+                    Log.Error(string.Format("{0} can't convert to EStat", statId));
+                    return -1;
+                }
+
+                EStat stat = (EStat)statId;
+                int statValue = Get(stat);
+
+                //Log.Debug(string.Format("stat: {0} ({1})", stat, statValue));
+
+                sum += statValue;
+                ++count;
+            }
+
+            //Log.Debug(string.Format("sum: {0}, count: {1}", sum, count));
+            if (count <= 0)
+                return 0;
+
+            int avg = Mathf.RoundToInt(sum / count);
+            //Log.Debug(string.Format("avg: {0}", avg));
+
+            return avg;
         }
 
     }   // class
