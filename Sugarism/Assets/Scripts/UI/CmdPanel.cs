@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 
 public class CmdPanel : Panel
@@ -13,7 +12,10 @@ public class CmdPanel : Panel
     public GameObject PrefCmdButton;
 
     //
-    void Start()
+    private CmdButton _scheduleCmdButton = null;
+
+    //
+    void Awake()
     {
         if (null == PrefCmdButton)
         {
@@ -31,10 +33,16 @@ public class CmdPanel : Panel
         }
         createCmdButton(StateIcon, Def.CMD_STATE_NAME, onClickStateButton);
         createCmdButton(WardrobeIcon, Def.CMD_WARDROBE_NAME, onClickWardrobeButton);
-        createCmdButton(ScheduleIcon, Def.CMD_SCHEDULE_NAME, onClickScheduleButton);
+        _scheduleCmdButton = createCmdButton(ScheduleIcon, Def.CMD_SCHEDULE_NAME, onClickScheduleButton);
+        
+        // tmp:엔딩 테스트
+        //_scheduleCmdButton = createCmdButton(ScheduleIcon, Def.CMD_SCHEDULE_NAME, onClickEndingButton);
+
+        Manager.Instance.Object.NurtureMode.Character.AgeChangeEvent.Attach(onAgeChanged);
     }
 
-    private void createCmdButton(Sprite sprite, string text, 
+
+    private CmdButton createCmdButton(Sprite sprite, string text, 
                                 UnityEngine.Events.UnityAction clickHandler)
     {
         GameObject o = Instantiate(PrefCmdButton);
@@ -43,16 +51,34 @@ public class CmdPanel : Panel
         CmdButton btn = o.GetComponent<CmdButton>();
         if (null == btn)
         {
-            Log.Error("not found CmdButton");
-            return;
+            Log.Error("not found CmdButton component");
+            return null;
         }
 
         btn.SetIcon(sprite);
         btn.SetText(text);
         btn.AddClickListener(clickHandler);
+
+        return btn;
     }
 
-    
+    //
+    private void onAgeChanged(int age)
+    {
+        if (Def.MAX_AGE != age)
+            return;
+
+        _scheduleCmdButton.SetText(Def.CMD_ENDING);
+        _scheduleCmdButton.RemoveAllClickListener();
+        _scheduleCmdButton.AddClickListener(onClickEndingButton);
+    }
+
+    //
+    private void onClickEndingButton()
+    {
+        Manager.Instance.Object.Ending();
+    }
+
     private void onClickScheduleButton()
     {
         Manager.Instance.UI.SchedulePanel.Show();
