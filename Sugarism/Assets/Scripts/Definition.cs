@@ -169,10 +169,12 @@ public class Def
     public const int INIT_AGE = 16;
     public const int PERIOD_YEAR = 4;
     public const int MAX_AGE = INIT_AGE + PERIOD_YEAR;
-    public const string STRESS_FORMAT = "스트레스 {0}";
     public const int DEFAULT_COSTUME_ID = 0;
     public const string PUT_OFF_COSTUME = "해  제";
     public const string PUT_ON_COSTUME = "착  용";
+    public const string STRESS_FORMAT = "스트레스 {0}";
+    public const int SICK_WARNING = 10;
+    public const int SICK_MAX = 100;
 
     // Stat
     public const int MIN_STAT = 0;

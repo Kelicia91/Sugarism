@@ -607,4 +607,39 @@ namespace Nurture
         }
     }
 
+    public class CharacterConditionEvent
+    {
+        public delegate void Handler(ECondition condition);
+        private event Handler _event = null;
+
+        public CharacterConditionEvent()
+        {
+            _event = new Handler(onConditionChanged);
+        }
+
+        // default handler
+        private void onConditionChanged(ECondition condition)
+        {
+            Log.Debug(string.Format("onConditionChanged; {0}", condition));
+        }
+
+        public void Invoke(ECondition condition) { _event.Invoke(condition); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
 }   // namespace

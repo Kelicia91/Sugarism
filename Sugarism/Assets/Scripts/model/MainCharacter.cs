@@ -15,7 +15,7 @@ public class MainCharacter : Nurture.Character
 
         _wearingCostumeId = costumeId;
 
-        // TEST
+        // @todo: TEST
         {
             Name = @"테스트";
             Constitution = EConstitution.MOON;

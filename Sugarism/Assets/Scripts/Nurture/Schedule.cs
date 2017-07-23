@@ -151,6 +151,8 @@ namespace Nurture
             if (_iterator.MoveNext())
                 return;
 
+            _mode.Character.UpdateCondition();
+
             EndEvent.Invoke();
             initialize();
         }

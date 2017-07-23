@@ -9,8 +9,13 @@ public class RsrcLoader
 
     public const char DIR_SEPARATOR = '/';  // @note: unity file system
 
-    //
+    // common
     public const string SCENARIO_FOLDER_PATH = "Scenarios";
+
+    // for story mode
     public const string TARGET_NORMAL_ENDING_FILENAME = "normal";
     public const string TARGET_HAPPY_ENDING_FILENAME = "happy";
+
+    // for nurture mode
+    public const string SICK_BAD_ENDING_FILENAME = "sick";
 }

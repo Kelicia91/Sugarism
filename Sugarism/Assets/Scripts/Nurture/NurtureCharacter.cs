@@ -4,13 +4,20 @@ using UnityEngine;
 
 namespace Nurture
 {
+    public enum ECondition
+    {
+        Healthy = 0,
+        Sick,
+        Die
+    }
+
     public abstract partial class Character
     {
         // fields, property
         private int[] _actionCount = null;
 
         public abstract int Money { get; set; }
-        
+
         private EZodiac _zodiac = EZodiac.MAX;
         public EZodiac Zodiac
         {
@@ -27,6 +34,23 @@ namespace Nurture
             set { _age = value; AgeChangeEvent.Invoke(_age); }
         }
 
+        private ECondition _condition = ECondition.Healthy;
+        public ECondition Condition
+        {
+            get { return _condition; }
+            set
+            {
+                if (_condition.Equals(value))
+                    return;
+
+                _condition = value;
+                ConditionEvent.Invoke(_condition);
+
+                if (ECondition.Die == _condition)
+                    Die();
+            }
+        }
+
 
         #region Events
 
@@ -35,6 +59,9 @@ namespace Nurture
 
         private CharacterStatEvent _statEvent = null;
         public CharacterStatEvent StatEvent { get { return _statEvent; } }
+
+        private CharacterConditionEvent _conditionEvent = null;
+        public CharacterConditionEvent ConditionEvent { get { return _conditionEvent; } }
 
         #endregion
 
@@ -52,10 +79,45 @@ namespace Nurture
             INIT_AGE = age;
             _age = INIT_AGE;
 
+            _condition = ECondition.Healthy;
+
             _ageChangeEvent = new AgeChangeEvent();
             _statEvent = new CharacterStatEvent();
+            _conditionEvent = new CharacterConditionEvent();
         }
 
+        public void Die()
+        {
+            string scenarioPath = string.Format("{0}{1}{2}",
+                                RsrcLoader.SCENARIO_FOLDER_PATH, RsrcLoader.DIR_SEPARATOR,
+                                RsrcLoader.SICK_BAD_ENDING_FILENAME);
+
+            Story.Mode storyMode = Manager.Instance.Object.StoryMode;
+
+            bool isLoaded = storyMode.LoadScenario(scenarioPath);
+            if (false == isLoaded)
+                return; // @todo: 에러. 게임종료.
+
+            storyMode.ScenarioEndEvent.Attach(onScenarioEnd);
+        }
+
+        private void onScenarioEnd()
+        {
+            // @todo: 질병 시나리오 끝. 게임 종료.
+            Log.Debug("die scenario end.");
+        }
+
+        public void UpdateCondition()
+        {
+            int sickness = Stress - Stamina;
+
+            if (sickness >= Def.SICK_MAX)
+                Condition = ECondition.Die;
+            else if (sickness >= Def.SICK_WARNING)
+                Condition = ECondition.Sick;
+            else
+                Condition = ECondition.Healthy;
+        }
 
         public int GetActionCount(int actionIndex)
         {
