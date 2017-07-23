@@ -446,7 +446,7 @@ public class RunSchedulePanel : Panel
         }
         else if (achievementRatio < 100)
         {
-            lines = npc.doneDesc;
+            lines = string.Format("{0}\n({1})", npc.doneDesc, msg);
         }
         else
         {
@@ -481,5 +481,6 @@ public class RunSchedulePanel : Panel
     private void onScheduleEnd()
     {
         Hide();
+        Manager.Instance.UI.MainPanel.Show();   // for recovering currency panel
     }
 }
