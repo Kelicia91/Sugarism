@@ -7,8 +7,10 @@ namespace Story
     {
         private readonly Newtonsoft.Json.JsonSerializerSettings JSON_SETTINGS = null;
 
+        // @legacy .begin
         private TargetCharacter[] _targetCharacterArray = null;
         public TargetCharacter[] TargetCharacterArray { get { return _targetCharacterArray; } }
+        // @legacy .end
 
         private int _caseKey = -1;
         public int CaseKey
@@ -17,8 +19,11 @@ namespace Story
             set { _caseKey = value; }
         }
 
-        private int _targetId = -1;
+        private int _targetId = -1; // @legacy
         private Scenario _scenario = null;
+
+        private TargetCharacter _targetCharacter = null;
+        private Nurture.Character _mainCharacter = null;
 
 
         #region Events
@@ -69,8 +74,10 @@ namespace Story
 
 
         // constructor
-        public Mode()
+        public Mode(Nurture.Character mainCharacter)
         {
+            _mainCharacter = mainCharacter;
+
             // json settings
             JSON_SETTINGS = new Newtonsoft.Json.JsonSerializerSettings();
             JSON_SETTINGS.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
@@ -100,9 +107,14 @@ namespace Story
             {
                 _targetCharacterArray[i] = new TargetCharacter(i, CmdFeelingEvent);
             }
+
+            // test : target
+            _targetCharacter = new TargetCharacter(0, CmdFeelingEvent);
+            _targetCharacter.Feeling += Def.MAX_FEELING;
         }
 
 
+        // legacy method
         public bool LoadScenario(int targetId)
         {
             if (false == ExtTarget.isValid(targetId))
@@ -119,9 +131,8 @@ namespace Story
 
             string fullPath = string.Format("{0}{1}{2}", dirPath,
                             RsrcLoader.DIR_SEPARATOR, filename);
-
-            TextAsset textAsset = getTextAsset(fullPath);
-            bool isLoaded = LoadScenario(textAsset);
+            
+            bool isLoaded = LoadScenario(fullPath);
             if (isLoaded)
             {
                 _targetId = targetId;
@@ -134,6 +145,14 @@ namespace Story
             return isLoaded;
         }
 
+        public bool LoadScenario(string path)
+        {
+            if (null == path)
+                return false;
+
+            TextAsset textAsset = getTextAsset(path);
+            return LoadScenario(textAsset);
+        }
 
         public bool LoadScenario(TextAsset textAsset)
         {
@@ -154,7 +173,7 @@ namespace Story
             }
 
             Sugarism.Scenario scenarioModel = result as Sugarism.Scenario;
-            _scenario = new Scenario(scenarioModel, this);
+            start(scenarioModel);
 
             return true;
         }
@@ -181,6 +200,13 @@ namespace Story
             play();
         }
 
+        private void start(Sugarism.Scenario model)
+        {
+            _scenario = new Scenario(model, this);
+
+            ScenarioStartEvent.Invoke();
+            NextCmd();
+        }
 
         private bool _isEndedScenario = false;
         private void play()
@@ -213,6 +239,76 @@ namespace Story
 
             TextAsset textAsset = Resources.Load<TextAsset>(path);
             return textAsset;
+        }
+
+        //
+        public string GetEndingScenarioPath()
+        {
+            int endingMinFeeling = Mathf.RoundToInt(Def.MAX_FEELING * Def.ENDING_MIN_FEELING_PERCENT * 0.01f);
+            if (_targetCharacter.Feeling < endingMinFeeling)
+            {
+                Log.Debug(string.Format("lack feeling; min({0}), current({1})", endingMinFeeling, _targetCharacter.Feeling));
+                return null;
+            }
+
+            if (isHappyEnding())
+            {
+                Log.Debug("story; happy ending");
+                return getEndingScenarioPath(Configuration.TARGET_HAPPY_ENDING_FILENAME);
+            }
+            else
+            {
+                Log.Debug("story; normal ending");
+                return getEndingScenarioPath(Configuration.TARGET_NORMAL_ENDING_FILENAME);
+            }
+        }
+
+        private string getEndingScenarioPath(string filename)
+        {
+            if (null == filename)
+                return null;
+
+            if (false == ExtTarget.isValid(_targetCharacter.Id))
+            {
+                Log.Error(string.Format("invalid target id; {0}", _targetCharacter.Id));
+                return null;
+            }
+
+            Target t = Manager.Instance.DTTarget[_targetCharacter.Id];
+
+            string path = string.Format("{0}{1}{2}{3}{4}", 
+                            Configuration.SCENARIO_FOLDER_PATH,
+                            RsrcLoader.DIR_SEPARATOR, t.scenarioDirName,
+                            RsrcLoader.DIR_SEPARATOR, filename);
+
+            return path;
+        }
+
+        private bool isHappyEnding()
+        {
+            if (false == ExtTarget.isValid(_targetCharacter.Id))
+            {
+                Log.Error(string.Format("invalid target id; {0}", _targetCharacter.Id));
+                return false;
+            }
+
+            Target t = Manager.Instance.DTTarget[_targetCharacter.Id];
+            
+            int fighterMin = Mathf.RoundToInt(Def.MAX_STAT * t.happyEndingFighterAvgMinPercent * 0.01f);
+            int trickerMin = Mathf.RoundToInt(Def.MAX_STAT * t.happyEndingTrickerAvgMinPercent * 0.01f);
+            int politicianMin = Mathf.RoundToInt(Def.MAX_STAT * t.happyEndingPoliticianAvgMinPercent * 0.01f);
+            int attracterMin = Mathf.RoundToInt(Def.MAX_STAT * t.happyEndingAttracterAvgMinPercent * 0.01f);
+            
+            int fighterAvg = _mainCharacter.GetAverage(EStatLine.FIGHTER);
+            int trickerAvg = _mainCharacter.GetAverage(EStatLine.TRICKER);
+            int politicianAvg = _mainCharacter.GetAverage(EStatLine.POLITICIAN);
+            int attracterAvg = _mainCharacter.GetAverage(EStatLine.ATTACTER);
+
+            if ((fighterAvg >= fighterMin) && (trickerAvg >= trickerMin)
+                && (politicianAvg >= politicianMin) && (attracterAvg >= attracterMin))
+                return true;
+            else
+                return false;
         }
 
     }   // class
