@@ -88,13 +88,13 @@ namespace Nurture
 
         public void Die()
         {
-            string scenarioPath = string.Format("{0}{1}{2}",
+            string sickScenarioPath = string.Format("{0}{1}{2}",
                                 RsrcLoader.SCENARIO_FOLDER_PATH, RsrcLoader.DIR_SEPARATOR,
                                 RsrcLoader.SICK_BAD_ENDING_FILENAME);
 
             Story.Mode storyMode = Manager.Instance.Object.StoryMode;
 
-            bool isLoaded = storyMode.LoadScenario(scenarioPath);
+            bool isLoaded = storyMode.LoadScenario(sickScenarioPath);
             if (false == isLoaded)
                 return; // @todo: 에러. 게임종료.
 
