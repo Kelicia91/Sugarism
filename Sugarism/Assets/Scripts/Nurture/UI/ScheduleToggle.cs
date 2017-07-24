@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -22,11 +20,14 @@ public class ScheduleToggle : MonoBehaviour
         set
         {
             _scheduleIndex = value;
-            onEnable();
             setOrderText(_scheduleIndex);
         }
     }
-    
+
+    //
+    private Nurture.Schedule _schedule = null;
+
+
     //
     void Awake()
     {
@@ -38,31 +39,28 @@ public class ScheduleToggle : MonoBehaviour
         }
 
         _toggle.onValueChanged.AddListener(onValueChanged);
-        Manager.Instance.Object.NurtureMode.Schedule.InsertEvent.Attach(onScheduleInserted);
+        
+        _schedule = Manager.Instance.Object.NurtureMode.Schedule;
+        _schedule.InsertEvent.Attach(onScheduleInserted);
     }
 
-    // This function is called when the object becomes enabled and active.
-    void OnEnable()
+    void Start()
     {
-        onEnable();
-
         // action panel
-        int actionId = Manager.Instance.Object.NurtureMode.Schedule.GetActionId(ScheduleIndex);
-        set(actionId);   
-    }
+        int actionId = _schedule.GetActionId(ScheduleIndex);
+        set(actionId);
 
-    // called after OnEnable()
-    public void Set(ToggleGroup toggleGroup)
-    {
-        _toggle.group = toggleGroup;
-    }
-
-    private void onEnable()
-    {
-        if (0 == ScheduleIndex)
+        // toggle
+        if (ScheduleIndex == Manager.Instance.UI.SchedulePanel.SelectedScheduleIndex)
             _toggle.isOn = true;
         else
             _toggle.isOn = false;
+    }
+
+    // called after OnEnable(), before Start()
+    public void Set(ToggleGroup toggleGroup)
+    {
+        _toggle.group = toggleGroup;
     }
 
 	private void setOrderText(int index)
@@ -87,11 +85,11 @@ public class ScheduleToggle : MonoBehaviour
     
     private void onScheduleInserted(int scheduleIndex, int actionId)
     {
-        if (ScheduleIndex == scheduleIndex)
+        if (scheduleIndex == ScheduleIndex)
             set(actionId);
 
         int nextIndex = getNextScheduleIndex(scheduleIndex);
-        if (ScheduleIndex == nextIndex)
+        if (nextIndex == ScheduleIndex)
             _toggle.isOn = true;
         else
             _toggle.isOn = false;
@@ -99,12 +97,14 @@ public class ScheduleToggle : MonoBehaviour
 
     private int getNextScheduleIndex(int selectedScheduleIndex)
     {
+        int min = 0;
         int max = Def.MAX_NUM_ACTION_IN_MONTH - 1;
 
+        // circular
         if (selectedScheduleIndex < max)
             return (selectedScheduleIndex + 1);
         else
-            return max;
+            return min;
     }
 
     private void set(int actionId)

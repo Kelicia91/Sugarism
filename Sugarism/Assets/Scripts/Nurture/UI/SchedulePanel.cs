@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -14,7 +12,7 @@ public class SchedulePanel : Panel
     public ActionListPanel ActionListPanel;
 
     //
-    private int _selectedScheduleIndex = -1;
+    private int _selectedScheduleIndex = 0;
     public int SelectedScheduleIndex
     {
         get { return _selectedScheduleIndex; }

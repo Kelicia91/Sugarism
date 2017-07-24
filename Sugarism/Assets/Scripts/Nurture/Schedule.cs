@@ -72,7 +72,7 @@ namespace Nurture
             int actionArrayLength = _actionArray.Length;
             for (int i = 0; i < actionArrayLength; ++i)
             {
-                _actionArray[i] = -1;
+                insert(i, -1);
             }
 
             _iterator = null;
