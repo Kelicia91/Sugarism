@@ -41,13 +41,15 @@ public class MainPanel : Panel
 
     public override void Show()
     {
-        CurrencyPanel c =Manager.Instance.UI.CurrencyPanel;
+        CurrencyPanel c = Manager.Instance.UI.CurrencyPanel;
+        c.Hide();
         c.ActPowePanel.SetCharge(true);
         c.ActPowePanel.Show();
         c.GoldPanel.SetCharge(true);
         c.GoldPanel.Show();
         c.MoneyPanel.SetCharge(true);
         c.MoneyPanel.Show();
+        c.Show();
 
         base.Show();
     }

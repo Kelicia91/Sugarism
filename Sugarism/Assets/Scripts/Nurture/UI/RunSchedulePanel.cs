@@ -88,10 +88,12 @@ public class RunSchedulePanel : Panel
     public override void Show()
     {
         CurrencyPanel c = Manager.Instance.UI.CurrencyPanel;
+        c.Hide();
         c.ActPowePanel.Hide();
         c.GoldPanel.Hide();
         c.MoneyPanel.SetCharge(false);
         c.MoneyPanel.Show();
+        c.Show();
 
         base.Show();
     }

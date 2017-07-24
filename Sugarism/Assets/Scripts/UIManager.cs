@@ -63,13 +63,13 @@ public class UIManager : MonoBehaviour
         RunSchedulePanel.Hide();
         StatePanel.Hide();
         WardrobePanel.Hide();
+        CurrencyPanel.Hide();
         SelectTargetPanel.Hide();
-        StoryPanel.Hide();        
+        StoryPanel.Hide();     
         BoardGamePanel.Hide();
         CombatPanel.Hide();
 
         MainPanel.Show();
-        CurrencyPanel.Show();
     }
 
 
