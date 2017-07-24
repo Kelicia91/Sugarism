@@ -132,7 +132,7 @@ namespace Nurture
     {
         private IEnumerator _iterator = null;
 
-        public void Run()
+        public void Start()
         {
             _iterator = scheduling();
             StartEvent.Invoke();
@@ -151,6 +151,11 @@ namespace Nurture
             if (_iterator.MoveNext())
                 return;
 
+            end();
+        }
+
+        private void end()
+        {
             _mode.Character.UpdateCondition();
 
             EndEvent.Invoke();

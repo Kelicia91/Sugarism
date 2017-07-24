@@ -55,7 +55,7 @@ public class RunButton : MonoBehaviour
         // y - 스케줄패널 hide, 런스케줄패널 show
 
         //
-        Manager.Instance.Object.NurtureMode.Schedule.Run();
+        Manager.Instance.Object.NurtureMode.Schedule.Start();
     }
 
     private void onScheduleInserted(int scheduleIndex, int actionId)
