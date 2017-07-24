@@ -83,6 +83,8 @@ public class ObjectManager : MonoBehaviour
 
     private void onNurtureEndingScenarioEnd()
     {
+        Log.Debug("onNurtureEndingScenarioEnd");
+
         if (_isStartStoryEndingScenario)
         {
             _isStartStoryEndingScenario = false;
@@ -96,7 +98,7 @@ public class ObjectManager : MonoBehaviour
         
         string storyEndingScenarioPath = StoryMode.GetEndingScenarioPath();
         if (null == storyEndingScenarioPath)
-            return; // @todo: 육성 엔딩 끝. 스토리 엔딩 없음.(호감도부족) 게임종료.
+            return; // @todo: 에러. 게임종료.
 
         bool isLoaded = StoryMode.LoadScenario(storyEndingScenarioPath);
         if (false == isLoaded)

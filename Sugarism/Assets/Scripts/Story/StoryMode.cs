@@ -236,7 +236,10 @@ namespace Story
             if (_targetCharacter.Feeling < endingMinFeeling)
             {
                 Log.Debug(string.Format("lack feeling; min({0}), current({1})", endingMinFeeling, _targetCharacter.Feeling));
-                return null;
+
+                Log.Debug("story; single ending");
+                return string.Format("{0}{1}{2}", RsrcLoader.SCENARIO_FOLDER_PATH,
+                                    RsrcLoader.DIR_SEPARATOR, RsrcLoader.SINGLE_BAD_ENDING_FILENAME);
             }
 
             if (isHappyEnding())
@@ -253,9 +256,6 @@ namespace Story
 
         private string getEndingScenarioPath(string filename)
         {
-            if (null == filename)
-                return null;
-
             if (false == ExtTarget.isValid(_targetCharacter.Id))
             {
                 Log.Error(string.Format("invalid target id; {0}", _targetCharacter.Id));

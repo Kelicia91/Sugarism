@@ -13,6 +13,7 @@ public class RsrcLoader
     public const string SCENARIO_FOLDER_PATH = "Scenarios";
 
     // for story mode
+    public const string SINGLE_BAD_ENDING_FILENAME = "single";
     public const string TARGET_NORMAL_ENDING_FILENAME = "normal";
     public const string TARGET_HAPPY_ENDING_FILENAME = "happy";
 
