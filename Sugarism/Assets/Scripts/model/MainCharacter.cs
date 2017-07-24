@@ -15,6 +15,11 @@ public class MainCharacter : Nurture.Character
 
         _wearingCostumeId = costumeId;
 
+        // events
+        _moneyChangeEvent = new MoneyChangeEvent();
+        _buyCostumeEvent = new BuyCostumeEvent();
+        _wearCostumeEvent = new WearCostumeEvent();
+
         // @todo: TEST
         {
             Name = @"테스트";
@@ -54,7 +59,7 @@ public class MainCharacter : Nurture.Character
                 return;
 
             _money = adjustedValue;
-            Manager.Instance.MoneyChangeEvent.Invoke(_money);
+            MoneyChangeEvent.Invoke(_money);
         }
     }
 
@@ -65,7 +70,7 @@ public class MainCharacter : Nurture.Character
         private set
         {
             _wearingCostumeId = value;
-            Manager.Instance.WearCostumeEvent.Invoke(_wearingCostumeId);
+            WearCostumeEvent.Invoke(_wearingCostumeId);
         }
     }
 
@@ -73,6 +78,21 @@ public class MainCharacter : Nurture.Character
     public Wardrobe Wardrobe { get { return _wardrobe; } }
 
 
+    #region Events
+
+    private MoneyChangeEvent _moneyChangeEvent = null;
+    public MoneyChangeEvent MoneyChangeEvent { get { return _moneyChangeEvent; } }
+
+    private BuyCostumeEvent _buyCostumeEvent = null;
+    public BuyCostumeEvent BuyCostumeEvent { get { return _buyCostumeEvent; } }
+
+    private WearCostumeEvent _wearCostumeEvent = null;
+    public WearCostumeEvent WearCostumeEvent { get { return _wearCostumeEvent; } }
+
+    #endregion
+
+
+    //
     public bool IsChildHood()
     {
         int midAge = (Def.INIT_AGE + Def.MAX_AGE) / 2;

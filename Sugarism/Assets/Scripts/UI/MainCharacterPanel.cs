@@ -19,8 +19,7 @@ public class MainCharacterPanel : CharacterPanel
 
         _mainCharacter.AgeChangeEvent.Attach(onAgeChanged);
         _mainCharacter.ConditionEvent.Attach(onConditionChanged);
-
-        Manager.Instance.WearCostumeEvent.Attach(onWearCostume);
+        _mainCharacter.WearCostumeEvent.Attach(onWearCostume);
 
         show();
     }

@@ -12,11 +12,6 @@ public class Manager : MonoBehaviour
     {
         _instance = this;
 
-        // custom event
-        _moneyChangeEvent = new MoneyChangeEvent();
-        _buyCostumeEvent = new BuyCostumeEvent();
-        _wearCostumeEvent = new WearCostumeEvent();
-
         // manager
         _object = Instantiate(PrefObjectManager);
         _ui = Instantiate(PrefUIManager);
@@ -91,16 +86,7 @@ public class Manager : MonoBehaviour
     public TargetObject DTTarget { get { return AsstDTTarget; } }
     public VacationObject DTVacation { get { return AsstDTVacation; } }
     public ZodiacObject DTZodiac { get { return AsstDTZodiac; } }
-
-    // CustomEvent
-    private MoneyChangeEvent _moneyChangeEvent = null;
-    public MoneyChangeEvent MoneyChangeEvent { get { return _moneyChangeEvent; } }
-
-    private BuyCostumeEvent _buyCostumeEvent = null;
-    public BuyCostumeEvent BuyCostumeEvent { get { return _buyCostumeEvent; } }
-
-    private WearCostumeEvent _wearCostumeEvent = null;
-    public WearCostumeEvent WearCostumeEvent { get { return _wearCostumeEvent; } }
-}
+    
+}   // class
  
  

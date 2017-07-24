@@ -37,8 +37,9 @@ public class CostumePanel : Panel
     {
         _backgroundImage = GetComponent<Image>();
 
-        Manager.Instance.BuyCostumeEvent.Attach(onBuyCostume);
-        Manager.Instance.WearCostumeEvent.Attach(onWearCostume);
+        MainCharacter mc = Manager.Instance.Object.MainCharacter;
+        mc.BuyCostumeEvent.Attach(onBuyCostume);
+        mc.WearCostumeEvent.Attach(onWearCostume);
     }
 
     // Use this for initialization

@@ -11,11 +11,10 @@ public class MoneyPanel : MonoBehaviour
     void Start()
     {
         _chargeablePanel = gameObject.GetComponent<ChargeablePanel>();
-
-        Manager.Instance.MoneyChangeEvent.Attach(onMoneyChanged);
-
         
         MainCharacter mainCharacter = Manager.Instance.Object.MainCharacter;
+        mainCharacter.MoneyChangeEvent.Attach(onMoneyChanged);
+
         int money = mainCharacter.Money;
         _chargeablePanel.SetText(get(money));
 

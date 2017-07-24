@@ -14,7 +14,7 @@ public class CostumeController
             _isBuy = value;
 
             if (_isBuy)
-                Manager.Instance.BuyCostumeEvent.Invoke(CostumeId);
+                Manager.Instance.Object.MainCharacter.BuyCostumeEvent.Invoke(CostumeId);
         }
     }
 
