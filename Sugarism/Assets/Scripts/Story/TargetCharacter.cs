@@ -21,11 +21,22 @@ namespace Story
             }
         }
 
+        private readonly string _scenarioDirPath = null;
+        public string NextScenarioPath
+        {
+            get
+            {
+                string filename = (LastOpenedScenarioNo + 1).ToString();
+                string path = string.Format("{0}{1}", _scenarioDirPath, filename);
+                return path;
+            }
+        }
+
         private int _lastOpenedScenarioNo = -1;
         public int LastOpenedScenarioNo
         {
             get { return _lastOpenedScenarioNo; }
-            set
+            private set
             {
                 _lastOpenedScenarioNo = value;
 
@@ -34,7 +45,8 @@ namespace Story
                 else if (_lastOpenedScenarioNo > Def.MAX_SCENARIO)
                     _lastOpenedScenarioNo = Def.MAX_SCENARIO;
             }
-        }
+        }        
+        
 
         // constructor
         public TargetCharacter(int id, CmdFeelingEvent cmdFeelingEvent)
@@ -43,7 +55,18 @@ namespace Story
             _feeling = Def.MIN_FEELING;
             _lastOpenedScenarioNo = Def.MIN_SCENARIO - 1;
 
+            Target target = Manager.Instance.DTTarget[_id];
+            _scenarioDirPath = string.Format("{0}{1}{2}{3}", 
+                            RsrcLoader.SCENARIO_FOLDER_PATH, RsrcLoader.DIR_SEPARATOR, 
+                            target.scenarioDirName, RsrcLoader.DIR_SEPARATOR);
+
             cmdFeelingEvent.Attach(onCmdFeeling);
+        }
+
+        public void NextScenarioNo()
+        {
+            ++LastOpenedScenarioNo;
+            Log.Debug(string.Format("TargetCharacter; LastOpenedScenarioNo({0})", LastOpenedScenarioNo));
         }
 
 

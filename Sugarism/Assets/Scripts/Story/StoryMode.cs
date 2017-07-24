@@ -12,6 +12,9 @@ namespace Story
         public TargetCharacter[] TargetCharacterArray { get { return _targetCharacterArray; } }
         // @legacy .end
 
+        private TargetCharacter _targetCharacter = null;
+        public TargetCharacter TargetCharacter { get { return _targetCharacter; } }
+
         private int _caseKey = -1;
         public int CaseKey
         {
@@ -22,7 +25,6 @@ namespace Story
         private int _targetId = -1; // @legacy
         private Scenario _scenario = null;
 
-        private TargetCharacter _targetCharacter = null;
         private Nurture.Character _mainCharacter = null;
 
 
@@ -74,7 +76,7 @@ namespace Story
 
 
         // constructor
-        public Mode(Nurture.Character mainCharacter)
+        public Mode(Nurture.Character mainCharacter, int targetId)
         {
             _mainCharacter = mainCharacter;
 
@@ -109,30 +111,16 @@ namespace Story
             }
 
             // test : target
-            _targetCharacter = new TargetCharacter(0, CmdFeelingEvent);
-            _targetCharacter.Feeling += Def.MAX_FEELING;
+            _targetCharacter = new TargetCharacter(targetId, CmdFeelingEvent);
         }
 
 
         // legacy method
         public bool LoadScenario(int targetId)
         {
-            if (false == ExtTarget.isValid(targetId))
-            {
-                Log.Error(string.Format("invalid target id({0})", targetId));
-                return false;
-            }
-
-            string dirPath = string.Format("{0}{1}{2}", RsrcLoader.SCENARIO_FOLDER_PATH,
-                            RsrcLoader.DIR_SEPARATOR, Manager.Instance.DTTarget[targetId].scenarioDirName);
-
             TargetCharacter tc = TargetCharacterArray[targetId];
-            string filename = (tc.LastOpenedScenarioNo + 1).ToString(); // without extension
-
-            string fullPath = string.Format("{0}{1}{2}", dirPath,
-                            RsrcLoader.DIR_SEPARATOR, filename);
             
-            bool isLoaded = LoadScenario(fullPath);
+            bool isLoaded = LoadScenario(tc.NextScenarioPath);
             if (isLoaded)
             {
                 _targetId = targetId;
@@ -219,7 +207,7 @@ namespace Story
                 if (ExtTarget.isValid(_targetId))
                 {
                     TargetCharacter c = _targetCharacterArray[_targetId];
-                    ++c.LastOpenedScenarioNo;
+                    c.NextScenarioNo();
 
                     _targetId = -1;
                 }
