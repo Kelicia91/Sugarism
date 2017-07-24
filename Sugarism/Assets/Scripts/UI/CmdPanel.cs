@@ -8,6 +8,7 @@ public class CmdPanel : Panel
     public Sprite ScheduleIcon;
     public Sprite WardrobeIcon;
     public Sprite StateIcon;
+    public Sprite EndingIcon;
 
     public GameObject PrefCmdButton;
 
@@ -23,20 +24,10 @@ public class CmdPanel : Panel
             return;
         }
 
-        /** reverse to order **/
-        {
-            // temp.begin
-            //createCmdButton(StateIcon, Def.CMD_TEST_COMBAT, onClickTestCombatButton);
-            //createCmdButton(StateIcon, Def.CMD_TEST_BOARD_GAME, onClickTestBoardGameButton);
-            createCmdButton(StateIcon, Def.CMD_GO_OUT_NAME, onClickStoryButton);
-            // temp.end
-        }
+        /** @note: REVERSE to order **/
         createCmdButton(StateIcon, Def.CMD_STATE_NAME, onClickStateButton);
         createCmdButton(WardrobeIcon, Def.CMD_WARDROBE_NAME, onClickWardrobeButton);
         _scheduleCmdButton = createCmdButton(ScheduleIcon, Def.CMD_SCHEDULE_NAME, onClickScheduleButton);
-        
-        // tmp:엔딩 테스트
-        //_scheduleCmdButton = createCmdButton(ScheduleIcon, Def.CMD_SCHEDULE_NAME, onClickEndingButton);
 
         Manager.Instance.Object.NurtureMode.Character.AgeChangeEvent.Attach(onAgeChanged);
     }
@@ -68,6 +59,7 @@ public class CmdPanel : Panel
         if (Def.MAX_AGE != age)
             return;
 
+        _scheduleCmdButton.SetIcon(EndingIcon);
         _scheduleCmdButton.SetText(Def.CMD_ENDING);
         _scheduleCmdButton.RemoveAllClickListener();
         _scheduleCmdButton.AddClickListener(onClickEndingButton);
@@ -92,24 +84,5 @@ public class CmdPanel : Panel
     private void onClickStateButton()
     {
         Manager.Instance.UI.StatePanel.Show();
-    }
-
-    
-    // for test
-    private void onClickStoryButton()
-    {
-        Manager.Instance.UI.SelectTargetPanel.Show();
-    }
-
-    private void onClickTestBoardGameButton()
-    {
-        int opponentPlayerId = 1;  // test~~~~~
-        Manager.Instance.Object.BoardGameMode.Start(BoardGame.EValuationBasis.Tricker, opponentPlayerId);
-    }
-
-    private void onClickTestCombatButton()
-    {
-        int opponentPlayerId = 3; // test~~~
-        Manager.Instance.Object.CombatMode.Start(opponentPlayerId);
     }
 }

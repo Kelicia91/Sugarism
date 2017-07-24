@@ -16,6 +16,10 @@ public class Manager : MonoBehaviour
         _object = Instantiate(PrefObjectManager);
         _ui = Instantiate(PrefUIManager);
 
+#if UNITY_EDITOR
+        Instantiate(PrefTestManager);
+#endif
+
         // game
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         Screen.SetResolution(Screen.width, (Screen.width / Def.RESOLUTION_WIDTH_RATIO * Def.RESOLUTION_HEIGHT_RATIO), true);
@@ -27,6 +31,7 @@ public class Manager : MonoBehaviour
     // Prefabs
     public ObjectManager PrefObjectManager;
     public UIManager PrefUIManager;
+    public TestManager PrefTestManager;
 
     // KYI : DataTable assets
     public ActionObject AsstDTAction;

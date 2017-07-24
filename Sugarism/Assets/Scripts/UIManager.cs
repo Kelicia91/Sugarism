@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
 
     /********* Game Interface *********/
     private Canvas _canvas = null;
+    public Canvas Canvas { get { return _canvas; } }
 
     private MainPanel _mainPanel = null;
     public MainPanel MainPanel { get { return _mainPanel; } }
@@ -55,17 +56,20 @@ public class UIManager : MonoBehaviour
 
 
     // Use this for initialization
-    void Start ()
+    void Awake()
     {
         create();
+    }
 
+    void Start()
+    {
         SchedulePanel.Hide();
         RunSchedulePanel.Hide();
         StatePanel.Hide();
         WardrobePanel.Hide();
         CurrencyPanel.Hide();
         SelectTargetPanel.Hide();
-        StoryPanel.Hide();     
+        StoryPanel.Hide();
         BoardGamePanel.Hide();
         CombatPanel.Hide();
 
