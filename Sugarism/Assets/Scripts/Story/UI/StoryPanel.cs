@@ -13,12 +13,14 @@ public class StoryPanel : Panel
     public MiniPicturePanel MiniPicturePanel;
     public ClearPanel InputPanel;
     public SwitchPanel SwitchPanel;
+    public GameObject PrefFadePanel;
 
     // Layer z-order (back->front)
-    // : bg -> character -> fg -> dialogue -> mini cg -> clear(input) -> switch
+    // : bg -> character -> fg -> dialogue -> mini cg -> clear(input) -> switch -> fade
 
     //
     private AudioSource _seAudioSource = null;
+    private FadePanel _fadePanel = null;
 
 
     // Use this for initialization
@@ -27,6 +29,11 @@ public class StoryPanel : Panel
         _seAudioSource = gameObject.AddComponent<AudioSource>();
         _seAudioSource.loop = false;
 
+        GameObject o = Instantiate(PrefFadePanel);
+        o.transform.SetParent(transform, false);
+        _fadePanel = o.GetComponent<FadePanel>();
+
+        // attach event handler
         Story.Mode storyMode = Manager.Instance.Object.StoryMode;
 
         storyMode.CmdAppearEvent.Attach(onCmdAppear);
@@ -40,6 +47,28 @@ public class StoryPanel : Panel
         storyMode.ScenarioStartEvent.Attach(onScenarioStart);
         storyMode.ScenarioEndEvent.Attach(onScenarioEnd);
     }
+
+
+    private void showFadeIn()
+    {
+        base.Show();
+
+        _fadePanel.FadeIn();
+    }
+
+    private void hideFadeOut()
+    {
+        float animLength = _fadePanel.FadeOut();
+
+        Invoke(END_FADE_OUT_METHOD_NAME, animLength);
+    }
+
+    private const string END_FADE_OUT_METHOD_NAME = "endFadeOut";
+    private void endFadeOut()
+    {
+        base.Hide();
+    }
+
 
     private void initialize()
     {
@@ -189,11 +218,11 @@ public class StoryPanel : Panel
     private void onScenarioStart()
     {
         initialize();
-        Show();
+        showFadeIn();
     }
 
     private void onScenarioEnd()
     {
-        Hide();
+        hideFadeOut();
     }
 }
