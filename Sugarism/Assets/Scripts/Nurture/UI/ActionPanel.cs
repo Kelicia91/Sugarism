@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -11,13 +9,7 @@ public class ActionPanel : Panel
     public Image Image;
     public Text NameText;
     public Text MoneyText;
-
-
-    // Use this for initialization
-    void Start()
-    {
-
-    }
+    
     
     public void SetActionId(int actionId)
     {
