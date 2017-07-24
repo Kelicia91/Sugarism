@@ -16,6 +16,7 @@ public class MessagePanel : Panel, IPointerClickHandler
 
     public override void Show()
     {
+        Log.Error("not supported Show()");
         return; // blocking base.Show()
     }
 
