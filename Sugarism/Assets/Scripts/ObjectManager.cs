@@ -8,7 +8,8 @@ public class ObjectManager : MonoBehaviour
         _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY, Def.DEFAULT_COSTUME_ID);
 
         // story
-        _storyMode = new Story.Mode(_mainCharacter);
+        int targetId = 0;   // @todo: TEST
+        _storyMode = new Story.Mode(_mainCharacter, targetId);
 
         // nurture
         _nurtureMode = new Nurture.Mode(_mainCharacter);
@@ -18,6 +19,10 @@ public class ObjectManager : MonoBehaviour
 
         // combat
         _combatMode = new Combat.CombatMode();
+
+        // attach handler
+        StoryMode.ScenarioEndEvent.Attach(onScenarioEnd);
+        NurtureMode.Schedule.EndEvent.Attach(onScheduleEnd);
     }
 
 
@@ -46,9 +51,12 @@ public class ObjectManager : MonoBehaviour
     private int _nurtureEndingId = -1;
     private bool _isStartStoryEndingScenario = false;
 
+    /***** Nurture & Story Chain *****/
+    private bool _isStartTargetScenario = false;
+
     #endregion  // Field, Property
 
-    
+
     public void Ending()
     {
         _nurtureEndingId = NurtureMode.GetEndingId();
@@ -70,31 +78,54 @@ public class ObjectManager : MonoBehaviour
             return;
         
         // @warn : callback's calling order
-        StoryMode.ScenarioEndEvent.Attach(onScenarioEnd);
+        StoryMode.ScenarioEndEvent.Attach(onNurtureEndingScenarioEnd);
     }
 
-    private void onScenarioEnd()
+    private void onNurtureEndingScenarioEnd()
     {
         if (_isStartStoryEndingScenario)
         {
             _isStartStoryEndingScenario = false;
-            return; // 스토리 엔딩 끝. 게임종료.
+            return; // @todo: 스토리 엔딩 끝. 게임종료.
         }
 
         if (Def.NURTURE_BAD_ENDING_ID == _nurtureEndingId)
-            return; // 육성 엔딩 끝. 스토리 엔딩 없음. 게임종료.
+            return; // @todo: 육성 엔딩 끝. 스토리 엔딩 없음.(떠돌이) 게임종료.
         else
             _nurtureEndingId = -1;
-
-        Story.Mode storyMode = Manager.Instance.Object.StoryMode;
-        string storyEndingScenarioPath = storyMode.GetEndingScenarioPath();
+        
+        string storyEndingScenarioPath = StoryMode.GetEndingScenarioPath();
         if (null == storyEndingScenarioPath)
-            return; // 육성 엔딩 끝. 스토리 엔딩 없음. 게임종료.
+            return; // @todo: 육성 엔딩 끝. 스토리 엔딩 없음.(호감도부족) 게임종료.
 
-        bool isLoaded = storyMode.LoadScenario(storyEndingScenarioPath);
+        bool isLoaded = StoryMode.LoadScenario(storyEndingScenarioPath);
         if (false == isLoaded)
-            return; // 에러. 게임종료.
+            return; // @todo: 에러. 게임종료.
 
         _isStartStoryEndingScenario = true;
+    }
+
+
+
+    private void onScheduleEnd()
+    {
+        Story.TargetCharacter target = StoryMode.TargetCharacter;
+
+        bool isLoaded = StoryMode.LoadScenario(target.NextScenarioPath);
+        if (false == isLoaded)
+            return;
+
+        _isStartTargetScenario = true;
+    }
+
+    private void onScenarioEnd()
+    {
+        if (false == _isStartTargetScenario)
+            return;
+
+        _isStartTargetScenario = false;
+
+        Story.TargetCharacter target = StoryMode.TargetCharacter;
+        target.NextScenarioNo();
     }
 }
