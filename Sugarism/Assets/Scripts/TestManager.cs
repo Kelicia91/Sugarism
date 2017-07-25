@@ -68,6 +68,6 @@ public class TestManager : MonoBehaviour
 
     private void onClickEndingButton()
     {
-        Manager.Instance.Object.Ending();
+        Manager.Instance.Object.EndNurture();
     }
 }

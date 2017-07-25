@@ -127,6 +127,19 @@ public class Def
     public const string CMD_TEST_BOARD_GAME = "보드게임";
     public const string CMD_TEST_COMBAT = "일기토";
 
+    // Currency
+    public const int INIT_MONEY = 1500;
+    public const int MIN_MONEY = 0;
+    public const int MAX_MONEY = 999999;
+    public const string MONEY_FORMAT = "은전 {0}";
+
+    // Nurture
+    public const int NURTURE_BAD_ENDING_ID = 0;
+
+    // Stat
+    public const int MIN_STAT = 0;
+    public const int MAX_STAT = 999;
+
     // Calendar
     public const int INIT_YEAR = 199;
     public const int INIT_MONTH = 1;
@@ -134,9 +147,6 @@ public class Def
     public const string YEAR_UNIT = "年";
     public const string MONTH_UNIT = "月";
     public const string DAY_UNIT = "日";
-
-    // Nurture
-    public const int NURTURE_BAD_ENDING_ID = 0;
 
     // Schedule
     public const int MAX_NUM_ACTION_IN_MONTH = 3;
@@ -155,15 +165,6 @@ public class Def
     public const string ACTION_LESSON_DOING_SUCCESS_DESC = "오늘은 수업을 잘 들었다!";
     public const string ACTION_LESSON_DOING_FAIL_DESC = "오늘은 수업에 집중하지 못 했다..";
 
-    // Currency
-    public const int INIT_MONEY = 1500;
-    public const int MIN_MONEY = 0;
-    public const int MAX_MONEY = 999999;
-    public const string MONEY_FORMAT = "은전 {0}";
-
-    // Profile
-    public const string PROFILE_FORMAT = "{0} ({1})\n{2}, {3}";
-
     // Main Character
     public const int MAIN_CHARACTER_ID = 0; // DTCharacter, DTBoardGamePlayer, DTCombatPlayer
     public const int INIT_AGE = 16;
@@ -176,9 +177,8 @@ public class Def
     public const int SICK_WARNING = 10;
     public const int SICK_MAX = 100;
 
-    // Stat
-    public const int MIN_STAT = 0;
-    public const int MAX_STAT = 999;
+    // Story
+    public const string STORY_ENDING_START_MSG = "그러던 어느 날...";
 
     // Target Character
     public const int MIN_FEELING = 0;

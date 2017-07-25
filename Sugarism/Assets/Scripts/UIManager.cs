@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject PrefStatePanel;
     public GameObject PrefWardrobePanel;
     public GameObject PrefCurrencyPanel;
+    public GameObject PrefPopupPanel;
     public GameObject PrefSelectTargetPanel;
     public GameObject PrefStoryPanel;    
     public GameObject PrefBoardGamePanel;
@@ -41,6 +42,9 @@ public class UIManager : MonoBehaviour
 
     private CurrencyPanel _currencyPanel = null;
     public CurrencyPanel CurrencyPanel { get { return _currencyPanel; } }
+
+    private PopupPanel _popupPanel = null;
+    public PopupPanel Popup { get { return _popupPanel; } }
 
     private SelectTargetPanel _selectTargetPanel = null;
     public SelectTargetPanel SelectTargetPanel { get { return _selectTargetPanel; } }
@@ -73,6 +77,7 @@ public class UIManager : MonoBehaviour
         BoardGamePanel.Hide();
         CombatPanel.Hide();
 
+        Popup.Show();
         MainPanel.Show();
     }
 
@@ -109,6 +114,10 @@ public class UIManager : MonoBehaviour
         o = Instantiate(PrefCurrencyPanel);
         _currencyPanel = o.GetComponent<CurrencyPanel>();
         _currencyPanel.transform.SetParent(_canvas.transform, false);
+
+        o = Instantiate(PrefPopupPanel);
+        _popupPanel = o.GetComponent<PopupPanel>();
+        _popupPanel.transform.SetParent(_canvas.transform, false);
 
         o = Instantiate(PrefSelectTargetPanel);
         _selectTargetPanel = o.GetComponent<SelectTargetPanel>();

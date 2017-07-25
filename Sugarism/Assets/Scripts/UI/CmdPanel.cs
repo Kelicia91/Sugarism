@@ -68,7 +68,7 @@ public class CmdPanel : Panel
     //
     private void onClickEndingButton()
     {
-        Manager.Instance.Object.Ending();
+        Manager.Instance.Object.EndNurture();
     }
 
     private void onClickScheduleButton()

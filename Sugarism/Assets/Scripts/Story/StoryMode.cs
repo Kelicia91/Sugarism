@@ -236,40 +236,18 @@ namespace Story
             if (_targetCharacter.Feeling < endingMinFeeling)
             {
                 Log.Debug(string.Format("lack feeling; min({0}), current({1})", endingMinFeeling, _targetCharacter.Feeling));
-
-                Log.Debug("story; single ending");
-                return string.Format("{0}{1}{2}", RsrcLoader.SCENARIO_FOLDER_PATH,
-                                    RsrcLoader.DIR_SEPARATOR, RsrcLoader.SINGLE_BAD_ENDING_FILENAME);
+                
+                return string.Format("{0}{1}{2}", RsrcLoader.SCENARIO_FOLDER_PATH, RsrcLoader.DIR_SEPARATOR, 
+                                                RsrcLoader.SINGLE_BAD_ENDING_FILENAME);
             }
 
+            string filename = null;
             if (isHappyEnding())
-            {
-                Log.Debug("story; happy ending");
-                return getEndingScenarioPath(RsrcLoader.TARGET_HAPPY_ENDING_FILENAME);
-            }
+                filename = RsrcLoader.TARGET_HAPPY_ENDING_FILENAME;
             else
-            {
-                Log.Debug("story; normal ending");
-                return getEndingScenarioPath(RsrcLoader.TARGET_NORMAL_ENDING_FILENAME);
-            }
-        }
+                filename = RsrcLoader.TARGET_NORMAL_ENDING_FILENAME;
 
-        private string getEndingScenarioPath(string filename)
-        {
-            if (false == ExtTarget.isValid(_targetCharacter.Id))
-            {
-                Log.Error(string.Format("invalid target id; {0}", _targetCharacter.Id));
-                return null;
-            }
-
-            Target t = Manager.Instance.DTTarget[_targetCharacter.Id];
-
-            string path = string.Format("{0}{1}{2}{3}{4}",
-                            RsrcLoader.SCENARIO_FOLDER_PATH,
-                            RsrcLoader.DIR_SEPARATOR, t.scenarioDirName,
-                            RsrcLoader.DIR_SEPARATOR, filename);
-
-            return path;
+            return string.Format("{0}{1}", TargetCharacter.ScenarioDirPath, filename);
         }
 
         private bool isHappyEnding()

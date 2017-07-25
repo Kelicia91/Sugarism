@@ -105,3 +105,39 @@ public class WearCostumeEvent
         _event -= handler;
     }
 }
+
+
+public class EndNurtureEvent
+{
+    public delegate void Handler();
+    private event Handler _event = null;
+
+    public EndNurtureEvent()
+    {
+        _event = new Handler(onEndNurture);
+    }
+
+    // default handler
+    private void onEndNurture()
+    {
+        Log.Debug("onEndNurture");
+    }
+
+    public void Invoke() { _event.Invoke(); }
+
+    public void Attach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event += handler;
+    }
+
+    public void Detach(Handler handler)
+    {
+        if (null == handler)
+            return;
+
+        _event -= handler;
+    }
+}
