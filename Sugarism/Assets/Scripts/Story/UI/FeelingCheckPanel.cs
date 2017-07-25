@@ -18,7 +18,13 @@ public class FeelingCheckPanel : Panel, IPointerClickHandler
     //
     void Start()
     {
+        const int PERCENT_MIN = 0;
+        const int PERCENT_MAX = 100;
+
+        FeelingPanel.SetMinMax(PERCENT_MIN, PERCENT_MAX);
         FeelingPanel.SetNameText(Def.CMD_FEELING_CHECK);
+
+        ProgressPanel.SetMinMax(PERCENT_MIN, PERCENT_MAX);
         ProgressPanel.SetNameText(Def.PROGRESS);
         
         Story.TargetCharacter tc = Manager.Instance.Object.StoryMode.TargetCharacter;

@@ -18,10 +18,19 @@ public class SliderPanel : MonoBehaviour
         {
             Slider.interactable = false;
             Slider.wholeNumbers = true;
-            Slider.minValue = Def.MIN_STAT;
-            Slider.maxValue = Def.MAX_STAT;
-            Slider.value = Slider.minValue;   
         }
+    }
+
+    public void SetMinMax(float min, float max)
+    {
+        if (null == Slider)
+        {
+            Log.Error("not found slider");
+            return;
+        }
+
+        Slider.minValue = min;
+        Slider.maxValue = max;
     }
     
     public void SetNameText(string s)
