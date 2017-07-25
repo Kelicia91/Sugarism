@@ -116,12 +116,14 @@ public class Def
 
     // UI
     public const string BACK = "뒤로";
+    public const string PROGRESS = "진행도";
 
     // Command in UI
     public const string CMD_SCHEDULE_NAME = "일 정";
     public const string CMD_RUN_SCHEDULE_NAME = "실 행";
-    public const string CMD_STATE_NAME = "상 태";
     public const string CMD_WARDROBE_NAME = "옷 장";
+    public const string CMD_STATE_NAME = "상 태";
+    public const string CMD_FEELING_CHECK = "친밀도";
     public const string CMD_ENDING = "엔 딩";
     public const string CMD_GO_OUT_NAME = "외 출";
     public const string CMD_TEST_BOARD_GAME = "보드게임";

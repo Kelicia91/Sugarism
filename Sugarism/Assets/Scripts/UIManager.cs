@@ -11,9 +11,10 @@ public class UIManager : MonoBehaviour
     public GameObject PrefMainPanel;
     public GameObject PrefSchedulePanel;
     public GameObject PrefRunSchedulePanel;
-    public GameObject PrefStatePanel;
     public GameObject PrefWardrobePanel;
+    public GameObject PrefStatePanel;
     public GameObject PrefCurrencyPanel;
+    public GameObject PrefFeelingCheckPanel;
     public GameObject PrefPopupPanel;
     public GameObject PrefSelectTargetPanel;
     public GameObject PrefStoryPanel;    
@@ -34,14 +35,17 @@ public class UIManager : MonoBehaviour
     private RunSchedulePanel _runSchedulePanel = null;
     public RunSchedulePanel RunSchedulePanel { get { return _runSchedulePanel; } }
 
-    private StatePanel _statePanel = null;
-    public StatePanel StatePanel { get { return _statePanel; } }
-
     private WardrobePanel _wardrobePanel = null;
     public WardrobePanel WardrobePanel { get { return _wardrobePanel; } }
 
+    private StatePanel _statePanel = null;
+    public StatePanel StatePanel { get { return _statePanel; } }
+
     private CurrencyPanel _currencyPanel = null;
     public CurrencyPanel CurrencyPanel { get { return _currencyPanel; } }
+
+    private FeelingCheckPanel _feelingCheckPanel = null;
+    public FeelingCheckPanel FeelingCheckPanel { get { return _feelingCheckPanel; } }
 
     private PopupPanel _popupPanel = null;
     public PopupPanel Popup { get { return _popupPanel; } }
@@ -69,8 +73,9 @@ public class UIManager : MonoBehaviour
     {
         SchedulePanel.Hide();
         RunSchedulePanel.Hide();
-        StatePanel.Hide();
         WardrobePanel.Hide();
+        StatePanel.Hide();
+        FeelingCheckPanel.Hide();
         CurrencyPanel.Hide();
         SelectTargetPanel.Hide();
         StoryPanel.Hide();
@@ -103,17 +108,21 @@ public class UIManager : MonoBehaviour
         _runSchedulePanel = o.GetComponent<RunSchedulePanel>();
         _runSchedulePanel.transform.SetParent(_canvas.transform, false);
 
-        o = Instantiate(PrefStatePanel);
-        _statePanel = o.GetComponent<StatePanel>();
-        _statePanel.transform.SetParent(_canvas.transform, false);
-
         o = Instantiate(PrefWardrobePanel);
         _wardrobePanel = o.GetComponent<WardrobePanel>();
         _wardrobePanel.transform.SetParent(_canvas.transform, false);
 
+        o = Instantiate(PrefStatePanel);
+        _statePanel = o.GetComponent<StatePanel>();
+        _statePanel.transform.SetParent(_canvas.transform, false);
+
         o = Instantiate(PrefCurrencyPanel);
         _currencyPanel = o.GetComponent<CurrencyPanel>();
         _currencyPanel.transform.SetParent(_canvas.transform, false);
+
+        o = Instantiate(PrefFeelingCheckPanel);
+        _feelingCheckPanel = o.GetComponent<FeelingCheckPanel>();
+        _feelingCheckPanel.transform.SetParent(_canvas.transform, false);
 
         o = Instantiate(PrefPopupPanel);
         _popupPanel = o.GetComponent<PopupPanel>();

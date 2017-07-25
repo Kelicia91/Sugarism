@@ -8,6 +8,7 @@ public class CmdPanel : Panel
     public Sprite ScheduleIcon;
     public Sprite WardrobeIcon;
     public Sprite StateIcon;
+    public Sprite FeelingCheckIcon;
     public Sprite EndingIcon;
 
     public GameObject PrefCmdButton;
@@ -25,6 +26,7 @@ public class CmdPanel : Panel
         }
 
         /** @note: REVERSE to order **/
+        createCmdButton(FeelingCheckIcon, Def.CMD_FEELING_CHECK, onClickFeelingCheckButton);
         createCmdButton(StateIcon, Def.CMD_STATE_NAME, onClickStateButton);
         createCmdButton(WardrobeIcon, Def.CMD_WARDROBE_NAME, onClickWardrobeButton);
         _scheduleCmdButton = createCmdButton(ScheduleIcon, Def.CMD_SCHEDULE_NAME, onClickScheduleButton);
@@ -84,5 +86,10 @@ public class CmdPanel : Panel
     private void onClickStateButton()
     {
         Manager.Instance.UI.StatePanel.Show();
+    }
+
+    private void onClickFeelingCheckButton()
+    {
+        Manager.Instance.UI.FeelingCheckPanel.Show();
     }
 }
