@@ -382,79 +382,7 @@ namespace Story
             _event -= handler;
         }
     }
-
-
-    public class ScenarioStartEvent
-    {
-        public delegate void Handler();
-        private event Handler _event = null;
-
-        public ScenarioStartEvent()
-        {
-            _event = new Handler(onScenarioStart);
-        }
-
-        // default handler
-        private void onScenarioStart()
-        {
-            Log.Debug("onScenarioStart");
-        }
-
-        public void Invoke() { _event.Invoke(); }
-
-        public void Attach(Handler handler)
-        {
-            if (null == handler)
-                return;
-
-            _event += handler;
-        }
-
-        public void Detach(Handler handler)
-        {
-            if (null == handler)
-                return;
-
-            _event -= handler;
-        }
-    }
-
-
-    public class ScenarioEndEvent
-    {
-        public delegate void Handler();
-        private event Handler _event = null;
-
-        public ScenarioEndEvent()
-        {
-            _event = new Handler(onScenarioEnd);
-        }
-
-        // default handler
-        private void onScenarioEnd()
-        {
-            Log.Debug("onScenarioEnd");
-        }
-
-        public void Invoke() { _event.Invoke(); }
-
-        public void Attach(Handler handler)
-        {
-            if (null == handler)
-                return;
-
-            _event += handler;
-        }
-
-        public void Detach(Handler handler)
-        {
-            if (null == handler)
-                return;
-
-            _event -= handler;
-        }
-    }
-
+    
 
     public class CmdTargetAppearEvent
     {
@@ -522,6 +450,78 @@ namespace Story
         }
 
         // @warn : attach order
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
+
+    public class ScenarioStartEvent
+    {
+        public delegate void Handler();
+        private event Handler _event = null;
+
+        public ScenarioStartEvent()
+        {
+            _event = new Handler(onScenarioStart);
+        }
+
+        // default handler
+        private void onScenarioStart()
+        {
+            Log.Debug("onScenarioStart");
+        }
+
+        public void Invoke() { _event.Invoke(); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
+
+    public class ScenarioEndEvent
+    {
+        public delegate void Handler();
+        private event Handler _event = null;
+
+        public ScenarioEndEvent()
+        {
+            _event = new Handler(onScenarioEnd);
+        }
+
+        // default handler
+        private void onScenarioEnd()
+        {
+            Log.Debug("onScenarioEnd");
+        }
+
+        public void Invoke() { _event.Invoke(); }
+
         public void Attach(Handler handler)
         {
             if (null == handler)
