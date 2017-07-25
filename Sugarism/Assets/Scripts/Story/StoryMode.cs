@@ -7,13 +7,12 @@ namespace Story
     {
         private readonly Newtonsoft.Json.JsonSerializerSettings JSON_SETTINGS = null;
 
-        // @legacy .begin
-        private TargetCharacter[] _targetCharacterArray = null;
-        public TargetCharacter[] TargetCharacterArray { get { return _targetCharacterArray; } }
-        // @legacy .end
+        private Nurture.Character _mainCharacter = null;
 
         private TargetCharacter _targetCharacter = null;
         public TargetCharacter TargetCharacter { get { return _targetCharacter; } }
+
+        private Scenario _scenario = null;
 
         private int _caseKey = -1;
         public int CaseKey
@@ -21,11 +20,6 @@ namespace Story
             get { return _caseKey; }
             set { _caseKey = value; }
         }
-
-        private int _targetId = -1; // @legacy
-        private Scenario _scenario = null;
-
-        private Nurture.Character _mainCharacter = null;
 
 
         #region Events
@@ -78,11 +72,15 @@ namespace Story
         // constructor
         public Mode(Nurture.Character mainCharacter, int targetId)
         {
-            _mainCharacter = mainCharacter;
-
             // json settings
             JSON_SETTINGS = new Newtonsoft.Json.JsonSerializerSettings();
             JSON_SETTINGS.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+
+            //
+            _mainCharacter = mainCharacter;
+
+            _scenario = null;
+            _caseKey = -1;
 
             // events
             _cmdLinesEvent = new CmdLinesEvent();
@@ -100,39 +98,13 @@ namespace Story
 
             _scenarioStartEvent = new ScenarioStartEvent();
             _scenarioEndEvent = new ScenarioEndEvent();
-
+            
             // target
-            _targetCharacterArray = new TargetCharacter[Manager.Instance.DTTarget.Count];
-
-            int numTargetCharacterArray = _targetCharacterArray.Length;
-            for (int i = 0; i < numTargetCharacterArray; ++i)
-            {
-                _targetCharacterArray[i] = new TargetCharacter(i, CmdFeelingEvent);
-            }
-
-            // test : target
             _targetCharacter = new TargetCharacter(targetId, CmdFeelingEvent);
         }
+        
 
-
-        // legacy method
-        public bool LoadScenario(int targetId)
-        {
-            TargetCharacter tc = TargetCharacterArray[targetId];
-            
-            bool isLoaded = LoadScenario(tc.NextScenarioPath);
-            if (isLoaded)
-            {
-                _targetId = targetId;
-            }
-            else
-            {
-                _targetId = -1;
-            }
-
-            return isLoaded;
-        }
-
+        /*** Load a Scenario ***/
         public bool LoadScenario(string path)
         {
             if (null == path)
@@ -166,8 +138,7 @@ namespace Story
             return true;
         }
 
-
-        // temp : test (data <-> ui)
+        //
         public void NextCmd()
         {
             if (_isEndedScenario)
@@ -203,14 +174,6 @@ namespace Story
             if (false == canMorePlay)
             {
                 _isEndedScenario = true;
-
-                if (ExtTarget.isValid(_targetId))
-                {
-                    TargetCharacter c = _targetCharacterArray[_targetId];
-                    c.NextScenarioNo();
-
-                    _targetId = -1;
-                }
 
                 Log.Debug("end. scenario");
             }

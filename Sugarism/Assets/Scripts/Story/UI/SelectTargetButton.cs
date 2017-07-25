@@ -98,19 +98,6 @@ public class SelectTargetButton : MonoBehaviour
 
     private void onClick()
     {
-        //@todo : enable input blocking panel -> disable
-
-        Story.Mode storyMode = Manager.Instance.Object.StoryMode;
-    
-        bool isLoaded = storyMode.LoadScenario(_targetId);
-        if (isLoaded)
-        {
-            Manager.Instance.UI.SelectTargetPanel.Hide();
-        }
-        else
-        {
-            Log.Error("failed to load scenario");
-            return; // @todo: 어떻게 처리할까...
-        }
+        Log.Debug("click SelectTargetButton");
     }
 }
