@@ -539,4 +539,76 @@ namespace Story
         }
     }
 
+
+    public class FeelingChangeEvent
+    {
+        public delegate void Handler(int feeling);
+        private event Handler _event = null;
+
+        public FeelingChangeEvent()
+        {
+            _event = new Handler(onFeelingChanged);
+        }
+
+        // default handler
+        private void onFeelingChanged(int feeling)
+        {
+            Log.Debug(string.Format("onFeelingChanged; {0}", feeling));
+        }
+
+        public void Invoke(int feeling) { _event.Invoke(feeling); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
+
+    public class LastOpenedScenarioNoChangeEvent
+    {
+        public delegate void Handler(int no);
+        private event Handler _event = null;
+
+        public LastOpenedScenarioNoChangeEvent()
+        {
+            _event = new Handler(onLastOpenedScenarioNoChanged);
+        }
+
+        // default handler
+        private void onLastOpenedScenarioNoChanged(int no)
+        {
+            Log.Debug(string.Format("onLastOpenedScenarioNoChanged; {0}", no));
+        }
+
+        public void Invoke(int no) { _event.Invoke(no); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
 }   // namespace

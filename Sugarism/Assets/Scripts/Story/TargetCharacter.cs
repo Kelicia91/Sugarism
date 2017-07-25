@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+
+
 namespace Story
 {
     public class TargetCharacter
@@ -18,6 +20,8 @@ namespace Story
                     _feeling = Def.MIN_FEELING;
                 else if (_feeling > Def.MAX_FEELING)
                     _feeling = Def.MAX_FEELING;
+
+                FeelingChangeEvent.Invoke(_feeling);
             }
         }
         
@@ -36,6 +40,8 @@ namespace Story
                     _lastOpenedScenarioNo = Def.MIN_SCENARIO;
                 else if (_lastOpenedScenarioNo > Def.MAX_SCENARIO)
                     _lastOpenedScenarioNo = Def.MAX_SCENARIO;
+
+                LastOpenedScenarioNoChangeEvent.Invoke(_lastOpenedScenarioNo);
             }
         }
 
@@ -48,6 +54,17 @@ namespace Story
                 return path;
             }
         }
+
+
+        #region Events
+
+        private FeelingChangeEvent _feelingChangeEvent = null;
+        public FeelingChangeEvent FeelingChangeEvent { get { return _feelingChangeEvent; } }
+
+        private LastOpenedScenarioNoChangeEvent _lastOpenedScenarioNoChangeEvent = null;
+        public LastOpenedScenarioNoChangeEvent LastOpenedScenarioNoChangeEvent { get { return _lastOpenedScenarioNoChangeEvent; } }
+
+        #endregion
 
 
         // constructor
@@ -63,6 +80,10 @@ namespace Story
                             target.scenarioDirName, RsrcLoader.DIR_SEPARATOR);
 
             cmdFeelingEvent.Attach(onCmdFeeling);
+
+            // events
+            _feelingChangeEvent = new FeelingChangeEvent();
+            _lastOpenedScenarioNoChangeEvent = new LastOpenedScenarioNoChangeEvent();
         }
 
         public void NextScenarioNo()
