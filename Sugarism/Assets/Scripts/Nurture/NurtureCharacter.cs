@@ -86,26 +86,7 @@ namespace Nurture
             _conditionEvent = new CharacterConditionEvent();
         }
 
-        public void Die()
-        {
-            string sickScenarioPath = string.Format("{0}{1}{2}",
-                                RsrcLoader.SCENARIO_FOLDER_PATH, RsrcLoader.DIR_SEPARATOR,
-                                RsrcLoader.SICK_BAD_ENDING_FILENAME);
-
-            Story.Mode storyMode = Manager.Instance.Object.StoryMode;
-
-            bool isLoaded = storyMode.LoadScenario(sickScenarioPath);
-            if (false == isLoaded)
-                return; // @todo: 에러. 게임종료.
-
-            storyMode.ScenarioEndEvent.Attach(onScenarioEnd);
-        }
-
-        private void onScenarioEnd()
-        {
-            // @todo: 질병 시나리오 끝. 게임 종료.
-            Log.Debug("die scenario end.");
-        }
+        public abstract void Die();
 
         public void UpdateCondition()
         {
@@ -117,6 +98,15 @@ namespace Nurture
                 Condition = ECondition.Sick;
             else
                 Condition = ECondition.Healthy;
+        }
+        
+        public bool IsChildHood()
+        {
+            int midAge = (INIT_AGE + Def.MAX_AGE) / 2;
+            if (Age < midAge)
+                return true;
+            else
+                return false;
         }
 
         public int GetActionCount(int actionIndex)

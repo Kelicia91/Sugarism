@@ -93,15 +93,6 @@ public class MainCharacter : Nurture.Character
 
 
     //
-    public bool IsChildHood()
-    {
-        int midAge = (Def.INIT_AGE + Def.MAX_AGE) / 2;
-        if (Age < midAge)
-            return true;
-        else
-            return false;
-    }
-
     public void PutOn(int costumeId)
     {
         WearingCostumeId = costumeId;
@@ -110,5 +101,27 @@ public class MainCharacter : Nurture.Character
     public void PutOff()
     {
         WearingCostumeId = Def.DEFAULT_COSTUME_ID;
+    }
+
+
+    public override void Die()
+    {
+        string sickScenarioPath = string.Format("{0}{1}{2}",
+                            RsrcLoader.SCENARIO_FOLDER_PATH, RsrcLoader.DIR_SEPARATOR,
+                            RsrcLoader.SICK_BAD_ENDING_FILENAME);
+
+        Story.Mode storyMode = Manager.Instance.Object.StoryMode;
+
+        bool isLoaded = storyMode.LoadScenario(sickScenarioPath);
+        if (false == isLoaded)
+            return; // @todo: 에러. 게임종료.
+
+        storyMode.ScenarioEndEvent.Attach(onScenarioEnd);
+    }
+
+    private void onScenarioEnd()
+    {
+        // @todo: 질병 시나리오 끝. 게임종료.
+        Log.Debug("die scenario end.");
     }
 }
