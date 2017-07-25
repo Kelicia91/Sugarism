@@ -24,9 +24,6 @@ namespace Story
                 FeelingChangeEvent.Invoke(_feeling);
             }
         }
-        
-        // End with directory separator
-        public readonly string ScenarioDirPath = null;
 
         private int _lastOpenedScenarioNo = -1;
         public int LastOpenedScenarioNo
@@ -44,6 +41,9 @@ namespace Story
                 LastOpenedScenarioNoChangeEvent.Invoke(_lastOpenedScenarioNo);
             }
         }
+
+        // End with directory separator
+        public readonly string ScenarioDirPath = null;
 
         public string NextScenarioPath
         {
