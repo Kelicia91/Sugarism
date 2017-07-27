@@ -246,4 +246,22 @@ public class Def
     public const string USER_POEM_B = "B등급 시 blah-blah";
     public const string USER_POEM_C = "C등급 시 blah-blah";
     public const string USER_POEM_D = "D등급 시 blah-blah";
+
+    // Lobby
+    public const string GUIDE_FORM_PANEL = "이름을 입력해주세요.";
+    public const int MIN_LENGTH_PLAYER_NAME = 2;
+    public const int MAX_LENGTH_PLAYER_NAME = 5;
+    public const string DEFAULT_PLAYER_NAME = "화담";    
+    public const string GUIDE_PLAYER_NAME = "최소 {0}, 최대 {1}글자";
+    public const string TOO_SHORT_PLAYER_NAME = "이름이 너무 짧습니다.\n(최소 {0}글자)";
+    public const string TOO_LONG_PLAYER_NAME = "이름이 너무 깁니다.\n(최대 {0}글자)";
+    public const string NEXT = "다음";
+    public const string START_GAME = "시작하기";
+    public const string GUIDE_SELECT = "{0}을 선택해주세요.";
+
+    // Constitution
+    public const string CONSTITUTION = "체질";
+
+    // Zodiac
+    public const string ZODIAC = "황도궁";
 }

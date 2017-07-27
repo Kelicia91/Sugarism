@@ -10,25 +10,22 @@ public class CustomToggle : MonoBehaviour
     public Text Text;
 
     //
-    private Toggle _toggle = null;
-    public Toggle Toggle { get { return _toggle; } }
-
-    //
-    private int _index = -1;
-    public int Index
-    {
-        get { return _index; }
-        set { _index = value; }
-    }
-
-
+    private Toggle _component = null;
+    public Toggle Component { get { return _component; } }
+    
     //
     void Awake()
     {
-        _toggle = GetComponent<Toggle>();
+        _component = GetComponent<Toggle>();
     }
 
     //
+    public void SetColor(Color c)
+    {
+        Image.color = c;
+        Text.color = c;
+    }
+
     public void SetImage(Sprite s)
     {
         if (null == s)
