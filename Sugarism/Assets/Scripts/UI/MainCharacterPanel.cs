@@ -36,7 +36,7 @@ public class MainCharacterPanel : CharacterPanel
             return;
         }
 
-        MainCharacterLooks looks = Manager.Instance.DTMainCharacterLooks[looksId];
+        MainCharacterLooks looks = Manager.Instance.DT.MainCharacterLooks[looksId];
         Sprite baseShape = looks.baseShape;
         setBaseShape(baseShape);
         
@@ -143,7 +143,7 @@ public class MainCharacterPanel : CharacterPanel
             return;
         }
 
-        MainCharacterLooks looks = Manager.Instance.DTMainCharacterLooks[looksId];
+        MainCharacterLooks looks = Manager.Instance.DT.MainCharacterLooks[looksId];
 
         Sprite faceExpression = null;
         switch (condition)

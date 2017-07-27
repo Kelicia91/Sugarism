@@ -20,10 +20,10 @@ namespace Combat
         // constructor
         public AIPlayer(CombatMode mode, int id) : base(mode, id)
         {
-            CombatPlayer p = Manager.Instance.DTCombatPlayer[id];
+            CombatPlayer p = Manager.Instance.DT.CombatPlayer[id];
             _orient = p.orient;
 
-            Character c = Manager.Instance.DTCharacter[p.characterId];
+            Character c = Manager.Instance.DT.Character[p.characterId];
             _name = c.name;
 
             _hp = p.hp;
@@ -37,10 +37,10 @@ namespace Combat
 
         public AIPlayer(CombatMode mode, int id, int hp, int mp, int criticalProbability, int attack, int defense, int intellect, int tactic) : base(mode, id)
         {
-            CombatPlayer p = Manager.Instance.DTCombatPlayer[id];
+            CombatPlayer p = Manager.Instance.DT.CombatPlayer[id];
             _orient = p.orient;
 
-            Character c = Manager.Instance.DTCharacter[p.characterId];
+            Character c = Manager.Instance.DT.Character[p.characterId];
             _name = c.name;
 
             _hp = hp;

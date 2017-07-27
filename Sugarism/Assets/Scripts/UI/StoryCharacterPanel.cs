@@ -39,7 +39,7 @@ public class StoryCharacterPanel : MainCharacterPanel
             return;
         }
 
-        Character c = Manager.Instance.DTCharacter[characterId];
+        Character c = Manager.Instance.DT.Character[characterId];
         setBaseShape(c.image);
         setBlush(false);
         setFaceExpression(false);
@@ -60,7 +60,7 @@ public class StoryCharacterPanel : MainCharacterPanel
             return;
         }
 
-        Target target = Manager.Instance.DTTarget[targetId];
+        Target target = Manager.Instance.DT.Target[targetId];
         setBaseShape(target.baseShape);
 
         if (isBlush)

@@ -90,10 +90,10 @@ public class ProfilePanel : Panel
 
         if (zodiacId < 0)
             return string.Empty;
-        else if (zodiacId >= Manager.Instance.DTZodiac.Count)
+        else if (zodiacId >= Manager.Instance.DT.Zodiac.Count)
             return string.Empty;
         else
-            return Manager.Instance.DTZodiac[zodiacId].name;
+            return Manager.Instance.DT.Zodiac[zodiacId].name;
     }
 
     private string get(EConstitution constitution)
@@ -102,9 +102,9 @@ public class ProfilePanel : Panel
 
         if (constitutionId < 0)
             return string.Empty;
-        else if (constitutionId >= Manager.Instance.DTConstitution.Count)
+        else if (constitutionId >= Manager.Instance.DT.Constitution.Count)
             return string.Empty;
         else
-            return Manager.Instance.DTConstitution[constitutionId].name;
+            return Manager.Instance.DT.Constitution[constitutionId].name;
     }
 }

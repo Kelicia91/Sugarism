@@ -18,7 +18,7 @@ namespace Exam
                 Log.Error(string.Format("invalid score exam.id : {0}", id));
             else
             {
-                _exam = Manager.Instance.DTScoreExam[Id];
+                _exam = Manager.Instance.DT.ScoreExam[Id];
                 _statWeight = getStatWeight();
             }  
             

@@ -36,7 +36,7 @@ public class ActionDialoguePanel : Panel, IPointerClickHandler
     {
         CharacterPanel.Set(rival);
 
-        Character c = Manager.Instance.DTCharacter[rival.characterId];
+        Character c = Manager.Instance.DT.Character[rival.characterId];
 
         show(c.name, lines, clickHandler);
     }
@@ -44,8 +44,8 @@ public class ActionDialoguePanel : Panel, IPointerClickHandler
     // for NPC
     public void Show(int npcId, string lines, UnityEngine.Events.UnityAction clickHandler)
     {
-        ActionNPC npc = Manager.Instance.DTActionNPC[npcId];
-        Character c = Manager.Instance.DTCharacter[npc.characterId];
+        ActionNPC npc = Manager.Instance.DT.ActionNPC[npcId];
+        Character c = Manager.Instance.DT.Character[npc.characterId];
 
         CharacterPanel.Set(c);
         show(c.name, lines, clickHandler);

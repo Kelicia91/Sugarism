@@ -21,7 +21,7 @@ public class CharacterPanel : Panel
         else
         {
             int characterId = rival.characterId;
-            Character c = Manager.Instance.DTCharacter[characterId];
+            Character c = Manager.Instance.DT.Character[characterId];
             image = c.image;
         }
 

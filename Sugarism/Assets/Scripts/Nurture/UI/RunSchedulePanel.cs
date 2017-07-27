@@ -119,7 +119,7 @@ public class RunSchedulePanel : Panel
         }
 
         int seasonId = (int)season;
-        Vacation vacation = Manager.Instance.DTVacation[seasonId];
+        Vacation vacation = Manager.Instance.DT.Vacation[seasonId];
         
         if (Manager.Instance.Object.MainCharacter.IsChildHood())
             return vacation.childHood;
@@ -209,7 +209,7 @@ public class RunSchedulePanel : Panel
     {
         start(actionId);
 
-        Action action = Manager.Instance.DTAction[_actionId];
+        Action action = Manager.Instance.DT.Action[_actionId];
         
         string msg = string.Format(Def.ACTION_BEGIN_DESC_FORMAT, action.beginDesc);
         MessagePanel.Show(msg, onClickActionStartConfirm);
@@ -218,7 +218,7 @@ public class RunSchedulePanel : Panel
     private void start(int actionId)
     {
         _actionId = actionId;
-        Action action = Manager.Instance.DTAction[_actionId];
+        Action action = Manager.Instance.DT.Action[_actionId];
 
         Sprite sprite = null;
         if (Def.ACTION_VACATION_ID == _actionId)
@@ -263,7 +263,7 @@ public class RunSchedulePanel : Panel
 
     private void onActionFirstNPC(int npcId)
     {
-        ActionNPC npc = Manager.Instance.DTActionNPC[npcId];
+        ActionNPC npc = Manager.Instance.DT.ActionNPC[npcId];
         string lines = npc.firstMeetDesc;
 
         DialoguePanel.Show(npcId, lines, onClickNpcFirstMeet);
@@ -278,7 +278,7 @@ public class RunSchedulePanel : Panel
     /*** ACTION DO ***/
     private void onActionDo()
     {
-        Action action = Manager.Instance.DTAction[_actionId];
+        Action action = Manager.Instance.DT.Action[_actionId];
 
         if (RunScheduleAnimController.ETrigger.MAX == action.animTrigger)
         {
@@ -296,7 +296,7 @@ public class RunSchedulePanel : Panel
 
     private void onActionDoResult(bool isSuccessed)
     {
-        Action action = Manager.Instance.DTAction[_actionId];
+        Action action = Manager.Instance.DT.Action[_actionId];
 
         //
         string description = getActionDoResultDescription(action.type, isSuccessed);
@@ -439,7 +439,7 @@ public class RunSchedulePanel : Panel
 
     private void onActionEndAchievement(int achievementRatio, int npcId, string msg)
     {
-        ActionNPC npc = Manager.Instance.DTActionNPC[npcId];
+        ActionNPC npc = Manager.Instance.DT.ActionNPC[npcId];
 
         string lines = null;
         if (achievementRatio <= 0)
@@ -467,7 +467,7 @@ public class RunSchedulePanel : Panel
     //
     private void endAnim()
     {
-        Action action = Manager.Instance.DTAction[_actionId];
+        Action action = Manager.Instance.DT.Action[_actionId];
         _animController.ResetTrigger(action.animTrigger);
 
         _animController.SetTrigger(RunScheduleAnimController.ETrigger.END);

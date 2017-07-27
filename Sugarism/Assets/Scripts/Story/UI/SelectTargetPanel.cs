@@ -64,7 +64,7 @@ public class SelectTargetPanel : Panel
         
         RectTransform parent = ScrollView.content;
 
-        int numOfTarget = Manager.Instance.DTTarget.Count;        
+        int numOfTarget = Manager.Instance.DT.Target.Count;        
         for (int i = 0; i < numOfTarget; ++i)
         {
             GameObject o = Instantiate(PrefSelectTargetButton);

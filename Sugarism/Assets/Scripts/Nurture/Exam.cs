@@ -60,7 +60,7 @@ namespace Exam
             _isFirst = isFirst;
 
             if (ExtRival.isValid(_rivalId))
-                _rival = Manager.Instance.DTRival[_rivalId];
+                _rival = Manager.Instance.DT.Rival[_rivalId];
             else
                 Log.Error(string.Format("invalid rival id: {0}", _rivalId));
 

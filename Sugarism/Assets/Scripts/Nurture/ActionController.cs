@@ -18,7 +18,7 @@ namespace Nurture
         protected ActionController(int id, Mode mode)
         {
             _id = id;
-            _action = Manager.Instance.DTAction[_id];
+            _action = Manager.Instance.DT.Action[_id];
 
             _mode = mode;
         }

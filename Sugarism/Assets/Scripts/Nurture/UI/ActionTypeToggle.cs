@@ -90,7 +90,7 @@ public class ActionTypeToggle : MonoBehaviour
         if (EActionType.MAX != _actionType)
         {
             int actionTypeId = (int)_actionType;
-            return Manager.Instance.DTActionType[actionTypeId].name;
+            return Manager.Instance.DT.ActionType[actionTypeId].name;
         }
         else
         {

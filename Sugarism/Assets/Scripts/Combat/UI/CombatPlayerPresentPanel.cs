@@ -37,7 +37,7 @@ public class CombatPlayerPresentPanel : Panel
     {
         _player = player;
 
-        CombatPlayer p = Manager.Instance.DTCombatPlayer[_player.Id];
+        CombatPlayer p = Manager.Instance.DT.CombatPlayer[_player.Id];
         set(p.idle);
 
         if (player.Id == Def.MAIN_CHARACTER_ID)
@@ -81,25 +81,25 @@ public class CombatPlayerPresentPanel : Panel
 
     private void onStartUserBattle()
     {
-        CombatPlayer p = Manager.Instance.DTCombatPlayer[_player.Id];
+        CombatPlayer p = Manager.Instance.DT.CombatPlayer[_player.Id];
         set(p.idle);
     }
 
     private void onStartAIBattle()
     {
-        CombatPlayer p = Manager.Instance.DTCombatPlayer[_player.Id];
+        CombatPlayer p = Manager.Instance.DT.CombatPlayer[_player.Id];
         set(p.idle);
     }
 
     private void onEnd(Combat.CombatMode.EUserGameState state)
     {
-        CombatPlayer p = Manager.Instance.DTCombatPlayer[_player.Id];
+        CombatPlayer p = Manager.Instance.DT.CombatPlayer[_player.Id];
         set(p.idle);
     }
 
     private void onCriticalAttack(int playerId, int damage)
     {
-        CombatPlayer p = Manager.Instance.DTCombatPlayer[_player.Id];
+        CombatPlayer p = Manager.Instance.DT.CombatPlayer[_player.Id];
 
         Sprite s = null;
         if (_player.Id == playerId)
@@ -117,7 +117,7 @@ public class CombatPlayerPresentPanel : Panel
 
     private void onAttack(int playerId, int damage)
     {
-        CombatPlayer p = Manager.Instance.DTCombatPlayer[_player.Id];
+        CombatPlayer p = Manager.Instance.DT.CombatPlayer[_player.Id];
 
         Sprite s = null;
         if (_player.Id == playerId)
@@ -135,7 +135,7 @@ public class CombatPlayerPresentPanel : Panel
 
     private void onCriticalTrick(int playerId, int damage)
     {
-        CombatPlayer p = Manager.Instance.DTCombatPlayer[_player.Id];
+        CombatPlayer p = Manager.Instance.DT.CombatPlayer[_player.Id];
 
         Sprite s = null;
         if (_player.Id == playerId)
@@ -153,7 +153,7 @@ public class CombatPlayerPresentPanel : Panel
 
     private void onTrick(int playerId, int damage)
     {
-        CombatPlayer p = Manager.Instance.DTCombatPlayer[_player.Id];
+        CombatPlayer p = Manager.Instance.DT.CombatPlayer[_player.Id];
 
         Sprite s = null;
         if (_player.Id == playerId)

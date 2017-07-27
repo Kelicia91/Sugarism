@@ -22,14 +22,14 @@ namespace Nurture
             _lessonId = getLessonId(Id);
 
             if (ExtActionLesson.isValid(_lessonId))
-                _lesson = Manager.Instance.DTActionLesson[_lessonId];
+                _lesson = Manager.Instance.DT.ActionLesson[_lessonId];
             else
                 Log.Error(string.Format("not found lesson Id; action Id({0})", Id));
         }
 
         private int getLessonId(int actionId)
         {
-            ActionLessonObject table = Manager.Instance.DTActionLesson;
+            ActionLessonObject table = Manager.Instance.DT.ActionLesson;
             for (int i = 0; i < table.Count; ++i)
             {
                 if (table[i].actionId == actionId)

@@ -74,7 +74,7 @@ namespace Story
             _feeling = Def.MIN_FEELING;
             _lastOpenedScenarioNo = Def.MIN_SCENARIO - 1;
 
-            Target target = Manager.Instance.DTTarget[_id];
+            Target target = Manager.Instance.DT.Target[_id];
             ScenarioDirPath = string.Format("{0}{1}{2}{3}", 
                             RsrcLoader.SCENARIO_FOLDER_PATH, RsrcLoader.DIR_SEPARATOR, 
                             target.scenarioDirName, RsrcLoader.DIR_SEPARATOR);

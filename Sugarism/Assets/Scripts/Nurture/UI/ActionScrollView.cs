@@ -132,10 +132,10 @@ public class ActionScrollView : Panel
         actionIdList = new List<int>();
 
         // query : select row.id from DTAction where row.type = actionType
-        int actionCount = Manager.Instance.DTAction.Count;
+        int actionCount = Manager.Instance.DT.Action.Count;
         for (int i = 0; i < actionCount; ++i)
         {
-            if (actionType == Manager.Instance.DTAction[i].type)
+            if (actionType == Manager.Instance.DT.Action[i].type)
             {
                 actionIdList.Add(i);
             }

@@ -6,7 +6,7 @@ public class ExtMainCharacterLooks
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTMainCharacterLooks.Count)
+        else if (id >= Manager.Instance.DT.MainCharacterLooks.Count)
             return false;
         else
             return true;
@@ -19,7 +19,7 @@ public class ExtMainCharacterCostume
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTMainCharacterCostume.Count)
+        else if (id >= Manager.Instance.DT.MainCharacterCostume.Count)
             return false;
         else
             return true;
@@ -33,7 +33,7 @@ public class ExtMainCharacterCostume
         if (false == ExtMainCharacterLooks.IsValid(looksId))
             return null;
 
-        MainCharacterCostume costume = Manager.Instance.DTMainCharacterCostume[id];
+        MainCharacterCostume costume = Manager.Instance.DT.MainCharacterCostume[id];
 
         switch (looksId)
         {

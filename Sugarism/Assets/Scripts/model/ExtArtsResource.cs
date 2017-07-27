@@ -8,7 +8,7 @@ public class ExtBackground
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTBackground.Count)
+        else if (id >= Manager.Instance.DT.Background.Count)
             return false;
         else
             return true;
@@ -21,7 +21,7 @@ public class ExtMiniPicture
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTMiniPicture.Count)
+        else if (id >= Manager.Instance.DT.MiniPicture.Count)
             return false;
         else
             return true;
@@ -34,7 +34,7 @@ public class ExtPicture
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTPicture.Count)
+        else if (id >= Manager.Instance.DT.Picture.Count)
             return false;
         else
             return true;
@@ -47,7 +47,7 @@ public class ExtSE
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTSE.Count)
+        else if (id >= Manager.Instance.DT.SE.Count)
             return false;
         else
             return true;

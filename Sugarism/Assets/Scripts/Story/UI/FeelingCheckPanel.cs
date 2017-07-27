@@ -29,7 +29,7 @@ public class FeelingCheckPanel : Panel, IPointerClickHandler
         
         Story.TargetCharacter tc = Manager.Instance.Object.StoryMode.TargetCharacter;
 
-        Target t = Manager.Instance.DTTarget[tc.Id];
+        Target t = Manager.Instance.DT.Target[tc.Id];
         TargetPanel.Set(tc.Id, false, Sugarism.EFace.Default, Sugarism.ECostume.Default, Sugarism.EPosition.Middle);
 
         setFeeling(tc.Feeling);

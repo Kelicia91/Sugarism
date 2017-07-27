@@ -124,7 +124,7 @@ public class DialoguePanel : Panel
         }
         else
         {
-            Character c = Manager.Instance.DTCharacter[characterId];
+            Character c = Manager.Instance.DT.Character[characterId];
             name = c.name;
         }
 

@@ -22,14 +22,14 @@ namespace Nurture
             _partTimeId = getPartTimeId(Id);
 
             if (ExtActionPartTime.isValid(_partTimeId))
-                _parttime = Manager.Instance.DTActionPartTime[_partTimeId];
+                _parttime = Manager.Instance.DT.ActionPartTime[_partTimeId];
             else
                 Log.Error(string.Format("not found parttime Id; action Id({0})", Id));
         }
 
         private int getPartTimeId(int actionId)
         {
-            ActionPartTimeObject table = Manager.Instance.DTActionPartTime;
+            ActionPartTimeObject table = Manager.Instance.DT.ActionPartTime;
             for (int i = 0; i < table.Count; ++i)
             {
                 if (table[i].actionId == actionId)

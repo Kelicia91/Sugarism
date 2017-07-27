@@ -6,7 +6,7 @@ public class MainCharacter : Nurture.Character
         _money = money;
 
         _wardrobe = new Wardrobe();
-        int mainCharacterCostumeCount = Manager.Instance.DTMainCharacterCostume.Count;
+        int mainCharacterCostumeCount = Manager.Instance.DT.MainCharacterCostume.Count;
         for (int i = 0; i < mainCharacterCostumeCount; ++i)
         {
             CostumeController costumeCtrl = new CostumeController(i);

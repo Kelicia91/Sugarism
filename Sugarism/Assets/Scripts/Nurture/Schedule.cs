@@ -232,7 +232,7 @@ namespace Nurture
 
         private bool isLackMoney(int actionId)
         {
-            Action action = Manager.Instance.DTAction[actionId];
+            Action action = Manager.Instance.DT.Action[actionId];
 
             // @note : action.money can be < 0.
             int sum = _mode.Character.Money + action.money;
@@ -255,7 +255,7 @@ namespace Nurture
                     continue;
                 }
 
-                Action action = Manager.Instance.DTAction[actionId];
+                Action action = Manager.Instance.DT.Action[actionId];
                 switch (action.type)
                 {
                     case EActionType.PARTTIME:

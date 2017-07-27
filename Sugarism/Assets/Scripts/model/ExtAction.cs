@@ -5,7 +5,7 @@ public class ExtAction
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTAction.Count)
+        else if (id >= Manager.Instance.DT.Action.Count)
             return false;
         else
             return true;
@@ -18,7 +18,7 @@ public class ExtActionLesson
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTActionLesson.Count)
+        else if (id >= Manager.Instance.DT.ActionLesson.Count)
             return false;
         else
             return true;
@@ -31,7 +31,7 @@ public class ExtActionPartTime
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTActionPartTime.Count)
+        else if (id >= Manager.Instance.DT.ActionPartTime.Count)
             return false;
         else
             return true;

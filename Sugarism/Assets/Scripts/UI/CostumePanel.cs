@@ -64,7 +64,7 @@ public class CostumePanel : Panel
 
     private void init()
     {
-        MainCharacterCostume costume = Manager.Instance.DTMainCharacterCostume[_costume.CostumeId];
+        MainCharacterCostume costume = Manager.Instance.DT.MainCharacterCostume[_costume.CostumeId];
         _price = costume.price;
         _charm = costume.charm;
 
@@ -225,7 +225,7 @@ public class CostumePanel : Panel
         }
 
         int statId = (int)EStat.CHARM;
-        Stat stat = Manager.Instance.DTStat[statId];
+        Stat stat = Manager.Instance.DT.Stat[statId];
 
         string s = string.Format("{0} +{1}", stat.name, _charm);
         DescriptionText.text = s;

@@ -5,7 +5,7 @@ public class ExtRival
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTRival.Count)
+        else if (id >= Manager.Instance.DT.Rival.Count)
             return false;
         else
             return true;

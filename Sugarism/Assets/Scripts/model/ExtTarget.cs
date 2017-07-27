@@ -5,7 +5,7 @@ public class ExtTarget
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTTarget.Count)
+        else if (id >= Manager.Instance.DT.Target.Count)
             return false;
         else
             return true;

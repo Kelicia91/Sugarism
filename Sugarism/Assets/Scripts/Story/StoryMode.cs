@@ -221,7 +221,7 @@ namespace Story
                 return false;
             }
 
-            Target t = Manager.Instance.DTTarget[_targetCharacter.Id];
+            Target t = Manager.Instance.DT.Target[_targetCharacter.Id];
             
             int fighterMin = Mathf.RoundToInt(Def.MAX_STAT * t.happyEndingFighterAvgMinPercent * 0.01f);
             int trickerMin = Mathf.RoundToInt(Def.MAX_STAT * t.happyEndingTrickerAvgMinPercent * 0.01f);

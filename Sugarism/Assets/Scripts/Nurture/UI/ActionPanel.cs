@@ -13,7 +13,7 @@ public class ActionPanel : Panel
     
     public void SetActionId(int actionId)
     {
-        Action action = Manager.Instance.DTAction[actionId];
+        Action action = Manager.Instance.DT.Action[actionId];
 
         setActionIcon(action.icon);
         setNameText(action.name);

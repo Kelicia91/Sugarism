@@ -178,7 +178,7 @@ public class StoryPanel : Panel
 
         InputPanel.Hide();
 
-        Background bg = Manager.Instance.DTBackground[id];
+        Background bg = Manager.Instance.DT.Background[id];
         set(BackgroundImage, bg.sprite);
 
         Invoke(ON_TIMER_NAME, 0.1f);
@@ -197,7 +197,7 @@ public class StoryPanel : Panel
         if (false == ExtPicture.IsValid(id))
             return;
 
-        Picture cg = Manager.Instance.DTPicture[id];
+        Picture cg = Manager.Instance.DT.Picture[id];
         set(BackgroundImage, cg.sprite);
         
         StoryCharacterPanel.Hide();
@@ -210,7 +210,7 @@ public class StoryPanel : Panel
         if (false == ExtSE.IsValid(id))
             return;
 
-        SE se = Manager.Instance.DTSE[id];
+        SE se = Manager.Instance.DT.SE[id];
         playSE(se.audioClip);
     }
 

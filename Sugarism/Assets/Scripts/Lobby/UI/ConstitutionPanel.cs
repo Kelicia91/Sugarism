@@ -28,11 +28,15 @@ public class ConstitutionPanel : Panel
 
         // back button
         _backButton.onClick.AddListener(onClickBackButton);
+    }
 
+    void Start()
+    {
         // submit button
         SubmitButton.SetText("확인");
         SubmitButton.AddClick(onClickSubmitButton);
     }
+
 
     private void create()
     {

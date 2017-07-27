@@ -8,7 +8,7 @@ namespace Combat
         {
             _name = Manager.Instance.Object.MainCharacter.Name;
 
-            CombatPlayer p = Manager.Instance.DTCombatPlayer[Id];
+            CombatPlayer p = Manager.Instance.DT.CombatPlayer[Id];
             _criticalProbability = p.criticalProbability;
 
             Nurture.Character c = Manager.Instance.Object.NurtureMode.Character;

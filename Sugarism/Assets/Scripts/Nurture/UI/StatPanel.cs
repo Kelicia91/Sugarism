@@ -48,7 +48,7 @@ public class StatPanel : Panel
         _statType = statType;
 
         int statId = (int)statType;
-        Stat stat = Manager.Instance.DTStat[statId];
+        Stat stat = Manager.Instance.DT.Stat[statId];
         setNameText(stat.name);
         
         int value = Manager.Instance.Object.NurtureMode.Character.Get(_statType);
@@ -66,7 +66,7 @@ public class StatPanel : Panel
         _statType = statType;
 
         int statId = (int)statType;
-        Stat stat = Manager.Instance.DTStat[statId];
+        Stat stat = Manager.Instance.DT.Stat[statId];
         setNameText(stat.name);
         
         setValue(value);

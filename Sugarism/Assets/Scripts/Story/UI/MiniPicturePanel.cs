@@ -34,7 +34,7 @@ public class MiniPicturePanel : Panel
         if (false == ExtMiniPicture.IsValid(id))
             return;
 
-        MiniPicture p = Manager.Instance.DTMiniPicture[id];
+        MiniPicture p = Manager.Instance.DT.MiniPicture[id];
         set(p.sprite);
 
         Show();

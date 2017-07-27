@@ -33,7 +33,7 @@ public class ActionButton : MonoBehaviour
     public void SetActionId(int actionId)
     {
         _actionId = actionId;
-        Action action = Manager.Instance.DTAction[_actionId];
+        Action action = Manager.Instance.DT.Action[_actionId];
 
         setActionIcon(action.icon);
 
@@ -82,10 +82,10 @@ public class ActionButton : MonoBehaviour
     {
         if (_actionId < 0)
             return Def.BACK;
-        else if (_actionId >= Manager.Instance.DTAction.Count)
+        else if (_actionId >= Manager.Instance.DT.Action.Count)
             return Def.BACK;
         else
-            return Manager.Instance.DTAction[_actionId].name;
+            return Manager.Instance.DT.Action[_actionId].name;
     }
 
     private void onClick()

@@ -21,14 +21,14 @@ namespace Exam
             if (false == ExtOneToOneExam.isValid(id))
                 Log.Error(string.Format("invalid one-to-one exam.id : {0}", id));
             else
-                _exam = Manager.Instance.DTOneToOneExam[id];
+                _exam = Manager.Instance.DT.OneToOneExam[id];
             
             _userName = Manager.Instance.Object.MainCharacter.Name;
 
             if (false == ExtCharacter.IsValid(_rival.characterId))
                 Log.Error(string.Format("invalid character id: {0}", _rival.characterId));
             else
-                _rivalName = Manager.Instance.DTCharacter[_rival.characterId].name;
+                _rivalName = Manager.Instance.DT.Character[_rival.characterId].name;
 
             Manager.Instance.Object.CombatMode.EndEvent.Attach(onEnd);
         }
@@ -124,7 +124,7 @@ namespace Exam
             }
 
             // @note: CombatPlayer(DataTable) differ from Combat.UserPlayer, Combat.AIPlayer
-            CombatPlayer rivalPlayer = Manager.Instance.DTCombatPlayer[combatPlayerId];
+            CombatPlayer rivalPlayer = Manager.Instance.DT.CombatPlayer[combatPlayerId];
 
             int hp = Mathf.RoundToInt(userPlayer.Hp * Def.COMBAT_RIVAL_AI_STAT_MAX_RATIO);
             hp = Nurture.Character.Adjust(hp);

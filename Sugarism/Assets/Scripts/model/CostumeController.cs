@@ -36,7 +36,7 @@ public class CostumeController
             return;
         }
 
-        MainCharacterCostume costume = Manager.Instance.DTMainCharacterCostume[CostumeId];
+        MainCharacterCostume costume = Manager.Instance.DT.MainCharacterCostume[CostumeId];
         MainCharacter mc = Manager.Instance.Object.MainCharacter;
         mc.Money -= costume.price;
         mc.Charm += costume.charm;

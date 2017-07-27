@@ -69,7 +69,7 @@ namespace Nurture
         // constructor
         public Character(int age)
         {
-            _actionCount = new int[Manager.Instance.DTAction.Count];
+            _actionCount = new int[Manager.Instance.DT.Action.Count];
             int numActCount = _actionCount.Length;
             for (int i = 0; i < numActCount; ++i)
             {
@@ -133,14 +133,14 @@ namespace Nurture
         {
             int zodiacId = (int)zodiac;
 
-            if ((zodiacId < 0) || (zodiacId >= Manager.Instance.DTZodiac.Count))
+            if ((zodiacId < 0) || (zodiacId >= Manager.Instance.DT.Zodiac.Count))
             {
                 string errMsg = string.Format("invalid zodiac id: {0}", zodiacId);
                 Log.Error(errMsg);
                 return;
             }
 
-            Zodiac zodiacFromDT = Manager.Instance.DTZodiac[zodiacId];
+            Zodiac zodiacFromDT = Manager.Instance.DT.Zodiac[zodiacId];
 
             Stamina = zodiacFromDT.stamina;
             Intellect = zodiacFromDT.intellect;
@@ -428,14 +428,14 @@ namespace Nurture
                 return -1;
             }
 
-            int STAT_COUNT = Manager.Instance.DTStat.Count;
+            int STAT_COUNT = Manager.Instance.DT.Stat.Count;
 
             //Log.Debug(string.Format("GetAverage; stat line: {0}", statLine));
 
             int sum = 0, count = 0;
             for (int statId = 0; statId < STAT_COUNT; ++statId)
             {
-                if (statLine != Manager.Instance.DTStat[statId].statLine)
+                if (statLine != Manager.Instance.DT.Stat[statId].statLine)
                     continue;
 
                 if (false == Enum.IsDefined(typeof(EStat), statId))

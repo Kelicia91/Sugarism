@@ -5,7 +5,7 @@ public class ExtScoreExam
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTScoreExam.Count)
+        else if (id >= Manager.Instance.DT.ScoreExam.Count)
             return false;
         else
             return true;
@@ -18,7 +18,7 @@ public class ExtOneToOneExam
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTOneToOneExam.Count)
+        else if (id >= Manager.Instance.DT.OneToOneExam.Count)
             return false;
         else
             return true;

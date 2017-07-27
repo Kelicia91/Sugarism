@@ -5,7 +5,7 @@ public class ExtNurtureEnding
     {
         if (id < 0)
             return false;
-        else if (id >= Manager.Instance.DTNurtureEnding.Count)
+        else if (id >= Manager.Instance.DT.NurtureEnding.Count)
             return false;
         else
             return true;

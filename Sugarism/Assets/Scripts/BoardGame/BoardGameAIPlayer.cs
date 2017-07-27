@@ -12,9 +12,9 @@ namespace BoardGame
         {
             _id = id;
 
-            BoardGamePlayer player = Manager.Instance.DTBoardGamePlayer[_id];
+            BoardGamePlayer player = Manager.Instance.DT.BoardGamePlayer[_id];
             int characterId = player.characterId;
-            _name = Manager.Instance.DTCharacter[characterId].name;
+            _name = Manager.Instance.DT.Character[characterId].name;
 
             _intellect = player.intellect;
             _tactic = player.tactic;
@@ -31,9 +31,9 @@ namespace BoardGame
         {
             _id = id;
 
-            BoardGamePlayer player = Manager.Instance.DTBoardGamePlayer[_id];
+            BoardGamePlayer player = Manager.Instance.DT.BoardGamePlayer[_id];
             int characterId = player.characterId;
-            _name = Manager.Instance.DTCharacter[characterId].name;
+            _name = Manager.Instance.DT.Character[characterId].name;
 
             _intellect = intellect;
             _tactic = tactic;

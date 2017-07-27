@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -41,7 +39,7 @@ public class PlayerPresentPanel : Panel
 
         _player = player;
 
-        BoardGamePlayer p = Manager.Instance.DTBoardGamePlayer[_player.Id];
+        BoardGamePlayer p = Manager.Instance.DT.BoardGamePlayer[_player.Id];
         setImage(p.idle);
 
         if (BoardGame.Cell.EOwner.User == _player.Owner)
@@ -64,7 +62,7 @@ public class PlayerPresentPanel : Panel
 
     private void onAttack(int playerId)
     {
-        BoardGamePlayer p = Manager.Instance.DTBoardGamePlayer[_player.Id];
+        BoardGamePlayer p = Manager.Instance.DT.BoardGamePlayer[_player.Id];
         if (_player.Id == playerId)
         {            
             setImage(p.attack);
@@ -77,7 +75,7 @@ public class PlayerPresentPanel : Panel
 
     private void onCounterAttack(int playerId)
     {
-        BoardGamePlayer p = Manager.Instance.DTBoardGamePlayer[_player.Id];
+        BoardGamePlayer p = Manager.Instance.DT.BoardGamePlayer[_player.Id];
         if (_player.Id == playerId)
         {
             setImage(p.defense);
@@ -90,7 +88,7 @@ public class PlayerPresentPanel : Panel
 
     private void onRemoveAllDefense(int playerId, int index)
     {
-        BoardGamePlayer p = Manager.Instance.DTBoardGamePlayer[_player.Id];
+        BoardGamePlayer p = Manager.Instance.DT.BoardGamePlayer[_player.Id];
         if (_player.Id == playerId)
         {
             setImage(p.damage);
@@ -103,13 +101,13 @@ public class PlayerPresentPanel : Panel
 
     private void onShuffle()
     {
-        BoardGamePlayer p = Manager.Instance.DTBoardGamePlayer[_player.Id];
+        BoardGamePlayer p = Manager.Instance.DT.BoardGamePlayer[_player.Id];
         setImage(p.idle);
     }
 
     private void onEnd(BoardGame.EUserGameState state)
     {
-        BoardGamePlayer p = Manager.Instance.DTBoardGamePlayer[_player.Id];
+        BoardGamePlayer p = Manager.Instance.DT.BoardGamePlayer[_player.Id];
         setImage(p.idle);
     }
 
@@ -118,7 +116,7 @@ public class PlayerPresentPanel : Panel
         if (null == _player)
             return;
 
-        BoardGamePlayer p = Manager.Instance.DTBoardGamePlayer[_player.Id];
+        BoardGamePlayer p = Manager.Instance.DT.BoardGamePlayer[_player.Id];
         setImage(p.idle);
     }
 }

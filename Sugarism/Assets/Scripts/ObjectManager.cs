@@ -73,7 +73,7 @@ public class ObjectManager : MonoBehaviour
             return;
         }
 
-        NurtureEnding ending = Manager.Instance.DTNurtureEnding[_nurtureEndingId];
+        NurtureEnding ending = Manager.Instance.DT.NurtureEnding[_nurtureEndingId];
         Log.Debug(string.Format("nurture.ending id({0}), name({1})", _nurtureEndingId, ending.name));
 
         TextAsset nurtureEndingScenario = ending.scenario;

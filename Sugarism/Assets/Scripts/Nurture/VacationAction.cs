@@ -18,7 +18,7 @@ namespace Nurture
             }
 
             int seasonId = (int)_season;
-            _vacation = Manager.Instance.DTVacation[seasonId];
+            _vacation = Manager.Instance.DT.Vacation[seasonId];
         }
 
         protected override void doing()
