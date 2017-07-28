@@ -2,18 +2,16 @@
 using UnityEngine.UI;
 
 
-public class SubmitButton : MonoBehaviour
+public class TextButton : MonoBehaviour
 {
-    /********* Editor Interface *********/
-    // objects
-    public Text Text;
-
     //
+    private Text _text = null;
     private Button _button = null;
 
     //
     void Awake()
     {
+        _text = GetComponentInChildren<Text>();
         _button = GetComponent<Button>();
     }
 
@@ -30,12 +28,12 @@ public class SubmitButton : MonoBehaviour
 
     public void SetText(string s)
     {
-        if (null == Text)
+        if (null == _text)
         {
             Log.Error("not found text");
             return;
         }
 
-        Text.text = s;
+        _text.text = s;
     }
 }
