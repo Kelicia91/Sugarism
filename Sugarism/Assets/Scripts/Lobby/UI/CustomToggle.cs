@@ -6,8 +6,10 @@ public class CustomToggle : MonoBehaviour
 {
     /********* Editor Interface *********/
     // objects
-    public Image Image;
-    public Text Text;
+    [SerializeField]
+    private Image Image = null;
+    [SerializeField]
+    private Text Text = null;
 
     //
     private Toggle _component = null;
