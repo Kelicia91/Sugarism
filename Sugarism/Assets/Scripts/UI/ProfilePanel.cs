@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -21,10 +19,15 @@ public class ProfilePanel : Panel
         MainCharacter mainCharacter = Manager.Instance.Object.MainCharacter;
 
         EConstitution constitution = mainCharacter.Constitution;
-        setConstitutionText(get(constitution));
+        int constitutionId = (int)constitution;
+        Constitution c = Manager.Instance.DT.Constitution[constitutionId];
+        ConstitutionImage.sprite = c.sprite;
+        ConstitutionImage.color = c.color;
+        //setConstitutionText(get(constitution));
 
         EZodiac zodiac = Manager.Instance.Object.NurtureMode.Character.Zodiac;
-        setZodiacText(get(zodiac));
+        ZodiacImage.sprite = get(zodiac);
+        //setZodiacText(get(zodiac));
 
         int age = mainCharacter.Age;
         setAgeText(age);
@@ -84,16 +87,16 @@ public class ProfilePanel : Panel
         NameText.text = s;
     }
 
-    private string get(EZodiac zodiac)
+    private Sprite get(EZodiac zodiac)
     {
         int zodiacId = (int)zodiac;
 
         if (zodiacId < 0)
-            return string.Empty;
+            return null;
         else if (zodiacId >= Manager.Instance.DT.Zodiac.Count)
-            return string.Empty;
+            return null;
         else
-            return Manager.Instance.DT.Zodiac[zodiacId].name;
+            return Manager.Instance.DT.Zodiac[zodiacId].image;
     }
 
     private string get(EConstitution constitution)
