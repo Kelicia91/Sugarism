@@ -23,7 +23,7 @@ public class ZodiacPanel : Panel
     private Button _backButton = null;
 
     //
-    private EZodiac _selectedZodiac = EZodiac.RAT;
+    private EZodiac _selectedZodiac = Def.DEFAULT_ZODIAC;
     public EZodiac SelectedZodiac
     {
         get { return _selectedZodiac; }
@@ -98,8 +98,16 @@ public class ZodiacPanel : Panel
 
         Hide();
 
-        // 시작하기...
-        // @todo : 다음씬이냐?
+        // @todo: 경고 팝업창 하나 띄워줘야겠네. (ex. 기존 데이터 날아가도 괜츈?)
+        // Fresh Start
+        CustomPlayerPrefs.DeleteAll();
+
+        PlayerInitProperty p = LobbyManager.Instance.PlayerInitProperty;
+        CustomPlayerPrefs.SetString(PlayerPrefsKey.NAME, p.Name);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.CONSTITUTION, (int)p.Constitution);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.ZODIAC, (int)p.Zodiac);
+        
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneDef.MAIN);
     }
 
     private void onClickBackButton()

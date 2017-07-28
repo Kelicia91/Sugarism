@@ -264,7 +264,28 @@ public class Def
 
     // Constitution
     public const string CONSTITUTION = "체질";
+    public const EConstitution DEFAULT_CONSTITUTION = EConstitution.MOON;
 
     // Zodiac
     public const string ZODIAC = "황도궁";
+    public const EZodiac DEFAULT_ZODIAC = EZodiac.RAT;
+}
+
+
+
+
+/***** Definition For Programmer *****/
+
+public class SceneDef
+{
+    public const string ENTRY = "Entry";
+    public const string LOBBY = "Lobby";
+    public const string MAIN = "Main";
+}
+
+public class PlayerPrefsKey
+{
+    public const string NAME = "name";
+    public const string CONSTITUTION = "constitution";
+    public const string ZODIAC = "zodiac";
 }

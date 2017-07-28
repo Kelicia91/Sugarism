@@ -23,7 +23,7 @@ public class ConstitutionPanel : Panel
     private Button _backButton = null;
 
     //
-    private EConstitution _selectedConstitution = EConstitution.MOON;
+    private EConstitution _selectedConstitution = Def.DEFAULT_CONSTITUTION;
     public EConstitution SelectedConstitution
     {
         get { return _selectedConstitution; }
