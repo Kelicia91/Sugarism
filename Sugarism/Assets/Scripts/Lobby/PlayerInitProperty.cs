@@ -23,11 +23,4 @@ public class PlayerInitProperty : MonoBehaviour
         get { return _zodiac; }
         set { _zodiac = value; }
     }
-
-    //
-    void Start()
-    {
-        Log.Debug("PlayerInitProperty.Start");
-        DontDestroyOnLoad(this);
-    }
 }

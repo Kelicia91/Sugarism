@@ -19,13 +19,6 @@ public class MainCharacter : Nurture.Character
         _moneyChangeEvent = new MoneyChangeEvent();
         _buyCostumeEvent = new BuyCostumeEvent();
         _wearCostumeEvent = new WearCostumeEvent();
-
-        // @todo: TEST
-        {
-            Name = @"테스트";
-            Constitution = EConstitution.MOON;
-            Zodiac = EZodiac.DRAGON;
-        }
     }
 
     // profile

@@ -3,6 +3,41 @@
 
 public class ObjectManager : MonoBehaviour
 {
+    #region Field, Property
+
+    private MainCharacter _mainCharacter = null;
+    public MainCharacter MainCharacter { get { return _mainCharacter; } }
+
+    /***** Story *****/
+    private Story.Mode _storyMode = null;
+    public Story.Mode StoryMode { get { return _storyMode; } }
+
+    /***** Nurture *****/
+    private Nurture.Mode _nurtureMode = null;
+    public Nurture.Mode NurtureMode { get { return _nurtureMode; } }
+
+    /***** BoardGame *****/
+    private BoardGame.BoardGameMode _boardGameMode = null;
+    public BoardGame.BoardGameMode BoardGameMode { get { return _boardGameMode; } }
+
+    /***** Combat *****/
+    private Combat.CombatMode _combatMode = null;
+    public Combat.CombatMode CombatMode { get { return _combatMode; } }
+
+    /***** Events *****/
+    private EndNurtureEvent _endNurtureEvent = null;
+    public EndNurtureEvent EndNurtureEvent { get { return _endNurtureEvent; } }
+
+    /***** Nurture & Story Chain *****/
+    private bool _isStartTargetScenario = false;
+
+    /***** Ending *****/
+    private int _nurtureEndingId = -1;
+
+    #endregion  // Field, Property
+
+
+    //
     void Awake()
     {
         _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY, Def.DEFAULT_COSTUME_ID);
@@ -28,42 +63,28 @@ public class ObjectManager : MonoBehaviour
         NurtureMode.Schedule.EndEvent.Attach(onScheduleEnd);
     }
 
+    //
+    void Start()
+    {
+        load();
+    }
 
-    #region Field, Property
+    private void load()
+    {
+        // new start -> player init property submit -> clear/save player pref. -|
+        // continue --------------------------------------------------> load player pref.
 
-    private MainCharacter _mainCharacter = null;
-    public MainCharacter MainCharacter { get { return _mainCharacter; } }
+        // Load Player Data
+        MainCharacter.Name = CustomPlayerPrefs.GetString(PlayerPrefsKey.NAME, Def.DEFAULT_PLAYER_NAME);
 
-    /***** Story *****/
-    private Story.Mode _storyMode = null;
-    public Story.Mode StoryMode { get { return _storyMode; } }
+        int c = CustomPlayerPrefs.GetInt(PlayerPrefsKey.CONSTITUTION, (int)Def.DEFAULT_CONSTITUTION);
+        MainCharacter.Constitution = (EConstitution)c;
 
-    /***** Nurture *****/
-    private Nurture.Mode _nurtureMode = null;
-    public Nurture.Mode NurtureMode { get { return _nurtureMode; } }
+        int z = CustomPlayerPrefs.GetInt(PlayerPrefsKey.ZODIAC, (int)Def.DEFAULT_ZODIAC);
+        MainCharacter.Zodiac = (EZodiac)z;
+    }
 
-    /***** BoardGame *****/
-    private BoardGame.BoardGameMode _boardGameMode = null;
-    public BoardGame.BoardGameMode BoardGameMode { get { return _boardGameMode; } }
-    
-    /***** Combat *****/
-    private Combat.CombatMode _combatMode = null;
-    public Combat.CombatMode CombatMode { get { return _combatMode; } }
-
-    /***** Events *****/
-    private EndNurtureEvent _endNurtureEvent = null;
-    public EndNurtureEvent EndNurtureEvent { get { return _endNurtureEvent; } }
-
-    /***** Nurture & Story Chain *****/
-    private bool _isStartTargetScenario = false;
-
-    /***** Ending *****/
-    private int _nurtureEndingId = -1;
-
-    #endregion  // Field, Property
-
-
-
+    //
     public void EndNurture()
     {
         _nurtureEndingId = NurtureMode.GetEndingId();
@@ -99,8 +120,8 @@ public class ObjectManager : MonoBehaviour
 
         EndNurtureEvent.Invoke();
     }
-
-
+    
+    //
     public void EndStory()
     {
         string path = StoryMode.GetEndingScenarioPath();
@@ -125,7 +146,7 @@ public class ObjectManager : MonoBehaviour
         // @todo: 게임종료.
     }
 
-    
+    //
     private void onScheduleEnd()
     {
         Story.TargetCharacter target = StoryMode.TargetCharacter;
