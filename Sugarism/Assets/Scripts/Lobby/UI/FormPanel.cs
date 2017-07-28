@@ -6,12 +6,17 @@ public class FormPanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
-    public GameObject PrefBackButton;
+    [SerializeField]
+    private GameObject PrefBackButton = null;
     // objects
-    public Text GuideText;
-    public InputField NameInputField;
-    public Text ErrorText;
-    public SubmitButton SubmitButton;
+    [SerializeField]
+    private Text GuideText = null;
+    [SerializeField]
+    private InputField NameInputField = null;
+    [SerializeField]
+    private Text ErrorText = null;
+    [SerializeField]
+    private TextButton TextButton = null;
 
     //
     private Button _backButton = null;
@@ -46,8 +51,8 @@ public class FormPanel : Panel
         _backButton.onClick.AddListener(onClickBackButton);
 
         // submit button
-        SubmitButton.SetText(Def.NEXT);
-        SubmitButton.AddClick(onClickSubmitButton);
+        TextButton.SetText(Def.NEXT);
+        TextButton.AddClick(onClickSubmitButton);
     }
     
 
@@ -120,8 +125,8 @@ public class FormPanel : Panel
 
     private void onClickBackButton()
     {
-        // @todo:
-        Log.Debug("click BackButton in FormPanel");
+        Hide();
+        LobbyManager.Instance.UI.LobbyPanel.Show();
     }
 
 

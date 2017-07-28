@@ -7,12 +7,17 @@ public class ZodiacPanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
-    public GameObject PrefBackButton;
-    public GameObject PrefCustomToggle;
+    [SerializeField]
+    private GameObject PrefBackButton = null;
+    [SerializeField]
+    private GameObject PrefCustomToggle = null;
     // objects
-    public Text GuideText;
-    public ToggleGroup ToggleGroup;
-    public SubmitButton SubmitButton;
+    [SerializeField]
+    private Text GuideText = null;
+    [SerializeField]
+    private ToggleGroup ToggleGroup = null;
+    [SerializeField]
+    private TextButton TextButton = null;
 
     //
     private Button _backButton = null;
@@ -41,8 +46,8 @@ public class ZodiacPanel : Panel
         _backButton.onClick.AddListener(onClickBackButton);
 
         // submit button
-        SubmitButton.SetText(Def.START_GAME);
-        SubmitButton.AddClick(onClickSubmitButton);
+        TextButton.SetText(Def.START_GAME);
+        TextButton.AddClick(onClickSubmitButton);
     }
 
 

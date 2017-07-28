@@ -7,12 +7,17 @@ public class ConstitutionPanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
-    public GameObject PrefBackButton;
-    public GameObject PrefCustomToggle;
+    [SerializeField]
+    private GameObject PrefBackButton = null;
+    [SerializeField]
+    private GameObject PrefCustomToggle = null;
     // objects
-    public Text GuideText;
-    public ToggleGroup ToggleGroup;
-    public SubmitButton SubmitButton;
+    [SerializeField]
+    private Text GuideText = null;
+    [SerializeField]
+    private ToggleGroup ToggleGroup = null;
+    [SerializeField]
+    private TextButton TextButton = null;
 
     //
     private Button _backButton = null;
@@ -41,8 +46,8 @@ public class ConstitutionPanel : Panel
         _backButton.onClick.AddListener(onClickBackButton);
 
         // submit button
-        SubmitButton.SetText(Def.NEXT);
-        SubmitButton.AddClick(onClickSubmitButton);
+        TextButton.SetText(Def.NEXT);
+        TextButton.AddClick(onClickSubmitButton);
     }
 
 
