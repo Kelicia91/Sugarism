@@ -5,16 +5,26 @@ public class LobbyUIManager : MonoBehaviour
 {
     /********* Editor Interface *********/
     // prefabs
-    public GameObject PrefEventSystem;
-    public GameObject PrefCanvas;
-    public GameObject PrefFormPanel;
-    public GameObject PrefConstitutionPanel;
-    public GameObject PrefZodiacPanel;
+    [SerializeField]
+    private GameObject PrefEventSystem = null;
+    [SerializeField]
+    private GameObject PrefCanvas = null;
+    [SerializeField]
+    private GameObject PrefLobbyPanel = null;
+    [SerializeField]
+    private GameObject PrefFormPanel = null;
+    [SerializeField]
+    private GameObject PrefConstitutionPanel = null;
+    [SerializeField]
+    private GameObject PrefZodiacPanel = null;
 
 
     /********* Game Interface *********/
     private Canvas _canvas = null;
     public Canvas Canvas { get { return _canvas; } }
+
+    private LobbyPanel _lobbyPanel = null;
+    public LobbyPanel LobbyPanel { get { return _lobbyPanel; } }
 
     private FormPanel _formPanel = null;
     public FormPanel FormPanel { get { return _formPanel; } }
@@ -35,10 +45,11 @@ public class LobbyUIManager : MonoBehaviour
     //
     void Start()
     {
-        ConstitutionPanel.Hide();
         ZodiacPanel.Hide();
+        ConstitutionPanel.Hide();
+        FormPanel.Hide();
 
-        FormPanel.Show();
+        LobbyPanel.Show();
     }
 
     private void create()
@@ -49,6 +60,10 @@ public class LobbyUIManager : MonoBehaviour
 
         o = Instantiate(PrefCanvas);
         _canvas = o.GetComponent<Canvas>();
+
+        o = Instantiate(PrefLobbyPanel);
+        o.transform.SetParent(_canvas.transform, false);
+        _lobbyPanel = o.GetComponent<LobbyPanel>();
 
         o = Instantiate(PrefFormPanel);
         o.transform.SetParent(_canvas.transform, false);

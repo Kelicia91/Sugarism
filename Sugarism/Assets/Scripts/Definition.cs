@@ -248,6 +248,9 @@ public class Def
     public const string USER_POEM_D = "D등급 시 blah-blah";
 
     // Lobby
+    public const string CMD_NEW_START = "시 작 하 기";
+    public const string CMD_CONTINUE = "이 어 하 기";
+    public const string CMD_GALLERY = "추 억 화 첩";
     public const string GUIDE_FORM_PANEL = "이름을 입력해주세요.";
     public const int MIN_LENGTH_PLAYER_NAME = 2;
     public const int MAX_LENGTH_PLAYER_NAME = 5;
