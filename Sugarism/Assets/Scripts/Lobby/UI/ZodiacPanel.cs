@@ -99,15 +99,7 @@ public class ZodiacPanel : Panel
         Hide();
 
         // @todo: 경고 팝업창 하나 띄워줘야겠네. (ex. 기존 데이터 날아가도 괜츈?)
-        // Fresh Start
-        CustomPlayerPrefs.DeleteAll();
-
-        PlayerInitProperty p = LobbyManager.Instance.PlayerInitProperty;
-        CustomPlayerPrefs.SetString(PlayerPrefsKey.NAME, p.Name);
-        CustomPlayerPrefs.SetInt(PlayerPrefsKey.CONSTITUTION, (int)p.Constitution);
-        CustomPlayerPrefs.SetInt(PlayerPrefsKey.ZODIAC, (int)p.Zodiac);
-        
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneDef.MAIN);
+        LobbyManager.Instance.FreshStart();
     }
 
     private void onClickBackButton()

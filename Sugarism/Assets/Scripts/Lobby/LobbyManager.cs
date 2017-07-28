@@ -45,5 +45,18 @@ public class LobbyManager : MonoBehaviour
         _playerInitProperty = Instantiate(PrefPlayerInitProperty);        
         _ui = Instantiate(PrefLobbyUIManager);
     }
+    
+    //
+    public void FreshStart()
+    {
+        CustomPlayerPrefs.DeleteAll();
+
+        PlayerInitProperty p = LobbyManager.Instance.PlayerInitProperty;
+        CustomPlayerPrefs.SetString(PlayerPrefsKey.NAME, p.Name);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.CONSTITUTION, (int)p.Constitution);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.ZODIAC, (int)p.Zodiac);
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneDef.MAIN);
+    }
 
 }   // class
