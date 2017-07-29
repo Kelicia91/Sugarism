@@ -23,9 +23,6 @@ public class CostumeController
     {
         _costumeId = costumeId;
         _isBuy = isBuy;
-
-        if (Def.DEFAULT_COSTUME_ID == _costumeId)
-            _isBuy = true;
     }
 
     public void Buy()
