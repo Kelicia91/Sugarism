@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
 public class ObjectManager : MonoBehaviour
@@ -40,14 +41,19 @@ public class ObjectManager : MonoBehaviour
     //
     void Awake()
     {
-        _mainCharacter = new MainCharacter(Def.INIT_AGE, Def.INIT_MONEY, Def.DEFAULT_COSTUME_ID);
+        // load
+        Nurture.Calendar calendar = loadCalendar();
+
+        _mainCharacter = loadMainCharacter(calendar);
+        loadAllStat(_mainCharacter);
+
+        Story.TargetCharacter targetCharacter = loadTargetCharacter();
 
         // story
-        int targetId = 0;   // @todo: TEST
-        _storyMode = new Story.Mode(_mainCharacter, targetId);
+        _storyMode = new Story.Mode(_mainCharacter, targetCharacter);
 
         // nurture
-        _nurtureMode = new Nurture.Mode(_mainCharacter);
+        _nurtureMode = new Nurture.Mode(calendar, _mainCharacter);
 
         // board game
         _boardGameMode = new BoardGame.BoardGameMode();
@@ -63,28 +69,186 @@ public class ObjectManager : MonoBehaviour
         NurtureMode.Schedule.EndEvent.Attach(onScheduleEnd);
     }
 
-    //
-    void Start()
+
+    /********** Load **********/
+    private Nurture.Calendar loadCalendar()
     {
-        load();
+        int year = CustomPlayerPrefs.GetInt(PlayerPrefsKey.YEAR, -1);
+        if (year < 0)
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.YEAR));
+            return null;
+        }
+
+        int month = CustomPlayerPrefs.GetInt(PlayerPrefsKey.MONTH, -1);
+        if (month < 0)
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.MONTH));
+            return null;
+        }
+
+        Nurture.Calendar calendar = new Nurture.Calendar(year, month, Def.INIT_DAY);
+        return calendar;
     }
 
-    private void load()
+    private MainCharacter loadMainCharacter(Nurture.Calendar calendar)
     {
-        // new start -> player init property submit -> clear/save player pref. -|
-        // continue --------------------------------------------------> load player pref.
+        if (null == calendar)
+        {
+            Log.Error("not found calendar");
+            return null;
+        }
 
-        // Load Player Data
-        MainCharacter.Name = CustomPlayerPrefs.GetString(PlayerPrefsKey.NAME, Def.DEFAULT_PLAYER_NAME);
+        string name = CustomPlayerPrefs.GetString(PlayerPrefsKey.NAME, null);
+        if (null == name)
+        {
+            Log.Error(string.Format("not found Player's '{0}'", PlayerPrefsKey.NAME));
+            return null;
+        }
 
-        int c = CustomPlayerPrefs.GetInt(PlayerPrefsKey.CONSTITUTION, (int)Def.DEFAULT_CONSTITUTION);
-        MainCharacter.Constitution = (EConstitution)c;
+        int zodiac = CustomPlayerPrefs.GetInt(PlayerPrefsKey.ZODIAC, -1);
+        if (false == Enum.IsDefined(typeof(EZodiac), zodiac))
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.ZODIAC));
+            return null;
+        }
+        
+        int age = Def.INIT_AGE + (calendar.Year - Def.INIT_YEAR);
 
-        int z = CustomPlayerPrefs.GetInt(PlayerPrefsKey.ZODIAC, (int)Def.DEFAULT_ZODIAC);
-        MainCharacter.Zodiac = (EZodiac)z;
+        int condition = CustomPlayerPrefs.GetInt(PlayerPrefsKey.CONDITION, -1);
+        if (false == Enum.IsDefined(typeof(Nurture.ECondition), condition))
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.CONDITION));
+            return null;
+        }
+
+        int[] actionCount = new int[Manager.Instance.DT.Action.Count];
+        int numAction = actionCount.Length;
+        for (int id = 0; id < numAction; ++id)
+        {
+            string key = PlayerPrefsKey.GetActionCountKey(id);
+            int value = CustomPlayerPrefs.GetInt(key, -1);
+            if (value < 0)
+            {
+                Log.Error(string.Format("not found '{0}'", key));
+                return null;
+            }
+
+            actionCount[id] = value;
+        }
+
+        int constitution = CustomPlayerPrefs.GetInt(PlayerPrefsKey.CONSTITUTION, -1);
+        if (false == Enum.IsDefined(typeof(EConstitution), constitution))
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.CONSTITUTION));
+            return null;
+        }
+
+        int money = CustomPlayerPrefs.GetInt(PlayerPrefsKey.MONEY, -1);
+        if (money < Def.MIN_MONEY)
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.MONEY));
+            return null;
+        }
+
+        int wearingCostumeId = CustomPlayerPrefs.GetInt(PlayerPrefsKey.WEARING_COSTUME, -1);
+        if (false == ExtMainCharacterCostume.IsValid(wearingCostumeId))
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.WEARING_COSTUME));
+            return null;
+        }
+
+        Wardrobe wardrobe = new Wardrobe();
+        int costumeCount = Manager.Instance.DT.MainCharacterCostume.Count;
+        for (int id = 0; id < costumeCount; ++id)
+        {
+            string key = PlayerPrefsKey.GetCostumeKey(id);
+            int value = CustomPlayerPrefs.GetInt(key, -1);
+            if (-1 == value)
+            {
+                Log.Error(string.Format("not found '{0}'", key));
+                return null;
+            }
+
+            bool isBuy = PlayerPrefsKey.GetCostumeValue(value);
+            CostumeController costume = new CostumeController(id, isBuy);
+            wardrobe.CostumeList.Add(costume);
+        }
+
+        EZodiac z = (EZodiac)zodiac;
+        Nurture.ECondition c = (Nurture.ECondition)condition;
+        EConstitution cs = (EConstitution)constitution;
+
+        MainCharacter mc = new MainCharacter(name, z, age, c, actionCount, cs, money, wardrobe, wearingCostumeId);
+        return mc;
     }
 
-    //
+    private void loadAllStat(Nurture.Character character)
+    {
+        if (null == character)
+        {
+            Log.Error("not found Nurture.Character");
+            return;
+        }
+
+        int stress = CustomPlayerPrefs.GetInt(PlayerPrefsKey.STRESS, -1);
+        int stamina = CustomPlayerPrefs.GetInt(PlayerPrefsKey.STAMINA, -1);
+        int intellect = CustomPlayerPrefs.GetInt(PlayerPrefsKey.INTELLECT, -1);
+        int grace = CustomPlayerPrefs.GetInt(PlayerPrefsKey.GRACE, -1);
+        int charm = CustomPlayerPrefs.GetInt(PlayerPrefsKey.CHARM, -1);
+        int attack = CustomPlayerPrefs.GetInt(PlayerPrefsKey.ATTACK, -1);
+        int defense = CustomPlayerPrefs.GetInt(PlayerPrefsKey.DEFENSE, -1);
+        int leadership = CustomPlayerPrefs.GetInt(PlayerPrefsKey.LEADERSHIP, -1);
+        int tactic = CustomPlayerPrefs.GetInt(PlayerPrefsKey.TACTIC, -1);
+        int morality = CustomPlayerPrefs.GetInt(PlayerPrefsKey.MORALITY, -1);
+        int goodness = CustomPlayerPrefs.GetInt(PlayerPrefsKey.GOODNESS, -1);
+        int sensibility = CustomPlayerPrefs.GetInt(PlayerPrefsKey.SENSIBILITY, -1);
+        int arts = CustomPlayerPrefs.GetInt(PlayerPrefsKey.ARTS, -1);
+
+        character.Stress = stress;
+        character.Stamina = stamina;
+        character.Intellect = intellect;
+        character.Grace = grace;
+        character.Charm = charm;
+        character.Attack = attack;
+        character.Defense = defense;
+        character.Leadership = leadership;
+        character.Tactic = tactic;
+        character.Morality = morality;
+        character.Goodness = goodness;
+        character.Sensibility = sensibility;
+        character.Arts = arts;
+    }
+
+    private Story.TargetCharacter loadTargetCharacter()
+    {
+        int targetId = CustomPlayerPrefs.GetInt(PlayerPrefsKey.TARGET, -1);
+        if (false == ExtTarget.isValid(targetId))
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.TARGET));
+            return null;
+        }   
+
+        int feeling = CustomPlayerPrefs.GetInt(PlayerPrefsKey.FEELING, -1);
+        if (feeling < 0)
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.FEELING));
+            return null;
+        }
+
+        int lastOpenedScenarioNo = CustomPlayerPrefs.GetInt(PlayerPrefsKey.LAST_OPENED_SCENARIO_NO, -10);
+        if (-10 == lastOpenedScenarioNo)
+        {
+            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.LAST_OPENED_SCENARIO_NO));
+            return null;
+        }
+
+        Story.TargetCharacter tc = new Story.TargetCharacter(targetId, feeling, lastOpenedScenarioNo);
+        return tc;
+    }
+
+
+    /********** Ending **********/
     public void EndNurture()
     {
         _nurtureEndingId = NurtureMode.GetEndingId();

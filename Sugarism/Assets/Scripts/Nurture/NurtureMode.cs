@@ -18,14 +18,15 @@ namespace Nurture
         
 
         // constructor
-        public Mode(Character character)
+        public Mode(Calendar calendar, Character character)
         {
-            _calendar = new Calendar(Def.INIT_YEAR, Def.INIT_MONTH, Def.INIT_DAY);
+            _calendar = calendar;
             _character = character;
             _schedule = new Schedule(this, Def.MAX_NUM_ACTION_IN_MONTH);
 
             Calendar.YearChangeEvent.Attach(onYearChanged);
         }
+
 
         public int GetEndingId()
         {

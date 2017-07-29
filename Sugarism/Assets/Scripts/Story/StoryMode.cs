@@ -70,7 +70,7 @@ namespace Story
 
 
         // constructor
-        public Mode(Nurture.Character mainCharacter, int targetId)
+        public Mode(Nurture.Character mainCharacter, TargetCharacter targetCharacter)
         {
             // json settings
             JSON_SETTINGS = new Newtonsoft.Json.JsonSerializerSettings();
@@ -78,6 +78,7 @@ namespace Story
 
             //
             _mainCharacter = mainCharacter;
+            _targetCharacter = targetCharacter;
 
             _scenario = null;
             _caseKey = -1;
@@ -98,11 +99,10 @@ namespace Story
 
             _scenarioStartEvent = new ScenarioStartEvent();
             _scenarioEndEvent = new ScenarioEndEvent();
-            
-            // target
-            _targetCharacter = new TargetCharacter(targetId, CmdFeelingEvent);
-        }
-        
+
+            //
+            TargetCharacter.AttachTo(CmdFeelingEvent);
+        }     
 
         /*** Load a Scenario ***/
         public bool LoadScenario(string path)

@@ -1,19 +1,14 @@
 ﻿
 public class MainCharacter : Nurture.Character
 {
-    public MainCharacter(int age, int money, int costumeId) : base(age)
+    public MainCharacter(string name, EZodiac zodiac, int age, Nurture.ECondition condition, int[] actionCount, 
+                        EConstitution constitution, int money, Wardrobe wardrobe, int wearingCostumeId) 
+                        : base(name, zodiac, age, condition, actionCount)
     {
+        _constitution = constitution;
         _money = money;
-
-        _wardrobe = new Wardrobe();
-        int mainCharacterCostumeCount = Manager.Instance.DT.MainCharacterCostume.Count;
-        for (int i = 0; i < mainCharacterCostumeCount; ++i)
-        {
-            CostumeController costumeCtrl = new CostumeController(i);
-            _wardrobe.CostumeList.Add(costumeCtrl);
-        }
-
-        _wearingCostumeId = costumeId;
+        _wardrobe = wardrobe;
+        _wearingCostumeId = wearingCostumeId;
 
         // events
         _moneyChangeEvent = new MoneyChangeEvent();
@@ -21,14 +16,7 @@ public class MainCharacter : Nurture.Character
         _wearCostumeEvent = new WearCostumeEvent();
     }
 
-    // profile
-    private string _name = string.Empty;
-    public string Name
-    {
-        get { return _name; }
-        set { _name = value; }
-    }
-    
+    // Fields, Properties
     private EConstitution _constitution = EConstitution.MAX;
     public EConstitution Constitution
     {

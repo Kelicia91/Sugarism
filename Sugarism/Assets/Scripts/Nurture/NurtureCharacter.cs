@@ -16,16 +16,19 @@ namespace Nurture
         // fields, property
         private int[] _actionCount = null;
 
-        public abstract int Money { get; set; }
+        private string _name = string.Empty;
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
 
         private EZodiac _zodiac = EZodiac.MAX;
         public EZodiac Zodiac
         {
             get { return _zodiac; }
-            set { _zodiac = value; init(_zodiac); }
+            set { _zodiac = value; }
         }
-
-        public readonly int INIT_AGE = 0;
 
         private int _age = 0;
         public int Age
@@ -33,6 +36,8 @@ namespace Nurture
             get { return _age; }
             set { _age = value; AgeChangeEvent.Invoke(_age); }
         }
+
+        public abstract int Money { get; set; }
 
         private ECondition _condition = ECondition.Healthy;
         public ECondition Condition
@@ -67,19 +72,13 @@ namespace Nurture
 
 
         // constructor
-        public Character(int age)
+        public Character(string name, EZodiac zodiac, int age, ECondition condition, int[] actionCount)
         {
-            _actionCount = new int[Manager.Instance.DT.Action.Count];
-            int numActCount = _actionCount.Length;
-            for (int i = 0; i < numActCount; ++i)
-            {
-                _actionCount[i] = 0;
-            }
-
-            INIT_AGE = age;
-            _age = INIT_AGE;
-
-            _condition = ECondition.Healthy;
+            _name = name;
+            _zodiac = zodiac;
+            _age = age;
+            _condition = condition;
+            _actionCount = actionCount;
 
             _ageChangeEvent = new AgeChangeEvent();
             _statEvent = new CharacterStatEvent();
@@ -102,7 +101,7 @@ namespace Nurture
         
         public bool IsChildHood()
         {
-            int midAge = (INIT_AGE + Def.MAX_AGE) / 2;
+            int midAge = (Def.INIT_AGE + Def.MAX_AGE) / 2;
             if (Age < midAge)
                 return true;
             else
@@ -129,43 +128,12 @@ namespace Nurture
                 ++_actionCount[actionIndex];
         }
 
-        private void init(EZodiac zodiac)
-        {
-            int zodiacId = (int)zodiac;
-
-            if ((zodiacId < 0) || (zodiacId >= Manager.Instance.DT.Zodiac.Count))
-            {
-                string errMsg = string.Format("invalid zodiac id: {0}", zodiacId);
-                Log.Error(errMsg);
-                return;
-            }
-
-            Zodiac zodiacFromDT = Manager.Instance.DT.Zodiac[zodiacId];
-
-            Stamina = zodiacFromDT.stamina;
-            Intellect = zodiacFromDT.intellect;
-            Grace = zodiacFromDT.grace;
-            Charm = zodiacFromDT.charm;
-
-            Attack = zodiacFromDT.attack;
-            Defense = zodiacFromDT.defense;
-
-            Leadership = zodiacFromDT.leadership;
-            Tactic = zodiacFromDT.tactic;
-
-            Morality = zodiacFromDT.morality;
-            Goodness = zodiacFromDT.goodness;
-
-            Sensibility = zodiacFromDT.sensibility;
-            Arts = zodiacFromDT.arts;
-        }
-
     }   // class
 
     // Stats
     public partial class Character
     {
-        private int _stress = 0;
+        private int _stress = -1;
         public int Stress
         {
             get { return _stress; }
@@ -180,7 +148,7 @@ namespace Nurture
             }
         }
 
-        private int _stamina = 0;
+        private int _stamina = -1;
         public int Stamina
         {
             get { return _stamina; }
@@ -195,7 +163,7 @@ namespace Nurture
             }
         }
 
-        private int _intellect = 0;
+        private int _intellect = -1;
         public int Intellect
         {
             get { return _intellect; }
@@ -210,7 +178,7 @@ namespace Nurture
             }
         }
 
-        private int _grace = 0;
+        private int _grace = -1;
         public int Grace
         {
             get { return _grace; }
@@ -225,7 +193,7 @@ namespace Nurture
             }
         }
 
-        private int _charm = 0;
+        private int _charm = -1;
         public int Charm
         {
             get { return _charm; }
@@ -240,7 +208,7 @@ namespace Nurture
             }
         }
 
-        private int _attack = 0;
+        private int _attack = -1;
         public int Attack
         {
             get { return _attack; }
@@ -255,7 +223,7 @@ namespace Nurture
             }
         }
 
-        private int _defense = 0;
+        private int _defense = -1;
         public int Defense
         {
             get { return _defense; }
@@ -270,7 +238,7 @@ namespace Nurture
             }
         }
 
-        private int _leadership = 0;
+        private int _leadership = -1;
         public int Leadership
         {
             get { return _leadership; }
@@ -285,7 +253,7 @@ namespace Nurture
             }
         }
 
-        private int _tactic = 0;
+        private int _tactic = -1;
         public int Tactic
         {
             get { return _tactic; }
@@ -300,7 +268,7 @@ namespace Nurture
             }
         }
 
-        private int _morality = 0;
+        private int _morality = -1;
         public int Morality
         {
             get { return _morality; }
@@ -315,7 +283,7 @@ namespace Nurture
             }
         }
 
-        private int _goodness = 0;
+        private int _goodness = -1;
         public int Goodness
         {
             get { return _goodness; }
@@ -330,7 +298,7 @@ namespace Nurture
             }
         }
 
-        private int _sensibility = 0;
+        private int _sensibility = -1;
         public int Sensibility
         {
             get { return _sensibility; }
@@ -345,7 +313,7 @@ namespace Nurture
             }
         }
 
-        private int _arts = 0;
+        private int _arts = -1;
         public int Arts
         {
             get { return _arts; }

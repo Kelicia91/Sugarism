@@ -285,7 +285,57 @@ public class SceneDef
 
 public class PlayerPrefsKey
 {
+    public const string YEAR = "year";
+    public const string MONTH = "month";
+
     public const string NAME = "name";
-    public const string CONSTITUTION = "constitution";
     public const string ZODIAC = "zodiac";
+    public const string CONDITION = "condition";
+    public const string CONSTITUTION = "constitution";
+    public const string MONEY = "money";
+    public const string WEARING_COSTUME = "wearingCostume";
+
+    public const string STRESS = "stress";
+    public const string STAMINA = "stamina";
+    public const string INTELLECT = "intellect";
+    public const string GRACE = "grace";
+    public const string CHARM = "charm";
+    public const string ATTACK = "attack";
+    public const string DEFENSE = "defense";
+    public const string LEADERSHIP = "leadership";
+    public const string TACTIC = "tactic";
+    public const string MORALITY = "morality";
+    public const string GOODNESS = "goodness";
+    public const string SENSIBILITY = "sensibility";
+    public const string ARTS = "arts";
+
+    public const string TARGET = "target";
+    public const string FEELING = "feeling";
+    public const string LAST_OPENED_SCENARIO_NO = "lastOpenedScenarioNo";
+    
+    public const string ACTION_COUNT = "actionCount";
+    public static string GetActionCountKey(int id)
+    {
+        string key = string.Format("{0}{1}", ACTION_COUNT, id);
+        return key;
+    }
+
+    private const string ISBUY_COSTUME = "isBuyCostume";
+    public static string GetCostumeKey(int id)
+    {
+        string key = string.Format("{0}{1}", ISBUY_COSTUME, id);
+        return key;
+    }
+
+    public static int GetCostumeValue(bool isBuy)
+    {
+        // If isBuy is true, return 1. otherwise 0.
+        return System.Convert.ToInt32(isBuy);
+    }
+
+    public static bool GetCostumeValue(int value)
+    {
+        // If value is 0, return false. otherwise true.
+        return System.Convert.ToBoolean(value);
+    }
 }

@@ -29,7 +29,7 @@ public class MainCharacterPanel : CharacterPanel
     {
         Hide();
 
-        int looksId = _mainCharacter.Age - _mainCharacter.INIT_AGE;
+        int looksId = _mainCharacter.Age - Def.INIT_AGE;
         if (false == ExtMainCharacterLooks.IsValid(looksId))
         {
             Log.Error(string.Format("invalid main character's looks id: {0}", looksId));
@@ -122,7 +122,7 @@ public class MainCharacterPanel : CharacterPanel
 
     private void onWearCostume(int costumeId)
     {
-        int looksId = _mainCharacter.Age - _mainCharacter.INIT_AGE;
+        int looksId = _mainCharacter.Age - Def.INIT_AGE;
 
         Sprite s = ExtMainCharacterCostume.Get(costumeId, looksId);
         setCostume(s);
@@ -136,7 +136,7 @@ public class MainCharacterPanel : CharacterPanel
 
     private void setFaceExpression(Nurture.ECondition condition)
     {
-        int looksId = _mainCharacter.Age - _mainCharacter.INIT_AGE;
+        int looksId = _mainCharacter.Age - Def.INIT_AGE;
         if (false == ExtMainCharacterLooks.IsValid(looksId))
         {
             Log.Error(string.Format("invalid main character's looks id: {0}", looksId));

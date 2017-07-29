@@ -68,22 +68,25 @@ namespace Story
 
 
         // constructor
-        public TargetCharacter(int id, CmdFeelingEvent cmdFeelingEvent)
+        public TargetCharacter(int id, int feeling, int lastOpenedScenarioNo)
         {
             _id = id;
-            _feeling = Def.MIN_FEELING;
-            _lastOpenedScenarioNo = Def.MIN_SCENARIO - 1;
+            _feeling = feeling;
+            _lastOpenedScenarioNo = lastOpenedScenarioNo;
 
             Target target = Manager.Instance.DT.Target[_id];
             ScenarioDirPath = string.Format("{0}{1}{2}{3}", 
                             RsrcLoader.SCENARIO_FOLDER_PATH, RsrcLoader.DIR_SEPARATOR, 
                             target.scenarioDirName, RsrcLoader.DIR_SEPARATOR);
-
-            cmdFeelingEvent.Attach(onCmdFeeling);
-
+            
             // events
             _feelingChangeEvent = new FeelingChangeEvent();
             _lastOpenedScenarioNoChangeEvent = new LastOpenedScenarioNoChangeEvent();
+        }
+
+        public void AttachTo(CmdFeelingEvent cmdFeelingEvent)
+        {
+            cmdFeelingEvent.Attach(onCmdFeeling);
         }
 
         public void NextScenarioNo()
