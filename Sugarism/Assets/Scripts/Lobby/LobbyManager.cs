@@ -47,15 +47,37 @@ public class LobbyManager : MonoBehaviour
     }
     
     //
+    public bool IsSavedData()
+    {
+        string invalidName = string.Empty;
+        string playerName = CustomPlayerPrefs.GetString(PlayerPrefsKey.NAME, invalidName);
+        if (playerName.Equals(invalidName))
+            return false;
+        else
+            return true;
+    }
+
     public void NewStart()
     {
         initialize();
-        
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneDef.MAIN);
+
+        loadScene(SceneDef.MAIN);
+    }
+
+    public void Continue()
+    {
+        loadScene(SceneDef.MAIN);
+    }
+
+    private void loadScene(string sceneName)
+    {
+        Log.Debug(string.Format("==========> LoadScene; {0} <==========", sceneName));
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
     }
 
     private void initialize()
     {
+        // DeleteAll() 바로 적용은 안 되는듯. 약간의 딜레이 필요.
         CustomPlayerPrefs.DeleteAll();  // @WARN : 업적 관련 key 추가 되면 호출 x.
 
         int constitutionId = (int)PlayerInitProperty.Constitution;

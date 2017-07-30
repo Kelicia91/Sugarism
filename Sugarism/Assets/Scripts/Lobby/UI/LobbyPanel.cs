@@ -18,7 +18,7 @@ public class LobbyPanel : Panel
     {
         StartButton.SetText(Def.CMD_NEW_START);
         StartButton.AddClick(onClickStart);
-
+        
         ContinueButton.SetText(Def.CMD_CONTINUE);
         ContinueButton.AddClick(onClickContinue);
 
@@ -34,7 +34,8 @@ public class LobbyPanel : Panel
 
     private void onClickContinue()
     {
-        Log.Debug("click continue");
+        Hide();
+        LobbyManager.Instance.Continue();
     }
 
     private void onClickGallery()

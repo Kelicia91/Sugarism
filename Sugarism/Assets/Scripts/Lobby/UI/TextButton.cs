@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class TextButton : MonoBehaviour
 {
     //
-    private Text _text = null;
-    private Button _button = null;
+    protected Text _text = null;
+    protected Button _button = null;
 
     //
     void Awake()
@@ -35,5 +35,16 @@ public class TextButton : MonoBehaviour
         }
 
         _text.text = s;
+    }
+
+    public void SetInteractable(bool isInteractable)
+    {
+        if (null == _button)
+        {
+            Log.Error("not found button component");
+            return;
+        }
+
+        _button.interactable = isInteractable;
     }
 }
