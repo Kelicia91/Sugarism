@@ -67,21 +67,23 @@ public class UIManager : MonoBehaviour
     void Awake()
     {
         create();
-    }
 
-    void Start()
-    {
+        MainPanel.Hide();
         SchedulePanel.Hide();
         RunSchedulePanel.Hide();
         WardrobePanel.Hide();
         StatePanel.Hide();
-        FeelingCheckPanel.Hide();
         CurrencyPanel.Hide();
+        FeelingCheckPanel.Hide();
+        Popup.Hide();
         SelectTargetPanel.Hide();
         StoryPanel.Hide();
         BoardGamePanel.Hide();
         CombatPanel.Hide();
+    }
 
+    void Start()
+    {
         Popup.Show();
         MainPanel.Show();
     }

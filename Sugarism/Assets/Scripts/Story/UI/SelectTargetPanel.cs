@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -8,63 +6,30 @@ public class SelectTargetPanel : Panel
 {
     /********* Editor Interface *********/
     // prefabs
-    public GameObject PrefBackButton;
-    public GameObject PrefSelectTargetButton;
-    //
-    public ScrollRect ScrollView;
+    [SerializeField]
+    private GameObject PrefSelectTargetButton = null;
+    // object
+    [SerializeField]
+    private Text TitleText = null;
+    [SerializeField]
+    private ScrollRect ScrollView = null;
 
 
     // Use this for initialization
-    void Start ()
+    void Awake()
     {
-        create(PrefBackButton, onClickBackButton);
+        TitleText.text = Def.CMD_SELECT_TARGET;
+
         create(PrefSelectTargetButton);
+
+        Manager.Instance.Object.StoryMode.SelectTargetEvent.Attach(onSelectTarget);
     }
-
-	// @todo: panel 클래스로 올리는게 나을지도.
-    private void create(GameObject prefab, UnityEngine.Events.UnityAction onClickHandler)
-    {
-        if (null == prefab)
-        {
-            Log.Error("not found prefab");
-            return;
-        }
-
-        GameObject o = Instantiate(PrefBackButton);
-        o.transform.SetParent(transform, false);
-
-        Button backButton = o.GetComponent<Button>();
-        if (null == backButton)
-        {
-            Log.Error("not found button component");
-            return;
-        }
-
-        backButton.onClick.AddListener(onClickHandler);
-    }
-
+    
     private void create(GameObject prefab)
-    {
-        if (null == prefab)
-        {
-            Log.Error("not found prefab");
-            return;
-        }
-        else if (null == prefab.GetComponent<SelectTargetButton>())
-        {
-            Log.Error("not found select target component");
-            return;
-        }
-
-        if (null == ScrollView)
-        {
-            Log.Error("not found scroll view");
-            return;
-        }
-        
+    {        
         RectTransform parent = ScrollView.content;
 
-        int numOfTarget = Manager.Instance.DT.Target.Count;        
+        int numOfTarget = Manager.Instance.DT.Target.Count;
         for (int i = 0; i < numOfTarget; ++i)
         {
             GameObject o = Instantiate(PrefSelectTargetButton);
@@ -75,8 +40,9 @@ public class SelectTargetPanel : Panel
         }
     }
 
-	private void onClickBackButton()
+    private void onSelectTarget()
     {
-        Hide();
+        Show();
     }
-}
+
+}   // class
