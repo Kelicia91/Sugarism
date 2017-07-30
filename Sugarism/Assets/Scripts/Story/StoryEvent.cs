@@ -611,4 +611,40 @@ namespace Story
         }
     }
 
+
+    public class SelectTargetEvent
+    {
+        public delegate void Handler();
+        private event Handler _event = null;
+
+        public SelectTargetEvent()
+        {
+            _event = new Handler(onSelectTarget);
+        }
+
+        // default handler
+        private void onSelectTarget()
+        {
+            Log.Debug("onSelectTarget");
+        }
+
+        public void Invoke() { _event.Invoke(); }
+
+        public void Attach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event += handler;
+        }
+
+        public void Detach(Handler handler)
+        {
+            if (null == handler)
+                return;
+
+            _event -= handler;
+        }
+    }
+
 }   // namespace

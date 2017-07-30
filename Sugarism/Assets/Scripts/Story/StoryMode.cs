@@ -66,6 +66,9 @@ namespace Story
         private ScenarioEndEvent _scenarioEndEvent = null;
         public ScenarioEndEvent ScenarioEndEvent { get { return _scenarioEndEvent; } }
 
+        private SelectTargetEvent _selectTargetEvent = null;
+        public SelectTargetEvent SelectTargetEvent { get { return _selectTargetEvent; } }
+
         #endregion
 
 
@@ -100,9 +103,26 @@ namespace Story
             _scenarioStartEvent = new ScenarioStartEvent();
             _scenarioEndEvent = new ScenarioEndEvent();
 
+            _selectTargetEvent = new SelectTargetEvent();
+
             //
-            TargetCharacter.AttachTo(CmdFeelingEvent);
-        }     
+            if (null != TargetCharacter)
+                TargetCharacter.AttachTo(CmdFeelingEvent);
+        }
+
+
+        public void Set(TargetCharacter targetCharacter)
+        {
+            if (null == targetCharacter)
+            {
+                Log.Error("not found target character");
+                return;
+            }
+
+            _targetCharacter = targetCharacter;
+            _targetCharacter.AttachTo(CmdFeelingEvent);
+        }
+
 
         /*** Load a Scenario ***/
         public bool LoadScenario(string path)
@@ -121,7 +141,9 @@ namespace Story
                 Log.Error("not found text asset");
                 return false;
             }
-            
+
+            Log.Debug(string.Format("try to load scenario; {0}", textAsset.name));
+
             object result = null;
             bool isDeserialized = JsonUtils.Deserialize<Sugarism.Scenario>(textAsset.text, 
                                 out result, JSON_SETTINGS);

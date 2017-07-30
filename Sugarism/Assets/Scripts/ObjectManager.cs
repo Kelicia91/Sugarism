@@ -65,8 +65,62 @@ public class ObjectManager : MonoBehaviour
         _endNurtureEvent = new EndNurtureEvent();
 
         // attach handler
-        StoryMode.ScenarioEndEvent.Attach(onScenarioEnd);
         NurtureMode.Schedule.EndEvent.Attach(onScheduleEnd);
+    }
+
+    
+    void Start()
+    {
+        if (null == StoryMode.TargetCharacter)
+            startPrologue();
+        else
+            StoryMode.ScenarioEndEvent.Attach(onScenarioEnd);
+    }
+
+
+    /********** Prologue **********/
+    private void startPrologue()
+    {
+        string path = string.Format("{0}{1}{2}", RsrcLoader.SCENARIO_FOLDER_PATH,
+                                    RsrcLoader.DIR_SEPARATOR, RsrcLoader.PROLOGUE_FILENAME);
+
+        StoryMode.LoadScenario(path);
+        StoryMode.ScenarioEndEvent.Attach(onPrologueEnd);
+    }
+
+    private void onPrologueEnd()
+    {
+        StoryMode.ScenarioEndEvent.Detach(onPrologueEnd);
+        StoryMode.SelectTargetEvent.Invoke();
+    }
+
+    public void CreateTargetCharacter(int targetId)
+    {
+        if (false == ExtTarget.isValid(targetId))
+        {
+            Log.Error(string.Format("invalid target id; {0}", targetId));
+            return;
+        }
+
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.TARGET, targetId);
+        Story.TargetCharacter tc = loadTargetCharacter();
+        StoryMode.Set(tc);
+
+        startTargetPrologue(tc);
+    }
+
+    private void startTargetPrologue(Story.TargetCharacter targetCharacter)
+    {
+        string path = string.Format("{0}{1}", targetCharacter.ScenarioDirPath, RsrcLoader.PROLOGUE_FILENAME);
+
+        StoryMode.LoadScenario(path);
+        StoryMode.ScenarioEndEvent.Attach(onTargetPrologueEnd);
+    }
+
+    private void onTargetPrologueEnd()
+    {
+        StoryMode.ScenarioEndEvent.Detach(onTargetPrologueEnd);
+        StoryMode.ScenarioEndEvent.Attach(onScenarioEnd);
     }
 
 
@@ -170,7 +224,7 @@ public class ObjectManager : MonoBehaviour
                 return null;
             }
 
-            bool isBuy = PlayerPrefsKey.GetCostumeValue(value);
+            bool isBuy = PlayerPrefsKey.GetIntToBool(value);
             CostumeController costume = new CostumeController(id, isBuy);
             wardrobe.CostumeList.Add(costume);
         }
@@ -223,9 +277,9 @@ public class ObjectManager : MonoBehaviour
     private Story.TargetCharacter loadTargetCharacter()
     {
         int targetId = CustomPlayerPrefs.GetInt(PlayerPrefsKey.TARGET, -1);
-        if (false == ExtTarget.isValid(targetId))
+        if (-1 == targetId)
         {
-            Log.Error(string.Format("not found '{0}'", PlayerPrefsKey.TARGET));
+            Log.Debug("not found target -> startPrologue.");
             return null;
         }   
 
@@ -310,7 +364,8 @@ public class ObjectManager : MonoBehaviour
         // @todo: 게임종료.
     }
 
-    //
+
+    /********** Game Routine **********/
     private void onScheduleEnd()
     {
         Story.TargetCharacter target = StoryMode.TargetCharacter;

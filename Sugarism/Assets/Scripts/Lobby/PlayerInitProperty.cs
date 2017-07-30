@@ -23,11 +23,4 @@ public class PlayerInitProperty : MonoBehaviour
         get { return _zodiac; }
         set { _zodiac = value; }
     }
-
-    private int _targetId = 0; // @todo: 테스트값// -1;
-    public int TargetId
-    {
-        get { return _targetId; }
-        set { _targetId = value; }
-    }
 }

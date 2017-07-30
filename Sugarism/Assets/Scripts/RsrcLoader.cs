@@ -11,6 +11,7 @@ public class RsrcLoader
 
     // common
     public const string SCENARIO_FOLDER_PATH = "Scenarios";
+    public const string PROLOGUE_FILENAME = "prologue";
 
     // for story mode
     public const string SINGLE_BAD_ENDING_FILENAME = "single";

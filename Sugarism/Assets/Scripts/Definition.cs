@@ -183,6 +183,7 @@ public class Def
     public const string STORY_ENDING_START_MSG = "그러던 어느 날...";
 
     // Target Character
+    public const string CMD_SELECT_TARGET = "공략 대상 선택";
     public const int MIN_FEELING = 0;
     public const int MAX_FEELING = 100;
     public const int ENDING_MIN_FEELING_PERCENT = 80;
@@ -326,14 +327,15 @@ public class PlayerPrefsKey
         string key = string.Format("{0}{1}", ISBUY_COSTUME, id);
         return key;
     }
-
-    public static int GetCostumeValue(bool isBuy)
+    
+    /*** Utils ***/
+    public static int GetBoolToInt(bool boolean)
     {
-        // If isBuy is true, return 1. otherwise 0.
-        return System.Convert.ToInt32(isBuy);
+        // If boolean is true, return 1. otherwise 0.
+        return System.Convert.ToInt32(boolean);
     }
 
-    public static bool GetCostumeValue(int value)
+    public static bool GetIntToBool(int value)
     {
         // If value is 0, return false. otherwise true.
         return System.Convert.ToBoolean(value);

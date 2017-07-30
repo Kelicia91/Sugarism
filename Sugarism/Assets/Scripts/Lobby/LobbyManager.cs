@@ -47,7 +47,7 @@ public class LobbyManager : MonoBehaviour
     }
     
     //
-    public void FreshStart()
+    public void NewStart()
     {
         initialize();
         
@@ -89,9 +89,9 @@ public class LobbyManager : MonoBehaviour
             if (Def.DEFAULT_COSTUME_ID == id)
                 isBuy = true;
 
-            int value = PlayerPrefsKey.GetCostumeValue(isBuy);
+            int isBuyInteger = PlayerPrefsKey.GetBoolToInt(isBuy);
 
-            CustomPlayerPrefs.SetInt(key, value);
+            CustomPlayerPrefs.SetInt(key, isBuyInteger);
         }
 
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.STRESS, Def.MIN_STAT);
@@ -109,7 +109,7 @@ public class LobbyManager : MonoBehaviour
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.SENSIBILITY, zodiac.sensibility);
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.ARTS, zodiac.arts);
 
-        CustomPlayerPrefs.SetInt(PlayerPrefsKey.TARGET, PlayerInitProperty.TargetId);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.TARGET, -1);
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.FEELING, Def.MIN_FEELING);
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.LAST_OPENED_SCENARIO_NO, Def.MIN_SCENARIO - 1);
     }
