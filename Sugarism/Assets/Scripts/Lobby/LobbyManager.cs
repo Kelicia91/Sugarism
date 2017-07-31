@@ -98,8 +98,8 @@ public class LobbyManager : MonoBehaviour
             CustomPlayerPrefs.SetInt(key, 0);
         }
 
-        CustomPlayerPrefs.SetInt(PlayerPrefsKey.CONSTITUTION, constitutionId);
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.MONEY, Def.INIT_MONEY);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.CONSTITUTION, constitutionId);
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.WEARING_COSTUME, Def.DEFAULT_COSTUME_ID);
 
         int costumeCount = DT.MainCharacterCostume.Count;

@@ -15,6 +15,10 @@ public class CostumeController
 
             if (_isBuy)
                 Manager.Instance.Object.MainCharacter.BuyCostumeEvent.Invoke(CostumeId);
+
+            string key = PlayerPrefsKey.GetCostumeKey(CostumeId);
+            int isBuyInteger = PlayerPrefsKey.GetBoolToInt(_isBuy);
+            CustomPlayerPrefs.SetInt(key, isBuyInteger);
         }
     }
 

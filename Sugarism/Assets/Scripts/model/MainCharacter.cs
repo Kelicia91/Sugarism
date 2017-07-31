@@ -52,6 +52,8 @@ public class MainCharacter : Nurture.Character
         {
             _wearingCostumeId = value;
             WearCostumeEvent.Invoke(_wearingCostumeId);
+
+            CustomPlayerPrefs.SetInt(PlayerPrefsKey.WEARING_COSTUME, _wearingCostumeId);
         }
     }
 

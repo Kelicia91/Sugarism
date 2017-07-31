@@ -368,12 +368,9 @@ public class ObjectManager : MonoBehaviour
     /********** Game Routine **********/
     private void onScheduleEnd()
     {
-        Story.TargetCharacter target = StoryMode.TargetCharacter;
-
-        bool isLoaded = StoryMode.LoadScenario(target.NextScenarioPath);
-        if (false == isLoaded)
-            return;
-
+        autoSaveNurture();
+        
+        startNextScenario();
         _isStartTargetScenario = true;
     }
 
@@ -386,5 +383,53 @@ public class ObjectManager : MonoBehaviour
 
         Story.TargetCharacter target = StoryMode.TargetCharacter;
         target.NextScenarioNo();
+
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.FEELING, target.Feeling);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.LAST_OPENED_SCENARIO_NO, target.LastOpenedScenarioNo);
+    }
+
+
+    //
+    private void autoSaveNurture()
+    {
+        Nurture.Calendar calendar = NurtureMode.Calendar;
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.YEAR, calendar.Year);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.MONTH, calendar.Month);
+
+        Nurture.Character nurtureCharacter = NurtureMode.Character;
+        int condition = (int)nurtureCharacter.Condition;
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.CONDITION, condition);
+
+        int actionCount = Manager.Instance.DT.Action.Count;
+        for (int id = 0; id < actionCount; ++id)
+        {
+            string key = PlayerPrefsKey.GetActionCountKey(id);
+            CustomPlayerPrefs.SetInt(key, nurtureCharacter.GetActionCount(id));
+        }
+
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.MONEY, nurtureCharacter.Money);
+
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.STRESS, nurtureCharacter.Stress);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.STAMINA, nurtureCharacter.Stamina);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.INTELLECT, nurtureCharacter.Intellect);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.GRACE, nurtureCharacter.Grace);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.CHARM, nurtureCharacter.Charm);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.ATTACK, nurtureCharacter.Attack);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.DEFENSE, nurtureCharacter.Defense);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.LEADERSHIP, nurtureCharacter.Leadership);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.TACTIC, nurtureCharacter.Tactic);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.MORALITY, nurtureCharacter.Morality);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.GOODNESS, nurtureCharacter.Goodness);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.SENSIBILITY, nurtureCharacter.Sensibility);
+        CustomPlayerPrefs.SetInt(PlayerPrefsKey.ARTS, nurtureCharacter.Arts);
+    }
+
+    private void startNextScenario()
+    {
+        Story.TargetCharacter target = StoryMode.TargetCharacter;
+
+        bool isLoaded = StoryMode.LoadScenario(target.NextScenarioPath);
+        if (false == isLoaded)
+            return;
     }
 }
