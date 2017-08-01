@@ -44,6 +44,11 @@ public class LobbyManager : MonoBehaviour
         // manager
         _playerInitProperty = Instantiate(PrefPlayerInitProperty);        
         _ui = Instantiate(PrefLobbyUIManager);
+
+        // @todo: move below code to main object of first scene loaded when start game
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
+        Screen.SetResolution(Screen.width, (Screen.width / Def.RESOLUTION_WIDTH_RATIO * Def.RESOLUTION_HEIGHT_RATIO), true);
+        Log.Debug(string.Format("Screen width: {0}, height: {1}", Screen.width, Screen.height));
     }
     
     //

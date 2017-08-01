@@ -50,13 +50,8 @@ public class Manager : MonoBehaviour
 #if UNITY_EDITOR
         Instantiate(PrefTestManager);
 #endif
-
-        // game
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Screen.SetResolution(Screen.width, (Screen.width / Def.RESOLUTION_WIDTH_RATIO * Def.RESOLUTION_HEIGHT_RATIO), true);
-        Log.Debug(string.Format("Screen width: {0}, height: {1}", Screen.width, Screen.height));
     }
-    
+
 }   // class
  
  
