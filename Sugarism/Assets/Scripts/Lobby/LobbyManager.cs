@@ -38,6 +38,7 @@ public class LobbyManager : SceneManager
     //
     public void NewStart()
     {
+        Log.Debug("NewStart");
         initialize();
 
         LoadScene(SceneDef.MAIN);
@@ -45,6 +46,7 @@ public class LobbyManager : SceneManager
 
     public void Continue()
     {
+        Log.Debug("Continue");
         LoadScene(SceneDef.MAIN);
     }
 
