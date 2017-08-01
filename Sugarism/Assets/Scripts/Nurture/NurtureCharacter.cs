@@ -126,6 +126,9 @@ namespace Nurture
                 return;
             else
                 ++_actionCount[actionIndex];
+
+            Log.Debug(string.Format("IncrementActionCount; action id:{0}, count:{1}", 
+                    actionIndex, _actionCount[actionIndex]));
         }
 
     }   // class
