@@ -6,10 +6,10 @@ public class DataTableCollection : MonoBehaviour
     // @note : Register this to TagManager
     public const string TAG = "DataTableCollection";
 
-	// Use this for initialization
-	void Start ()
+	//
+	void Awake()
     {
-        Log.Debug("DataTableCollection.Start");
+        Log.Debug("DataTableCollection.Awake");
         DontDestroyOnLoad(this);
 	}
 
