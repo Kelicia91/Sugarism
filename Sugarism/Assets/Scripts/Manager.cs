@@ -3,7 +3,7 @@
 
 // prohibit from abusing Singleton.
 // @IMPORTANT : prohibit from re-define constuctor because of inheriting MonoBehaviour.
-public class Manager : MonoBehaviour
+public class Manager : SceneManager
 {
     private static Manager _instance = null;
     public static Manager Instance { get { return _instance; } }
@@ -12,8 +12,6 @@ public class Manager : MonoBehaviour
     /********* Editor Interface *********/
     // Prefabs
     [SerializeField]
-    private DataTableCollection PrefDataTableCollection = null;
-    [SerializeField]
     private ObjectManager PrefObjectManager = null;
     [SerializeField]
     private UIManager PrefUIManager = null;
@@ -21,9 +19,6 @@ public class Manager : MonoBehaviour
     private TestManager PrefTestManager = null;
 
     /********* Game Interface *********/
-    private DataTableCollection _dataTableCollection = null;
-    public DataTableCollection DT { get { return _dataTableCollection; } }
-
     private ObjectManager _object = null;
     public ObjectManager Object { get { return _object; } }
 
@@ -35,13 +30,7 @@ public class Manager : MonoBehaviour
     void Awake()
     {
         _instance = this;
-        
-        // data table
-        GameObject dtObject = GameObject.FindWithTag(DataTableCollection.TAG);
-        if (null == dtObject)
-            _dataTableCollection = Instantiate(PrefDataTableCollection);
-        else
-            _dataTableCollection = dtObject.GetComponent<DataTableCollection>();
+        Initialize();
 
         // manager
         _object = Instantiate(PrefObjectManager);

@@ -3,7 +3,7 @@
 
 // prohibit from abusing Singleton.
 // @IMPORTANT : prohibit from re-define constuctor because of inheriting MonoBehaviour.
-public class LobbyManager : MonoBehaviour
+public class LobbyManager : SceneManager
 {
     private static LobbyManager _instance = null;
     public static LobbyManager Instance { get { return _instance; } }
@@ -12,16 +12,11 @@ public class LobbyManager : MonoBehaviour
     /********* Editor Interface *********/
     // Prefabs
     [SerializeField]
-    private DataTableCollection PrefDataTableCollection = null;
-    [SerializeField]
     private PlayerInitProperty PrefPlayerInitProperty = null;
     [SerializeField]
     private LobbyUIManager PrefLobbyUIManager = null;
 
     /********* Game Interface *********/
-    private DataTableCollection _dataTableCollection = null;
-    public DataTableCollection DT { get { return _dataTableCollection; } }
-
     private PlayerInitProperty _playerInitProperty = null;
     public PlayerInitProperty PlayerInitProperty { get { return _playerInitProperty; } }
 
@@ -33,22 +28,11 @@ public class LobbyManager : MonoBehaviour
     void Awake()
     {
         _instance = this;
+        Initialize();
         
-        // data table
-        GameObject dtObject = GameObject.FindWithTag(DataTableCollection.TAG);
-        if (null == dtObject)
-            _dataTableCollection = Instantiate(PrefDataTableCollection);
-        else
-            _dataTableCollection = dtObject.GetComponent<DataTableCollection>();
-
         // manager
         _playerInitProperty = Instantiate(PrefPlayerInitProperty);        
         _ui = Instantiate(PrefLobbyUIManager);
-
-        // @todo: move below code to main object of first scene loaded when start game
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        Screen.SetResolution(Screen.width, (Screen.width / Def.RESOLUTION_WIDTH_RATIO * Def.RESOLUTION_HEIGHT_RATIO), true);
-        Log.Debug(string.Format("Screen width: {0}, height: {1}", Screen.width, Screen.height));
     }
     
     //
@@ -66,18 +50,12 @@ public class LobbyManager : MonoBehaviour
     {
         initialize();
 
-        loadScene(SceneDef.MAIN);
+        LoadScene(SceneDef.MAIN);
     }
 
     public void Continue()
     {
-        loadScene(SceneDef.MAIN);
-    }
-
-    private void loadScene(string sceneName)
-    {
-        Log.Debug(string.Format("==========> LoadScene; {0} <==========", sceneName));
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        LoadScene(SceneDef.MAIN);
     }
 
     private void initialize()
