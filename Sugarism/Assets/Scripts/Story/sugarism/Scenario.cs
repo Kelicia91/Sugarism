@@ -28,7 +28,7 @@ namespace Story
             _model = model;
             _mode = mode;
 
-            Log.Debug("begin. Scenario");   // @todo: 나중에 로드 후로 옮기자. 이 시점은 로드 완료 전에 찍힘.
+            Log.Debug("begin. Scenario");
 
             _sceneList = new List<Scene>();
             foreach (Sugarism.Scene mScene in _model.SceneList)

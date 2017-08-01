@@ -7,7 +7,6 @@ namespace Score
         public AIPlayer(int id) : base(id)
         {
             _stress = getRandomStress();
-            ;   // @todo
         }
 
         public AIPlayer(int id, int charm, int sensibility, int arts) : base(id)
