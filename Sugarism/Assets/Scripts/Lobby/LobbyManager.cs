@@ -36,16 +36,6 @@ public class LobbyManager : SceneManager
     }
     
     //
-    public bool IsSavedData()
-    {
-        string invalidName = string.Empty;
-        string playerName = CustomPlayerPrefs.GetString(PlayerPrefsKey.NAME, invalidName);
-        if (playerName.Equals(invalidName))
-            return false;
-        else
-            return true;
-    }
-
     public void NewStart()
     {
         initialize();
@@ -60,8 +50,7 @@ public class LobbyManager : SceneManager
 
     private void initialize()
     {
-        // DeleteAll() 바로 적용은 안 되는듯. 약간의 딜레이 필요.
-        CustomPlayerPrefs.DeleteAll();  // @WARN : 업적 관련 key 추가 되면 호출 x.
+        SetContinueData(PlayerInitProperty.Name);
 
         int constitutionId = (int)PlayerInitProperty.Constitution;
         int zodiacId = (int)PlayerInitProperty.Zodiac;
@@ -69,8 +58,7 @@ public class LobbyManager : SceneManager
 
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.YEAR, Def.INIT_YEAR);
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.MONTH, Def.INIT_MONTH);
-
-        CustomPlayerPrefs.SetString(PlayerPrefsKey.NAME, PlayerInitProperty.Name);
+        
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.ZODIAC, zodiacId);
         CustomPlayerPrefs.SetInt(PlayerPrefsKey.CONDITION, condition);
 

@@ -41,6 +41,21 @@ public class Manager : SceneManager
 #endif
     }
 
+
+    public void Stop()
+    {
+        Log.Debug("Stop");
+        LoadScene(SceneDef.LOBBY);
+    }
+
+    public void End()
+    {
+        Log.Debug("End");
+
+        ClearContinueData();
+        LoadScene(SceneDef.LOBBY);
+    }
+
 }   // class
  
  

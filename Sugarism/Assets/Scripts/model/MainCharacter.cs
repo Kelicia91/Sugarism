@@ -96,15 +96,14 @@ public class MainCharacter : Nurture.Character
         Story.Mode storyMode = Manager.Instance.Object.StoryMode;
 
         bool isLoaded = storyMode.LoadScenario(sickScenarioPath);
-        if (false == isLoaded)
-            return; // @todo: 에러. 게임종료.
-
-        storyMode.ScenarioEndEvent.Attach(onScenarioEnd);
+        if (isLoaded)
+        {
+            storyMode.ScenarioEndEvent.Attach(onScenarioEnd);
+        }
     }
 
     private void onScenarioEnd()
     {
-        // @todo: 질병 시나리오 끝. 게임종료.
-        Log.Debug("die scenario end.");
+        Manager.Instance.End();
     }
 }

@@ -9,6 +9,6 @@ public class ContinueButton : TextButton
         _text = GetComponentInChildren<Text>();
         _button = GetComponent<Button>();
 
-        SetInteractable(LobbyManager.Instance.IsSavedData());
+        SetInteractable(LobbyManager.Instance.IsContinueData());
     }
 }

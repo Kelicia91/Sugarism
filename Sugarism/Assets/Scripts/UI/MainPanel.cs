@@ -81,6 +81,7 @@ public class MainPanel : Panel
 
     private void onClick()
     {
-        Log.Debug("click. back button");
+        // @todo: 팝업(타이틀로 돌아갈까요? y/n)
+        Manager.Instance.Stop();
     }
 }

@@ -318,11 +318,11 @@ public class ObjectManager : MonoBehaviour
         TextAsset nurtureEndingScenario = ending.scenario;
         
         bool isLoaded = StoryMode.LoadScenario(nurtureEndingScenario);
-        if (false == isLoaded)
-            return; // @todo: 에러. 게임종료.
-        
-        // @warn : callback's calling order
-        StoryMode.ScenarioEndEvent.Attach(onNurtureEndingScenarioEnd);
+        if (isLoaded)
+        {
+            // @warn : callback's calling order
+            StoryMode.ScenarioEndEvent.Attach(onNurtureEndingScenarioEnd);
+        }
     }
 
     private void onNurtureEndingScenarioEnd()
@@ -332,7 +332,10 @@ public class ObjectManager : MonoBehaviour
         StoryMode.ScenarioEndEvent.Detach(onNurtureEndingScenarioEnd);
 
         if (Def.NURTURE_BAD_ENDING_ID == _nurtureEndingId)
-            return; // @todo: 육성 엔딩 끝. 스토리 엔딩 없음.(떠돌이) 게임종료.
+        {
+            Manager.Instance.End();
+            return;
+        }
 
         _nurtureEndingId = -1;
 
@@ -343,16 +346,14 @@ public class ObjectManager : MonoBehaviour
     public void EndStory()
     {
         string path = StoryMode.GetEndingScenarioPath(MainCharacter);
-        if (null == path)
-            return; // @todo: 에러. 게임종료.
-
         Log.Debug(string.Format("story.ending path: {0}", path));
 
         bool isLoaded = StoryMode.LoadScenario(path);
-        if (false == isLoaded)
-            return; // @todo: 에러. 게임종료.
-
-        StoryMode.ScenarioEndEvent.Attach(onStoryEndingScenarioEnd);
+        if (isLoaded)
+        {
+            // @warn : callback's calling order
+            StoryMode.ScenarioEndEvent.Attach(onStoryEndingScenarioEnd);
+        }
     }
 
     private void onStoryEndingScenarioEnd()
@@ -361,7 +362,7 @@ public class ObjectManager : MonoBehaviour
 
         StoryMode.ScenarioEndEvent.Detach(onStoryEndingScenarioEnd);
 
-        // @todo: 게임종료.
+        Manager.Instance.End();
     }
 
 
