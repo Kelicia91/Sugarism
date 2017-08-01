@@ -27,16 +27,16 @@ public class TextBallonPanel : Panel
         Show();
         StartCoroutine(Shake());
     }
-    
+
+    private const float WAIT_SECONDS = 0.1f;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(WAIT_SECONDS);
     IEnumerator Shake()
     {
-        const float waitSeconds = 0.1f;
-
         for (float power = 1.5f; power > 0.0f; power -= 0.2f)
         {
             _rect.anchoredPosition = Random.insideUnitCircle * FixedShakeAmount * power;
 
-            yield return new WaitForSeconds(waitSeconds);
+            yield return _waitForSeconds;
         }
 
         Manager.Instance.Object.BoardGameMode.JudgeIter();

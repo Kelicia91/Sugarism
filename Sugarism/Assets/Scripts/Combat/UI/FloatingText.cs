@@ -52,7 +52,7 @@ public class FloatingText : MonoBehaviour
     private const float TO_TEXT_POS_Y = 100.0f;
 
     private const float FLOATING_WAIT_SECONDS = 0.1f;
-
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(FLOATING_WAIT_SECONDS);
     private IEnumerator floating(float waitSeconds)
     {
         for (float alpha = FROM_TEXT_COLOR_ALPHA, y = FROM_TEXT_POS_Y; 
@@ -62,7 +62,7 @@ public class FloatingText : MonoBehaviour
             _text.color = new Color(_text.color.r, _text.color.g, _text.color.b, alpha);
             _textRectTransform.anchoredPosition = new Vector2(0.0f, y);
 
-            yield return new WaitForSeconds(waitSeconds);
+            yield return _waitForSeconds;
         }
         
         Hide();

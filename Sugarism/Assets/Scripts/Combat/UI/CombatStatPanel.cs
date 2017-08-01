@@ -45,10 +45,12 @@ public class CombatStatPanel : Panel
         StartCoroutine(move(toValue));
     }
 
+    private const float WAIT_SECONDS = .1f;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(WAIT_SECONDS);
+    private const float DELAY_SECONDS = .6f;
+    private WaitForSeconds _delayForSeconds = new WaitForSeconds(DELAY_SECONDS);
     IEnumerator move(int toValue)
     {
-        const float waitSeconds = 0.1f;
-
         float fromValue = Slider.value;
         float t = 0.0f;
         while (t < 1.0f)
@@ -56,12 +58,12 @@ public class CombatStatPanel : Panel
             int tmp = (int) Mathf.SmoothStep(fromValue, toValue, t);
             set(tmp);
 
-            t += waitSeconds;
-            yield return new WaitForSeconds(waitSeconds);
+            t += WAIT_SECONDS;
+            yield return _waitForSeconds;
         }
 
         set(toValue);
-        yield return new WaitForSeconds(0.6f);
+        yield return _delayForSeconds;
 
         Manager.Instance.Object.CombatMode.BattleIterate();
     }

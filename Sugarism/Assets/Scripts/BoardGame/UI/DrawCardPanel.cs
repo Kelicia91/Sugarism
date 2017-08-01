@@ -85,13 +85,15 @@ public class DrawCardPanel : Panel
         StartCoroutine(floating());
     }
 
+    private const float WAIT_SECONDS = .2f;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(WAIT_SECONDS);
     private IEnumerator floating()
     {
         for (float alpha = 0.3f; alpha <= 1.0f; alpha += 0.1f)
         {
             Text.color = new Color(Text.color.r, Text.color.g, Text.color.b, alpha);
 
-            yield return new WaitForSeconds(.2f);
+            yield return _waitForSeconds;
         }
 
         if (Def.MAIN_CHARACTER_ID == _player.Id)

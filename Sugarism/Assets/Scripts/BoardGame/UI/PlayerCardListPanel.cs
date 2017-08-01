@@ -72,17 +72,18 @@ public class PlayerCardListPanel : Panel
 
         if (_player.Id != playerId)
             return;
-
-        const float waitSeconds = 1.0f;
-        StartCoroutine(disappear(waitSeconds, _cardArray[index]));
+        
+        StartCoroutine(disappear(_cardArray[index]));
     }
 
-    IEnumerator disappear(float waitSeconds, CardButton card)
+    private const float WAIT_SECONDS = 1.0f;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(WAIT_SECONDS);
+    IEnumerator disappear(CardButton card)
     {
         // @todo: 뭔가아쉬운 연출...
         for (int i = 0; i < 1; ++i)
         {
-            yield return new WaitForSeconds(waitSeconds);
+            yield return _waitForSeconds;
         }
         
         card.gameObject.SetActive(false);

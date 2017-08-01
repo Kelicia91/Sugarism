@@ -106,7 +106,7 @@ public class CellPanel : Panel
         
         if (gameObject.activeInHierarchy)
         {
-            StartCoroutine(coloring(waitSeconds, owner));
+            StartCoroutine(coloring(WAIT_SECONDS, owner));
         }
         else
         {
@@ -126,7 +126,8 @@ public class CellPanel : Panel
         setBingo(isBingo);
     }
 
-    private const float waitSeconds = 0.1f;
+    private const float WAIT_SECONDS = 0.1f;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(WAIT_SECONDS);
     private IEnumerator coloring(float waitSeconds, BoardGame.Cell.EOwner owner)
     {
         Color targetColor = getOwnerColor(owner);
@@ -135,7 +136,7 @@ public class CellPanel : Panel
             Color c = new Color(targetColor.r, targetColor.g, targetColor.b, alpha);
             setColor(c);
 
-            yield return new WaitForSeconds(waitSeconds);
+            yield return _waitForSeconds;
         }
 
         setColor(targetColor);

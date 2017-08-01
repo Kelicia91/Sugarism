@@ -80,6 +80,11 @@ public class CombatGameStatePanel : Panel, IPointerClickHandler
     private const float FROM_TEXT_POS_Y = 21.0f;
     //private const float TO_TEXT_POS_Y = 0.0f;
 
+    private const float WAIT_SECONDS = .1f;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(WAIT_SECONDS);
+    private const float DELAY_SECONDS = .5f;
+    private WaitForSeconds _delayForSeconds = new WaitForSeconds(DELAY_SECONDS);
+
     private IEnumerator floating(UnityEngine.Events.UnityAction handler)
     {
         RectTransform rect = Text.rectTransform;
@@ -91,10 +96,10 @@ public class CombatGameStatePanel : Panel, IPointerClickHandler
             Text.color = new Color(Text.color.r, Text.color.g, Text.color.b, alpha);
             rect.anchoredPosition = new Vector2(0.0f, y);
 
-            yield return new WaitForSeconds(.1f);
+            yield return _waitForSeconds;
         }
 
-        yield return new WaitForSeconds(.5f);
+        yield return _delayForSeconds;
         handler.Invoke();
     }
 

@@ -49,18 +49,17 @@ public class FlowSlider : MonoBehaviour
         _slider.value = value;
     }
 
-
+    private const float WAIT_SECONDS = 0.1f;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(WAIT_SECONDS);
     IEnumerator move(int flow)
     {
-        const float waitSeconds = 0.1f;
-
         float startValue = _slider.value;
         float t = 0.0f;
         while (t < 1.0f)
         {
             _slider.value = Mathf.SmoothStep(startValue, flow, t);
-            t += waitSeconds;
-            yield return new WaitForSeconds(waitSeconds);
+            t += WAIT_SECONDS;
+            yield return _waitForSeconds;
         }
 
         setValue(flow);

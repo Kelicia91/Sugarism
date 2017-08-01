@@ -32,7 +32,7 @@ public class CriterionPanel : Panel
 
         Color bgColor = getBgColorCriterion(criterion);
         if (gameObject.activeInHierarchy)
-            StartCoroutine(bgColoring(waitSeconds, bgColor));
+            StartCoroutine(bgColoring(bgColor));
         else
             setBgColor(bgColor);
     }
@@ -114,8 +114,9 @@ public class CriterionPanel : Panel
         _bgImage.color = c;
     }
 
-    private const float waitSeconds = 0.1f;
-    private IEnumerator bgColoring(float waitSeconds, Color color)
+    private const float WAIT_SECONDS = 0.1f;
+    private WaitForSeconds _waitForSeconds = new WaitForSeconds(WAIT_SECONDS);
+    private IEnumerator bgColoring(Color color)
     {
         Color originColor = _bgImage.color;
         Color targetColor = color;
@@ -132,7 +133,7 @@ public class CriterionPanel : Panel
             Color c = new Color(red, green, blue, alpha);
             setBgColor(c);
 
-            yield return new WaitForSeconds(waitSeconds);
+            yield return _waitForSeconds;
         }
 
         setBgColor(targetColor);
