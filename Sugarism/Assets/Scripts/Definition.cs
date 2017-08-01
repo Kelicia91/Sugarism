@@ -213,8 +213,11 @@ public class Def
     public const string COMBAT_COMMENT_WINNER = " 승리!";
 
     // Lesson
-    public const int EXAM_PERIOD = 1; // 테스트용 값 // 4; 
+    public const int EXAM_PERIOD = 4;   // divide ActionCount.
     public const string EXAM_USER_START = "(후우- 조금 긴장되는걸..?)";
+
+    // Lesson - Rival
+    public const int RIVAL_MEET_COUNT_FOR_SPECIAL_SCENARIO = 4;
 
     // Lesson - OneToOne Exam(Combat, BoardGame)
     public const string EXAM_USER_WIN = "이겼다!";

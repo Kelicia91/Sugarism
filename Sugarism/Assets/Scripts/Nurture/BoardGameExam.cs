@@ -77,12 +77,14 @@ namespace Exam
             Manager.Instance.Object.BoardGameMode.Start(_valuationBasis, userPlayer, aiPlayer);
             yield return null;
 
+            Manager.Instance.Object.BoardGameMode.EndEvent.Detach(onEnd);
+
             if (IsFirst)
             {
                 DialogueEvent.Invoke(_userFirstResultLines);
                 yield return null;
-
-                Log.Debug("@todo: open rival first meet scenerio");
+                
+                Manager.Instance.Object.StoryMode.LoadScenario(_rival.firstMeetScenarioPath);
             }
             else
             {
@@ -92,8 +94,6 @@ namespace Exam
                 DialogueEvent.Invoke(_userResultLines);
                 yield return null;
             }
-
-            Manager.Instance.Object.BoardGameMode.EndEvent.Detach(onEnd);
         }
         
         private void onEnd(BoardGame.EUserGameState state)
@@ -166,5 +166,6 @@ namespace Exam
 
             return Random.Range(min, (max + 1));
         }
-    }
+
+    }   // class
 }

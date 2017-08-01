@@ -60,14 +60,16 @@ namespace Exam
 
             Manager.Instance.Object.CombatMode.Start(userPlayer, aiPlayer);
             yield return null;
-            
+
+            Manager.Instance.Object.CombatMode.EndEvent.Detach(onEnd);
+
             // RIVAL
             if (IsFirst)
             {
                 DialogueEvent.Invoke(_userFirstResultLines);
                 yield return null;
 
-                Log.Debug("@todo: open rival first meet scenerio");
+                Manager.Instance.Object.StoryMode.LoadScenario(_rival.firstMeetScenarioPath);
             }
             else
             {
@@ -77,8 +79,6 @@ namespace Exam
                 DialogueEvent.Invoke(_userResultLines);
                 yield return null;
             }
-
-            Manager.Instance.Object.CombatMode.EndEvent.Detach(onEnd);
         }
 
         private void onEnd(Combat.CombatMode.EUserGameState state)

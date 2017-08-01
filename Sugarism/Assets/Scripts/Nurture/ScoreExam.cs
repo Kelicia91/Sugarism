@@ -85,47 +85,48 @@ namespace Exam
             // RIVAL
             if (IsFirst)
             {
-                Log.Debug("@todo: open rival first meet scenerio");
+                Manager.Instance.Object.StoryMode.LoadScenario(_rival.firstMeetScenarioPath);
+                yield break;
+            }
+
+            // RIVAL : compare score
+            Score.AIPlayer aiPlayer = getRivalPlayer(_rival.scorePlayerId, user);
+
+            int aiScore = _mode.GetScore(aiPlayer, _statWeight);
+            Log.Debug(string.Format("ai score: {0}", aiScore));
+
+            if (userScore == aiScore)
+            {
+                if (userScore <= Score.ScoreMode.MIN_SCORE)
+                    ++aiScore;
+                else if (userScore >= Score.ScoreMode.PERFECT_SCORE)
+                    --aiScore;
+                else
+                    judgeSameScore(user.Stress, aiPlayer.Stress, ref aiScore);
+
+                Log.Debug(string.Format("fixed ai score: {0}", aiScore));
+            }
+
+            string rivalLines = null;
+            string userLines = null;
+            if (userScore > aiScore)
+            {
+                rivalLines = _exam.RivalLose;
+                userLines = _exam.UserWin;
             }
             else
             {
-                Score.AIPlayer aiPlayer = getRivalPlayer(_rival.scorePlayerId, user);
-
-                int aiScore = _mode.GetScore(aiPlayer, _statWeight);
-                Log.Debug(string.Format("ai score: {0}", aiScore));
-
-                if (userScore == aiScore)
-                {
-                    if (userScore <= Score.ScoreMode.MIN_SCORE)
-                        ++aiScore;
-                    else if (userScore >= Score.ScoreMode.PERFECT_SCORE)
-                        --aiScore;
-                    else
-                        judgeSameScore(user.Stress, aiPlayer.Stress, ref aiScore);
-
-                    Log.Debug(string.Format("fixed ai score: {0}", aiScore));
-                }
-
-                string rivalLines = null;
-                string userLines = null;
-                if (userScore > aiScore)
-                {
-                    rivalLines = _exam.RivalLose;
-                    userLines = _exam.UserWin;
-                }
-                else
-                {
-                    rivalLines = _exam.RivalWin;
-                    userLines = _exam.UserLose;
-                }
-
-                string rivalScoreLines = string.Format(rivalLines, aiScore);
-                DialogueEvent.Invoke(_rival, rivalScoreLines);
-                yield return null;
-
-                DialogueEvent.Invoke(userLines);
-                yield return null;
+                rivalLines = _exam.RivalWin;
+                userLines = _exam.UserLose;
             }
+
+            string rivalScoreLines = string.Format(rivalLines, aiScore);
+            DialogueEvent.Invoke(_rival, rivalScoreLines);
+            yield return null;
+
+            DialogueEvent.Invoke(userLines);
+            yield return null;
+
         }   // end routine
 
         private Score.StatWeight[] getStatWeight()

@@ -66,20 +66,21 @@ namespace Nurture
                 return;
             }
 
+            bool isFirst = isFirstExam();
             Exam.Exam exam = null;
             switch (_lesson.examType)
             {
                 case Exam.EType.COMBAT:
-                    exam = new Exam.CombatExam(_lesson.examId, _lesson.npcId, _lesson.rivalId, isFirstExam());
+                    exam = new Exam.CombatExam(_lesson.examId, _lesson.npcId, _lesson.rivalId, isFirst);
                     break;
 
                 case Exam.EType.BOARD_GAME_TRICKER:
                 case Exam.EType.BOARD_GAME_POLITICIAN:
-                    exam = new Exam.BoardGameExam(_lesson.examType, _lesson.examId, _lesson.npcId, _lesson.rivalId, isFirstExam());
+                    exam = new Exam.BoardGameExam(_lesson.examType, _lesson.examId, _lesson.npcId, _lesson.rivalId, isFirst);
                     break;
 
                 case Exam.EType.SCORE:
-                    exam = new Exam.ScoreExam(_lesson.examId, _lesson.npcId, _lesson.rivalId, isFirstExam());
+                    exam = new Exam.ScoreExam(_lesson.examId, _lesson.npcId, _lesson.rivalId, isFirst);
                     break;
 
                 default:
@@ -121,6 +122,13 @@ namespace Nurture
             }
 
             _mode.Schedule.ActionEndEvent.Invoke(achievementRatio, _lesson.npcId, msg);
+
+            // RIVAL SP.Scenario
+            if (isSpecialDayForRival())
+            {
+                Rival rival = Manager.Instance.DT.Rival[_lesson.rivalId];
+                Manager.Instance.Object.StoryMode.LoadScenario(rival.specialScenarioPath);
+            }
         }
 
 
@@ -211,8 +219,18 @@ namespace Nurture
 
         private bool isFirstExam()
         {
-            int quotient = _mode.Character.GetActionCount(Id) / Def.EXAM_PERIOD;
-            if (1 == quotient)
+            int examCount = _mode.Character.GetActionCount(Id) / Def.EXAM_PERIOD;
+            if (1 == examCount)
+                return true;
+            else
+                return false;
+        }
+
+        private bool isSpecialDayForRival()
+        {
+            int examCount = _mode.Character.GetActionCount(Id) / Def.EXAM_PERIOD;
+
+            if (Def.RIVAL_MEET_COUNT_FOR_SPECIAL_SCENARIO == examCount)
                 return true;
             else
                 return false;
