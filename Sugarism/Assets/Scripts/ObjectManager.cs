@@ -50,7 +50,7 @@ public class ObjectManager : MonoBehaviour
         Story.TargetCharacter targetCharacter = loadTargetCharacter();
 
         // story
-        _storyMode = new Story.Mode(_mainCharacter, targetCharacter);
+        _storyMode = new Story.Mode(targetCharacter);
 
         // nurture
         _nurtureMode = new Nurture.Mode(calendar, _mainCharacter);
@@ -342,7 +342,7 @@ public class ObjectManager : MonoBehaviour
     //
     public void EndStory()
     {
-        string path = StoryMode.GetEndingScenarioPath();
+        string path = StoryMode.GetEndingScenarioPath(MainCharacter);
         if (null == path)
             return; // @todo: 에러. 게임종료.
 

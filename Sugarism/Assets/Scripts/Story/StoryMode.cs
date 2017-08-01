@@ -7,8 +7,6 @@ namespace Story
     {
         private readonly Newtonsoft.Json.JsonSerializerSettings JSON_SETTINGS = null;
 
-        private Nurture.Character _mainCharacter = null;
-
         private TargetCharacter _targetCharacter = null;
         public TargetCharacter TargetCharacter { get { return _targetCharacter; } }
 
@@ -73,14 +71,13 @@ namespace Story
 
 
         // constructor
-        public Mode(Nurture.Character mainCharacter, TargetCharacter targetCharacter)
+        public Mode(TargetCharacter targetCharacter)
         {
             // json settings
             JSON_SETTINGS = new Newtonsoft.Json.JsonSerializerSettings();
             JSON_SETTINGS.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
 
             //
-            _mainCharacter = mainCharacter;
             _targetCharacter = targetCharacter;
 
             _scenario = null;
@@ -215,7 +212,7 @@ namespace Story
         }
 
         //
-        public string GetEndingScenarioPath()
+        public string GetEndingScenarioPath(Nurture.Character nurtureCharacter)
         {
             int endingMinFeeling = Mathf.RoundToInt(Def.MAX_FEELING * Def.ENDING_MIN_FEELING_PERCENT * 0.01f);
             if (_targetCharacter.Feeling < endingMinFeeling)
@@ -227,7 +224,7 @@ namespace Story
             }
 
             string filename = null;
-            if (isHappyEnding())
+            if (isHappyEnding(nurtureCharacter))
                 filename = RsrcLoader.TARGET_HAPPY_ENDING_FILENAME;
             else
                 filename = RsrcLoader.TARGET_NORMAL_ENDING_FILENAME;
@@ -235,8 +232,14 @@ namespace Story
             return string.Format("{0}{1}", TargetCharacter.ScenarioDirPath, filename);
         }
 
-        private bool isHappyEnding()
+        private bool isHappyEnding(Nurture.Character nurtureCharacter)
         {
+            if (null == nurtureCharacter)
+            {
+                Log.Error("not found nurture character");
+                return false;
+            }
+
             if (false == ExtTarget.isValid(_targetCharacter.Id))
             {
                 Log.Error(string.Format("invalid target id; {0}", _targetCharacter.Id));
@@ -250,10 +253,10 @@ namespace Story
             int politicianMin = Mathf.RoundToInt(Def.MAX_STAT * t.happyEndingPoliticianAvgMinPercent * 0.01f);
             int attracterMin = Mathf.RoundToInt(Def.MAX_STAT * t.happyEndingAttracterAvgMinPercent * 0.01f);
             
-            int fighterAvg = _mainCharacter.GetAverage(EStatLine.FIGHTER);
-            int trickerAvg = _mainCharacter.GetAverage(EStatLine.TRICKER);
-            int politicianAvg = _mainCharacter.GetAverage(EStatLine.POLITICIAN);
-            int attracterAvg = _mainCharacter.GetAverage(EStatLine.ATTACTER);
+            int fighterAvg = nurtureCharacter.GetAverage(EStatLine.FIGHTER);
+            int trickerAvg = nurtureCharacter.GetAverage(EStatLine.TRICKER);
+            int politicianAvg = nurtureCharacter.GetAverage(EStatLine.POLITICIAN);
+            int attracterAvg = nurtureCharacter.GetAverage(EStatLine.ATTACTER);
 
             if ((fighterAvg >= fighterMin) && (trickerAvg >= trickerMin)
                 && (politicianAvg >= politicianMin) && (attracterAvg >= attracterMin))
