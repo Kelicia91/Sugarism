@@ -48,11 +48,13 @@ public class SceneManager : MonoBehaviour
 
     protected void SetContinueData(string playerName)
     {
+        Log.Debug(string.Format("SetContinueData; {0}({1})", CONTINUE_KEY, playerName));
         CustomPlayerPrefs.SetString(CONTINUE_KEY, playerName);
     }
 
     protected void ClearContinueData()
     {
+        Log.Debug("ClearContinueData");
         CustomPlayerPrefs.DeleteKey(CONTINUE_KEY);
     }
 }
