@@ -8,6 +8,8 @@ public class CustomPlayerPrefs
     public static void DeleteKey(string key)
     {
         //PlayerPrefs.DeleteKey(MakeHash(key + _saltForKey));
+
+        // @note: DeleteAll() 즉시적용 안됨. 약간의 딜레이 필요한듯..
         PlayerPrefs.DeleteKey(key);
     }
  
