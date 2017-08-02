@@ -10,7 +10,7 @@ public class LobbyPanel : Panel
     [SerializeField]
     private TextButton ContinueButton = null;
     [SerializeField]
-    private TextButton GalleryButton = null;
+    private TextButton AlbumButton = null;
 
 
     // 
@@ -22,8 +22,8 @@ public class LobbyPanel : Panel
         ContinueButton.SetText(Def.CMD_CONTINUE);
         ContinueButton.AddClick(onClickContinue);
 
-        GalleryButton.SetText(Def.CMD_GALLERY);
-        GalleryButton.AddClick(onClickGallery);
+        AlbumButton.SetText(Def.CMD_ALBUM);
+        AlbumButton.AddClick(onClickAlbum);
     }
 
     private void onClickStart()
@@ -38,8 +38,8 @@ public class LobbyPanel : Panel
         LobbyManager.Instance.Continue();
     }
 
-    private void onClickGallery()
+    private void onClickAlbum()
     {
-        Log.Debug("click gallery");
+        Log.Debug("click album");
     }
 }
