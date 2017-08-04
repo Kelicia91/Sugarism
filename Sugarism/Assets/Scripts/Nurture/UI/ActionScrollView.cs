@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
@@ -14,36 +12,26 @@ public class ActionScrollView : Panel
     private EActionType _actionType = EActionType.MAX;
 
     private RectTransform _content = null;
-    private GridLayoutGroup _gridLayoutGroup = null;
-
-    private GameObject[] _childObject = null;
 
 
     // Use this for initialization
     void Awake ()
     {
         ScrollRect scrollRect = GetComponent<ScrollRect>();
-        if (null != scrollRect)
-        {
-            _content = scrollRect.content;
-
-            _gridLayoutGroup = _content.gameObject.GetComponent<GridLayoutGroup>();
-        }
-        else
-        {
-            Log.Error("not found scroll rect");
-        }
+        _content = scrollRect.content;
     }
 
     // called after Drawing.
     void Start()
     {
         if (null == PrefActionButton)
+        {
             Log.Error("not found prefab action button");
-        else
-            createActionButtons();
+            return;
+        }
 
-        setContentHeight();
+        int createdButtonCount = createActionButtons();
+        setContentHeight(createdButtonCount);
     }
 
     // @note : called before Start(), after OnEnabled()
@@ -58,87 +46,60 @@ public class ActionScrollView : Panel
         _actionType = actionType;
     }
 
-    private void createActionButtons()
+    private int createActionButtons()
     {
-        List<int> actionIdList = null;
-        get(_actionType, out actionIdList);
-        if (null == actionIdList)
-            return;
+        int createdButtonCount = 0;
 
-        int numAction = actionIdList.Count;
-        if (numAction <= 0)
-            return;
+        ActionObject actionTable = Manager.Instance.DT.Action;
 
-        _childObject = new GameObject[numAction];
-        for (int i = 0; i < numAction; ++i)
+        int count = actionTable.Count;
+        for (int id = 0; id < count; ++id)
         {
+            if (_actionType != actionTable[id].type)
+                continue;
+
             GameObject o = Instantiate(PrefActionButton);
             o.transform.SetParent(_content, false);
 
-            _childObject[i] = o;
-
             ActionButton btn = o.GetComponent<ActionButton>();
-            btn.SetActionId(actionIdList[i]);
+            btn.SetActionId(id);
+
+            ++createdButtonCount;
         }
+
+        return createdButtonCount;
     }
-    
+
+    // for ScrollView
     // Calculate content's height for activating vertical scrollbar
-    private void setContentHeight()
+    private void setContentHeight(int cellCount)
     {
-        if (null == _gridLayoutGroup)
-        {
-            Log.Error("not found grid layout group");
-            return;
-        }
-
-        if (null == _content)
-        {
-            Log.Error("not found content");
-            return;
-        }
-
-        RectTransform contentRect = _content.gameObject.GetComponent<RectTransform>();
-
-        int buttonCount = _childObject.Length;
+        GridLayoutGroup gridLayoutGroup = _content.GetComponent<GridLayoutGroup>();
 
         float viewportWidth = GetComponent<RectTransform>().rect.width;
-        viewportWidth -= _gridLayoutGroup.padding.left;
-        viewportWidth -= _gridLayoutGroup.padding.right;
-        viewportWidth += _gridLayoutGroup.spacing.x;
-        int columnCountInGrid = (int) (viewportWidth / (_gridLayoutGroup.cellSize.x + _gridLayoutGroup.spacing.x));
+        viewportWidth -= gridLayoutGroup.padding.left;
+        viewportWidth -= gridLayoutGroup.padding.right;
+        viewportWidth += gridLayoutGroup.spacing.x;
 
+        int columnCountInGrid = (int) (viewportWidth / (gridLayoutGroup.cellSize.x + gridLayoutGroup.spacing.x));
         if (columnCountInGrid <= 0)
         {
-            Log.Error("invalid column(acton button) count");
+            Log.Error("invalid column count(ActionButton)");
             return;
         }
 
-        int rowCount = buttonCount / columnCountInGrid;
+        int rowCount = cellCount / columnCountInGrid;
 
-        int remainder = buttonCount % columnCountInGrid;
+        int remainder = cellCount % columnCountInGrid;
         if (remainder > 0)
             ++rowCount;
 
-        float width = contentRect.sizeDelta.x;
-        float height = _gridLayoutGroup.padding.top + _gridLayoutGroup.padding.bottom
-                    + (_gridLayoutGroup.cellSize.y * rowCount)
-                    + (_gridLayoutGroup.spacing.y * (rowCount - 1));
+        float width = _content.sizeDelta.x;
+        float height = gridLayoutGroup.padding.top + gridLayoutGroup.padding.bottom
+                    + (gridLayoutGroup.cellSize.y * rowCount)
+                    + (gridLayoutGroup.spacing.y * (rowCount - 1));
 
-        contentRect.sizeDelta = new Vector2(width, height);
+        _content.sizeDelta = new Vector2(width, height);
     }
-
-    private void get(EActionType actionType, out List<int> actionIdList)
-    {
-        actionIdList = new List<int>();
-
-        // query : select row.id from DTAction where row.type = actionType
-        int actionCount = Manager.Instance.DT.Action.Count;
-        for (int i = 0; i < actionCount; ++i)
-        {
-            if (actionType == Manager.Instance.DT.Action[i].type)
-            {
-                actionIdList.Add(i);
-            }
-        }
-    }
-}
+    
+}   // class
