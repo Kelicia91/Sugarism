@@ -95,14 +95,12 @@ public class ConstitutionPanel : Panel
     private void onClickSubmitButton()
     {
         LobbyManager.Instance.PlayerInitProperty.Constitution = SelectedConstitution;
-
-        Hide();
+        
         LobbyManager.Instance.UI.ZodiacPanel.Show();
     }
 
     private void onClickBackButton()
     {
         Hide();
-        LobbyManager.Instance.UI.FormPanel.Show();
     }
 }

@@ -118,15 +118,13 @@ public class FormPanel : Panel
             return;
 
         LobbyManager.Instance.PlayerInitProperty.Name = NameInputField.text;
-
-        Hide();
+        
         LobbyManager.Instance.UI.ConstitutionPanel.Show();
     }
 
     private void onClickBackButton()
     {
         Hide();
-        LobbyManager.Instance.UI.LobbyPanel.Show();
     }
 
 
