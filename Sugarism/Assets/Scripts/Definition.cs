@@ -115,7 +115,6 @@ public class Def
     public const int RESOLUTION_HEIGHT_RATIO = 16;
 
     // UI
-    public const string BACK = "뒤로";
     public const string PROGRESS = "진행도";
 
     // Command in UI
@@ -273,6 +272,13 @@ public class Def
     // Zodiac
     public const string ZODIAC = "황도궁";
     public const EZodiac DEFAULT_ZODIAC = EZodiac.RAT;
+
+    // Album
+    public const string ETC = "그외";
+    public const string ALBUM_TYPE_NAME_PICTURE = "일러스트";
+    public const string ALBUM_TYPE_NAME_MINIPICTURE = "미니컷";
+    public const string ALBUM_TYPE_NAME_NURTURE_ENDING = "엔딩";
+    public const string ALBUM_TYPE_NAME_VACTION = "휴양지";
 }
 
 
@@ -317,27 +323,31 @@ public class PlayerPrefsKey
     public const string FEELING = "feeling";
     public const string LAST_OPENED_SCENARIO_NO = "lastOpenedScenarioNo";
     
+    /*** Prefix key ***/
     public const string ACTION_COUNT = "actionCount";
-    public static string GetActionCountKey(int id)
+    public const string ISBUY_COSTUME = "isBuyCostume";
+    public const string ISLOCKED_PICTURE = "isLockedPicture";
+    public const string ISLOCKED_MINIPICTURE = "isLockedMiniPicture";
+    public const string ISLOCKED_NURTURE_ENDING = "isLockedNurtureEnding";
+    public const string ISLOCKED_VACATION_CHILD = "isLockedVacationChild";
+    public const string ISLOCKED_VACATION_ADULT = "isLockedVacationAdult";
+
+    public static string GetKey(string prefixKey, int id)
     {
-        string key = string.Format("{0}{1}", ACTION_COUNT, id);
+        string key = string.Format("{0}{1}", prefixKey, id);
         return key;
     }
 
-    private const string ISBUY_COSTUME = "isBuyCostume";
-    public static string GetCostumeKey(int id)
-    {
-        string key = string.Format("{0}{1}", ISBUY_COSTUME, id);
-        return key;
-    }
-    
     /*** Utils ***/
+    public const int TRUE_INTEGER = 1;
+    public const int FALSE_INTEGER = 0;
+
     public static int GetBoolToInt(bool boolean)
     {
         // If boolean is true, return 1. otherwise 0.
         return System.Convert.ToInt32(boolean);
     }
-
+    
     public static bool GetIntToBool(int value)
     {
         // If value is 0, return false. otherwise true.

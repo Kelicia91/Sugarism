@@ -32,6 +32,10 @@ namespace Story
 
             Mode.CmdPictureEvent.Invoke(Id);
 
+            string key = PlayerPrefsKey.GetKey(PlayerPrefsKey.ISLOCKED_PICTURE, Id);
+            int value = PlayerPrefsKey.GetBoolToInt(false);
+            CustomPlayerPrefs.SetInt(key, value);
+
             return false;   // no more child to play
         }
 

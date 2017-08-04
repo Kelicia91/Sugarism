@@ -180,7 +180,7 @@ public class ObjectManager : MonoBehaviour
         int numAction = actionCount.Length;
         for (int id = 0; id < numAction; ++id)
         {
-            string key = PlayerPrefsKey.GetActionCountKey(id);
+            string key = PlayerPrefsKey.GetKey(PlayerPrefsKey.ACTION_COUNT, id);
             int value = CustomPlayerPrefs.GetInt(key, -1);
             if (value < 0)
             {
@@ -216,7 +216,7 @@ public class ObjectManager : MonoBehaviour
         int costumeCount = Manager.Instance.DT.MainCharacterCostume.Count;
         for (int id = 0; id < costumeCount; ++id)
         {
-            string key = PlayerPrefsKey.GetCostumeKey(id);
+            string key = PlayerPrefsKey.GetKey(PlayerPrefsKey.ISBUY_COSTUME, id);
             int value = CustomPlayerPrefs.GetInt(key, -1);
             if (-1 == value)
             {
@@ -331,6 +331,10 @@ public class ObjectManager : MonoBehaviour
 
         StoryMode.ScenarioEndEvent.Detach(onNurtureEndingScenarioEnd);
 
+        string key = PlayerPrefsKey.GetKey(PlayerPrefsKey.ISLOCKED_NURTURE_ENDING, _nurtureEndingId);
+        int value = PlayerPrefsKey.GetBoolToInt(false);
+        CustomPlayerPrefs.SetInt(key, value);
+
         if (Def.NURTURE_BAD_ENDING_ID == _nurtureEndingId)
         {
             Manager.Instance.End();
@@ -404,7 +408,7 @@ public class ObjectManager : MonoBehaviour
         int actionCount = Manager.Instance.DT.Action.Count;
         for (int id = 0; id < actionCount; ++id)
         {
-            string key = PlayerPrefsKey.GetActionCountKey(id);
+            string key = PlayerPrefsKey.GetKey(PlayerPrefsKey.ACTION_COUNT, id);
             CustomPlayerPrefs.SetInt(key, nurtureCharacter.GetActionCount(id));
         }
 

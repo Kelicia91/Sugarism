@@ -5,6 +5,7 @@ namespace Nurture
     {
         //
         private ESeason _season = ESeason.MAX;
+        private int _seasonId = -1;
         private readonly Vacation _vacation;
 
         // constructor
@@ -17,8 +18,23 @@ namespace Nurture
                 return;
             }
 
-            int seasonId = (int)_season;
-            _vacation = Manager.Instance.DT.Vacation[seasonId];
+            _seasonId = (int)_season;
+            _vacation = Manager.Instance.DT.Vacation[_seasonId];
+        }
+
+        protected override void first()
+        {
+            string prefixKey = null;
+            if (_mode.Character.IsChildHood())
+                prefixKey = PlayerPrefsKey.ISLOCKED_VACATION_CHILD;
+            else
+                prefixKey = PlayerPrefsKey.ISLOCKED_VACATION_ADULT;
+
+            string key = PlayerPrefsKey.GetKey(prefixKey, _seasonId);
+            int value = PlayerPrefsKey.GetBoolToInt(false);
+            CustomPlayerPrefs.SetInt(key, value);
+
+            _mode.Schedule.ActionFirstEvent.Invoke();
         }
 
         protected override void doing()

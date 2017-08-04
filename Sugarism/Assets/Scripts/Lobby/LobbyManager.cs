@@ -67,7 +67,7 @@ public class LobbyManager : SceneManager
         int actionCount = DT.Action.Count;
         for (int id = 0; id < actionCount; ++id)
         {
-            string key = PlayerPrefsKey.GetActionCountKey(id);
+            string key = PlayerPrefsKey.GetKey(PlayerPrefsKey.ACTION_COUNT, id);
             CustomPlayerPrefs.SetInt(key, 0);
         }
 
@@ -78,7 +78,7 @@ public class LobbyManager : SceneManager
         int costumeCount = DT.MainCharacterCostume.Count;
         for (int id = 0; id < costumeCount; ++id)
         {
-            string key = PlayerPrefsKey.GetCostumeKey(id);
+            string key = PlayerPrefsKey.GetKey(PlayerPrefsKey.ISBUY_COSTUME, id);
 
             bool isBuy = false;
             if (Def.DEFAULT_COSTUME_ID == id)
