@@ -87,15 +87,11 @@ public class ActionTypeToggle : MonoBehaviour
 
     private string getActionTypeName()
     {
-        if (EActionType.MAX != _actionType)
-        {
-            int actionTypeId = (int)_actionType;
-            return Manager.Instance.DT.ActionType[actionTypeId].name;
-        }
-        else
-        {
-            return Def.BACK;
-        }
+        if (EActionType.MAX == _actionType)
+            return string.Empty;
+
+        int actionTypeId = (int)_actionType;
+        return Manager.Instance.DT.ActionType[actionTypeId].name;
     }
     
     // event handler for setting toggle.isOn

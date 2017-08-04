@@ -81,9 +81,9 @@ public class ActionButton : MonoBehaviour
     private string getActionName()
     {
         if (_actionId < 0)
-            return Def.BACK;
+            return string.Empty;
         else if (_actionId >= Manager.Instance.DT.Action.Count)
-            return Def.BACK;
+            return string.Empty;
         else
             return Manager.Instance.DT.Action[_actionId].name;
     }
