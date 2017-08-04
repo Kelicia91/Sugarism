@@ -28,18 +28,17 @@ public class LobbyPanel : Panel
 
     private void onClickStart()
     {
-        Hide();
         LobbyManager.Instance.UI.FormPanel.Show();
     }
 
     private void onClickContinue()
     {
-        Hide();
+        LobbyManager.Instance.UI.HideAllPanel();
         LobbyManager.Instance.Continue();
     }
 
     private void onClickAlbum()
     {
-        Log.Debug("click album");
+        LobbyManager.Instance.UI.AlbumPanel.Show();
     }
 }
