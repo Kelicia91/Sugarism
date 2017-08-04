@@ -8,15 +8,17 @@ public class LobbyUIManager : MonoBehaviour
     [SerializeField]
     private GameObject PrefEventSystem = null;
     [SerializeField]
-    private GameObject PrefCanvas = null;
+    private Canvas PrefCanvas = null;
     [SerializeField]
-    private GameObject PrefLobbyPanel = null;
+    private LobbyPanel PrefLobbyPanel = null;
     [SerializeField]
-    private GameObject PrefFormPanel = null;
+    private FormPanel PrefFormPanel = null;
     [SerializeField]
-    private GameObject PrefConstitutionPanel = null;
+    private ConstitutionPanel PrefConstitutionPanel = null;
     [SerializeField]
-    private GameObject PrefZodiacPanel = null;
+    private ZodiacPanel PrefZodiacPanel = null;
+    [SerializeField]
+    private AlbumPanel PrefAlbumPanel = null;
 
 
     /********* Game Interface *********/
@@ -35,46 +37,53 @@ public class LobbyUIManager : MonoBehaviour
     private ZodiacPanel _zodiacPanel = null;
     public ZodiacPanel ZodiacPanel { get { return _zodiacPanel; } }
 
+    private AlbumPanel _albumPanel = null;
+    public AlbumPanel AlbumPanel { get { return _albumPanel; } }
+
 
     //
     void Awake()
     {
         create();
-	}
+
+        HideAllPanel();
+    }
 
     //
     void Start()
     {
+        LobbyPanel.Show();
+    }
+
+    //
+    public void HideAllPanel()
+    {
+        AlbumPanel.Hide();
         ZodiacPanel.Hide();
         ConstitutionPanel.Hide();
         FormPanel.Hide();
-
-        LobbyPanel.Show();
+        LobbyPanel.Hide();
     }
 
     private void create()
     {
         Instantiate(PrefEventSystem);
 
-        GameObject o = null;
+        _canvas = Instantiate(PrefCanvas);
 
-        o = Instantiate(PrefCanvas);
-        _canvas = o.GetComponent<Canvas>();
+        _lobbyPanel = Instantiate(PrefLobbyPanel);
+        _lobbyPanel.transform.SetParent(_canvas.transform, false);
 
-        o = Instantiate(PrefLobbyPanel);
-        o.transform.SetParent(_canvas.transform, false);
-        _lobbyPanel = o.GetComponent<LobbyPanel>();
+        _formPanel = Instantiate(PrefFormPanel);
+        _formPanel.transform.SetParent(_canvas.transform, false);
 
-        o = Instantiate(PrefFormPanel);
-        o.transform.SetParent(_canvas.transform, false);
-        _formPanel = o.GetComponent<FormPanel>();
+        _constitutionPanel = Instantiate(PrefConstitutionPanel);
+        _constitutionPanel.transform.SetParent(_canvas.transform, false);
 
-        o = Instantiate(PrefConstitutionPanel);
-        o.transform.SetParent(_canvas.transform, false);
-        _constitutionPanel = o.GetComponent<ConstitutionPanel>();
+        _zodiacPanel = Instantiate(PrefZodiacPanel);
+        _zodiacPanel.transform.SetParent(_canvas.transform, false);
 
-        o = Instantiate(PrefZodiacPanel);
-        o.transform.SetParent(_canvas.transform, false);
-        _zodiacPanel = o.GetComponent<ZodiacPanel>();
+        _albumPanel = Instantiate(PrefAlbumPanel);
+        _albumPanel.transform.SetParent(_canvas.transform, false);
     }
 }
