@@ -28,6 +28,9 @@ public class CommonManager : MonoBehaviour
 
         // Game Configuration
         initConfigure();
+
+		//
+		blockiOSCodeScrip();
     }
 
 
@@ -48,4 +51,26 @@ public class CommonManager : MonoBehaviour
         Screen.SetResolution(Screen.width, (Screen.width / Def.RESOLUTION_WIDTH_RATIO * Def.RESOLUTION_HEIGHT_RATIO), true);
         Log.Debug(string.Format("Screen width: {0}, height: {1}", Screen.width, Screen.height));
     }
+
+
+
+	private void blockiOSCodeScrip()
+	{
+		// for json deserializer
+		Sugarism.Scenario scenario = new Sugarism.Scenario ();
+		Sugarism.Scene scene = new Sugarism.Scene ();
+		Sugarism.CmdAppear appear = new Sugarism.CmdAppear ();
+		Sugarism.CmdBackground bg = new Sugarism.CmdBackground ();
+		Sugarism.CmdCase cs = new Sugarism.CmdCase ();
+		Sugarism.CmdDisappear ds = new Sugarism.CmdDisappear ();
+		Sugarism.CmdFeeling feel = new Sugarism.CmdFeeling ();
+		Sugarism.CmdFilter filter = new Sugarism.CmdFilter ();
+		Sugarism.CmdLines lines = new Sugarism.CmdLines ();
+		Sugarism.CmdMiniPicture mini = new Sugarism.CmdMiniPicture ();
+		Sugarism.CmdPicture picture = new Sugarism.CmdPicture ();
+		Sugarism.CmdSE se = new Sugarism.CmdSE ();
+		Sugarism.CmdSwitch sw = new Sugarism.CmdSwitch ();
+		Sugarism.CmdTargetAppear ta = new Sugarism.CmdTargetAppear ();
+		Sugarism.CmdText t = new Sugarism.CmdText ();
+	}
 }
