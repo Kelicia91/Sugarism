@@ -29,7 +29,7 @@ public class CommonManager : MonoBehaviour
         // Game Configuration
         initConfigure();
 
-		//
+// @todo: #if iOS
 		blockiOSCodeScrip();
     }
 
