@@ -29,8 +29,9 @@ public class CommonManager : MonoBehaviour
         // Game Configuration
         initConfigure();
 
-// @todo: #if iOS
-		blockiOSCodeScrip();
+#if UNITY_IOS
+        blockiOSCodeScrip();
+#endif
     }
 
 
@@ -53,7 +54,10 @@ public class CommonManager : MonoBehaviour
     }
 
 
-
+    // @NOTE : When Unity builds iOS, unreferenced code is gone.(= code strip)
+    // By the way, If you use JSON deserializer, may need default constructor of objects.
+    // but If the default constructor only is defined and NOT referenced, then result in code strip for iOS.
+    // so you need to refer the default constructor.
 	private void blockiOSCodeScrip()
 	{
 		// for json deserializer
