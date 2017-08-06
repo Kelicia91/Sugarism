@@ -60,8 +60,9 @@ public class CommonManager : MonoBehaviour
     // so you need to refer the default constructor.
 	private void blockiOSCodeScrip()
 	{
-		// for json deserializer
-		Sugarism.Scenario scenario = new Sugarism.Scenario ();
+#pragma warning disable 219
+        // for json deserializer
+        Sugarism.Scenario scenario = new Sugarism.Scenario ();
 		Sugarism.Scene scene = new Sugarism.Scene ();
 		Sugarism.CmdAppear appear = new Sugarism.CmdAppear ();
 		Sugarism.CmdBackground bg = new Sugarism.CmdBackground ();
@@ -76,5 +77,6 @@ public class CommonManager : MonoBehaviour
 		Sugarism.CmdSwitch sw = new Sugarism.CmdSwitch ();
 		Sugarism.CmdTargetAppear ta = new Sugarism.CmdTargetAppear ();
 		Sugarism.CmdText t = new Sugarism.CmdText ();
-	}
+#pragma warning restore 219
+    }
 }
