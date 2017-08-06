@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:m="clr-namespace:Sugarism;assembly=Scenario" 
+        xmlns:sugar="clr-namespace:Sugarism"
         xmlns:local="clr-namespace:ScenarioEditor.View.Popup"
         xmlns:vm="clr-namespace:ScenarioEditor.ViewModel.Popup"
         xmlns:p="clr-namespace:ScenarioEditor.Properties"
@@ -59,7 +59,7 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{Binding Path=Key}" HorizontalAlignment="Center"/>
-                            <TextBox Grid.Column="1" Text="{Binding Path=Description}" MaxLength="{x:Static m:CmdCase.MAX_LENGTH_DESCRIPTION}" Margin="5,0"/>
+                            <TextBox Grid.Column="1" Text="{Binding Path=Description}" MaxLength="{x:Static sugar:CmdCase.MAX_LENGTH_DESCRIPTION}" Margin="5,0"/>
                             <Button Grid.Column="2" Content="x" Visibility="{Binding Path=CanDelete, Converter={StaticResource BoolToVisibilityConverter}}" Command="{Binding Path=CmdDelete}"/>
                         </Grid>
                     </DataTemplate>

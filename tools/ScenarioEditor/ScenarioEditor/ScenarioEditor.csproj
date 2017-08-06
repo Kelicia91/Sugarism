@@ -34,17 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\model\Sugarism\Scenario\bin\Release\Base.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="Scenario, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\model\Sugarism\Scenario\bin\Release\Scenario.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -70,6 +62,22 @@
     <Compile Include="Common\XmlUtils.cs" />
     <Compile Include="Model\ArtsResource.cs" />
     <Compile Include="Model\Character.cs" />
+    <Compile Include="Model\CmdAppear.cs" />
+    <Compile Include="Model\CmdBackground.cs" />
+    <Compile Include="Model\CmdCase.cs" />
+    <Compile Include="Model\CmdDisappear.cs" />
+    <Compile Include="Model\CmdFeeling.cs" />
+    <Compile Include="Model\CmdFilter.cs" />
+    <Compile Include="Model\CmdLines.cs" />
+    <Compile Include="Model\CmdMiniPicture.cs" />
+    <Compile Include="Model\CmdPicture.cs" />
+    <Compile Include="Model\CmdSE.cs" />
+    <Compile Include="Model\CmdSwitch.cs" />
+    <Compile Include="Model\CmdTargetAppear.cs" />
+    <Compile Include="Model\CmdText.cs" />
+    <Compile Include="Model\Command.cs" />
+    <Compile Include="Model\Scenario.cs" />
+    <Compile Include="Model\Scene.cs" />
     <Compile Include="Model\Target.cs" />
     <Compile Include="ViewModel\CmdAppear.cs" />
     <Compile Include="ViewModel\CmdBackground.cs" />

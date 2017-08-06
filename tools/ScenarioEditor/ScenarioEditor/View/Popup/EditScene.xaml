@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScenarioEditor.View.Popup"
-        xmlns:m="clr-namespace:Sugarism;assembly=Scenario"
+        xmlns:sugar="clr-namespace:Sugarism"
         xmlns:p="clr-namespace:ScenarioEditor.Properties"
         mc:Ignorable="d"
         Title="{x:Static p:Resources.EditScene}" 
@@ -25,7 +25,7 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="{x:Static p:Resources.Description}" Margin="0,0,10,0"/>
             <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}" 
-                     MaxLength="{x:Static m:Scene.MAX_LENGTH_DESCRIPTION}" 
+                     MaxLength="{x:Static sugar:Scene.MAX_LENGTH_DESCRIPTION}" 
                      VerticalContentAlignment="Center"/>
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=GuideHowToInputDescription}"
                        Margin="0,5,0,0" VerticalAlignment="Center" Foreground="Gray"/>
