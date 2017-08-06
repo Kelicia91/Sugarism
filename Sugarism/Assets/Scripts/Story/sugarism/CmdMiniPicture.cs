@@ -1,51 +1,23 @@
 ﻿
-namespace Story
+namespace Sugarism
 {
     public class CmdMiniPicture : Command
     {
-        private Sugarism.CmdMiniPicture _model = null;
-
-        public CmdMiniPicture(Sugarism.CmdMiniPicture model, Mode mode) : base(model, mode)
-        {
-            _model = model;
-        }
+        // const
+        public const int START_ID = 0;
+        public const string STR_UNKNOWN = "unknown";
 
 
-        #region Property
-
+        // property
+        private int _id = -1;
         public int Id
         {
-            get { return _model.Id; }
+            get { return _id; }
+            set { _id = value; }
         }
 
-        #endregion
 
-
-        public override void Execute()
-        {
-            Log.Debug(ToString());
-        }
-
-        public override bool Play()
-        {
-            Log.Debug(ToString());
-
-            Mode.CmdMiniPictureEvent.Invoke(Id);
-
-            string key = PlayerPrefsKey.GetKey(PlayerPrefsKey.ISLOCKED_MINIPICTURE, Id);
-            int value = PlayerPrefsKey.GetBoolToInt(false);
-            CustomPlayerPrefs.SetInt(key, value);
-
-            return false;   // no more child to play
-        }
-
-        public override string ToString()
-        {
-            string s = string.Format("Id({0})", Id);
-
-            return ToString(s);
-        }
-
-    }   // class
-
-}   // namespace
+        // default constructor for JSON Deserializer
+        public CmdMiniPicture() : base(Command.Type.MiniPicture) { }
+    }
+}

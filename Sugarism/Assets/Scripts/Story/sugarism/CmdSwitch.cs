@@ -1,92 +1,31 @@
 ﻿using System.Collections.Generic;
 
-
-namespace Story
+namespace Sugarism
 {
     public class CmdSwitch : Command
     {
-        private Sugarism.CmdSwitch _model = null;
-
-        private List<CmdCase> _caseList = null;
-
-
-        public CmdSwitch(Sugarism.CmdSwitch model, Mode mode) : base(model, mode)
-        {
-            _model = model;
-
-            _caseList = new List<CmdCase>();
-            foreach (Sugarism.CmdCase mCase in _model.CaseList)
-            {
-                CmdCase cmdCase = new CmdCase(mCase, Mode);
-                _caseList.Add(cmdCase);
-            }
-        }
+        // const
+        public const int MIN_COUNT_CASE = 2;
+        public const int MAX_COUNT_CASE = 3;
 
 
-        #region Property
-
+        // property
+        private int _characterId = -1;
         public int CharacterId
         {
-            get { return _model.CharacterId; }
+            get { return _characterId; }
+            set { _characterId = value; }
         }
 
-        #endregion
-
-
-        public override void Execute()
+        private List<CmdCase> _caseList = null;
+        public List<CmdCase> CaseList
         {
-            Log.Debug(ToString());
-
-            foreach (CmdCase cmdCase in _caseList)
-            {
-                cmdCase.Execute();
-            }
-        }
-
-        private bool _isCalled = false;
-        public override bool Play()
-        {
-            Log.Debug(ToString());
-
-            if (false == _isCalled)
-            {
-                Mode.CmdSwitchEvent.Invoke(_caseList.ToArray());
-
-                _isCalled = true;
-                return true;    // can play more.
-            }
-
-            int selectedKey = Mode.CaseKey;
-            if (false == isValid(selectedKey))
-            {
-                Log.Error(string.Format("invalid key: {0}", selectedKey));
-                return false;
-            }
-
-            CmdCase cmdCase = _caseList[selectedKey];
-            return cmdCase.Play();
-        }
-
-        public override string ToString()
-        {
-            string s = string.Format(
-                "CharacterId : {0}, Case Count : {1}",
-                CharacterId, _caseList.Count);
-
-            return ToString(s);
+            get { return _caseList; }
+            set { _caseList = value; }
         }
 
 
-        private bool isValid(int caseKey)
-        {
-            if (caseKey < 0)
-                return false;
-            else if (caseKey >= _caseList.Count)
-                return false;
-            else
-                return true;
-        }
-
-    }   // class
-
-}   // namespace
+        // default constructor for JSON Deserializer
+        public CmdSwitch() : base(Command.Type.Switch) { }
+    }
+}

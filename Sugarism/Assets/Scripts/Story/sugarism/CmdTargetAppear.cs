@@ -1,69 +1,61 @@
 ﻿
-namespace Story
+namespace Sugarism
 {
+    public enum EFace
+    {
+        Default = 0,
+        Happy,
+        Sad,
+        Angry,
+        Shock
+    }
+
+    public enum ECostume
+    {
+        Default = 0,
+        Private
+    }
+
     public class CmdTargetAppear : Command
     {
-        private Sugarism.CmdTargetAppear _model = null;
-
-        public CmdTargetAppear(Sugarism.CmdTargetAppear model, Mode mode) : base(model, mode)
-        {
-            _model = model;
-        }
-
-
-        #region Property
-
+        // property
+        private int _targetId = -1;
         public int TargetId
         {
-            get { return _model.TargetId; }
+            get { return _targetId; }
+            set { _targetId = value; }
         }
 
+        private bool _isBlush = false;
         public bool IsBlush
         {
-            get { return _model.IsBlush; }
+            get { return _isBlush; }
+            set { _isBlush = value;}
         }
 
-        public Sugarism.EFace Face
+        private EFace _face = EFace.Default;
+        public EFace Face
         {
-            get { return _model.Face; }
+            get { return _face; }
+            set { _face = value; }
         }
 
-        public Sugarism.ECostume Costume
+        private ECostume _costume = ECostume.Default;
+        public ECostume Costume
         {
-            get { return _model.Costume; }
+            get { return _costume; }
+            set { _costume = value; }
         }
 
-        public Sugarism.EPosition Position
+        private EPosition _position = EPosition.Middle;
+        public EPosition Position
         {
-            get { return _model.Position; }
+            get { return _position; }
+            set { _position = value; }
         }
+        
 
-        #endregion
-
-
-        public override void Execute()
-        {
-            Log.Debug(ToString());
-        }
-
-        public override bool Play()
-        {
-            Log.Debug(ToString());
-
-            Mode.CmdTargetAppearEvent.Invoke(TargetId, IsBlush, Face, Costume, Position);
-
-            return false;   // no more child to play
-        }
-
-        public override string ToString()
-        {
-            string s = string.Format(
-                        "TargetId: {0}, Face: {1}, IsBlush: {2}, Costume: {3}, Pos: {4}",
-                        TargetId, Face, IsBlush, Costume, Position);
-
-            return ToString(s);
-        }
-
-    }   // class
-
-}   // namespace
+        // default constructor for JSON Deserializer
+        public CmdTargetAppear() : base(Command.Type.TargetAppear) { }
+    }
+}

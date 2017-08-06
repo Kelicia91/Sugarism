@@ -1,41 +1,23 @@
 ﻿
-namespace Story
+namespace Sugarism
 {
+    public enum EFilter
+    {
+        None = 0,
+        Grayscale
+    }
+
     public class CmdFilter : Command
     {
-        private Sugarism.CmdFilter _model = null;
-
-        public CmdFilter(Sugarism.CmdFilter model, Mode mode) : base(model, mode)
+        // property
+        private EFilter _filter = EFilter.None;
+        public EFilter Filter
         {
-            _model = model;
+            get { return _filter; }
+            set { _filter = value; }
         }
 
-
-        #region Property
-
-        public Sugarism.EFilter Filter
-        {
-            get { return _model.Filter; }
-        }
-
-        #endregion
-
-
-        public override void Execute()
-        {
-            Log.Debug(ToString());
-        }
-
-        public override bool Play()
-        {
-            Log.Debug(ToString());
-
-            Mode.CmdFilterEvent.Invoke(Filter);
-
-            return false;   // no more child to play
-        }
-
-    }   // class
-
-}   // namespace
-
+        // default constructor for JSON Deserializer
+        public CmdFilter() : base(Command.Type.Filter) { }
+    }
+}

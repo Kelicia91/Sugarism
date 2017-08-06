@@ -1,47 +1,23 @@
 ﻿
-namespace Story
+namespace Sugarism
 {
     public class CmdSE : Command
     {
-        private Sugarism.CmdSE _model = null;
-
-        public CmdSE(Sugarism.CmdSE model, Mode mode) : base(model, mode)
-        {
-            _model = model;
-        }
+        // const
+        public const int START_ID = 0;
+        public const string STR_UNKNOWN = "unknown";
 
 
-        #region Property
-
+        // property
+        private int _id = -1;
         public int Id
         {
-            get { return _model.Id; }
+            get { return _id; }
+            set { _id = value; }
         }
 
-        #endregion
 
-
-        public override void Execute()
-        {
-            Log.Debug(ToString());
-        }
-
-        public override bool Play()
-        {
-            Log.Debug(ToString());
-
-            Mode.CmdSEEvent.Invoke(Id);
-
-            return false;   // no more child to play
-        }
-
-        public override string ToString()
-        {
-            string s = string.Format("Id({0})", Id);
-
-            return ToString(s);
-        }
-
-    }   // class
-
-}   // namespace
+        // default constructor for JSON Deserializer
+        public CmdSE() : base(Command.Type.SE) { }
+    }
+}

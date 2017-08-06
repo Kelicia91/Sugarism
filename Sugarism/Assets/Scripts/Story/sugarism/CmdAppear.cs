@@ -1,54 +1,34 @@
 ﻿
-namespace Story
+namespace Sugarism
 {
+    public enum EPosition
+    {
+        Middle = 0,
+        Left,
+        Right,
+        Front,
+        Back
+    }
+
     public class CmdAppear : Command
     {
-        private Sugarism.CmdAppear _model = null;
-
-        public CmdAppear(Sugarism.CmdAppear model, Mode mode) : base(model, mode)
-        {
-            _model = model;
-        }
-
-
-        #region Property
-
+        // property
+        private int _characterId = -1;
         public int CharacterId
         {
-            get { return _model.CharacterId; }
+            get { return _characterId; }
+            set { _characterId = value; }
         }
 
-        public Sugarism.EPosition Position
+        private EPosition _position = EPosition.Middle;
+        public EPosition Position
         {
-            get { return _model.Position; }
+            get { return _position; }
+            set { _position = value; }
         }
 
-        #endregion
 
-
-        public override void Execute()
-        {
-            Log.Debug(ToString());
-        }
-
-        public override bool Play()
-        {
-            Log.Debug(ToString());
-
-            Mode.CmdAppearEvent.Invoke(CharacterId, Position);
-
-            return false;   // no more child to play
-        }
-
-        public override string ToString()
-        {
-            string s = string.Format(
-                        "CharacterId: {0}, Pos: {1}",
-                        CharacterId, Position);
-
-            return ToString(s);
-        }
-
-    }   // class
-
-}   // namespace
+        // default constructor for JSON Deserializer
+        public CmdAppear() : base(Command.Type.Appear) { }
+    }
+}

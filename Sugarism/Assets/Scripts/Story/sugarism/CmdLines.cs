@@ -1,64 +1,53 @@
-﻿
-namespace Story
+﻿using System;
+
+namespace Sugarism
 {
+    public enum ELinesEffect
+    {
+        None,
+        Shake
+    }
+
     public class CmdLines : Command
     {
-        private Sugarism.CmdLines _model = null;
+        // const
+        public const int MAX_COUNT_LINE_END = 3;
+        public const int MAX_LENGTH_LINE = 30;
 
-        public CmdLines(Sugarism.CmdLines model, Mode mode) : base(model, mode)
-        {
-            _model = model;
-        }
+        public const string ANONYMOUS = "???";
 
 
-        #region Property
-
+        // property
+        private int _characterId = -1;
         public int CharacterId
         {
-            get { return _model.CharacterId; }
+            get { return _characterId; }
+            set { _characterId = value; }
         }
 
-        public string Lines
-        {
-            get { return _model.Lines; }
-        }
-
+        private bool _isAnonymous = false;
         public bool IsAnonymous
         {
-            get { return _model.IsAnonymous; }
+            get { return _isAnonymous; }
+            set { _isAnonymous = value; }
         }
 
-        public Sugarism.ELinesEffect LinesEffect
+        private string _lines = null;
+        public string Lines
         {
-            get { return _model.LinesEffect; }
+            get { return _lines; }
+            set { _lines = value; }
         }
 
-        #endregion
-
-
-        public override void Execute()
+        private ELinesEffect _linesEffect = ELinesEffect.None;
+        public ELinesEffect LinesEffect
         {
-            Log.Debug(ToString());
+            get { return _linesEffect; }
+            set { _linesEffect = value; }
         }
 
-        public override bool Play()
-        {
-            Log.Debug(ToString());
 
-            Mode.CmdLinesEvent.Invoke(CharacterId, IsAnonymous, Lines, LinesEffect);
-
-            return false;   // no more child to play
-        }
-
-        public override string ToString()
-        {
-            string s = string.Format(
-                        "CharacterId({0}), IsAnonymous({1}), LinesEffect({2}), Lines: \"{3}\"",
-                        CharacterId, IsAnonymous, LinesEffect, Lines);
-
-            return ToString(s);
-        }
-
-    }   // class
-
-}   // namespace
+        // default constructor for JSON Deserializer
+        public CmdLines() : base(Command.Type.Lines) { }
+    }
+}
