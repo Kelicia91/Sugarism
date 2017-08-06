@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using Microsoft.Win32;  // OpenFileDialog, SaveFileDialog
@@ -23,6 +24,23 @@ namespace ScenarioEditor.ViewModel
         {
             _jsonSerializerSettings = new Newtonsoft.Json.JsonSerializerSettings();
             _jsonSerializerSettings.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto;
+
+            // @note: for removing assembly-name because of unity.iOS issue
+            KnownTypesBinder knownTypesBinder = new KnownTypesBinder
+            {
+                KnownTypes = new List<Type>
+                {
+                    typeof(Sugarism.Scenario), typeof(Sugarism.Scene),
+                    typeof(Sugarism.CmdAppear), typeof(Sugarism.CmdBackground),
+                    typeof(Sugarism.CmdCase), typeof(Sugarism.CmdDisappear),
+                    typeof(Sugarism.CmdFeeling), typeof(Sugarism.CmdFilter),
+                    typeof(Sugarism.CmdLines), typeof(Sugarism.CmdMiniPicture),
+                    typeof(Sugarism.CmdPicture), typeof(Sugarism.CmdSE),
+                    typeof(Sugarism.CmdSwitch), typeof(Sugarism.CmdTargetAppear),
+                    typeof(Sugarism.CmdText)
+                }
+            };
+            _jsonSerializerSettings.SerializationBinder = knownTypesBinder;
 
             _selectedScenario = null;
             _scenarioList = new ObservableCollection<Scenario>();

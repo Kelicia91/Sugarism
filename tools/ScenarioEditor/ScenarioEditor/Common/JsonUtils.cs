@@ -52,22 +52,28 @@ namespace ScenarioEditor
     {
         public System.Collections.Generic.IList<Type> KnownTypes { get; set; }
 
+        // for handling the issue related to Unity.iOS.JsonDeserialization
+        public const string UNITY_ASSEMBLY_NAME = "Assembly-CSharp";
+
+        // for Serialization
+        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
+        {
+            assemblyName = UNITY_ASSEMBLY_NAME;
+            typeName = serializedType.FullName;     // including namespace
+        }
+
+        // for Deserialization
         public Type BindToType(string assemblyName, string typeName)
         {
             foreach(Type t in KnownTypes)
             {
-                if (typeName.Equals(t.Name))
+                // no consdider assemblyName
+                if (typeName.Equals(t.FullName))
                     return t;
             }
 
             string errmsg = string.Format("unknown type : {0}", typeName);
             throw new JsonSerializationException(errmsg);
-        }
-
-        public void BindToName(Type serializedType, out string assemblyName, out string typeName)
-        {
-            assemblyName = null;
-            typeName = serializedType.Name;
         }
     }
     /* How to Use 'KnownTypesBinder'
